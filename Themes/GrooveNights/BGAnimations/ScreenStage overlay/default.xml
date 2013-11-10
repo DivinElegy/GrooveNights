@@ -1,0 +1,34 @@
+<ActorFrame>
+	<children>
+		<Actor
+			File="../ScreenWithMenuElements underlay"
+		/>
+		<Actor
+			File="../_black"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;ZoomToWidth,SCREEN_WIDTH;ZoomToHeight,SCREEN_HEIGHT;diffusealpha,0;accelerate,0.1;diffusealpha,1"
+		/>
+		<ActorFrame Condition="not GAMESTATE:IsCourseMode() and not (GAMESTATE:GetCurrentSong() == SONGMAN:FindSong('In The Groove/Training1/'))" 
+					InitCommand="hibernate,0.199;decelerate,0.15;addy,-80;accelerate,0.15;addy,80;"><children>
+			<Actor
+				File="@'../../Graphics/ScreenGameplay stage '..GetStageText()"
+				OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoom,0;linear,0.15;zoom,0.5;linear,0.15;zoom,1;"
+			/>
+			<Actor
+				File="../_song credit display"
+				OnCommand="diffusealpha,0;sleep,0.199;zoom,0;linear,0.15;zoom,0.5;linear,0.15;zoom,0.75;diffusealpha,0;linear,0.15;diffusealpha,1;"
+			/>
+		</children></ActorFrame>
+		<ActorFrame Condition="GAMESTATE:IsCourseMode()" 
+					InitCommand="hibernate,0.199;decelerate,0.15;addy,-80;accelerate,0.15;addy,80;"><children>
+			<Actor
+				File="../../Graphics/ScreenGameplay course song 1"
+				OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoom,0;linear,0.15;zoom,0.5;linear,0.15;zoom,1;"
+			/>
+		</children></ActorFrame>
+	<!--Screen Transition-->
+	<Layer Type="Quad"
+	OnCommand="zoom,SCREEN_WIDTH*2;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;draworder,1000;sleep,0.2;accelerate,0.2;zoom,SCREEN_WIDTH*0;diffuse,0,0,0,0;"
+	OffCommand="decelerate,0.2;zoom,SCREEN_WIDTH*2;diffuse,0,0,0,1;"
+	/>
+	</children>
+</ActorFrame>

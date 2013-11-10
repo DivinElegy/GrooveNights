@@ -1,0 +1,202 @@
+<ActorFrame InitCommand="%function(self)
+	gnSongsP1 = nil;
+	gnSongsP1Total = nil;
+	gnTotalP1 = nil;
+	gnStarsTotalP1 = nil;
+	gnSinglesSingleP1 = nil;
+	gnDoublesSingleP1 = nil;
+	gnTrisSingleP1 = nil;
+	gnQuadsSingleP1 = nil;
+	gnSinglesDoubleP1 = nil;
+	gnDoublesDoubleP1 = nil;
+	gnTrisDoubleP1 = nil;
+	gnQuadsDoubleP1 = nil;
+	gnPercentageP1 = nil;
+	gnSongsP2 = nil;
+	gnSongsP2Total = nil;
+	gnTotalP2 = nil;
+	gnStarsTotalP2 = nil;
+	gnSinglesSingleP2 = nil;
+	gnDoublesSingleP2 = nil;
+	gnTrisSingleP2 = nil;
+	gnQuadsSingleP2 = nil;
+	gnSinglesDoubleP2 = nil;
+	gnDoublesDoubleP2 = nil;
+	gnTrisDoubleP2 = nil;
+	gnQuadsDoubleP2 = nil;
+	gnPercentageP2 = nil;
+	gnChoice = 2; gnChoiceTween = 0.05; gnZoom1 = 0.7; gnZoom3 = 0.7; gnZoom4 = 0.7; gnMaxZoom = 0.6; gnMinZoom = 0.4; 
+end">
+	<children>
+		<BitmapText
+			Text="@getTextPlayersTitle()"
+			File="_eurostile blue glow"
+			InitCommand="%function(self)  self:x(self:GetWidth()/2) end"
+			OnCommand="shadowlength,0;zoom,1;decelerate,0.3;zoom,1;"
+			
+		/>
+		<Layer Class="AutoActor" 
+			File="../BGAnimations/ScreenSelectStyle2 overlay/explanation frame" 
+			OnCommand="x,SCREEN_CENTER_X-18;y,SCREEN_CENTER_Y-52;" 
+			MadeChoiceP1MessageCommand="%function(self)
+			gnLocksOff = 1;
+			end"
+			MadeChoiceP2MessageCommand="%function(self)
+			gnLocksOff = 1;
+			end"
+		/>
+
+<!--Custom Option Select-->
+		
+	<Layer
+		Type="ActorFrame"
+		OnCommand="x,SCREEN_CENTER_X-206;y,SCREEN_CENTER_Y+15;zoom,1;queuecommand,Update;"
+		UpdateCommand="%function(self) 
+		self:stoptweening();
+		if GAMESTATE:GetEnv('Wag') == 'On' then
+			self:wag();
+			end
+		self:zoom(gnZoom4); 
+		self:sleep(0.032);
+		self:queuecommand('Update');
+		end"
+	>
+		<children>
+			<Layer
+				File="_platform home single"
+				InitCommand="ztest,1"
+				OnCommand="x,-64;rotationx,30"
+			/>
+			<Layer
+				File="_platform home single"
+				InitCommand="ztest,1"
+				OnCommand="x,44;rotationx,30;"
+			/>
+		</children>
+	</Layer>
+		
+	<Layer
+		Type="ActorFrame"
+		OnCommand="x,SCREEN_CENTER_X-16;y,SCREEN_CENTER_Y+15;zoom,1;queuecommand,Update;"
+		UpdateCommand="%function(self) 
+		self:stoptweening();
+		if GAMESTATE:GetEnv('Wag') == 'On' then
+			self:wag();
+			end
+		self:zoom(gnZoom1); 
+		self:sleep(0.032);
+		self:queuecommand('Update');
+		end"
+	>
+		<children>
+			<Layer
+				File="_platform home single"
+				InitCommand="ztest,1"
+				OnCommand="x,0;rotationx,30"
+			/>
+		</children>
+	</Layer>
+		
+	<Layer
+		Type="ActorFrame"
+		OnCommand="x,SCREEN_CENTER_X+174;y,SCREEN_CENTER_Y+15;zoom,1;queuecommand,Update;"
+		UpdateCommand="%function(self) 
+		self:stoptweening();
+		if GAMESTATE:GetEnv('Wag') == 'On' then
+			self:wag();
+			end
+		self:zoom(gnZoom3); 
+		self:sleep(0.032);
+		self:queuecommand('Update');
+		end"
+	>
+				<children>
+					<Layer
+						File="_platform home single"
+						OnCommand="x,64;rotationx,30"
+					/>
+					<Layer
+						File="_platform home single"
+						InitCommand="ztest,1"
+						OnCommand="x,-64;rotationx,30"
+					/>
+		</children>
+	</Layer>
+	
+		<ActorFrame InitCommand="x,-20;">
+			<children>
+		<Layer File="ScreenSelectStyle2 scroll choice1/title"
+		InitCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+62;queuecommand,Update;"
+		UpdateCommand="%function(self)
+		self:stoptweening();
+		if GAMESTATE:GetEnv('Wag') == 'On' then
+			self:wag();
+			end
+		if gnChoice == 2 then
+			gnZoom1 = gnZoom1 + gnChoiceTween;
+			if gnZoom1 >= gnMaxZoom then gnZoom1 = gnMaxZoom; end
+			self:diffusealpha(gnZoom1+0.4);
+			else
+			gnZoom1 = gnZoom1 - gnChoiceTween;
+			if gnZoom1 <= gnMinZoom then gnZoom1 = gnMinZoom; end
+			self:diffusealpha(gnZoom1+0.1);
+			end
+		self:zoom(gnZoom1);
+		self:sleep(0.032);
+		self:queuecommand('Update');
+		end"
+		/>
+		
+		<Layer File="ScreenSelectStyle2 scroll choice2/title"
+		InitCommand="x,SCREEN_CENTER_X+207;y,SCREEN_CENTER_Y+62;queuecommand,Update;"
+		UpdateCommand="%function(self)
+		self:stoptweening();
+		if GAMESTATE:GetEnv('Wag') == 'On' then
+			self:wag();
+			end
+		if gnChoice == 1 then
+			gnZoom3 = gnZoom3 + gnChoiceTween;
+			if gnZoom3 >= gnMaxZoom then gnZoom3 = gnMaxZoom; end
+			self:diffusealpha(gnZoom3+0.4);
+			else
+			gnZoom3 = gnZoom3 - gnChoiceTween;
+			if gnZoom3 <= gnMinZoom then gnZoom3 = gnMinZoom; end
+			self:diffusealpha(gnZoom3+0.1);
+			end
+		self:zoom(gnZoom3);
+		self:sleep(0.032);
+		self:queuecommand('Update');
+		end"
+		/>
+		<Layer File="ScreenSelectStyle2 scroll choice3/title"
+		InitCommand="x,SCREEN_CENTER_X-206;y,SCREEN_CENTER_Y+62;zoom,0.5;queuecommand,Update;"
+		UpdateCommand="%function(self)
+		self:stoptweening();
+		if GAMESTATE:GetEnv('Wag') == 'On' then
+			self:wag();
+			end
+		if gnChoice == 0 then
+			gnZoom4 = gnZoom4 + gnChoiceTween;
+			if gnZoom4 >= gnMaxZoom then gnZoom4 = gnMaxZoom; end
+			self:diffusealpha(gnZoom4+0.4);
+			else
+			gnZoom4 = gnZoom4 - gnChoiceTween;
+			if gnZoom4 <= gnMinZoom then gnZoom4 = gnMinZoom; end
+			self:diffusealpha(gnZoom4+0.1);
+			end
+		self:zoom(gnZoom4);
+		self:sleep(0.032);
+		self:queuecommand('Update');
+		end"
+		/>
+			</children>
+		</ActorFrame>
+	<!--Screen Transition-->
+	<Layer Type="Quad"
+	OnCommand="zoom,SCREEN_WIDTH*2;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;draworder,10000;accelerate,0.2;zoom,SCREEN_WIDTH*0;diffuse,0,0,0,1;"
+	MadeChoiceP1MessageCommand="playcommand,GoOff"
+	MadeChoiceP2MessageCommand="playcommand,GoOff"
+	GoOffCommand="decelerate,0.2;zoom,SCREEN_WIDTH*2;diffuse,0,0,0,1;"
+	/>
+	</children>
+</ActorFrame>

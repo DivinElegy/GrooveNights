@@ -1,0 +1,20 @@
+<!-- Swiped the animation from SIMPLY LOVE #oops -->
+<ActorFrame><children>
+	<ActorFrame Condition="ToggleComboExplosion()"><children>
+		<AutoActor
+			File="../Combo 100milestone"
+		/>
+		
+		<Actor
+			File="arrowswoosh"
+			InitCommand="diffusealpha,0;blend,add"
+			MilestoneCommand="zoom,0.25;diffusealpha,1;x,0;linear,0.7;zoom,2;diffusealpha,0;x,100"
+		/>
+		<Actor
+			File="arrowswoosh"
+			InitCommand="diffusealpha,0;blend,add"
+			MilestoneCommand="rotationy,180;zoom,0.25;diffusealpha,1;x,0;linear,0.7;zoom,2;diffusealpha,0;x,-100"
+		/>
+		
+	</children></ActorFrame>
+</children></ActorFrame>

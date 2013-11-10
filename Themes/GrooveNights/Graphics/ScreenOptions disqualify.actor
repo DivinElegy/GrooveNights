@@ -1,0 +1,7 @@
+[Actor]
+Text=
+File=_eurostile blue glow
+InitCommand=%function(self) if DQCount == nil then DQCount = 0 end DQCount = DQCount + 1; self:diffusealpha(1); self:settext('P'..DQCount..' Disqualified'); self:shadowlength(0); if DQCount == 1 then self:queuecommand('P1'); end if DQCount == 2 then self:queuecommand('P2'); end end
+P1Command=@"diffuse,"..PlayerColor(PLAYER_1)..";zoom,0.55;addy,-2;pulse;effectclock,bgm;effectmagnitude,0.9,1,1;" 
+P2Command=@"diffuse,"..PlayerColor(PLAYER_2)..";zoom,0.55;addy,-2;pulse;effectclock,bgm;effectmagnitude,0.9,1,1;" 
+

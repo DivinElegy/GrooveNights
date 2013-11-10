@@ -1,0 +1,588 @@
+<ActorFrame InitCommand="%function(self)
+			gnBlazeP1 = 0;
+			gnBlazeP2 = 0;
+			if lowBPM == nil then
+				lowBPM = 0;
+				end
+			if highBPM == nil then
+				highBPM = 0;
+				end
+			self:sleep(0.1);
+			if gnScreenSelectMusicTimer == nil then gnScreenSelectMusicTimer = gnDefaultSSM; end
+			if gnScreenPlayerOptionsTimer == nil then gnScreenPlayerOptionsTimer = gnDefaultSPO; end
+			if GAMESTATE:GetEnv('Wag') == 'On' then
+				self:wag();
+				end
+			end"> <children>
+		<ActorFrame InitCommand="x,409;y,222;">
+			<children>
+	<!--Total PlayTime-->
+			<BitmapText
+				Text=""
+				File="_eurostile blue glow"
+				Condition="PlayTimeEnabled()"
+				InitCommand="DiffuseShift;EffectColor1,0.6,0.8,0.9,1;EffectColor2,0.6,0.8,0.9,1;queuecommand,Go"
+				GoCommand="%function(self)
+				self:x(-112);
+				self:y(248);
+				self:zoom(0.6);
+				self:shadowlength(0);
+				self:horizalign('Right');
+					self:settext('Total PlayTime');
+				self:sleep(1);
+				self:diffusealpha(0.5);
+				self:sleep(1);
+				self:diffusealpha(1);	
+				self:queuecommand('Go');
+				end"
+			/>
+	<!--Total PlayTime Variables-->
+			<BitmapText
+				Text=""
+				File="_eurostile blue glow"
+				Condition="PlayTimeEnabled()"
+				InitCommand="%function(self)  self:x(-102) self:zoom(0.6); self:shadowlength(0) self:draworder(10000); self:addy(248); self:queuecommand('Update'); self:horizalign('left'); end"
+				UpdateCommand="%function(self)
+				self:stoptweening();
+				if gnPlaySec == nil then
+					gnPlaySec = 0;
+					gnPlayMin = 0;
+					gnPlayHour = 0;
+					end
+				if gnPlaySec >= 60 then
+					gnPlaySec = gnPlaySec - 60;
+					gnPlayMin = gnPlayMin + 1;
+					end
+				if gnPlayMin >= 60 then
+					gnPlayMin = gnPlayMin - 60;
+					gnPlayHour = gnPlayHour + 1;
+					end
+
+				if gnPlaySec < 10 then
+					gnPlaySecText = '0'..gnPlaySec
+					else
+					gnPlaySecText = ''..gnPlaySec
+					end
+				if gnPlayMin < 10 then
+					gnPlayMinText = '0'..gnPlayMin
+					else
+					gnPlayMinText = ''..gnPlayMin
+					end
+				if gnPlayHour < 10 then
+					gnPlayHourText = '0'..gnPlayHour
+					else
+					gnPlayHourText = ''..gnPlayHour
+					end
+					
+				self:settext(gnPlayHourText..':'..gnPlayMinText..':'..gnPlaySecText);
+
+				self:sleep(1);
+				self:diffusealpha(0.5);
+				self:sleep(1);
+				self:diffusealpha(1);	
+				self:queuecommand('Update');
+				end"
+			/>
+	<!--Song Count-->
+			<BitmapText
+				Text=""
+				File="_eurostile blue glow"
+				Condition="PlayTimeEnabled()"
+				InitCommand="%function(self)  self:x(-32) self:zoom(0.6); self:shadowlength(0) self:draworder(10000); self:addy(248); self:queuecommand('Update'); self:horizalign('left'); end"
+				UpdateCommand="%function(self)
+				self:stoptweening();
+				if gnSongCount == nil then
+					gnSongCount = 0;
+					end
+	
+				if gnSongCount == 1 then
+					self:settext('('..gnSongCount..' Song)');
+					else
+					self:settext('('..gnSongCount..' Songs)');
+					end
+					
+				self:sleep(1);
+				self:diffusealpha(0.5);
+				self:sleep(1);
+				self:diffusealpha(1);	
+				self:queuecommand('Update');
+				end"
+			/>
+			</children>
+		</ActorFrame>
+		
+	<Layer File="../ScreenOptions overlay"/>
+
+<!--Apply Mods-->
+	<Layer Type="Quad"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
+	InitCommand="diffusealpha,0;hibernate,0.01;queuecommand,Mods;"
+	ModsCommand="%function(self)
+		self:stoptweening();
+		GAMESTATE:ApplyGameCommand('mod, 1x',1);
+		if addModP1 < 4 then
+			if setModP1 < 50 then
+				GAMESTATE:ApplyGameCommand('mod,'..setModP1+addModP1..'x',1);
+				else
+				GAMESTATE:ApplyGameCommand('mod,c'..setModP1,1);
+				end
+			else
+			if setModP1 < 50 then
+				GAMESTATE:ApplyGameCommand('mod,'..setModP1..'x',1);
+				else
+				GAMESTATE:ApplyGameCommand('mod,c'..setModP1+addModP1,1);
+				end
+			end
+		hideBGp1 = 0;
+		for getModP1=0, 100, 5 do
+			if GAMESTATE:PlayerIsUsingModifier(PLAYER_1,''..(getModP1/100)..'% cross') then 
+				hideBGp1 = getModP1;
+				break
+				end
+			end
+		self:sleep(0.1);
+		self:queuecommand('Mods');
+	end"
+	/>
+
+	<Layer Type="Quad"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
+	InitCommand="diffusealpha,0;hibernate,0.01;queuecommand,Mods;"
+	ModsCommand="%function(self)
+		self:stoptweening();
+		GAMESTATE:ApplyGameCommand('mod, 1x',2);
+		if addModP2 < 4 then
+			if setModP2 < 50 then
+				GAMESTATE:ApplyGameCommand('mod,'..setModP2+addModP2..'x',2);
+				else
+				GAMESTATE:ApplyGameCommand('mod,c'..setModP2,2);
+				end
+			else
+			if setModP2 < 50 then
+				GAMESTATE:ApplyGameCommand('mod,'..setModP2..'x',2);
+				else
+				GAMESTATE:ApplyGameCommand('mod,c'..setModP2+addModP2,2);
+				end
+			end
+		hideBGp2 = 0;
+		for getModP2=0, 100, 5 do
+			if GAMESTATE:PlayerIsUsingModifier(PLAYER_2,''..(getModP2/100)..'% cross') then 
+				hideBGp2 = getModP2;
+				break
+				end
+			end
+		self:sleep(0.1);
+		self:queuecommand('Mods');
+	end"
+	/>
+<!--Timer Recorder-->
+	<Layer Type="Quad"
+	InitCommand="sleep,0.01;queuecommand,CountDown;"
+	CountDownCommand="%function(self)
+	self:stoptweening();
+	if PREFSMAN:GetPreference('MenuTimer') == 0 then
+	gnScreenPlayerOptionsTimer = 9999;
+	gnScreenSelectMusicTimer = 9999;
+		end
+	gnScreenPlayerOptionsTimer = gnScreenPlayerOptionsTimer - 0.1;
+	if gnScreenPlayerOptionsTimer <= 0 then
+		gnScreenPlayerOptionsTimer = 0;
+		end
+	if gnGoBack == nil then 
+		gnGoBack = 0;
+		end
+	if gnScreenSelectMusicTimer > 5 then	
+		if gnScreenPlayerOptionsTimer > 5 then	
+			if gnGoBack == 2 then
+				GAMESTATE:SetEnv('BackScreen','YES')
+				else
+				GAMESTATE:SetEnv('BackScreen','NO')
+				end
+			else
+			gnGoBack = 3;
+			GAMESTATE:SetEnv('BackScreen','NO')
+			end
+	else
+		gnGoBack = 3;
+		GAMESTATE:SetEnv('BackScreen','NO')
+	end
+	self:sleep(0.1);
+	self:queuecommand('CountDown');
+	end"
+	/>
+<!--Activate the Back Button-->
+		<BitmapText
+			Text=""
+			File="_eurostile blue glow"
+			InitCommand="%function(self)  self:x(self:GetWidth()/2) self:shadowlength(0) self:addy(-300); self:queuecommand('loop'); end"
+			OnCommand="Zoom,1;DiffuseAlpha,0;"
+		/>
+<!--Find the Rate Mod-->
+		<BitmapText
+			Text="@GetRateMod()"
+			File="_eurostile blue glow"
+			InitCommand="%function(self)  self:x(self:GetWidth()/2) self:shadowlength(0) self:addy(-300); self:queuecommand('loop'); end"
+			OnCommand="Zoom,1;DiffuseAlpha,0;"
+			loopCommand="%function(self)
+			getRate = 0;
+			setRate = 0;
+			self:diffusealpha(0);
+			self:settext(GetRateMod());
+			self:stoptweening();
+			self:sleep(0.1);
+			self:queuecommand('loop');
+			end"
+		/>
+<!--Current Song-->
+		<BitmapText
+			Text=""
+			Condition="not GAMESTATE:IsCourseMode()"
+			File="_eurostile blue glow"
+			OnCommand="horizalign,center;maxwidth,450;shadowlength,0;zoom,0.75;"
+			
+			InitCommand="%function(self)
+			self:settext(GAMESTATE:GetCurrentSong():GetDisplayMainTitle());
+			self:x(SCREEN_CENTER_X);
+			self:y(SCREEN_CENTER_Y-168);
+			end"
+		/>
+		<BitmapText
+			Text=""
+			Condition="GAMESTATE:IsCourseMode()"
+			File="_eurostile blue glow"
+			OnCommand="horizalign,center;maxwidth,240;shadowlength,0;zoom,0.75;"
+			
+			InitCommand="%function(self)
+			self:settext(GAMESTATE:GetCurrentCourse():GetDisplayFullTitle());
+			self:x(SCREEN_CENTER_X);
+			self:y(SCREEN_CENTER_Y-159);
+			end"
+		/>		
+		<BitmapText
+			Text=""
+			File="_eurostile blue glow"
+			Condition="not GAMESTATE:IsCourseMode()"
+			OnCommand="horizalign,center;shadowlength,0;zoom,0.5;"
+			
+			InitCommand="%function(self)
+			self:settext(GAMESTATE:GetCurrentSong():GetDisplayArtist());
+			self:x(SCREEN_CENTER_X);
+			self:y(SCREEN_CENTER_Y-150);
+			self:maxwidth(350);
+			end"
+		/>
+
+<!--Step Artists P1-->
+		<BitmapText
+			Text="STEPS:"
+			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1) and not GAMESTATE:IsCourseMode()"
+			File="_eurostile blue glow"
+			InitCommand="horizalign,left;shadowlength,0;zoom,0.5;diffuse,0.6,0.8,0.9,1;queuecommand,Go"
+			GoCommand="%function(self)
+			self:x(SCREEN_CENTER_X-218);
+			self:y(SCREEN_CENTER_Y-150);
+			end"
+		/>
+		<BitmapText
+			Text="Unknown"
+			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1) and not GAMESTATE:IsCourseMode()"
+			File="_eurostile blue glow"
+			InitCommand="%function(self)
+			self:horizalign('left');
+			self:shadowlength(0);
+			self:zoom(0.5);
+			self:x(SCREEN_CENTER_X-182);
+			self:y(SCREEN_CENTER_Y-150);
+			self:queuecommand('Update');
+			end"
+			UpdateCommand="%GetStepsDescriptionText1"
+		/>
+
+<!--Step Artists P2-->
+		<BitmapText
+			Text=":STEPS"
+			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2) and not GAMESTATE:IsCourseMode()"
+			File="_eurostile blue glow"
+			OnCommand="horizalign,right;shadowlength,0;zoom,0.5;diffuse,0.6,0.8,0.9,1;queuecommand,Go"
+			GoCommand="%function(self)
+			self:x(SCREEN_CENTER_X+218);
+			self:y(SCREEN_CENTER_Y-150);
+			end"
+		/>
+		<BitmapText
+			Text="Unknown"
+			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2) and not GAMESTATE:IsCourseMode()"
+			File="_eurostile blue glow"
+			InitCommand="%function(self)
+			self:horizalign('right');
+			self:shadowlength(0);
+			self:zoom(0.5);
+			self:x(SCREEN_CENTER_X+182);
+			self:y(SCREEN_CENTER_Y-150);
+			self:queuecommand('Update');
+			end"
+			UpdateCommand="%GetStepsDescriptionText2"
+		/>
+		
+	<!--Player Underframes-->
+			<Layer
+			File="../../Graphics/ScreenPlayerOptions playerunderframe"
+			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
+			InitCommand="%function(self)
+			self:x(SCREEN_CENTER_X-267); self:y(SCREEN_CENTER_Y-114);self:draworder(-100);
+			end"
+		/>	
+			<Layer
+			File="../../Graphics/ScreenPlayerOptions playerunderframe"
+			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
+			InitCommand="%function(self)
+			self:x(SCREEN_CENTER_X+267); self:y(SCREEN_CENTER_Y-114);self:draworder(-100);
+			end"
+		/>	
+	<!--Player 1's BPM & Speed Display-->
+		<BitmapText
+			Text="BPM:"
+			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
+			File="_eurostile blue glow"
+			OnCommand="horizalign,left;shadowlength,0;zoom,0.55;diffuse,0.6,0.8,0.9,1;"
+			
+			InitCommand="%function(self)
+			self:x(SCREEN_CENTER_X-307);
+			self:y(SCREEN_CENTER_Y-45);
+			end"
+		/>
+		<BitmapText
+			Text=""
+			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
+			File="_eurostile blue glow"
+			InitCommand="%function(self) self:stoptweening(); self:zoom(0.55); self:shadowlength(0); self:x(SCREEN_CENTER_X-271); self:y(SCREEN_CENTER_Y-45); if lowBPM == highBPM then self:settext(math.ceil(highBPM*curRate)); else self:settext(math.ceil(lowBPM*curRate)..'-'..math.ceil(highBPM*curRate)) end self:maxwidth(70);  self:sleep(0.1); self:queuecommand('Init'); end"
+			OnCommand="horizalign,left;zoom,0.55;"			
+		/>
+		<BitmapText
+			Text="SPEED:"
+			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
+			File="_eurostile blue glow"
+			OnCommand="horizalign,left;shadowlength,0;zoom,0.55;diffuse,0.6,0.8,0.9,1;queuecommand,loop"
+
+			InitCommand="%function(self)
+			self:x(SCREEN_CENTER_X-307);
+			self:y(SCREEN_CENTER_Y-33);
+			end"
+		/>
+		<BitmapText
+			Text=""
+			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
+			File="_eurostile blue glow"
+			InitCommand="%function(self) self:zoom(0.55); self:shadowlength(0); self:x(SCREEN_CENTER_X-271); self:y(SCREEN_CENTER_Y-33); p1Distance=0; end"
+			OnCommand="horizalign,left;zoom,0.55;queuecommand,loop;"
+			
+			loopCommand="%function(self)
+			getModP1 = 0;
+			if setModP1 == nil then
+				setModP1 = 0;
+				end
+			if modStyleP1 == nil then
+				modStyleP1 = 0;
+				end
+			if addModP1 == nil then
+				addModP1 = 0;
+				end
+			if curRate == nil then
+				curRate = 1;
+				end
+			if modStyleP1 == 1 then
+				if addModP1 <= 1 then
+					self:settext(''..math.ceil((setModP1+addModP1)*highBPM*curRate)..'');
+					gnP1Speed = setModP1+addModP1..'X';
+					gnBlazeP1 = math.ceil((setModP1+addModP1)*highBPM*curRate)
+					else
+					self:settext(''..math.ceil((setModP1)*highBPM*curRate)..'');
+					gnP1Speed = setModP1..'X';
+					gnBlazeP1 = math.ceil((setModP1)*highBPM*curRate)
+					end
+				end
+			if modStyleP1 == 2 then
+				if addModP1 > 1 then
+					self:settext(''..math.ceil((setModP1+addModP1) * curRate)..'');
+					gnP1Speed = 'C'..setModP1+addModP1;
+					gnBlazeP1 = math.ceil((setModP1+addModP1) * curRate)
+					else
+					self:settext(''..math.ceil((setModP1) * curRate)..'');
+					gnP1Speed = 'C'..setModP1;
+					gnBlazeP1 = math.ceil((setModP1) * curRate)
+					end
+				end
+			self:stoptweening();
+			self:sleep(0.1);
+			self:queuecommand('loop');
+			end"
+		/>
+		
+		<BitmapText
+			Text=""
+			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
+			File="_eurostile blue glow"
+			InitCommand="%function(self) self:zoom(0.65); self:shadowlength(0); self:x(SCREEN_CENTER_X-303); self:y(SCREEN_CENTER_Y); p1Distance=0; end"
+			OnCommand="horizalign,left;zoom,0.65;queuecommand,loop;"
+			
+			loopCommand="%function(self)
+			if gnBlazeP1 == 420 then
+				self:settext('Blaze It!');
+				if gnBlazedP1 == 0 then
+					gnBlazedP1 = 1;
+					self:rainbow();
+					self:stoptweening();
+					self:sleep(0.1);
+					self:queuecommand('loop');
+					else
+					self:stoptweening();
+					self:sleep(0.1);
+					self:queuecommand('loop');
+					end
+				else
+				gnBlazedP1 = 0;
+				self:settext('');
+				self:stopeffect();
+				self:stoptweening();
+				self:sleep(0.1);
+				self:queuecommand('loop');
+				end
+			end"
+			RainbowCommand="rainbow;sleep,0.1;queuecommand,loop;"
+			NoRainbowCommand="stopeffect;stoptweening;sleep,0.1;queuecommand,loop;"
+			
+		/>
+		
+	<!--Player 2's BPM & Speed Display-->
+		<BitmapText
+			Text=":BPM"
+			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
+			File="_eurostile blue glow"
+			OnCommand="horizalign,right;shadowlength,0;zoom,0.55;diffuse,0.6,0.8,0.9,1;"
+			
+			InitCommand="%function(self)
+			self:x(SCREEN_CENTER_X+307);
+			self:y(SCREEN_CENTER_Y-45);
+			end"
+		/>
+		<BitmapText
+			Text=""
+			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
+			File="_eurostile blue glow"
+			InitCommand="%function(self) self:stoptweening(); self:zoom(0.55); self:shadowlength(0); self:x(SCREEN_CENTER_X+271); self:y(SCREEN_CENTER_Y-45); if lowBPM == highBPM then self:settext(math.ceil(highBPM*curRate)); else self:settext(math.ceil(lowBPM*curRate)..'-'..math.ceil(highBPM*curRate)) end self:maxwidth(70); self:sleep(0.1); self:queuecommand('Init'); end"
+			OnCommand="horizalign,right;zoom,0.55;"			
+		/>
+		<BitmapText
+			Text=":SPEED"
+			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
+			File="_eurostile blue glow"
+			OnCommand="horizalign,right;shadowlength,0;zoom,0.55;diffuse,0.6,0.8,0.9,1;"
+			
+			InitCommand="%function(self)
+			self:x(SCREEN_CENTER_X+307);
+			self:y(SCREEN_CENTER_Y-33);
+			end"
+		/>
+		<BitmapText
+			Text=""
+			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
+			File="_eurostile blue glow"
+			InitCommand="%function(self)  self:zoom(0.55); self:shadowlength(0); self:x(SCREEN_CENTER_X+271); self:y(SCREEN_CENTER_Y-33); self:queuecommand('loop'); end"
+			OnCommand="horizalign,right;zoom,0.55;queuecommand,loop;"
+			
+			loopCommand="%function(self)
+			getModP2 = 0;
+			if setModP2 == nil then
+				setModP2 = 0;
+				end
+			if modStyleP2 == nil then
+				modStyleP2 = 0;
+				end
+			if addModP2 == nil then
+				addModP2 = 0;
+				end
+			if curRate == nil then
+				curRate = 1;
+				end
+			if modStyleP2 == 1 then
+				if addModP2 <= 1 then
+					self:settext(''..math.ceil((setModP2+addModP2)*highBPM*curRate)..'');
+					gnP2Speed = setModP2+addModP2..'X';
+					gnBlazeP2 = math.ceil((setModP2+addModP2)*highBPM*curRate)
+					else
+					self:settext(''..math.ceil((setModP2)*highBPM*curRate)..'');
+					gnP2Speed = setModP2..'X';
+					gnBlazeP2 = math.ceil((setModP2)*highBPM*curRate)
+					end
+				end
+			if modStyleP2 == 2 then
+				if addModP2 > 1 then
+					self:settext(''..math.ceil((setModP2+addModP2) * curRate)..'');
+					gnP2Speed = 'C'..setModP2+addModP2;
+					gnBlazeP2 = math.ceil((setModP2+addModP2) * curRate)
+					else
+					self:settext(''..math.ceil((setModP2) * curRate)..'');
+					gnP2Speed = 'C'..setModP2;
+					gnBlazeP2 = math.ceil((setModP2) * curRate)
+					end
+				end
+			self:stoptweening();
+			self:sleep(0.1);
+			self:queuecommand('loop');
+			end"
+		/>
+		
+		<BitmapText
+			Text=""
+			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
+			File="_eurostile blue glow"
+			InitCommand="%function(self)  self:zoom(0.65); self:shadowlength(0); self:x(SCREEN_CENTER_X+306); self:y(SCREEN_CENTER_Y); self:queuecommand('loop'); end"
+			OnCommand="horizalign,right;zoom,0.65;queuecommand,loop;"
+			
+			loopCommand="%function(self)
+			if gnBlazeP2 == 420 then
+				self:settext('Blaze It!');
+				if gnBlazedP2 == 0 then
+					gnBlazedP2 = 1;
+					self:rainbow();
+					self:stoptweening();
+					self:sleep(0.1);
+					self:queuecommand('loop');
+					else
+					self:stoptweening();
+					self:sleep(0.1);
+					self:queuecommand('loop');
+					end
+				else
+				gnBlazedP2 = 0;
+				self:settext('');
+				self:stopeffect();
+				self:stoptweening();
+				self:sleep(0.1);
+				self:queuecommand('loop');
+				end
+			end"
+			RainbowCommand="rainbow;stoptweening;sleep,0.1;queuecommand,loop;"
+			NoRainbowCommand="stopeffect;stoptweening;sleep,0.1;queuecommand,loop;"
+		/>
+	<!-- No Longer Needed -- 
+	<Layer 
+		Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
+		OnCommand="x,372;y,81;addx,SCREEN_WIDTH*3/4;sleep,0.1;decelerate,0.3;addx,-SCREEN_WIDTH*3/4"
+		OffCommand="accelerate,0.3;addx,SCREEN_WIDTH"
+		File="@THEME:GetPath(EC_GRAPHICS,'','_name p1')"
+	/>
+
+	<Layer
+		Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
+		OnCommand="x,540;y,81;addx,SCREEN_WIDTH*3/4;sleep,0.2;decelerate,0.3;addx,-SCREEN_WIDTH*3/4"
+		OffCommand="accelerate,0.3;addx,SCREEN_WIDTH"
+		File="@THEME:GetPath(EC_GRAPHICS,'','_name p2')"
+	/>-->
+	
+	<!--Screen Transition-->
+	<Layer Type="Quad"
+	OnCommand="zoom,SCREEN_WIDTH*2;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;draworder,1000;accelerate,0.2;zoom,SCREEN_WIDTH*0;diffuse,0,0,0,0;"
+	OffCommand="decelerate,0.2;zoom,SCREEN_WIDTH*2;diffuse,0,0,0,1;"
+	/>
+</children> </ActorFrame>

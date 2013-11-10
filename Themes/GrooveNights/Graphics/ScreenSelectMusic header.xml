@@ -1,0 +1,19 @@
+<ActorFrame>
+	<children>
+		<BitmapText
+			Text="@getTextSongSelectTitle()"
+			File="_eurostile blue glow"
+			InitCommand="%function(self)  self:x(self:GetWidth()/2) end"
+			OnCommand="shadowlength,0;zoom,1;decelerate,0.3;zoom,1;"
+			
+		/>
+	<Layer File="CDTitle OverFrame"
+	InitCommand="x,SCREEN_CENTER_X+250;y,SCREEN_CENTER_Y-91;"
+	/>
+	<!--Screen Transition-->
+	<Layer Type="Quad"
+	OnCommand="zoom,SCREEN_WIDTH*2;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;draworder,1000;accelerate,0.2;zoom,SCREEN_WIDTH*0;diffuse,0,0,0,0;"
+	OffCommand="decelerate,0.2;zoom,SCREEN_WIDTH*2;diffuse,0,0,0,1;"
+	/>
+	</children>
+</ActorFrame>

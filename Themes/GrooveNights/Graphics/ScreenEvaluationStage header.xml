@@ -1,0 +1,24 @@
+<ActorFrame>
+	<children>
+		<BitmapText
+			Text="@getTextResultsTitle()"
+			File="_eurostile blue glow"
+			InitCommand="%function(self)  self:x(self:GetWidth()/2) self:shadowlength(0); end"
+			OnCommand="shadowlength,0;zoom,1;decelerate,0.3;zoom,1;"
+			
+		/>
+		<BitmapText
+			Text="@getTheCurrentMachine()"
+			File="_eurostile blue glow"
+			InitCommand="%function(self)  self:x(SCREEN_RIGHT-35) self:y(-28); self:shadowlength(0); end"
+			OnCommand="shadowlength,0;horizalign,right;zoom,0.5;decelerate,0.3;zoom,0.5;"
+			
+		/>
+		
+						<Layer 
+					File="Screen divider frame"
+					InitCommand="x,SCREEN_CENTER_X-13;y,SCREEN_CENTER_Y-41;"
+				/>
+
+	</children>
+</ActorFrame>

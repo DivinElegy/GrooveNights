@@ -1,0 +1,11 @@
+<BGAnimation>
+	<children>
+		<BitmapText
+			Text="SAVE THE GAME"
+			File="_eurostile blue glow"
+			InitCommand="%function(self)  self:x(self:GetWidth()/2) self:shadowlength(0) end"
+			
+			
+		/>
+	</children>
+</BGAnimation>

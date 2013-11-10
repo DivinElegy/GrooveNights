@@ -1,0 +1,1492 @@
+<ActorFrame InitCommand="%function(self)
+gnScreenEnd = false;
+if GAMESTATE:GetEnv('Wag') == 'On' then
+	self:wag();
+	end
+end"> <children>
+	<Layer
+		File="player pane"
+		OnCommand="x,SCREEN_CENTER_X-320+74;y,SCREEN_CENTER_Y+2"
+		Condition="GAMESTATE:IsHumanPlayer(PLAYER_1)"
+	/>
+	
+	<Layer
+		File="player pane"
+		OnCommand="x,SCREEN_CENTER_X+320-74;y,SCREEN_CENTER_Y+2"
+		Condition="GAMESTATE:IsHumanPlayer(PLAYER_2)"
+	/>
+	
+<ActorFrame InitCommand="y,-32;"> <children>
+	
+	<Layer File="../_scrolling ITG credits" InitCommand="y,24;zoomy,0.975;" />
+	<Layer File="../_ScreenEnding overlay common" />
+	
+	<Layer
+		Text="THANKS FOR PLAYING!"
+		File="_eurostile normal"
+		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_TOP+73;shadowlength,0;"
+	/>
+	
+	<Layer
+		Text="YOUR STATS"
+		Condition="GAMESTATE:IsHumanPlayer(PLAYER_1)"
+		File="_eurostile normal"
+		OnCommand="@'x,SCREEN_CENTER_X-246;y,SCREEN_CENTER_Y-138;zoom,0.85;shadowlength,0;diffuse,'..PlayerColor(PLAYER_1);"
+	/>
+
+	<Layer
+		Text="YOUR STATS"
+		Condition="GAMESTATE:IsHumanPlayer(PLAYER_2)"
+		File="_eurostile normal"
+		OnCommand="@'x,SCREEN_CENTER_X+246;y,SCREEN_CENTER_Y-138;zoom,0.85;shadowlength,0;diffuse,'..PlayerColor(PLAYER_2)"
+	/>
+	
+<ActorFrame InitCommand="y,32;"> <children>
+	
+	<Layer
+		Text="@ScreenEndingGetDisplayName(PLAYER_1)"
+		Condition="GAMESTATE:IsHumanPlayer(PLAYER_1)"
+		File="_eurostile normal"
+		OnCommand="@'x,SCREEN_CENTER_X-246;y,SCREEN_CENTER_Y-140;zoom,0.7;shadowlength,0;diffuse,'..PlayerColor(PLAYER_1);"
+	/>
+
+	<Layer
+		Text="@ScreenEndingGetDisplayName(PLAYER_2)"
+		Condition="GAMESTATE:IsHumanPlayer(PLAYER_2)"
+		File="_eurostile normal"
+		OnCommand="@'x,SCREEN_CENTER_X+246;y,SCREEN_CENTER_Y-140;zoom,0.7;shadowlength,0;diffuse,'..PlayerColor(PLAYER_2)"
+	/>
+	
+		<Layer  Text="@DifficultyToThemedString(DIFFICULTY_EASY)" File="_eurostile normal" InitCommand="@'diffuse,' .. DifficultyColor(DIFFICULTY_EASY) .. ';zoom,0.5'" OnCommand="x,SCREEN_CENTER_X-276;y,SCREEN_CENTER_Y+41;shadowlength,0;addy,20*0"
+Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and PROFILEMAN:IsPersistentProfile(PLAYER_1) and not GAMESTATE:IsCourseMode()"		/>
+		<Layer  Text="@DifficultyToThemedString(DIFFICULTY_MEDIUM)" File="_eurostile normal" InitCommand="@'diffuse,' .. DifficultyColor(DIFFICULTY_MEDIUM) .. ';zoom,0.5'" OnCommand="x,SCREEN_CENTER_X-276;y,SCREEN_CENTER_Y+41;shadowlength,0;addy,20*1"
+Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and PROFILEMAN:IsPersistentProfile(PLAYER_1) and not GAMESTATE:IsCourseMode()"		/>
+		<Layer  Text="@DifficultyToThemedString(DIFFICULTY_HARD)" File="_eurostile normal" InitCommand="@'diffuse,' .. DifficultyColor(DIFFICULTY_HARD) .. ';zoom,0.5'" OnCommand="x,SCREEN_CENTER_X-276;y,SCREEN_CENTER_Y+41;shadowlength,0;addy,20*2"
+Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and PROFILEMAN:IsPersistentProfile(PLAYER_1) and not GAMESTATE:IsCourseMode()"		/>
+		<Layer  Text="@DifficultyToThemedString(DIFFICULTY_CHALLENGE)" File="_eurostile normal" InitCommand="@'diffuse,' .. DifficultyColor(DIFFICULTY_CHALLENGE) .. ';zoom,0.5'" OnCommand="x,SCREEN_CENTER_X-276;y,SCREEN_CENTER_Y+41;shadowlength,0;addy,20*3"
+Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and PROFILEMAN:IsPersistentProfile(PLAYER_1) and not GAMESTATE:IsCourseMode()"		/>
+
+
+		<Layer  Text="@CourseDifficultyToThemedString(DIFFICULTY_MEDIUM)" File="_eurostile normal" InitCommand="@'diffuse,' .. DifficultyColor(DIFFICULTY_MEDIUM) .. ';zoom,0.5'" OnCommand="x,SCREEN_CENTER_X-276;y,SCREEN_CENTER_Y+41;shadowlength,0;addy,20*1"
+Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and PROFILEMAN:IsPersistentProfile(PLAYER_1) and GAMESTATE:IsCourseMode()"		/>
+		<Layer  Text="@CourseDifficultyToThemedString(DIFFICULTY_HARD)" File="_eurostile normal" InitCommand="@'diffuse,' .. DifficultyColor(DIFFICULTY_HARD) .. ';zoom,0.5'" OnCommand="x,SCREEN_CENTER_X-276;y,SCREEN_CENTER_Y+41;shadowlength,0;addy,20*2"
+Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and PROFILEMAN:IsPersistentProfile(PLAYER_1) and GAMESTATE:IsCourseMode()"		/>
+
+	
+	
+
+		<Layer  Text="@DifficultyToThemedString(DIFFICULTY_EASY)" File="_eurostile normal" InitCommand="@'diffuse,' .. DifficultyColor(DIFFICULTY_EASY) .. ';zoom,0.5'" OnCommand="x,SCREEN_CENTER_X+216;y,SCREEN_CENTER_Y+41;shadowlength,0;addy,20*0"
+Condition="GAMESTATE:IsHumanPlayer(PLAYER_2) and PROFILEMAN:IsPersistentProfile(PLAYER_2) and not GAMESTATE:IsCourseMode()"		/>
+		<Layer  Text="@DifficultyToThemedString(DIFFICULTY_MEDIUM)" File="_eurostile normal" InitCommand="@'diffuse,' .. DifficultyColor(DIFFICULTY_MEDIUM) .. ';zoom,0.5'" OnCommand="x,SCREEN_CENTER_X+216;y,SCREEN_CENTER_Y+41;shadowlength,0;addy,20*1"
+Condition="GAMESTATE:IsHumanPlayer(PLAYER_2) and PROFILEMAN:IsPersistentProfile(PLAYER_2) and not GAMESTATE:IsCourseMode()"		/>
+		<Layer  Text="@DifficultyToThemedString(DIFFICULTY_HARD)" File="_eurostile normal" InitCommand="@'diffuse,' .. DifficultyColor(DIFFICULTY_HARD) .. ';zoom,0.5'" OnCommand="x,SCREEN_CENTER_X+216;y,SCREEN_CENTER_Y+41;shadowlength,0;addy,20*2"
+Condition="GAMESTATE:IsHumanPlayer(PLAYER_2) and PROFILEMAN:IsPersistentProfile(PLAYER_2) and not GAMESTATE:IsCourseMode()"		/>
+		<Layer  Text="@DifficultyToThemedString(DIFFICULTY_CHALLENGE)" File="_eurostile normal" InitCommand="@'diffuse,' .. DifficultyColor(DIFFICULTY_CHALLENGE) .. ';zoom,0.5'" OnCommand="x,SCREEN_CENTER_X+216;y,SCREEN_CENTER_Y+41;shadowlength,0;addy,20*3"
+Condition="GAMESTATE:IsHumanPlayer(PLAYER_2) and PROFILEMAN:IsPersistentProfile(PLAYER_2) and not GAMESTATE:IsCourseMode()"		/>
+
+		<Layer  Text="@CourseDifficultyToThemedString(DIFFICULTY_MEDIUM)" File="_eurostile normal" InitCommand="@'diffuse,' .. DifficultyColor(DIFFICULTY_MEDIUM) .. ';zoom,0.5'" OnCommand="x,SCREEN_CENTER_X+216;y,SCREEN_CENTER_Y+41;shadowlength,0;addy,20*1"
+Condition="GAMESTATE:IsHumanPlayer(PLAYER_2) and PROFILEMAN:IsPersistentProfile(PLAYER_2) and GAMESTATE:IsCourseMode()"		/>
+		<Layer  Text="@CourseDifficultyToThemedString(DIFFICULTY_HARD)" File="_eurostile normal" InitCommand="@'diffuse,' .. DifficultyColor(DIFFICULTY_HARD) .. ';zoom,0.5'" OnCommand="x,SCREEN_CENTER_X+216;y,SCREEN_CENTER_Y+41;shadowlength,0;addy,20*2"
+Condition="GAMESTATE:IsHumanPlayer(PLAYER_2) and PROFILEMAN:IsPersistentProfile(PLAYER_2) and GAMESTATE:IsCourseMode()"		/>
+</children> </ActorFrame>
+</children> </ActorFrame>
+
+
+
+	
+<!-- Achievements for Player 1-->	
+<ActorFrame Condition="PROFILEMAN:IsPersistentProfile(PLAYER_1)"
+			InitCommand="%function(self)
+			self:x(SCREEN_LEFT-58+(HorizontalRecovery()*12));
+			self:y(SCREEN_BOTTOM-140);
+			self:zoomx(0.9);
+			self:zoomy(0.88);
+			gnSingleKillP1 = 'no'
+			gnDoubleKillP1 = 'no'
+			gnTriKillP1 = 'no'
+			gnQuadKillP1 = 'no'
+			end">
+<children>
+<!--Singles Level-->
+	<BitmapText
+	Font="_eurostile normal"
+	Text="@GetPlayerStatsAndAwards(PLAYER_1)"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1) and not GAMESTATE:PlayerUsingBothSides(PLAYER_1)"
+	InitCommand="%function(self)
+	self:x(SCREEN_CENTER_X-219); self:y(SCREEN_CENTER_Y-219); self:diffusealpha(1); 
+	self:zoom(0.5);
+	self:shadowlength(0);
+	self:horizalign('left');
+	if gnLevelP1 == '[Disabled]' then
+		self:hidden(1);
+		end
+		noEXP1 = 0;
+		if gnLevelP1 == nil then
+			gnLevelP1 = '[Disabled]';
+			self:hidden(1);
+			end
+		self:settext('Level '..gnLevelP1);
+	end"
+	/>
+
+<!--Doubles Level-->
+	<BitmapText
+	Font="_eurostile normal"
+	Text="@GetPlayerStatsAndAwards(PLAYER_1)"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1) and GAMESTATE:PlayerUsingBothSides(PLAYER_1)"
+	InitCommand="%function(self)
+	self:x(SCREEN_CENTER_X-219); self:y(SCREEN_CENTER_Y-219); self:diffusealpha(1); 
+	self:zoom(0.5);
+	self:shadowlength(0);
+	self:horizalign('left');
+	if gnLevelP1 == '[Disabled]' then
+		self:hidden(1);
+		end
+		noEXP1 = 0;
+		if gnLevelP1 == nil then
+			gnLevelP1 = '[Disabled]';
+			self:hidden(1);
+			end
+		self:settext('Level '..gnLevelP1);
+	end"
+	/>
+
+	
+<ActorFrame><children>
+
+<!--EXP Bars-->
+<Layer File="../../Graphics/expBar"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
+	InitCommand="%function(self)
+	self:stoptweening();
+	self:x(SCREEN_CENTER_X-180); self:y(SCREEN_CENTER_Y-206); self:diffusealpha(1); 
+	self:shadowlength(0);
+	if gnLevelP1 == '[Disabled]' then
+		self:hidden(1);
+		else
+		self:sleep(0.05);
+		self:queuecommand('Init');
+		end
+	end"
+	/>
+	
+	<Layer File="../../Graphics/expMeter"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
+	InitCommand="%function(self)
+	self:stoptweening();
+	if gnLevelP1 == '[Disabled]' then
+		self:hidden(1);
+		end
+		if gnPercentageP1 == nil then
+			self:stoptweening();
+		self:draworder(-1000);
+		self:x(SCREEN_CENTER_X-220);
+		self:y(SCREEN_CENTER_Y-208);
+		self:zoomy(1);
+		self:horizalign('left');
+			self:sleep(0.1);
+			self:queuecommand('Init');
+			else
+			self:stoptweening();
+		self:draworder(-1000);
+		self:x(SCREEN_CENTER_X-220);
+		self:y(SCREEN_CENTER_Y-208);
+		self:zoomy(1);
+		self:horizalign('left');
+			self:zoomtowidth(gnPercentageP1);
+			end
+	end"
+	/>
+	
+	<Layer File="../../Graphics/expBackground"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
+	InitCommand="%function(self)
+	self:stoptweening();
+		self:draworder(-1001);
+		self:sleep(0.1);
+		self:x(SCREEN_CENTER_X-220);
+		self:y(SCREEN_CENTER_Y-208);
+		self:zoomy(1);
+		self:horizalign('left');
+		self:zoomtowidth(93);
+	if gnLevelP1 == '[Disabled]' then
+		self:hidden(1);
+		else
+		self:sleep(0.05);
+		self:queuecommand('Init');
+		end
+	end"
+	/>
+	
+<!--Achievements P1-->
+	<!--Star Count--->
+	<Layer File="../../Graphics/achievements/achievement0004"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
+	InitCommand="%function(self)
+		self:x(SCREEN_CENTER_X-212);
+		self:y(SCREEN_CENTER_Y-194);
+		self:zoom(0.85);
+		self:diffusealpha(0);
+	if gnLevelP1 ~= '[Disabled]' then
+		if (gnSinglesSingleP1 == nil) or (gnSinglesDoubleP1 == nil) then
+			self:stoptweening();
+			self:sleep(0.05);
+			self:queuecommand('Init');
+			else
+			if (gnSinglesSingleP1 == 0) and (gnSinglesDoubleP1 == 0) then
+				self:diffusealpha(0);
+				else
+				self:diffusealpha(1);
+				end
+			end	
+		else
+		self:diffusealpha(0);
+		end	
+	end"
+	/>
+	<BitmapText
+	Font="_eurostile normal"
+	Text=""
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1) and not GAMESTATE:PlayerUsingBothSides(PLAYER_1)"
+	InitCommand="%function(self)
+	if gnSinglesSingleP1 == nil then
+		self:stoptweening();
+		self:sleep(0.05);
+		self:queuecommand('Init');
+		else
+		self:settext(gnSinglesSingleP1);
+		end
+	self:draworder(10);
+	self:x(SCREEN_CENTER_X-212);
+	self:y(SCREEN_CENTER_Y-179);
+	self:zoom(0.5);
+	self:maxwidth(36);
+	self:shadowlength(0);
+	self:horizalign('center');
+	if gnSinglesSingleP1 == 0 then
+		self:diffusealpha(0);
+		else
+		self:diffusealpha(1);
+		end
+	end"
+	/>
+	<BitmapText
+	Font="_eurostile normal"
+	Text=""
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1) and GAMESTATE:PlayerUsingBothSides(PLAYER_1)"
+	InitCommand="%function(self)
+	if gnSinglesDoubleP1 == nil then
+		self:stoptweening();
+		self:sleep(0.05);
+		self:queuecommand('Init');
+		else
+		self:settext(gnSinglesDoubleP1);
+		end
+	self:draworder(10);
+	self:x(SCREEN_CENTER_X-212);
+	self:y(SCREEN_CENTER_Y-179);
+	self:zoom(0.5);
+	self:maxwidth(36);
+	self:shadowlength(0);
+	self:horizalign('center');
+	if gnSinglesDoubleP1 == 0 then
+		self:diffusealpha(0);
+		else
+		self:diffusealpha(1);
+		end
+	end"
+	/>
+
+	<!--Double Count-->
+	<Layer File="../../Graphics/achievements/achievement0003"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
+	InitCommand="%function(self)
+		self:x(SCREEN_CENTER_X-187);
+		self:y(SCREEN_CENTER_Y-194);
+		self:zoom(0.85);
+		self:diffusealpha(0);
+	if gnLevelP1 ~= '[Disabled]' then
+		if (gnDoublesSingleP1 == nil) or (gnDoublesDoubleP1 == nil) then
+			self:stoptweening();
+			self:sleep(0.05);
+			self:queuecommand('Init');
+			else
+			if (gnDoublesSingleP1 == 0) and (gnDoublesDoubleP1 == 0) then
+				self:diffusealpha(0);
+				else
+				self:diffusealpha(1);
+				end
+			end	
+		else
+		self:diffusealpha(0);
+		end	
+	end"
+	/>
+	<BitmapText
+	Font="_eurostile normal"
+	Text=""
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1) and not GAMESTATE:PlayerUsingBothSides(PLAYER_1)"
+	InitCommand="%function(self)
+	if gnDoublesSingleP1 == nil then
+		self:stoptweening();
+		self:sleep(0.05);
+		self:queuecommand('Init');
+		else
+		self:settext(gnDoublesSingleP1);
+		end
+	self:draworder(10);
+	self:x(SCREEN_CENTER_X-187);
+	self:y(SCREEN_CENTER_Y-179);
+	self:zoom(0.5);
+	self:maxwidth(36);
+	self:shadowlength(0);
+	self:horizalign('center');
+	if gnDoublesSingleP1 == 0 then
+		self:diffusealpha(0);
+		else
+		self:diffusealpha(1);
+		end
+	end"
+	/>
+	<BitmapText
+	Font="_eurostile normal"
+	Text=""
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1) and GAMESTATE:PlayerUsingBothSides(PLAYER_1)"
+	InitCommand="%function(self)
+	if gnDoublesDoubleP1 == nil then
+		self:stoptweening();
+		self:sleep(0.05);
+		self:queuecommand('Init');
+		else
+		self:settext(gnDoublesDoubleP1);
+		end
+	self:draworder(10);
+	self:x(SCREEN_CENTER_X-187);
+	self:y(SCREEN_CENTER_Y-179);
+	self:zoom(0.5);
+	self:maxwidth(36);
+	self:shadowlength(0);
+	self:horizalign('center');
+	if gnDoublesDoubleP1 == 0 then
+		self:diffusealpha(0);
+		else
+		self:diffusealpha(1);
+		end
+	end"
+	/>
+	<!--Tri Count-->
+	<Layer File="../../Graphics/achievements/achievement0002"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
+	InitCommand="%function(self)
+		self:x(SCREEN_CENTER_X-162);
+		self:y(SCREEN_CENTER_Y-194);
+		self:zoom(0.85);
+		self:diffusealpha(0);
+	if gnLevelP1 ~= '[Disabled]' then
+		if (gnTrisSingleP1 == nil) or (gnTrisDoubleP1 == nil) then
+			self:stoptweening();
+			self:sleep(0.05);
+			self:queuecommand('Init');
+			else
+			if (gnTrisSingleP1 == 0) and (gnTrisDoubleP1 == 0) then
+				self:diffusealpha(0);
+				else
+				self:diffusealpha(1);
+				end
+			end	
+		else
+		self:diffusealpha(0);
+		end	
+	end"
+	/>
+	<BitmapText
+	Font="_eurostile normal"
+	Text=""
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1) and not GAMESTATE:PlayerUsingBothSides(PLAYER_1)"
+	InitCommand="%function(self)
+	if gnTrisSingleP1 == nil then
+		self:stoptweening();
+		self:sleep(0.05);
+		self:queuecommand('Init');
+		else
+		self:settext(gnTrisSingleP1);
+		end
+	self:draworder(10);
+	self:x(SCREEN_CENTER_X-162);
+	self:y(SCREEN_CENTER_Y-179);
+	self:zoom(0.5);
+	self:maxwidth(36);
+	self:shadowlength(0);
+	self:horizalign('center');
+	if gnTrisSingleP1 == 0 then
+		self:diffusealpha(0);
+		else
+		self:diffusealpha(1);
+		end
+	end"
+	/>
+	<BitmapText
+	Font="_eurostile normal"
+	Text=""
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1) and GAMESTATE:PlayerUsingBothSides(PLAYER_1)"
+	InitCommand="%function(self)
+	if gnTrisDoubleP1 == nil then
+		self:stoptweening();
+		self:sleep(0.05);
+		self:queuecommand('Init');
+		else
+		self:settext(gnTrisDoubleP1);
+		end
+	self:draworder(10);
+	self:x(SCREEN_CENTER_X-162);
+	self:y(SCREEN_CENTER_Y-179);
+	self:zoom(0.5);
+	self:maxwidth(36);
+	self:shadowlength(0);
+	self:horizalign('center');
+	if gnTrisDoubleP1 == 0 then
+		self:diffusealpha(0);
+		else
+		self:diffusealpha(1);
+		end
+	end"
+	/>
+	<!--Quad Count-->
+	<Layer File="../../Graphics/achievements/achievement0001"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
+	InitCommand="%function(self)
+		self:x(SCREEN_CENTER_X-137);
+		self:y(SCREEN_CENTER_Y-194);
+		self:zoom(0.85);
+		self:diffusealpha(0);
+	if gnLevelP1 ~= '[Disabled]' then
+		if (gnQuadsSingleP1 == nil) or (gnQuadsDoubleP1 == nil) then
+			self:stoptweening();
+			self:sleep(0.05);
+			self:queuecommand('Init');
+			else
+			if (gnQuadsSingleP1 == 0) and (gnQuadsDoubleP1 == 0) then
+				self:diffusealpha(0);
+				else
+				self:diffusealpha(1);
+				end
+			end	
+		else
+		self:diffusealpha(0);
+		end	
+	end"
+	/>
+	<BitmapText
+	Font="_eurostile normal"
+	Text=""
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1) and not GAMESTATE:PlayerUsingBothSides(PLAYER_1)"
+	InitCommand="%function(self)
+	if gnQuadsSingleP1 == nil then
+		self:stoptweening();
+		self:sleep(0.05);
+		self:queuecommand('Init');
+		else
+		self:settext(gnQuadsSingleP1);
+		end
+	self:draworder(10);
+	self:x(SCREEN_CENTER_X-137);
+	self:y(SCREEN_CENTER_Y-179);
+	self:zoom(0.5);
+	self:maxwidth(36);
+	self:shadowlength(0);
+	self:horizalign('center');
+	if gnQuadsSingleP1 == 0 then
+		self:diffusealpha(0);
+		else
+		self:diffusealpha(1);
+		end
+	end"
+	/>
+	<BitmapText
+	Font="_eurostile normal"
+	Text=""
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1) and GAMESTATE:PlayerUsingBothSides(PLAYER_1)"
+	InitCommand="%function(self)
+	if gnQuadsDoubleP1 == nil then
+		self:stoptweening();
+		self:sleep(0.05);
+		self:queuecommand('Init');
+		else
+		self:settext(gnQuadsDoubleP1);
+		end
+	self:draworder(10);
+	self:x(SCREEN_CENTER_X-137);
+	self:y(SCREEN_CENTER_Y-179);
+	self:zoom(0.5);
+	self:maxwidth(36);
+	self:shadowlength(0);
+	self:horizalign('center');
+	if gnQuadsDoubleP1 == 0 then
+		self:diffusealpha(0);
+		else
+		self:diffusealpha(1);
+		end
+	end"
+	/>
+
+<!--Songs Played Count-->
+	<Layer File="../../Graphics/achievements/achievement0005"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
+	InitCommand="%function(self)
+		self:x(SCREEN_CENTER_X-212);
+		self:y(SCREEN_CENTER_Y-154);
+		self:zoom(0.85);
+		self:diffusealpha(0);
+	if gnSongsP1Total == nil then
+		self:stoptweening();
+		self:sleep(0.05);
+		self:queuecommand('Init');
+		else
+		if gnSongsP1Total >= 100 then
+			self:linear(0.1); self:diffusealpha(1);
+			else
+			self:diffusealpha(0);
+			end
+		end	
+	end"
+	/>
+	<Layer File="../../Graphics/achievements/achievement0006"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
+	InitCommand="%function(self)
+		self:x(SCREEN_CENTER_X-212);
+		self:y(SCREEN_CENTER_Y-154);
+		self:zoom(0.85);
+		self:diffusealpha(0);
+	if gnSongsP1Total == nil then
+		self:stoptweening();
+		self:sleep(0.05);
+		self:queuecommand('Init');
+		else
+		if gnSongsP1Total >= 500 then
+			self:linear(0.1); self:diffusealpha(1);
+			else
+			self:diffusealpha(0);
+			end
+		end	
+	end"
+	/>
+	<Layer File="../../Graphics/achievements/achievement0007"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
+	InitCommand="%function(self)	
+		self:x(SCREEN_CENTER_X-212);
+		self:y(SCREEN_CENTER_Y-154);
+		self:zoom(0.85);
+		self:diffusealpha(0);
+	if gnSongsP1Total == nil then
+		self:stoptweening();
+		self:sleep(0.05);
+		self:queuecommand('Init');
+		else
+		if gnSongsP1Total >= 1000 then
+			self:linear(0.1); self:diffusealpha(1);
+			else
+			self:diffusealpha(0);
+			end
+		end	
+	end"
+	/>
+
+	<!--Total Percentages Count-->
+	<Layer File="../../Graphics/achievements/achievement0008"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
+	InitCommand="%function(self)
+		self:x(SCREEN_CENTER_X-187);
+		self:y(SCREEN_CENTER_Y-154);
+		self:zoom(0.85);
+		self:diffusealpha(0);
+	if gnTotalP1 == nil then
+		self:stoptweening();
+		self:sleep(0.05);
+		self:queuecommand('Init');
+		else
+		if gnTotalP1 >= 500 then
+			self:linear(0.1); self:diffusealpha(1);
+			else
+			self:diffusealpha(0);
+			end
+		end	
+	end"
+	/>
+	<Layer File="../../Graphics/achievements/achievement0009"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
+	InitCommand="%function(self)
+		self:x(SCREEN_CENTER_X-187);
+		self:y(SCREEN_CENTER_Y-154);
+		self:zoom(0.85);
+		self:diffusealpha(0);
+	if gnTotalP1 == nil then
+		self:stoptweening();
+		self:sleep(0.05);
+		self:queuecommand('Init');
+		else
+		if gnTotalP1 >= 1000 then
+			self:linear(0.1); self:diffusealpha(1);
+			else
+			self:diffusealpha(0);
+			end
+		end	
+	end"
+	/>
+	<Layer File="../../Graphics/achievements/achievement0010"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
+	InitCommand="%function(self)
+		self:x(SCREEN_CENTER_X-187);
+		self:y(SCREEN_CENTER_Y-154);
+		self:zoom(0.85);
+		self:diffusealpha(0);
+	if gnTotalP1 == nil then
+		self:stoptweening();
+		self:sleep(0.05);
+		self:queuecommand('Init');
+		else
+		if gnTotalP1 >= 1500 then
+			self:linear(0.1); self:diffusealpha(1);
+			else
+			self:diffusealpha(0);
+			end
+		end	
+	end"
+	/>
+	<!--Total Death Count-->
+	<Layer File="../../Graphics/achievements/achievement0011"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
+	InitCommand="%function(self)
+		self:x(SCREEN_CENTER_X-162);
+		self:y(SCREEN_CENTER_Y-154);
+		self:zoom(0.85);
+		self:diffusealpha(0);
+	if gnDeathsP1 == nil then
+		self:stoptweening();
+		self:sleep(0.05);
+		self:queuecommand('Init');
+		else
+		if gnDeathsP1 >= 25 then
+			self:linear(0.1); self:diffusealpha(1);
+			else
+			self:diffusealpha(0);
+			end
+		end	
+	end"
+	/>
+	<Layer File="../../Graphics/achievements/achievement0012"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
+	InitCommand="%function(self)
+		self:x(SCREEN_CENTER_X-162);
+		self:y(SCREEN_CENTER_Y-154);
+		self:zoom(0.85);
+		self:diffusealpha(0);
+	if gnDeathsP1 == nil then
+		self:stoptweening();
+		self:sleep(0.05);
+		self:queuecommand('Init');
+		else
+		if gnDeathsP1 >= 50 then
+			self:linear(0.1); self:diffusealpha(1);
+			else
+			self:diffusealpha(0);
+			end
+		end	
+	end"
+	/>
+	<Layer File="../../Graphics/achievements/achievement0013"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
+	InitCommand="%function(self)
+		self:x(SCREEN_CENTER_X-162);
+		self:y(SCREEN_CENTER_Y-154);
+		self:zoom(0.85);
+		self:diffusealpha(0);
+	if gnDeathsP1 == nil then
+		self:stoptweening();
+		self:sleep(0.05);
+		self:queuecommand('Init');
+		else
+		if gnDeathsP1 >= 100 then
+			self:linear(0.1); self:diffusealpha(1);
+			else
+			self:diffusealpha(0);
+			end
+		end	
+	end"
+	/>
+	<!--Star Count-->
+	<Layer File="../../Graphics/achievements/achievement0014"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
+	InitCommand="%function(self)
+		self:x(SCREEN_CENTER_X-137);
+		self:y(SCREEN_CENTER_Y-154);
+		self:zoom(0.85);
+		self:diffusealpha(0);
+	if gnStarsTotalP1 == nil then
+		self:stoptweening();
+		self:sleep(0.05);
+		self:queuecommand('Init');
+		else
+		if gnStarsTotalP1 >= 100 then
+			self:linear(0.1); self:diffusealpha(1);
+			else
+			self:diffusealpha(0);
+			end
+		end	
+	end"
+	/>
+	<Layer File="../../Graphics/achievements/achievement0015"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
+	InitCommand="%function(self)
+		self:x(SCREEN_CENTER_X-137);
+		self:y(SCREEN_CENTER_Y-154);
+		self:zoom(0.85);
+		self:diffusealpha(0);
+	if gnStarsTotalP1 == nil then
+		self:stoptweening();
+		self:sleep(0.05);
+		self:queuecommand('Init');
+		else
+		if gnStarsTotalP1 >= 500 then
+			self:linear(0.1); self:diffusealpha(1);
+			else
+			self:diffusealpha(0);
+			end
+		end	
+	end"
+	/>
+	<Layer File="../../Graphics/achievements/achievement0016"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
+	InitCommand="%function(self)
+		self:x(SCREEN_CENTER_X-137);
+		self:y(SCREEN_CENTER_Y-154);
+		self:zoom(0.85);
+		self:diffusealpha(0);
+	if gnStarsTotalP1 == nil then
+		self:stoptweening();
+		self:sleep(0.05);
+		self:queuecommand('Init');
+		else
+		if gnStarsTotalP1 >= 1000 then
+			self:linear(0.1); self:diffusealpha(1);
+			else
+			self:diffusealpha(0);
+			end
+		end	
+	end"
+	/>
+</children></ActorFrame>	
+	
+	</children>
+</ActorFrame>
+
+
+
+
+
+
+
+
+
+<!-- Achievements for Player 2-->	
+<ActorFrame Condition="PROFILEMAN:IsPersistentProfile(PLAYER_2)"
+			InitCommand="%function(self)
+			self:hidden(0);
+			self:x(SCREEN_RIGHT-204-(CourseHorizontal()*2)+(HorizontalRecovery()*11));
+			self:y(SCREEN_BOTTOM-140);
+			self:zoomx(0.9);
+			self:zoomy(0.88);
+			gnSingleKillP2 = 'no'
+			gnDoubleKillP2 = 'no'
+			gnTriKillP2 = 'no'
+			gnQuadKillP2 = 'no'
+			end">
+<children>
+<!--Singles Level-->
+	<BitmapText
+	Font="_eurostile normal"
+	Text="@GetPlayerStatsAndAwards(PLAYER_2)"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2) and not GAMESTATE:PlayerUsingBothSides(PLAYER_2)"
+	InitCommand="%function(self)
+	self:x(SCREEN_CENTER_X-219); self:y(SCREEN_CENTER_Y-219); self:diffusealpha(1); 
+	self:zoom(0.5);
+	self:shadowlength(0);
+	self:horizalign('left');
+	if gnLevelP2 == '[Disabled]' then
+		self:hidden(1);
+		end
+		noEXP2 = 0;
+		if gnLevelP2 == nil then
+			gnLevelP2 = '[Disabled]';
+			self:hidden(1);
+			end
+		self:settext('Level '..gnLevelP2);
+	end"
+	/>
+
+<!--Doubles Level-->
+	<BitmapText
+	Font="_eurostile normal"
+	Text="@GetPlayerStatsAndAwards(PLAYER_2)"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2) and GAMESTATE:PlayerUsingBothSides(PLAYER_2)"
+	InitCommand="%function(self)
+	self:x(SCREEN_CENTER_X-219); self:y(SCREEN_CENTER_Y-219); self:diffusealpha(1); 
+	self:zoom(0.5);
+	self:shadowlength(0);
+	self:horizalign('left');
+	if gnLevelP2 == '[Disabled]' then
+		self:hidden(1);
+		end
+		noEXP2 = 0;
+		if gnLevelP2 == nil then
+			gnLevelP2 = '[Disabled]';
+			self:hidden(1);
+			end
+		self:settext('Level '..gnLevelP2);
+	end"
+	/>
+
+	
+<ActorFrame><children>
+
+<!--EXP Bars-->
+<Layer File="../../Graphics/expBar"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
+	InitCommand="%function(self)
+	self:stoptweening();
+	self:x(SCREEN_CENTER_X-180); self:y(SCREEN_CENTER_Y-206); self:diffusealpha(1); 
+	self:shadowlength(0);
+	if gnLevelP2 == '[Disabled]' then
+		self:hidden(1);
+		else
+		self:sleep(0.05);
+		self:queuecommand('Init');
+		end
+	end"
+	/>
+
+	<Layer File="../../Graphics/expMeter"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
+	InitCommand="%function(self)
+	self:stoptweening();
+	if gnLevelP2 == '[Disabled]' then
+		self:hidden(1);
+		end
+		if gnPercentageP2 == nil then
+			self:stoptweening();
+		self:draworder(-1000);
+		self:x(SCREEN_CENTER_X-220);
+		self:y(SCREEN_CENTER_Y-208);
+		self:zoomy(1);
+		self:horizalign('left');
+			self:sleep(0.1);
+			self:queuecommand('Init');
+			else
+			self:stoptweening();
+		self:draworder(-1000);
+		self:x(SCREEN_CENTER_X-220);
+		self:y(SCREEN_CENTER_Y-208);
+		self:zoomy(1);
+		self:horizalign('left');
+			self:zoomtowidth(gnPercentageP2);
+			end
+	end"
+	/>
+	
+	<Layer File="../../Graphics/expBackground"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
+	InitCommand="%function(self)
+	self:stoptweening();
+		self:draworder(-1001);
+		self:sleep(0.1);
+		self:x(SCREEN_CENTER_X-220);
+		self:y(SCREEN_CENTER_Y-208);
+		self:zoomy(1);
+		self:horizalign('left');
+		self:zoomtowidth(93);
+	if gnLevelP2 == '[Disabled]' then
+		self:hidden(1);
+		else
+		self:sleep(0.05);
+		self:queuecommand('Init');
+		end
+	end"
+	/>
+	
+<!--Achievements P2-->
+	<!--Star Count-->
+	<Layer File="../../Graphics/achievements/achievement0004"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
+	InitCommand="%function(self)
+		self:x(SCREEN_CENTER_X-212);
+		self:y(SCREEN_CENTER_Y-194);
+		self:zoom(0.85);
+		self:diffusealpha(0);
+	if gnLevelP2 ~= '[Disabled]' then
+		if (gnSinglesSingleP2 == nil) or (gnSinglesDoubleP2 == nil) then
+			self:stoptweening();
+			self:sleep(0.05);
+			self:queuecommand('Init');
+			else
+			if (gnSinglesSingleP2 == 0) and (gnSinglesDoubleP2 == 0) then
+				self:diffusealpha(0);
+				else
+				self:diffusealpha(1);
+				end
+			end	
+		else
+		self:diffusealpha(0);
+		end	
+	end"
+	/>
+	<BitmapText
+	Font="_eurostile normal"
+	Text=""
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2) and not GAMESTATE:PlayerUsingBothSides(PLAYER_2)"
+	InitCommand="%function(self)
+	if gnSinglesSingleP2 == nil then
+		self:stoptweening();
+		self:sleep(0.05);
+		self:queuecommand('Init');
+		else
+		self:settext(gnSinglesSingleP2);
+		end
+	self:draworder(10);
+	self:x(SCREEN_CENTER_X-212);
+	self:y(SCREEN_CENTER_Y-179);
+	self:zoom(0.5);
+	self:maxwidth(36);
+	self:shadowlength(0);
+	self:horizalign('center');
+	if gnSinglesSingleP2 == 0 then
+		self:diffusealpha(0);
+		else
+		self:diffusealpha(1);
+		end
+	end"
+	/>
+	<BitmapText
+	Font="_eurostile normal"
+	Text=""
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2) and GAMESTATE:PlayerUsingBothSides(PLAYER_2)"
+	InitCommand="%function(self)
+	if gnSinglesDoubleP2 == nil then
+		self:stoptweening();
+		self:sleep(0.05);
+		self:queuecommand('Init');
+		else
+		self:settext(gnSinglesDoubleP2);
+		end
+	self:draworder(10);
+	self:x(SCREEN_CENTER_X-212);
+	self:y(SCREEN_CENTER_Y-179);
+	self:zoom(0.5);
+	self:maxwidth(36);
+	self:shadowlength(0);
+	self:horizalign('center');
+	if gnSinglesDoubleP2 == 0 then
+		self:diffusealpha(0);
+		else
+		self:diffusealpha(1);
+		end
+	end"
+	/>
+
+	<!--Double Count-->
+	<Layer File="../../Graphics/achievements/achievement0003"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
+	InitCommand="%function(self)
+		self:x(SCREEN_CENTER_X-187);
+		self:y(SCREEN_CENTER_Y-194);
+		self:zoom(0.85);
+		self:diffusealpha(0);
+	if gnLevelP2 ~= '[Disabled]' then
+		if (gnDoublesSingleP2 == nil) or (gnDoublesDoubleP2 == nil) then
+			self:stoptweening();
+			self:sleep(0.05);
+			self:queuecommand('Init');
+			else
+			if (gnDoublesSingleP2 == 0) and (gnDoublesDoubleP2 == 0) then
+				self:diffusealpha(0);
+				else
+				self:diffusealpha(1);
+				end
+			end	
+		else
+		self:diffusealpha(0);
+		end	
+	end"
+	/>
+	<BitmapText
+	Font="_eurostile normal"
+	Text=""
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2) and not GAMESTATE:PlayerUsingBothSides(PLAYER_2)"
+	InitCommand="%function(self)
+	if gnDoublesSingleP2 == nil then
+		self:stoptweening();
+		self:sleep(0.05);
+		self:queuecommand('Init');
+		else
+		self:settext(gnDoublesSingleP2);
+		end
+	self:draworder(10);
+	self:x(SCREEN_CENTER_X-187);
+	self:y(SCREEN_CENTER_Y-179);
+	self:zoom(0.5);
+	self:maxwidth(36);
+	self:shadowlength(0);
+	self:horizalign('center');
+	if gnDoublesSingleP2 == 0 then
+		self:diffusealpha(0);
+		else
+		self:diffusealpha(1);
+		end
+	end"
+	/>
+	<BitmapText
+	Font="_eurostile normal"
+	Text=""
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2) and GAMESTATE:PlayerUsingBothSides(PLAYER_2)"
+	InitCommand="%function(self)
+	if gnDoublesDoubleP2 == nil then
+		self:stoptweening();
+		self:sleep(0.05);
+		self:queuecommand('Init');
+		else
+		self:settext(gnDoublesDoubleP2);
+		end
+	self:draworder(10);
+	self:x(SCREEN_CENTER_X-187);
+	self:y(SCREEN_CENTER_Y-179);
+	self:zoom(0.5);
+	self:maxwidth(36);
+	self:shadowlength(0);
+	self:horizalign('center');
+	if gnDoublesDoubleP2 == 0 then
+		self:diffusealpha(0);
+		else
+		self:diffusealpha(1);
+		end
+	end"
+	/>
+	<!--Tri Count-->
+	<Layer File="../../Graphics/achievements/achievement0002"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
+	InitCommand="%function(self)
+		self:x(SCREEN_CENTER_X-162);
+		self:y(SCREEN_CENTER_Y-194);
+		self:zoom(0.85);
+		self:diffusealpha(0);
+	if gnLevelP2 ~= '[Disabled]' then
+		if (gnTrisSingleP2 == nil) or (gnTrisDoubleP2 == nil) then
+			self:stoptweening();
+			self:sleep(0.05);
+			self:queuecommand('Init');
+			else
+			if (gnTrisSingleP2 == 0) and (gnTrisDoubleP2 == 0) then
+				self:diffusealpha(0);
+				else
+				self:diffusealpha(1);
+				end
+			end	
+		else
+		self:diffusealpha(0);
+		end	
+	end"
+	/>
+	<BitmapText
+	Font="_eurostile normal"
+	Text=""
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2) and not GAMESTATE:PlayerUsingBothSides(PLAYER_2)"
+	InitCommand="%function(self)
+	if gnTrisSingleP2 == nil then
+		self:stoptweening();
+		self:sleep(0.05);
+		self:queuecommand('Init');
+		else
+		self:settext(gnTrisSingleP2);
+		end
+	self:draworder(10);
+	self:x(SCREEN_CENTER_X-162);
+	self:y(SCREEN_CENTER_Y-179);
+	self:zoom(0.5);
+	self:maxwidth(36);
+	self:shadowlength(0);
+	self:horizalign('center');
+	if gnTrisSingleP2 == 0 then
+		self:diffusealpha(0);
+		else
+		self:diffusealpha(1);
+		end
+	end"
+	/>
+	<BitmapText
+	Font="_eurostile normal"
+	Text=""
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2) and GAMESTATE:PlayerUsingBothSides(PLAYER_2)"
+	InitCommand="%function(self)
+	if gnTrisDoubleP2 == nil then
+		self:stoptweening();
+		self:sleep(0.05);
+		self:queuecommand('Init');
+		else
+		self:settext(gnTrisDoubleP2);
+		end
+	self:draworder(10);
+	self:x(SCREEN_CENTER_X-162);
+	self:y(SCREEN_CENTER_Y-179);
+	self:zoom(0.5);
+	self:maxwidth(36);
+	self:shadowlength(0);
+	self:horizalign('center');
+	if gnTrisDoubleP2 == 0 then
+		self:diffusealpha(0);
+		else
+		self:diffusealpha(1);
+		end
+	end"
+	/>
+	<!--Quad Count-->
+	<Layer File="../../Graphics/achievements/achievement0001"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
+	InitCommand="%function(self)
+		self:x(SCREEN_CENTER_X-137);
+		self:y(SCREEN_CENTER_Y-194);
+		self:zoom(0.85);
+		self:diffusealpha(0);
+	if gnLevelP2 ~= '[Disabled]' then
+		if (gnQuadsSingleP2 == nil) or (gnQuadsDoubleP2 == nil) then
+			self:stoptweening();
+			self:sleep(0.05);
+			self:queuecommand('Init');
+			else
+			if (gnQuadsSingleP2 == 0) and (gnQuadsDoubleP2 == 0) then
+				self:diffusealpha(0);
+				else
+				self:diffusealpha(1);
+				end
+			end	
+		else
+		self:diffusealpha(0);
+		end	
+	end"
+	/>
+	<BitmapText
+	Font="_eurostile normal"
+	Text=""
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2) and not GAMESTATE:PlayerUsingBothSides(PLAYER_2)"
+	InitCommand="%function(self)
+	if gnQuadsSingleP2 == nil then
+		self:stoptweening();
+		self:sleep(0.05);
+		self:queuecommand('Init');
+		else
+		self:settext(gnQuadsSingleP2);
+		end
+	self:draworder(10);
+	self:x(SCREEN_CENTER_X-137);
+	self:y(SCREEN_CENTER_Y-179);
+	self:zoom(0.5);
+	self:maxwidth(36);
+	self:shadowlength(0);
+	self:horizalign('center');
+	if gnQuadsSingleP2 == 0 then
+		self:diffusealpha(0);
+		else
+		self:diffusealpha(1);
+		end
+	end"
+	/>
+	<BitmapText
+	Font="_eurostile normal"
+	Text=""
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2) and GAMESTATE:PlayerUsingBothSides(PLAYER_2)"
+	InitCommand="%function(self)
+	if gnQuadsDoubleP2 == nil then
+		self:stoptweening();
+		self:sleep(0.05);
+		self:queuecommand('Init');
+		else
+		self:settext(gnQuadsDoubleP2);
+		end
+	self:draworder(10);
+	self:x(SCREEN_CENTER_X-137);
+	self:y(SCREEN_CENTER_Y-179);
+	self:zoom(0.5);
+	self:maxwidth(36);
+	self:shadowlength(0);
+	self:horizalign('center');
+	if gnQuadsDoubleP2 == 0 then
+		self:diffusealpha(0);
+		else
+		self:diffusealpha(1);
+		end
+	end"
+	/>
+
+
+<!--Songs Played Count-->
+	<Layer File="../../Graphics/achievements/achievement0005"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
+	InitCommand="%function(self)
+		self:x(SCREEN_CENTER_X-212);
+		self:y(SCREEN_CENTER_Y-154);
+		self:zoom(0.85);
+		self:diffusealpha(0);
+	if gnSongsP2Total == nil then
+		self:stoptweening();
+		self:sleep(0.05);
+		self:queuecommand('Init');
+		else
+		if gnSongsP2Total >= 100 then
+			self:linear(0.1); self:diffusealpha(1);
+			else
+			self:diffusealpha(0);
+			end
+		end	
+	end"
+	/>
+	<Layer File="../../Graphics/achievements/achievement0006"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
+	InitCommand="%function(self)
+		self:x(SCREEN_CENTER_X-212);
+		self:y(SCREEN_CENTER_Y-154);
+		self:zoom(0.85);
+		self:diffusealpha(0);
+	if gnSongsP2Total == nil then
+		self:stoptweening();
+		self:sleep(0.05);
+		self:queuecommand('Init');
+		else
+		if gnSongsP2Total >= 500 then
+			self:linear(0.1); self:diffusealpha(1);
+			else
+			self:diffusealpha(0);
+			end
+		end	
+	end"
+	/>
+	<Layer File="../../Graphics/achievements/achievement0007"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
+	InitCommand="%function(self)	
+		self:x(SCREEN_CENTER_X-212);
+		self:y(SCREEN_CENTER_Y-154);
+		self:zoom(0.85);
+		self:diffusealpha(0);
+	if gnSongsP2Total == nil then
+		self:stoptweening();
+		self:sleep(0.05);
+		self:queuecommand('Init');
+		else
+		if gnSongsP2Total >= 1000 then
+			self:linear(0.1); self:diffusealpha(1);
+			else
+			self:diffusealpha(0);
+			end
+		end	
+	end"
+	/>
+
+	<!--Total Percentages Count-->
+	<Layer File="../../Graphics/achievements/achievement0008"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
+	InitCommand="%function(self)
+		self:x(SCREEN_CENTER_X-187);
+		self:y(SCREEN_CENTER_Y-154);
+		self:zoom(0.85);
+		self:diffusealpha(0);
+	if gnTotalP2 == nil then
+		self:stoptweening();
+		self:sleep(0.05);
+		self:queuecommand('Init');
+		else
+		if gnTotalP2 >= 500 then
+			self:linear(0.1); self:diffusealpha(1);
+			else
+			self:diffusealpha(0);
+			end
+		end	
+	end"
+	/>
+	<Layer File="../../Graphics/achievements/achievement0009"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
+	InitCommand="%function(self)
+		self:x(SCREEN_CENTER_X-187);
+		self:y(SCREEN_CENTER_Y-154);
+		self:zoom(0.85);
+		self:diffusealpha(0);
+	if gnTotalP2 == nil then
+		self:stoptweening();
+		self:sleep(0.05);
+		self:queuecommand('Init');
+		else
+		if gnTotalP2 >= 1000 then
+			self:linear(0.1); self:diffusealpha(1);
+			else
+			self:diffusealpha(0);
+			end
+		end	
+	end"
+	/>
+	<Layer File="../../Graphics/achievements/achievement0010"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
+	InitCommand="%function(self)
+		self:x(SCREEN_CENTER_X-187);
+		self:y(SCREEN_CENTER_Y-154);
+		self:zoom(0.85);
+		self:diffusealpha(0);
+	if gnTotalP2 == nil then
+		self:stoptweening();
+		self:sleep(0.05);
+		self:queuecommand('Init');
+		else
+		if gnTotalP2 >= 1500 then
+			self:linear(0.1); self:diffusealpha(1);
+			else
+			self:diffusealpha(0);
+			end
+		end	
+	end"
+	/>
+	<!--Total Death Count-->
+	<Layer File="../../Graphics/achievements/achievement0011"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
+	InitCommand="%function(self)
+		self:x(SCREEN_CENTER_X-162);
+		self:y(SCREEN_CENTER_Y-154);
+		self:zoom(0.85);
+		self:diffusealpha(0);
+	if gnDeathsP2 == nil then
+		self:stoptweening();
+		self:sleep(0.05);
+		self:queuecommand('Init');
+		else
+		if gnDeathsP2 >= 25 then
+			self:linear(0.1); self:diffusealpha(1);
+			else
+			self:diffusealpha(0);
+			end
+		end	
+	end"
+	/>
+	<Layer File="../../Graphics/achievements/achievement0012"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
+	InitCommand="%function(self)
+		self:x(SCREEN_CENTER_X-162);
+		self:y(SCREEN_CENTER_Y-154);
+		self:zoom(0.85);
+		self:diffusealpha(0);
+	if gnDeathsP2 == nil then
+		self:stoptweening();
+		self:sleep(0.05);
+		self:queuecommand('Init');
+		else
+		if gnDeathsP2 >= 50 then
+			self:linear(0.1); self:diffusealpha(1);
+			else
+			self:diffusealpha(0);
+			end
+		end	
+	end"
+	/>
+	<Layer File="../../Graphics/achievements/achievement0013"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
+	InitCommand="%function(self)
+		self:x(SCREEN_CENTER_X-162);
+		self:y(SCREEN_CENTER_Y-154);
+		self:zoom(0.85);
+		self:diffusealpha(0);
+	if gnDeathsP2 == nil then
+		self:stoptweening();
+		self:sleep(0.05);
+		self:queuecommand('Init');
+		else
+		if gnDeathsP2 >= 100 then
+			self:linear(0.1); self:diffusealpha(1);
+			else
+			self:diffusealpha(0);
+			end
+		end	
+	end"
+	/>
+	<!--Star Count-->
+	<Layer File="../../Graphics/achievements/achievement0014"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
+	InitCommand="%function(self)
+		self:x(SCREEN_CENTER_X-137);
+		self:y(SCREEN_CENTER_Y-154);
+		self:zoom(0.85);
+		self:diffusealpha(0);
+	if gnStarsTotalP2 == nil then
+		self:stoptweening();
+		self:sleep(0.05);
+		self:queuecommand('Init');
+		else
+		if gnStarsTotalP2 >= 100 then
+			self:linear(0.1); self:diffusealpha(1);
+			else
+			self:diffusealpha(0);
+			end
+		end	
+	end"
+	/>
+	<Layer File="../../Graphics/achievements/achievement0015"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
+	InitCommand="%function(self)
+		self:x(SCREEN_CENTER_X-137);
+		self:y(SCREEN_CENTER_Y-154);
+		self:zoom(0.85);
+		self:diffusealpha(0);
+	if gnStarsTotalP2 == nil then
+		self:stoptweening();
+		self:sleep(0.05);
+		self:queuecommand('Init');
+		else
+		if gnStarsTotalP2 >= 500 then
+			self:linear(0.1); self:diffusealpha(1);
+			else
+			self:diffusealpha(0);
+			end
+		end	
+	end"
+	/>
+	<Layer File="../../Graphics/achievements/achievement0016"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
+	InitCommand="%function(self)
+		self:x(SCREEN_CENTER_X-137);
+		self:y(SCREEN_CENTER_Y-154);
+		self:zoom(0.85);
+		self:diffusealpha(0);
+	if gnStarsTotalP2 == nil then
+		self:stoptweening();
+		self:sleep(0.05);
+		self:queuecommand('Init');
+		else
+		if gnStarsTotalP2 >= 1000 then
+			self:linear(0.1); self:diffusealpha(1);
+			else
+			self:diffusealpha(0);
+			end
+		end	
+	end"
+	/>
+</children></ActorFrame>	
+	
+	</children>
+</ActorFrame>
+
+
+
+	<!--Screen Transition-->
+	<Layer Type="Quad"
+	OnCommand="zoom,SCREEN_WIDTH*2;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;draworder,10000;accelerate,0.2;zoom,SCREEN_WIDTH*0;diffuse,0,0,0,0;"
+	OffCommand="decelerate,0.2;zoom,SCREEN_WIDTH*2;diffuse,0,0,0,1;"
+	/>
+	
+	
+<ActorFrame>
+	<children>
+		<Layer File="../BGAnimations/ScreenLogo background/BGVid.avi" OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;blend,add;zoom,2;rotationy,180;diffusealpha,0.15;" />
+	</children>
+</ActorFrame>
+
+</children> </ActorFrame>

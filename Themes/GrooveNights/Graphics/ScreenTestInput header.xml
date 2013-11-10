@@ -1,0 +1,11 @@
+<ActorFrame>
+	<children>
+		<BitmapText
+			Text="TEST INPUT"
+			File="_eurostile blue glow"
+			InitCommand="%function(self)  self:x(self:GetWidth()/2) self:shadowlength(0) end"
+			
+			
+		/>
+	</children>
+</ActorFrame>

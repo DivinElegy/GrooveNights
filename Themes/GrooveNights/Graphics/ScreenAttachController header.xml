@@ -1,0 +1,11 @@
+<ActorFrame>
+	<children>
+		<BitmapText
+			Text="ATTACH A::CONTROLLER"
+			File="_eurostile blue glow"
+			InitCommand="%function(self)  self:x(self:GetWidth()/2) self:shadowlength(0) end"
+			OnCommand="addy,+10;ZoomX,0;ZoomY,6;BounceEnd,.3;Zoom,1"
+			
+		/>
+	</children>
+</ActorFrame>

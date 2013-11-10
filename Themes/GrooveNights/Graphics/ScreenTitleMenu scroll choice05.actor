@@ -1,0 +1,8 @@
+[Actor]
+File=_ScreenTitleMenu choices
+Text=Options
+InitCommand=shadowlength,0;HorizAlign,center;setstate,4;pause
+GainFocusCommand=StopTweening;DiffuseShift;EffectPeriod,0.5;EffectColor1,0.6,0.7,0.8,1;EffectColor2,0.3,0.4,0.5,1;shadowlength,0;Linear,0;Zoom,1.1
+LoseFocusCommand=StopTweening;StopEffect;Linear,0;Zoom,1.0
+EnabledCommand=
+DisabledCommand=Diffuse,0.5,0.5,0.5,1

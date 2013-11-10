@@ -1,0 +1,63 @@
+<ActorFrame InitCommand="%function(self)
+if GAMESTATE:GetEnv('Wag') == 'On' then
+	self:wag();
+	end
+end"> <children>
+	<Layer
+		Type="Quad"
+		OnCommand="stretchto,SCREEN_LEFT,SCREEN_TOP,SCREEN_RIGHT,SCREEN_BOTTOM;diffuse,#000000;diffusealpha,0;linear,1.5;diffusealpha,1"
+	/>
+	
+	<Layer
+		File="BG Vid.avi"
+		OnCommand="zoom,1*gnZoomRatio;rate,0.5;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffusealpha,0;linear,1.5;diffusealpha,1;sleep,3;"
+	/>
+	
+	<Layer File="@'../../Sounds/'..getCustomLifeDepletedImageOrVideo()" 
+		InitCommand="diffusealpha,0;"
+		OnCommand="%function(self) 
+		self:queuecommand('SoundIt');
+		self:diffusealpha(0);
+		self:x(SCREEN_CENTER_X+gnAddxFromCenter);
+		self:y(SCREEN_CENTER_Y+gnAddyFromCenter);
+		self:zoom(0);
+		self:decelerate(2.3);
+		self:zoom(1.8);
+		self:diffusealpha(1);
+		self:accelerate(0.7);
+		self:zoom(1.7);
+		self:decelerate(1);
+		self:diffusealpha(0);
+		self:zoom(1.6);
+		end"
+		SoundItCommand="%function(self)
+		gnPath = getCustomLifeDepletedSound(); 
+		SOUND:PlayOnce(gnPath); 
+		end"
+	/>
+	
+	<Layer
+		File="GameOver0001"
+		OnCommand="wag;EffectMagnitude,1,2,1;diffusealpha,0;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;rotationz,10;zoom,0;accelerate,1.8;addx,-25;rotationz,0;diffusealpha,1;zoom,1;decelerate,1.8;addx,-25;rotationz,-10;zoom,2;diffusealpha,0;"
+	/>
+	
+	<Layer
+		File="GameOver0002"
+		OnCommand="wag;EffectMagnitude,1,2,1;diffusealpha,0;x,SCREEN_CENTER_X-50;y,SCREEN_CENTER_Y;sleep,1.5;rotationz,-10;zoom,0;accelerate,1.8;addx,40;rotationz,0;diffusealpha,1;zoom,1;decelerate,1.8;addx,40;rotationz,10;zoom,2;diffusealpha,0;"
+	/>
+	
+	<Layer
+		File="GameOver0003"
+		OnCommand="wag;EffectMagnitude,1,2,1;diffusealpha,0;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoom,0;sleep,4.3;decelerate,2.3;zoom,1.8;diffusealpha,1;accelerate,0.7;zoom,1.5;decelerate,1;diffusealpha,0;zoom,1.1;"
+	/>
+	
+	<Layer
+		File="BG Vid.avi"
+		OnCommand="zoom,1*gnZoomRatio;rate,0.5;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffusealpha,0;linear,1.5;diffusealpha,0.4;sleep,3;"
+	/>
+	
+	<Layer
+		Type="Quad"
+		OnCommand="stretchto,SCREEN_LEFT,SCREEN_TOP,SCREEN_RIGHT,SCREEN_BOTTOM;diffuse,#000000;diffusealpha,0;linear,1.5;diffusealpha,0.5;sleep,6.3;linear,0.5;diffusealpha,1;"
+	/>
+</children> </ActorFrame>

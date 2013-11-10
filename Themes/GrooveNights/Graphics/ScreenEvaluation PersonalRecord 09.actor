@@ -1,0 +1,3 @@
+[Actor]
+Text=@getTextPersonalRecord('9')
+File=_eurostile normal

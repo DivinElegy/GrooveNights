@@ -1,0 +1,161 @@
+<ActorFrame InitCommand="%function(self)
+if GAMESTATE:GetEnv('Wag') == 'On' then
+	self:wag();
+	end
+end"><children>
+		<AutoActor File="../_join overlay" />
+<!--Doubles Padlock-->
+	<Layer
+		File="../../Graphics/ScreenSelectStyleLock"
+		InitCommand="%function(self)
+		gnLocksOff = 0;
+		self:x(SCREEN_CENTER_X-200);
+		self:y(SCREEN_CENTER_Y+60);
+				local coins=GAMESTATE:GetCoins()
+				local coinsPerCredit=PREFSMAN:GetPreference('CoinsPerCredit')
+				local credits=math.floor(coins/coinsPerCredit)
+		if credits == 0 then
+			if not (GAMESTATE:GetPremium() == PREMIUM_JOINT or GAMESTATE:GetPremium() == Premium_2PlayersFor1Credit or GAMESTATE:GetPremium() == PREMIUM_DOUBLE or GAMESTATE:GetPremium() == Premium_DoubleFor1Credit or GAMESTATE:GetPremium() == 1 or GAMESTATE:GetPremium() == 2) and not (GAMESTATE:GetCoinMode() == COIN_MODE_FREE or GAMESTATE:GetCoinMode() == COIN_MODE_HOME or GAMESTATE:IsEventMode()) and not (GAMESTATE:IsSideJoined(PLAYER_1) and GAMESTATE:IsSideJoined(PLAYER_2)) then
+				self:hidden(0);
+				else
+				self:hidden(1);
+				end
+			else
+			self:hidden(1);
+			end
+		self:zoom(0)
+		self:decelerate(0.3);
+		self:zoom(0.7);
+		self:accelerate(0.2);
+		self:zoom(0.6);
+		self:decelerate(0.1);
+		self:zoom(0.5);
+		self:accelerate(0.1);
+		self:zoom(0.6);
+		self:queuecommand('LockFresh');
+		end"
+		LockFreshCommand="%function(self)
+		self:stoptweening();
+				local coins=GAMESTATE:GetCoins()
+				local coinsPerCredit=PREFSMAN:GetPreference('CoinsPerCredit')
+				local credits=math.floor(coins/coinsPerCredit)
+				local premium=GAMESTATE:GetPremium()
+		if credits == 0 then
+			if not (GAMESTATE:GetPremium() == PREMIUM_DOUBLE or GAMESTATE:GetPremium() == Premium_DoubleFor1Credit or GAMESTATE:GetPremium() == 1) and not (GAMESTATE:GetCoinMode() == COIN_MODE_FREE or GAMESTATE:GetCoinMode() == COIN_MODE_HOME or GAMESTATE:IsEventMode()) and not (GAMESTATE:IsSideJoined(PLAYER_1) and GAMESTATE:IsSideJoined(PLAYER_2)) then
+
+				else
+				self:zoom(0.6)
+				self:accelerate(0.1);
+				self:zoom(0.7);
+				self:decelerate(0.1);
+				self:zoom(0.6);
+				self:accelerate(0.1);
+				self:zoom(0.5);
+				self:decelerate(0.3);
+				self:zoom(0.0);
+				self:diffusealpha(0);
+				end
+			else
+				self:zoom(0.6)
+				self:accelerate(0.1);
+				self:zoom(0.7);
+				self:decelerate(0.1);
+				self:zoom(0.6);
+				self:accelerate(0.1);
+				self:zoom(0.5);
+				self:decelerate(0.3);
+				self:zoom(0.0);
+				self:diffusealpha(0);
+			end
+		if gnLocksOff == 1 then
+				self:decelerate(0.3);
+				self:zoom(0.0);
+				self:diffusealpha(0);
+			end
+		self:sleep(0.1);
+		self:queuecommand('LockFresh');
+		end"
+		/>
+		
+		
+<!--2 Player Padlock-->
+	<Layer
+		File="../../Graphics/ScreenSelectStyleLock"
+		InitCommand="%function(self)
+		gnLocksOff = 0;
+		self:x(SCREEN_CENTER_X+200);
+		self:y(SCREEN_CENTER_Y+60);
+				local coins=GAMESTATE:GetCoins()
+				local coinsPerCredit=PREFSMAN:GetPreference('CoinsPerCredit')
+				local credits=math.floor(coins/coinsPerCredit)
+				local premium=GAMESTATE:GetPremium()
+		if credits == 0 then
+			if not (GAMESTATE:GetPremium() == PREMIUM_JOINT or GAMESTATE:GetPremium() == Premium_2PlayersFor1Credit or GAMESTATE:GetPremium() == 2) and not (GAMESTATE:GetCoinMode() == COIN_MODE_FREE or GAMESTATE:GetCoinMode() == COIN_MODE_HOME or GAMESTATE:IsEventMode()) and not (GAMESTATE:IsSideJoined(PLAYER_1) and GAMESTATE:IsSideJoined(PLAYER_2)) then
+				self:hidden(0);
+				else
+				self:hidden(1);
+				end
+			else
+			self:hidden(1);
+			end
+		self:zoom(0)
+		self:decelerate(0.3);
+		self:zoom(0.7);
+		self:accelerate(0.2);
+		self:zoom(0.6);
+		self:decelerate(0.1);
+		self:zoom(0.5);
+		self:accelerate(0.1);
+		self:zoom(0.6);
+		self:queuecommand('LockFresh');
+		end"
+		LockFreshCommand="%function(self)
+		self:stoptweening();
+				local coins=GAMESTATE:GetCoins()
+				local coinsPerCredit=PREFSMAN:GetPreference('CoinsPerCredit')
+				local credits=math.floor(coins/coinsPerCredit)
+				local premium=GAMESTATE:GetPremium()
+		if credits == 0 then
+			if not (GAMESTATE:GetPremium() == PREMIUM_JOINT or GAMESTATE:GetPremium() == Premium_2PlayersFor1Credit or GAMESTATE:GetPremium() == 2) and not (GAMESTATE:GetCoinMode() == COIN_MODE_FREE or GAMESTATE:GetCoinMode() == COIN_MODE_HOME or GAMESTATE:IsEventMode()) and not (GAMESTATE:IsSideJoined(PLAYER_1) and GAMESTATE:IsSideJoined(PLAYER_2)) then
+
+				else
+				self:zoom(0.6)
+				self:accelerate(0.1);
+				self:zoom(0.7);
+				self:decelerate(0.1);
+				self:zoom(0.6);
+				self:accelerate(0.1);
+				self:zoom(0.5);
+				self:decelerate(0.3);
+				self:zoom(0.0);
+				self:diffusealpha(0);
+				end
+			else
+				self:zoom(0.6)
+				self:accelerate(0.1);
+				self:zoom(0.7);
+				self:decelerate(0.1);
+				self:zoom(0.6);
+				self:accelerate(0.1);
+				self:zoom(0.5);
+				self:decelerate(0.3);
+				self:zoom(0.0);
+				self:diffusealpha(0);
+			end
+		if gnLocksOff == 1 then
+				self:decelerate(0.3);
+				self:zoom(0.0);
+				self:diffusealpha(0);
+			end
+		self:sleep(0.1);
+		self:queuecommand('LockFresh');
+		end"
+		/>
+<ActorFrame>
+	<children>
+		<Layer File="../ScreenLogo background/BGVid.avi" OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;blend,add;zoom,2;rotationy,180;diffusealpha,0.15;" />
+	</children>
+</ActorFrame>
+
+
+</children></ActorFrame>

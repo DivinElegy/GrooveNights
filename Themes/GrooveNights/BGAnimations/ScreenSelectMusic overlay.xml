@@ -1,0 +1,106 @@
+<ActorFrame InitCommand="%function(self)
+if GAMESTATE:GetEnv('Wag') == 'On' then
+	self:wag();
+	end
+end"> <children>
+<!-- Determine BPM -->
+		<BitmapText
+			Text=""
+			File="_eurostile blue glow"
+			InitCommand="%function(self)  self:x(100) self:shadowlength(0) self:draworder(10000); self:addy(20); self:queuecommand('loop'); end"
+			OnCommand="Zoom,1"
+			loopCommand="%function(self)
+			lowBPM = tostring(SCREENMAN:GetTopScreen():GetChild('BPMDisplay'):GetChild('Text'):GetText());
+			
+			if lowBPM == nil then
+				lowBPM = '0';
+				end
+			
+			if lowBPM == '...' then
+				lowBPM = '0';
+				end
+				
+			if lowBPM == 'Various' then
+				lowBPM = '0';
+				end
+				
+			highBPM = lowBPM
+			 
+			delimPos = string.find(lowBPM, '-')
+			if delimPos==1 then
+				delimPos = string.find(lowBPM, '-',2)
+			end
+			 
+			if delimPos then
+				lowBPM = string.sub(lowBPM, 1, delimPos-1)
+				highBPM = string.sub(highBPM, delimPos+1, string.len(highBPM))
+			end
+			
+			self:stoptweening();
+			self:sleep(0.1);
+			self:queuecommand('loop');
+			end"
+		/>
+		
+	<ActorFrame OnCommand="y,SCREEN_BOTTOM-17-18"> <children>
+		<Layer
+			Type="BitmapText"
+			Font="_eurostile normal"
+			Text="&START; Change Sort"
+			Condition="ModeMenuAvailable()"
+			OnCommand="x,SCREEN_CENTER_X;addy,-1;zoomx,0.5;zoomy,0.7;diffusealpha,0;shadowlength,0;"
+			EnableSelectHelpMessageCommand="stoptweening;bounceend,0.2;diffusealpha,1;zoomx,0.7"
+			SelectMenuOffMessageCommand="stoptweening;linear,0.2;diffusealpha,0;zoomx,0.5"
+		/>
+
+		<ActorFrame
+			OnCommand="%function(self) if ModeMenuAvailable() then self:x(SCREEN_CENTER_X-225) else self:x(SCREEN_CENTER_X-125) end end"
+		> <children>
+			<Layer
+				Type="BitmapText"
+				Font="_eurostile normal"
+				Text="&MENULEFT;"
+				OnCommand="x,-5;horizalign,right;zoomx,0.5;zoomy,0.7;diffusealpha,0;shadowlength,0;addy,-1;"
+				EnableSelectHelpMessageCommand="stoptweening;bounceend,0.2;diffusealpha,1;zoomx,0.7"
+				SelectMenuOffMessageCommand="stoptweening;linear,0.2;diffusealpha,0;zoomx,0.5"
+			/>
+			<Layer
+				Type="BitmapText"
+				Font="_eurostile normal"
+				Text="Easier"
+				OnCommand="x,0;horizalign,left;zoomx,0.5;zoomy,0.7;diffusealpha,0;diffuseramp;effectperiod,1;effectoffset,0.20;effectclock,bgm;EffectColor1,#20D020;EffectColor2,#FFFFFF;shadowlength,0;addy,-1;"
+				EnableSelectHelpMessageCommand="stoptweening;bounceend,0.2;diffusealpha,1;zoomx,0.7"
+				SelectMenuOffMessageCommand="stoptweening;linear,0.2;diffusealpha,0;zoomx,0.5"
+			/>
+		</children> </ActorFrame>
+
+		<ActorFrame
+			OnCommand="%function(self) if ModeMenuAvailable() then self:x(SCREEN_CENTER_X+225) else self:x(SCREEN_CENTER_X+125) end end"
+		> <children>
+			<Layer
+				Type="BitmapText"
+				Font="_eurostile normal"
+				Text="Harder"
+				OnCommand="x,0;horizalign,right;zoomx,0.5;zoomy,0.7;diffusealpha,0;diffuseramp;effectperiod,1;effectoffset,0.20;effectclock,bgm;EffectColor1,#E06060;EffectColor2,#FFFFFF;shadowlength,0;addy,-1;"
+				EnableSelectHelpMessageCommand="stoptweening;bounceend,0.2;diffusealpha,1;zoomx,0.7"
+				SelectMenuOffMessageCommand="stoptweening;linear,0.2;diffusealpha,0;zoomx,0.5"
+			/>
+			<Layer
+				Type="BitmapText"
+				Font="_eurostile normal"
+				Text="&MENURIGHT;"
+				OnCommand="x,+15;horizalign,center;zoomx,0.5;zoomy,0.7;diffusealpha,0;shadowlength,0;addy,-1;"
+				EnableSelectHelpMessageCommand="stoptweening;bounceend,0.2;diffusealpha,1;zoomx,0.7;"
+				SelectMenuOffMessageCommand="stoptweening;linear,0.2;diffusealpha,0;zoomx,0.5"
+			/>
+		</children> </ActorFrame>
+	</children> </ActorFrame>
+
+<ActorFrame>
+	<children>
+		<Layer File="ScreenLogo background/BGVid.avi" OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;blend,add;zoom,2;rotationy,180;diffusealpha,0.15;" />
+	</children>
+</ActorFrame>
+</children> </ActorFrame>
+
+

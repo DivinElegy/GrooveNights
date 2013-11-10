@@ -1,0 +1,19 @@
+<ActorFrame
+	MadeChoiceP1MessageCommand="playcommand,GoOff"
+	MadeChoiceP2MessageCommand="playcommand,GoOff"
+> <children>
+	<AutoActor 
+		File="title"
+		InitCommand="zbuffer,1"
+	/>
+	<ActorFrame
+		InitCommand="x,-150;y,30"
+		GainFocusCommand="pulse;effectmagnitude,1.2,1,0;effectclock,bgm;effectperiod,.5;effectdelay,.5;effectoffset,0.6"
+		LoseFocusCommand="stopeffect"
+	> <children>
+		<AutoActor 
+			File="flag"
+			InitCommand="zbuffer,1"
+		/>
+	</children> </ActorFrame>
+</children> </ActorFrame>

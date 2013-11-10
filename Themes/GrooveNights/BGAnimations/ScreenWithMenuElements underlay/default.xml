@@ -1,0 +1,12 @@
+<ActorFrame InitCommand="%function(self)
+if GAMESTATE:GetEnv('Wag') == 'On' then
+	self:wag();
+	end
+end"><children>
+	<AutoActor File="back" />
+	<AutoActor File="fore" />
+		<Layer 
+			Type="Quad"
+			OnCommand="draworder,-1000;diffuse,0,0,0,0.7;zoomx,640*gnZoomRatio;zoomy,373;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+2;"
+		/>
+</children></ActorFrame>

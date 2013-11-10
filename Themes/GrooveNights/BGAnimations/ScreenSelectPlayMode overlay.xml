@@ -1,0 +1,7 @@
+<ActorFrame InitCommand="%function(self)
+if GAMESTATE:GetEnv('Wag') == 'On' then
+	self:wag();
+	end
+end"><children>
+	<AutoActor File="_join overlay" />
+</children></ActorFrame>

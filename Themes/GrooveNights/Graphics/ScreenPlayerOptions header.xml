@@ -1,0 +1,375 @@
+<ActorFrame InitCommand="%function(self)
+	if gnRateRestore == nil then
+		gnRateRestore = 0;
+		end
+if GAMESTATE:IsPlayerEnabled(PLAYER_1) then
+	gnP1Sound = 0;
+	else
+	gnP1Sound = 1;
+	end
+if GAMESTATE:IsPlayerEnabled(PLAYER_2) then
+	gnP2Sound = 0;
+	else
+	gnP2Sound = 1;
+	end
+end">
+	<children>
+		<BitmapText
+			Text="@getTextPlayerOptionsTitle()"
+			File="_eurostile blue glow"
+			InitCommand="%function(self)  self:x(self:GetWidth()/2) DQCount = 0; self:shadowlength(0); end"
+			OnCommand="shadowlength,0;zoom,0;Decelerate,0.3;Zoom,1;"
+		/>
+<!--Rate Message-->
+	<Layer Type="Quad"
+	InitCommand="%function(self)
+	self:diffusealpha(0);
+	if gnRateRestore == 1 then
+		SCREENMAN:SystemMessage('Rate Modifier has been restored to 1.0x'); 
+		gnRateRestore = 0;
+		end
+	end"
+	/>
+
+<!--Avatar + Info Display-->
+		<Layer
+			File="avatars/p1avatar"
+			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
+			InitCommand="%function(self)
+			self:diffusealpha(0);
+			self:x(SCREEN_CENTER_X-287); self:y(SCREEN_CENTER_Y-137); self:zoom(0); self:accelerate(0.3); self:zoom(0); self:diffusealpha(1); self:zoom(1);
+			a1Width = self:GetWidth(); 
+			a1Height = self:GetHeight(); 
+			if a1Width >= a1Height then 
+				self:zoomtowidth(83); 
+				self:zoomtoheight(83-1/83); 
+				else  
+				self:scaletoclipped(83,83); 
+				end 
+			self:diffusealpha(0);
+			self:decelerate(0.4);
+			self:diffusealpha(1);
+			self:draworder(5);  
+			end"
+		/>
+	
+		<Layer
+			File="avatars/p2avatar"
+			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
+			InitCommand="%function(self)
+			self:diffusealpha(0);
+			self:x(SCREEN_CENTER_X+251); self:y(SCREEN_CENTER_Y-137); self:zoom(0); self:accelerate(0.3); self:zoom(0); self:diffusealpha(1); 
+			a2Width = self:GetWidth(); 
+			a2Height = self:GetHeight(); 
+			if a2Width >= a2Height then 
+				self:zoomtowidth(83); 
+				self:zoomtoheight(83-1/83); 
+				else  
+				self:scaletoclipped(83,83); 
+				end 
+			self:diffusealpha(0);
+			self:decelerate(0.4);
+			self:diffusealpha(1);
+			self:draworder(5); 
+			end"			
+		/>
+		
+	<Layer File="@'../Graphics/NoAvatar/'..getNoAvatar(PLAYER_1)"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
+	InitCommand="%function(self)
+			self:x(SCREEN_CENTER_X-305+18); self:y(SCREEN_CENTER_Y-137); self:diffusealpha(1); self:zoom(0);
+			a1Width = self:GetWidth(); 
+			a1Height = self:GetHeight(); 
+			if a1Width >= a1Height then 
+				self:zoomtowidth(83); 
+				self:zoomtoheight(83-1/83); 
+				else  
+				self:scaletoclipped(83,83); 
+				end 
+			self:diffusealpha(0);
+			self:decelerate(0.4);
+			self:diffusealpha(1);
+			self:draworder(3); 
+			end"	
+	/>
+	<Layer File="@'../Graphics/NoAvatar/'..getNoAvatar(PLAYER_2)"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
+	InitCommand="%function(self)
+			self:x(SCREEN_CENTER_X+235+16); self:y(SCREEN_CENTER_Y-137); self:diffusealpha(1); self:zoom(0);
+			a2Width = self:GetWidth(); 
+			a2Height = self:GetHeight(); 
+			if a2Width >= a2Height then 
+				self:zoomtowidth(83); 
+				self:zoomtoheight(83-1/83); 
+				else  
+				self:scaletoclipped(83,83); 
+				end 
+			self:diffusealpha(0);
+			self:decelerate(0.4);
+			self:diffusealpha(1);
+			self:draworder(3); 
+			end"	
+	/>
+		
+		<Layer
+			File="arrow.png"
+			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1) and ShowArrowIndicators()"
+			InitCommand="x,SCREEN_CENTER_X-310+18;y,-500;zoom,0.9;rotationz,90;queuecommand,Update;"
+			ResetCommand="%function(self)
+				self:stoptweening();
+				p1y = p1Target + 550;
+				p1Distance = 550;
+				self:accelerate(0.5);
+				self:rotationz(-1080);
+				self:zoom(0);
+				self:diffuse(0,0,0,0);	
+				self:sleep(0.01);
+				self:diffuse(1,1,1,1);
+				self:y(p1y);
+				self:queuecommand('Update');
+			end"
+			UpdateCommand="%function(self)
+			self:stoptweening();
+			if gnScreenEdit == false then
+				p1y = self:GetY();
+				p1Target = 112;
+				if p1y < p1Target then
+						self:queuecommand('Reset');
+					else
+						self:rotationz(90);
+						self:zoom(1);
+						self:diffusealpha(1);
+						for getModP1=0, 100, 5 do
+							if GAMESTATE:PlayerIsUsingModifier(PLAYER_1,''..getModP1..'% stealth') then 
+								self:diffusealpha(1-(getModP1/100));
+								end
+							if GAMESTATE:PlayerIsUsingModifier(PLAYER_1,''..getModP1..'% mini') then 
+								if getModP1 == 0 then
+									self:zoom(1);
+									else
+									self:zoom(1-0.5*(getModP1/100));
+									end							
+								end
+							if GAMESTATE:PlayerIsUsingModifier(PLAYER_1,''..-1*getModP1..'% mini') then 
+								if getModP1 == 0 then
+									self:zoom(1);
+									else
+									self:zoom(1-0.5*(-1*getModP1/100));
+									end							
+								end
+							if GAMESTATE:PlayerIsUsingModifier(PLAYER_1,'no stealth') then 
+								self:diffusealpha(1);
+								end
+							end
+						self:y(p1y);
+						p1Travelled = p1y - p1Target;
+						p1Travelled = (p1Travelled/p1Distance)-1;
+						self:linear(0.45/30);
+						stretchP1 = self:GetZoom();
+						stretchP1 = 2 - stretchP1;
+						if GAMESTATE:PlayerIsUsingModifier(PLAYER_1,'overhead') then 
+						stretchP1 = stretchP1 + 0.1;
+						end
+						if GAMESTATE:PlayerIsUsingModifier(PLAYER_1,'hallway') then 
+						stretchP1 = stretchP1 + 0.5;
+						end
+						if GAMESTATE:PlayerIsUsingModifier(PLAYER_1,'distant') then 
+						stretchP1 = stretchP1 + 0.3;
+						end
+						if GAMESTATE:PlayerIsUsingModifier(PLAYER_1,'incoming') then 
+						stretchP1 = stretchP1 + 0.4;
+						end
+						if GAMESTATE:PlayerIsUsingModifier(PLAYER_1,'space') then 
+						stretchP1 = stretchP1 + 0.4;
+						end
+						if setModP1 > 15 then
+								if addModP1 > 1 then
+								transition = math.floor(((setModP1+addModP1)*curRate)/(stretchP1));
+								else
+								transition = math.floor(((setModP1)*curRate)/(stretchP1));
+								end
+							else
+								if addModP1 <= 1 then
+								transition = math.floor(((setModP1+addModP1)*highBPM*curRate)/(stretchP1));
+								else
+								transition = math.floor(((setModP1)*highBPM*curRate)/(stretchP1));
+								end
+							end
+						self:addy((transition/60)*-1);
+					end
+					self:queuecommand('Update');
+				end
+			end"
+		/>
+		
+		<Layer
+			File="arrow.png"
+			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2) and ShowArrowIndicators()"
+			InitCommand="x,SCREEN_CENTER_X+238+18;y,-500;zoom,0.9;rotationz,-90;queuecommand,Update;"
+			ResetCommand="%function(self)
+				self:stoptweening();
+				p2y = p2Target + 550;
+				p2Distance = 550;
+				self:accelerate(0.5);
+				self:rotationz(1080);
+				self:zoom(0);
+				self:diffuse(0,0,0,0);	
+				self:sleep(0.01);
+				self:diffuse(1,1,1,1);
+				self:y(p2y);
+				self:queuecommand('Update');
+			end"
+			UpdateCommand="%function(self)
+			self:stoptweening();
+			if gnScreenEdit == false then
+				p2y = self:GetY();
+				p2Target = 112;
+				if p2y < p2Target then
+						self:queuecommand('Reset');
+					else
+						self:rotationz(-90);
+						self:zoom(1);
+						self:diffusealpha(1);
+						for getModP2=0, 100, 5 do
+							if GAMESTATE:PlayerIsUsingModifier(PLAYER_2,''..getModP2..'% stealth') then 
+								self:diffusealpha(1-(getModP2/100));
+								end
+							if GAMESTATE:PlayerIsUsingModifier(PLAYER_2,''..getModP2..'% mini') then 
+								if getModP2 == 0 then
+									self:zoom(1);
+									else
+									self:zoom(1-0.5*(getModP2/100));
+									end							
+								end
+							if GAMESTATE:PlayerIsUsingModifier(PLAYER_2,''..-1*getModP2..'% mini') then 
+								if getModP2 == 0 then
+									self:zoom(1);
+									else
+									self:zoom(1-0.5*(-1*getModP2/100));
+									end							
+								end
+							if GAMESTATE:PlayerIsUsingModifier(PLAYER_2,'no stealth') then 
+								self:diffusealpha(1);
+								end
+							end
+						self:y(p2y);
+						p2Travelled = p2y - p2Target;
+						p2Travelled = (p2Travelled/p2Distance)-1;
+						self:linear(0.45/30);
+						stretchP2 = self:GetZoom();
+						stretchP2 = 2 - stretchP2;
+						if GAMESTATE:PlayerIsUsingModifier(PLAYER_2,'overhead') then 
+						stretchP2 = stretchP2 + 0.1;
+						end
+						if GAMESTATE:PlayerIsUsingModifier(PLAYER_2,'hallway') then 
+						stretchP2 = stretchP2 + 0.5;
+						end
+						if GAMESTATE:PlayerIsUsingModifier(PLAYER_2,'distant') then 
+						stretchP2 = stretchP2 + 0.3;
+						end
+						if GAMESTATE:PlayerIsUsingModifier(PLAYER_2,'incoming') then 
+						stretchP2 = stretchP2 + 0.4;
+						end
+						if GAMESTATE:PlayerIsUsingModifier(PLAYER_2,'space') then 
+						stretchP2 = stretchP2 + 0.4;
+						end
+						if setModP2 > 15 then
+								if addModP2 > 1 then
+								transition = math.floor(((setModP2+addModP2)*curRate)/(stretchP2));
+								else
+								transition = math.floor(((setModP2)*curRate)/(stretchP2));
+								end
+							else
+								if addModP2 <= 1 then
+								transition = math.floor(((setModP2+addModP2)*highBPM*curRate)/(stretchP2));
+								else
+								transition = math.floor(((setModP2)*highBPM*curRate)/(stretchP2));
+								end
+							end
+						self:addy((transition/60)*-1);
+					end
+				self:queuecommand('Update');
+				end
+			end"
+		/>
+		
+	<Layer
+			File="PlayerReady"
+			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
+			InitCommand="%function(self)
+			self:diffusealpha(0);
+			self:x(SCREEN_CENTER_X-288); self:y(SCREEN_CENTER_Y-112); self:zoom(0.1);self:draworder(5);
+			self:diffuseblink();
+			self:queuecommand('loop');
+			end"
+			
+			loopcommand="%function(self)
+			self:stoptweening();
+			if gnP1Ready == 1 then
+				self:zoom(1); self:diffusealpha(0.9);
+				if gnP1Sound == 0 then
+					if gnP2Sound == 0 then
+						local Path = THEME:GetPath( EC_SOUNDS, 'PlayerReady', 'sound' )
+						SOUND:PlayOnce(Path)
+						else
+						local Path = THEME:GetPath( EC_SOUNDS, 'PlayerBothReady', 'sound' )
+						SOUND:PlayOnce(Path)
+						end
+					gnP1Sound = 1;
+					end
+				else
+				self:zoom(0.1); self:diffusealpha(0);
+				if gnP1Sound == 1 then
+					local Path = THEME:GetPath( EC_SOUNDS, 'PlayerNotReady', 'sound' )
+					SOUND:PlayOnce(Path)
+					gnP1Sound = 0;
+					end
+				end
+			self:sleep(0.05);
+			self:queuecommand('loop');
+			end"
+		/>
+		
+	<Layer
+			File="PlayerReady"
+			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
+			InitCommand="%function(self)
+			self:diffusealpha(0);
+			self:x(SCREEN_CENTER_X+252); self:y(SCREEN_CENTER_Y-112); self:zoom(0.1);self:draworder(5);
+			self:diffuseblink();
+			self:queuecommand('loop');
+			end"
+			
+			loopcommand="%function(self)
+			self:stoptweening();
+			if gnP2Ready == 1 then
+				self:zoom(1); self:diffusealpha(0.9);
+				if gnP2Sound == 0 then
+					if gnP1Sound == 0 then
+						local Path = THEME:GetPath( EC_SOUNDS, 'PlayerReady', 'sound' )
+						SOUND:PlayOnce(Path)
+						else
+						local Path = THEME:GetPath( EC_SOUNDS, 'PlayerBothReady', 'sound' )
+						SOUND:PlayOnce(Path)
+						end
+					gnP2Sound = 1;
+					end
+				else
+				self:zoom(0.1); self:diffusealpha(0);
+				if gnP2Sound == 1 then
+					local Path = THEME:GetPath( EC_SOUNDS, 'PlayerNotReady', 'sound' )
+					SOUND:PlayOnce(Path)
+					gnP2Sound = 0;
+					end
+				end
+			self:sleep(0.05);
+			self:queuecommand('loop');
+			end"
+		/>
+		
+								<Layer 
+					File="Screen divider frame"
+					InitCommand="x,SCREEN_CENTER_X-13;y,SCREEN_CENTER_Y-41;"
+				/>
+	</children>
+</ActorFrame>

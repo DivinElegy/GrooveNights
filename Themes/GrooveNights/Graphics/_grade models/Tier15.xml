@@ -1,0 +1,1005 @@
+<ActorFrame	InitCommand="queuecommand,Start;"
+			StartCommand="%function(self)
+			if getSpecialUSB() then
+				if gnDimBGMSeconds == nil then
+					gnDimBGMSeconds = 0.1;
+					end
+				if gnDimBGMSeconds == 0 then
+					gnDimBGMSeconds = 0.1;
+					end
+				SOUND:DimMusic( 0, gnDimBGMSeconds )
+				end
+			end">
+	<children>
+
+<!-- Did You Get A Green Quad? -->
+	<LayerType="BitmapText"
+		Font="Journey"
+		Text=""
+		Condition="GAMESTATE:IsHumanPlayer(PLAYER_1)"
+		InitCommand="sleep,0.01;zoom,5;queuecommand,Start"
+		StartCommand="%function(self)
+		gnGreenQuadP1 = false;
+		gnJudge = tonumber(SCREENMAN:GetTopScreen():GetChild('MarvelousNumberP1'):GetText());
+		if gnJudge == 0 then
+			gnJudge = tonumber(SCREENMAN:GetTopScreen():GetChild('PerfectNumberP1'):GetText());
+			if gnJudge == 0 then
+				gnJudge = tonumber(SCREENMAN:GetTopScreen():GetChild('GoodNumberP1'):GetText());
+				if gnJudge == 0 then
+					gnJudge = tonumber(SCREENMAN:GetTopScreen():GetChild('BooNumberP1'):GetText());
+					if gnJudge == 0 then
+						gnJudge = tonumber(SCREENMAN:GetTopScreen():GetChild('MissNumberP1'):GetText());
+						if gnJudge == 0 then
+							gnGreenQuadP1 = true;
+							end
+						end
+					end
+				end
+			end
+		end"
+	/>
+
+	<LayerType="BitmapText"
+		Font="Journey"
+		Text=""
+		Condition="GAMESTATE:IsHumanPlayer(PLAYER_2)"
+		InitCommand="sleep,0.01;zoom,5;queuecommand,Start"
+		StartCommand="%function(self)
+		gnGreenQuadP2 = false;
+		gnJudge = tonumber(SCREENMAN:GetTopScreen():GetChild('MarvelousNumberP2'):GetText());
+		if gnJudge == 0 then
+			gnJudge = tonumber(SCREENMAN:GetTopScreen():GetChild('PerfectNumberP2'):GetText());
+			if gnJudge == 0 then
+				gnJudge = tonumber(SCREENMAN:GetTopScreen():GetChild('GoodNumberP2'):GetText());
+				if gnJudge == 0 then
+					gnJudge = tonumber(SCREENMAN:GetTopScreen():GetChild('BooNumberP2'):GetText());
+					if gnJudge == 0 then
+						gnJudge = tonumber(SCREENMAN:GetTopScreen():GetChild('MissNumberP2'):GetText());
+						if gnJudge == 0 then
+							gnGreenQuadP2 = true;
+							end
+						end
+					end
+				end
+			end
+		end"
+	/>	
+
+<!-- Did You Get A Purple Quad? -->
+	<LayerType="BitmapText"
+		Font="Journey"
+		Text=""
+		Condition="GAMESTATE:IsHumanPlayer(PLAYER_1)"
+		InitCommand="sleep,0.01;zoom,5;queuecommand,Start"
+		StartCommand="%function(self)
+		gnPurpleQuadP1 = false;
+		gnJudge = tonumber(SCREENMAN:GetTopScreen():GetChild('MarvelousNumberP1'):GetText());
+		if gnJudge == 0 then
+			gnJudge = tonumber(SCREENMAN:GetTopScreen():GetChild('PerfectNumberP1'):GetText());
+			if gnJudge == 0 then
+				gnJudge = tonumber(SCREENMAN:GetTopScreen():GetChild('GreatNumberP1'):GetText());
+				if gnJudge == 0 then
+					gnJudge = tonumber(SCREENMAN:GetTopScreen():GetChild('BooNumberP1'):GetText());
+					if gnJudge == 0 then
+						gnJudge = tonumber(SCREENMAN:GetTopScreen():GetChild('MissNumberP1'):GetText());
+						if gnJudge == 0 then
+							gnPurpleQuadP1 = true;
+							gnGreenQuadP1 = false;
+							end
+						end
+					end
+				end
+			end
+		end"
+	/>
+
+	<LayerType="BitmapText"
+		Font="Journey"
+		Text=""
+		Condition="GAMESTATE:IsHumanPlayer(PLAYER_2)"
+		InitCommand="sleep,0.01;zoom,5;queuecommand,Start"
+		StartCommand="%function(self)
+		gnPurpleQuadP2 = false;
+		gnJudge = tonumber(SCREENMAN:GetTopScreen():GetChild('MarvelousNumberP2'):GetText());
+		if gnJudge == 0 then
+			gnJudge = tonumber(SCREENMAN:GetTopScreen():GetChild('PerfectNumberP2'):GetText());
+			if gnJudge == 0 then
+				gnJudge = tonumber(SCREENMAN:GetTopScreen():GetChild('GreatNumberP2'):GetText());
+				if gnJudge == 0 then
+					gnJudge = tonumber(SCREENMAN:GetTopScreen():GetChild('BooNumberP2'):GetText());
+					if gnJudge == 0 then
+						gnJudge = tonumber(SCREENMAN:GetTopScreen():GetChild('MissNumberP2'):GetText());
+						if gnJudge == 0 then
+							gnPurpleQuadP2 = true;
+							gnGreenQuadP2 = false;
+							end
+						end
+					end
+				end
+			end
+		end"
+	/>
+	
+	
+	
+<ActorFrame	InitCommand="queuecommand,Start;"
+			StartCommand="%function(self)
+			if getSpecialUSB() then
+				if gnDimBGMSeconds == nil then
+					gnDimBGMSeconds = 0.1;
+					end
+				if gnDimBGMSeconds ~= 0 then
+					SOUND:DimMusic( 0, gnDimBGMSeconds )
+					end
+				end
+			end">
+	<children>
+		<ActorFrame	Condition="(GAMESTATE:IsHumanPlayer(PLAYER_1) and GAMESTATE:IsHumanPlayer(PLAYER_2))"
+		InitCommand="queuecommand,Start;"
+					StartCommand="%function(self)
+		if gnCustomPlayed ~= nil then
+			gnCustomPlayed = nil;
+			self:hibernate(9999);
+			else
+						if not getSpecialUSB() then
+							self:addx(200000);
+							end
+			end
+					end">
+			<children>
+			<Layer Type="Quad"
+			InitCommand="%function(self)
+			self:diffusealpha(0);
+			if GAMESTATE:IsHumanPlayer(PLAYER_1) then
+				self:x(245+AddFromCenter('x','Normal',PLAYER_1));
+				else
+				self:x(-64+AddFromCenter('x','Normal',PLAYER_2));
+				end
+			if GAMESTATE:IsHumanPlayer(PLAYER_1) then self:y(40+AddFromCenter('y','Normal',PLAYER_1)); else  self:y(40+AddFromCenter('y','Normal',PLAYER_2)); end
+			self:queuecommand('ColourIt');
+			end"
+			ColourItCommand="diffuse,0,0,0,1;zoom,2;decelerate,0.5;zoom,1;diffuse,0,0,0,0.8;zoom,5000;queuecommand,Duration;"
+			DurationCommand="%function(self)
+				if gnDimBackgroundSeconds == nil then
+					gnDimBackgroundSeconds = 0.1;
+					end
+				if gnDimBackgroundSeconds == 0 then
+					gnDimBackgroundSeconds = 0.1;
+					end
+			self:sleep(gnDimBackgroundSeconds);
+			self:linear(1);
+			self:diffusealpha(0);
+			end"
+			OffCommand="accelerate,0.3;zoom,0;"
+			/>
+		</children></ActorFrame>
+		
+		<ActorFrame	Condition="not (GAMESTATE:IsHumanPlayer(PLAYER_1) and GAMESTATE:IsHumanPlayer(PLAYER_2))"
+		InitCommand="queuecommand,Start;"
+					StartCommand="%function(self)
+						if not getSpecialUSB() then
+							self:addx(200000);
+							end
+					end">
+			<children>
+			<Layer Type="Quad"
+			InitCommand="%function(self)
+			self:diffusealpha(0);
+			if GAMESTATE:IsHumanPlayer(PLAYER_1) then
+				self:x(245+AddFromCenter('x','Normal',PLAYER_1));
+				else
+				self:x(-64+AddFromCenter('x','Normal',PLAYER_2));
+				end
+			if GAMESTATE:IsHumanPlayer(PLAYER_1) then self:y(40+AddFromCenter('y','Normal',PLAYER_1)); else  self:y(40+AddFromCenter('y','Normal',PLAYER_2)); end
+			self:queuecommand('ColourIt');
+			end"
+			ColourItCommand="diffuse,0,0,0,1;zoom,2;decelerate,0.5;zoom,1;diffuse,0,0,0,0.8;zoom,5000;queuecommand,Duration;"
+			DurationCommand="%function(self)
+				if gnDimBackgroundSeconds == nil then
+					gnDimBackgroundSeconds = 0.1;
+					end
+				if gnDimBackgroundSeconds == 0 then
+					gnDimBackgroundSeconds = 0.1;
+					end
+			self:sleep(gnDimBackgroundSeconds);
+			self:linear(1);
+			self:diffusealpha(0);
+			end"
+			OffCommand="accelerate,0.3;zoom,0;"
+			/>
+		</children></ActorFrame>
+		
+		
+		<Layer File="@'../../Sounds/'..getCustomNormalImageOrVideo()" 
+		Condition="(GAMESTATE:IsHumanPlayer(PLAYER_1) and GAMESTATE:IsHumanPlayer(PLAYER_2))"
+		InitCommand="%function(self)
+		if gnCustomPlayed ~= nil then
+			gnCustomPlayed = nil;
+			self:hibernate(9999);
+			else
+				self:x(-66+AddFromCenter('x','Normal',PLAYER_2));
+				self:y(40+AddFromCenter('y','Normal',PLAYER_2));
+				self:diffusealpha(0);
+				self:zoom(2);
+				self:decelerate(0.5);
+				self:diffusealpha(gnDiffusealpha);
+				self:zoom(gnZoom);
+				gnPath = getCustomNormalSound();
+				SOUND:PlayOnce(gnPath);
+						if gnOnScreenSeconds == nil then
+							gnOnScreenSeconds = 0.1;
+							end
+						if gnOnScreenSeconds == 0 then
+							gnOnScreenSeconds = 0.1;
+							end
+				self:sleep(gnOnScreenSeconds);
+				self:linear(1);
+				self:diffusealpha(0)
+				end
+			end"
+		OffCommand="accelerate,0.3;zoom,0;"
+		/>
+		
+<Layer File="@'../../Sounds/'..getCustomNormalImageOrVideo()" 
+		Condition="not (GAMESTATE:IsHumanPlayer(PLAYER_1) and GAMESTATE:IsHumanPlayer(PLAYER_2))"
+		InitCommand="%function(self)
+				if GAMESTATE:IsHumanPlayer(PLAYER_1) then
+					self:x(244+AddFromCenter('x','Normal',PLAYER_1));
+					else
+					self:x(-66+AddFromCenter('x','Normal',PLAYER_2));
+					end
+				if GAMESTATE:IsHumanPlayer(PLAYER_1) then self:y(40+AddFromCenter('y','Normal',PLAYER_1)); else  self:y(40+AddFromCenter('y','Normal',PLAYER_2)); end
+				self:diffusealpha(0);
+				self:zoom(2);
+				self:decelerate(0.5);
+				self:diffusealpha(gnDiffusealpha);
+				self:zoom(gnZoom);
+				gnPath = getCustomNormalSound();
+				SOUND:PlayOnce(gnPath);
+						if gnOnScreenSeconds == nil then
+							gnOnScreenSeconds = 0.1;
+							end
+						if gnOnScreenSeconds == 0 then
+							gnOnScreenSeconds = 0.1;
+							end
+				self:sleep(gnOnScreenSeconds);
+				self:linear(1);
+				self:diffusealpha(0)
+			end"
+		OffCommand="accelerate,0.3;zoom,0;"
+		/>
+		
+		
+<!-- P1's C -->
+<ActorFrame
+			OnCommand="x,2000;y,0;sleep,0.1;queuecommand,Go;"
+			Condition="GAMESTATE:IsHumanPlayer(PLAYER_1)"
+			GoCommand="%function(self)
+			if gnPurpleQuadP1 == false and gnGreenQuadP1 == false then
+				self:x(0);
+				end
+			end"
+		>
+			<children>
+		<ActorFrame
+			OnCommand="zoom,0.30;x,-2;y,6;wag;EffectMagnitude,0,0,2"
+		>
+			<children>
+				<Layer
+					File="GradeTier0015"
+					InitCommand="diffusealpha,0;sleep,0.2;queuecommand,GradeSound;decelerate,0.6;zoom,1.5;diffusealpha,1;accelerate,0.4;zoom,1;decelerate,0.1;zoom,0.9;diffusealpha,0.8;accelerate,0.1;zoom,1;diffusealpha,1;"
+					OnCommand="sleep,0.2;"
+					GradeSoundCommand="%function(self)
+					gnSound = GradeSound(2);
+					SOUND:PlayOnce( gnSound )
+					end"
+				/>
+			</children>
+		</ActorFrame>
+	</children>
+</ActorFrame>
+		
+<!-- P2's C- -->
+<ActorFrame
+			OnCommand="x,2000;y,0;sleep,0.1;queuecommand,Go;"
+			Condition="GAMESTATE:IsHumanPlayer(PLAYER_2)"
+			GoCommand="%function(self)
+			if gnPurpleQuadP2 == false and gnGreenQuadP2 == false then
+				self:x(0);
+				end
+			end"
+		>
+			<children>
+		<ActorFrame
+			OnCommand="zoom,0.30;x,-2;y,6;wag;EffectMagnitude,0,0,2"
+		>
+			<children>
+				<Layer
+					File="GradeTier0015"
+					InitCommand="diffusealpha,0;sleep,0.2;queuecommand,GradeSound;decelerate,0.6;zoom,1.5;diffusealpha,1;accelerate,0.4;zoom,1;decelerate,0.1;zoom,0.9;diffusealpha,0.8;accelerate,0.1;zoom,1;diffusealpha,1;"
+					OnCommand="sleep,0.2;"
+					GradeSoundCommand="%function(self)
+					gnSound = GradeSound(2);
+					SOUND:PlayOnce( gnSound )
+					end"
+				/>
+			</children>
+		</ActorFrame>
+	</children>
+</ActorFrame>
+		
+		
+<!-- Player 1's Green Quad -->	
+<ActorFrame
+			OnCommand="zoom,0.2;x,-2001;y,-1;wag;EffectMagnitude,0,0,2;sleep,0.1;queuecommand,Go;"
+			Condition="GAMESTATE:IsHumanPlayer(PLAYER_1)"
+			GoCommand="%function(self)
+			if gnGreenQuadP1 == true and GreenQuadP1Flag == 0 then
+				GreenQuadP1Flag = 1;
+				self:x(-1);
+				end
+			end"
+		>
+			<children>
+				<!--Fireworks-->
+				<ActorFrame
+					OnCommand="hibernate,1.4;zoom,8;draworder,-2000;"
+				>
+					<children>
+				<ActorFrame
+					OnCommand="x,-20;y,20;sleep,1.4;queuecommand,Update;"
+					UpdateCommand="decelerate,0.3;zoom,1.1;accelerate,0.3;zoom,1;decelerate,0.3;zoom,0.9;diffusealpha,0.9;accelerate,0.3;zoom,1;diffusealpha,1;queuecommand,Update;"
+				>
+					<children>
+						<Layer
+							File="fworkgreen1.sprite"
+							InitCommand="diffusealpha,0;sleep,0.2;queuecommand,GradeSound;decelerate,0.6;zoom,1.5;diffusealpha,1;accelerate,0.4;zoom,1;decelerate,0.1;zoom,0.9;diffusealpha,0.8;accelerate,0.1;zoom,1;diffusealpha,1;"
+							OnCommand="sleep,0.2;"
+						/>
+					</children>
+				</ActorFrame>
+				<ActorFrame
+					OnCommand="hibernate,0.3;x,-20;y,-20;sleep,1.4;queuecommand,Update;"
+					UpdateCommand="decelerate,0.3;zoom,1.1;accelerate,0.3;zoom,1;decelerate,0.3;zoom,0.9;diffusealpha,0.9;accelerate,0.3;zoom,1;diffusealpha,1;queuecommand,Update;"
+				>
+					<children>
+						<Layer
+							File="fworkred1.sprite"
+							InitCommand="diffusealpha,0;sleep,0.2;queuecommand,GradeSound;decelerate,0.6;zoom,1.5;diffusealpha,1;accelerate,0.4;zoom,1;decelerate,0.1;zoom,0.9;diffusealpha,0.8;accelerate,0.1;zoom,1;diffusealpha,1;"
+							OnCommand="sleep,0.2;"
+						/>
+					</children>
+				</ActorFrame>
+				<ActorFrame
+					OnCommand="hibernate,0.6;x,20;y,-20;sleep,1.4;queuecommand,Update;"
+					UpdateCommand="decelerate,0.3;zoom,1.1;accelerate,0.3;zoom,1;decelerate,0.3;zoom,0.9;diffusealpha,0.9;accelerate,0.3;zoom,1;diffusealpha,1;queuecommand,Update;"
+				>
+					<children>
+						<Layer
+							File="fworkyellow1.sprite"
+							InitCommand="diffusealpha,0;sleep,0.2;queuecommand,GradeSound;decelerate,0.6;zoom,1.5;diffusealpha,1;accelerate,0.4;zoom,1;decelerate,0.1;zoom,0.9;diffusealpha,0.8;accelerate,0.1;zoom,1;diffusealpha,1;"
+							OnCommand="sleep,0.2;"
+						/>
+					</children>
+				</ActorFrame>
+				<ActorFrame
+					OnCommand="hibernate,0.9;x,20;y,20;sleep,1.4;queuecommand,Update;"
+					UpdateCommand="decelerate,0.3;zoom,1.1;accelerate,0.3;zoom,1;decelerate,0.3;zoom,0.9;diffusealpha,0.9;accelerate,0.3;zoom,1;diffusealpha,1;queuecommand,Update;"
+				>
+					<children>
+						<Layer
+							File="fworkgreen2.sprite"
+							InitCommand="diffusealpha,0;sleep,0.2;queuecommand,GradeSound;decelerate,0.6;zoom,1.5;diffusealpha,1;accelerate,0.4;zoom,1;decelerate,0.1;zoom,0.9;diffusealpha,0.8;accelerate,0.1;zoom,1;diffusealpha,1;"
+							OnCommand="sleep,0.2;"
+						/>
+					</children>
+				</ActorFrame>
+			</children>
+		</ActorFrame>
+		
+<ActorFrame
+			OnCommand="x,-2000;y,0;sleep,0.1;queuecommand,Go;"
+			Condition="GAMESTATE:IsHumanPlayer(PLAYER_1)"
+			GoCommand="%function(self)
+			if gnGreenQuadP1 == true and GreenQuadP1Flag == 1 then
+				GreenQuadP1Flag = 2;
+				gnPurpleQuadP1 = false;
+				self:x(0);
+				end
+			end"
+		>
+			<children>
+				<!--Grades-->
+				<ActorFrame
+					OnCommand="x,-90;y,80;sleep,1.4;queuecommand,Update;"
+					UpdateCommand="decelerate,0.3;zoom,1.1;accelerate,0.3;zoom,1;decelerate,0.3;zoom,0.9;diffusealpha,0.9;accelerate,0.3;zoom,1;diffusealpha,1;queuecommand,Update;"
+				>
+					<children>
+						<Layer
+							File="@getResultStars('Green')"
+							InitCommand="diffusealpha,0;sleep,0.2;queuecommand,GradeSound;decelerate,0.6;zoom,1.5;diffusealpha,1;accelerate,0.4;zoom,1;decelerate,0.1;zoom,0.9;diffusealpha,0.8;accelerate,0.1;zoom,1;diffusealpha,1;"
+							OnCommand="sleep,0.2;"
+							GradeSoundCommand="%function(self)
+							if not getSpecialUSB() then
+								if gnGreenQuadP1 then
+									gnSound = GradeSound(3);
+									SOUND:PlayOnce( gnSound )
+									end
+								end
+							end"
+						/>
+					</children>
+				</ActorFrame>
+				<ActorFrame
+					OnCommand="hibernate,0.3;x,-90;y,-80;sleep,1.4;queuecommand,Update;"
+					UpdateCommand="decelerate,0.3;zoom,1.1;accelerate,0.3;zoom,1;decelerate,0.3;zoom,0.9;diffusealpha,0.9;accelerate,0.3;zoom,1;diffusealpha,1;queuecommand,Update;"
+				>
+					<children>
+						<Layer
+							File="@getResultStars('Green')"
+							InitCommand="diffusealpha,0;sleep,0.2;queuecommand,GradeSound;decelerate,0.6;zoom,1.5;diffusealpha,1;accelerate,0.4;zoom,1;decelerate,0.1;zoom,0.9;diffusealpha,0.8;accelerate,0.1;zoom,1;diffusealpha,1;"
+							OnCommand="sleep,0.2;"
+							GradeSoundCommand="%function(self)
+							if not getSpecialUSB() then
+								if gnGreenQuadP1 then
+									gnSound = GradeSound(4);
+									SOUND:PlayOnce( gnSound )
+									end
+								end
+							end"
+						/>
+					</children>
+				</ActorFrame>
+				<ActorFrame
+					OnCommand="hibernate,0.6;x,85;y,-80;sleep,1.4;queuecommand,Update;"
+					UpdateCommand="decelerate,0.3;zoom,1.1;accelerate,0.3;zoom,1;decelerate,0.3;zoom,0.9;diffusealpha,0.9;accelerate,0.3;zoom,1;diffusealpha,1;queuecommand,Update;"
+				>
+					<children>
+						<Layer
+							File="@getResultStars('Green')"
+							InitCommand="diffusealpha,0;sleep,0.2;queuecommand,GradeSound;decelerate,0.6;zoom,1.5;diffusealpha,1;accelerate,0.4;zoom,1;decelerate,0.1;zoom,0.9;diffusealpha,0.8;accelerate,0.1;zoom,1;diffusealpha,1;"
+							OnCommand="sleep,0.2;"
+							GradeSoundCommand="%function(self)
+							if not getSpecialUSB() then
+								if gnGreenQuadP1 then
+									gnSound = GradeSound(5);
+									SOUND:PlayOnce( gnSound )
+									end
+								end
+							end"
+						/>
+					</children>
+				</ActorFrame>
+				<ActorFrame
+					OnCommand="hibernate,0.9;x,85;y,80;sleep,1.4;queuecommand,Update;"
+					UpdateCommand="decelerate,0.3;zoom,1.1;accelerate,0.3;zoom,1;decelerate,0.3;zoom,0.9;diffusealpha,0.9;accelerate,0.3;zoom,1;diffusealpha,1;queuecommand,Update;"
+				>
+					<children>
+						<Layer
+							File="@getResultStars('Green')"
+							InitCommand="diffusealpha,0;sleep,0.2;queuecommand,GradeSound;decelerate,0.6;zoom,1.5;diffusealpha,1;accelerate,0.4;zoom,1;decelerate,0.1;zoom,0.9;diffusealpha,0.8;accelerate,0.1;zoom,1;diffusealpha,1;"
+							OnCommand="sleep,0.2;"
+							GradeSoundCommand="%function(self)
+							if not getSpecialUSB() then
+								if gnGreenQuadP1 then
+									gnSound = GradeSound(6);
+									SOUND:PlayOnce( gnSound )
+									end
+								end
+							end"
+						/>
+					</children>
+				</ActorFrame>
+			</children>
+		</ActorFrame>
+	</children>
+</ActorFrame>	
+
+
+		
+<!-- Player 2's Green Quad -->	
+<ActorFrame
+			OnCommand="zoom,0.2;x,2001;y,-1;wag;EffectMagnitude,0,0,2;sleep,0.1;queuecommand,Go;"
+			Condition="GAMESTATE:IsHumanPlayer(PLAYER_2)"
+			GoCommand="%function(self)
+			if gnGreenQuadP2 == true and GreenQuadP2Flag == 0 then
+				GreenQuadP2Flag = 1;
+				self:x(-1);
+				end
+			end"
+		>
+			<children>
+				<!--Fireworks-->
+				<ActorFrame
+					OnCommand="hibernate,1.4;zoom,8;draworder,-2000;"
+				>
+					<children>
+				<ActorFrame
+					OnCommand="x,-20;y,20;sleep,1.4;queuecommand,Update;"
+					UpdateCommand="decelerate,0.3;zoom,1.1;accelerate,0.3;zoom,1;decelerate,0.3;zoom,0.9;diffusealpha,0.9;accelerate,0.3;zoom,1;diffusealpha,1;queuecommand,Update;"
+				>
+					<children>
+						<Layer
+							File="fworkgreen3.sprite"
+							InitCommand="diffusealpha,0;sleep,0.2;queuecommand,GradeSound;decelerate,0.6;zoom,1.5;diffusealpha,1;accelerate,0.4;zoom,1;decelerate,0.1;zoom,0.9;diffusealpha,0.8;accelerate,0.1;zoom,1;diffusealpha,1;"
+							OnCommand="sleep,0.2;"
+						/>
+					</children>
+				</ActorFrame>
+				<ActorFrame
+					OnCommand="hibernate,0.3;x,-20;y,-20;sleep,1.4;queuecommand,Update;"
+					UpdateCommand="decelerate,0.3;zoom,1.1;accelerate,0.3;zoom,1;decelerate,0.3;zoom,0.9;diffusealpha,0.9;accelerate,0.3;zoom,1;diffusealpha,1;queuecommand,Update;"
+				>
+					<children>
+						<Layer
+							File="fworkred2.sprite"
+							InitCommand="diffusealpha,0;sleep,0.2;queuecommand,GradeSound;decelerate,0.6;zoom,1.5;diffusealpha,1;accelerate,0.4;zoom,1;decelerate,0.1;zoom,0.9;diffusealpha,0.8;accelerate,0.1;zoom,1;diffusealpha,1;"
+							OnCommand="sleep,0.2;"
+						/>
+					</children>
+				</ActorFrame>
+				<ActorFrame
+					OnCommand="hibernate,0.6;x,20;y,-20;sleep,1.4;queuecommand,Update;"
+					UpdateCommand="decelerate,0.3;zoom,1.1;accelerate,0.3;zoom,1;decelerate,0.3;zoom,0.9;diffusealpha,0.9;accelerate,0.3;zoom,1;diffusealpha,1;queuecommand,Update;"
+				>
+					<children>
+						<Layer
+							File="fworkyellow2.sprite"
+							InitCommand="diffusealpha,0;sleep,0.2;queuecommand,GradeSound;decelerate,0.6;zoom,1.5;diffusealpha,1;accelerate,0.4;zoom,1;decelerate,0.1;zoom,0.9;diffusealpha,0.8;accelerate,0.1;zoom,1;diffusealpha,1;"
+							OnCommand="sleep,0.2;"
+						/>
+					</children>
+				</ActorFrame>
+				<ActorFrame
+					OnCommand="hibernate,0.9;x,20;y,20;sleep,1.4;queuecommand,Update;"
+					UpdateCommand="decelerate,0.3;zoom,1.1;accelerate,0.3;zoom,1;decelerate,0.3;zoom,0.9;diffusealpha,0.9;accelerate,0.3;zoom,1;diffusealpha,1;queuecommand,Update;"
+				>
+					<children>
+						<Layer
+							File="fworkgreen4.sprite"
+							InitCommand="diffusealpha,0;sleep,0.2;queuecommand,GradeSound;decelerate,0.6;zoom,1.5;diffusealpha,1;accelerate,0.4;zoom,1;decelerate,0.1;zoom,0.9;diffusealpha,0.8;accelerate,0.1;zoom,1;diffusealpha,1;"
+							OnCommand="sleep,0.2;"
+						/>
+					</children>
+				</ActorFrame>
+			</children>
+		</ActorFrame>
+		
+<ActorFrame
+			OnCommand="x,2000;y,0;sleep,0.1;queuecommand,Go;"
+			Condition="GAMESTATE:IsHumanPlayer(PLAYER_2)"
+			GoCommand="%function(self)
+			if gnGreenQuadP2 == true and GreenQuadP2Flag == 1 then
+				GreenQuadP2Flag = 2;
+				self:x(0);
+				end
+			end"
+		>
+			<children>
+				<!--Grades-->
+				<ActorFrame
+					OnCommand="x,-90;y,80;sleep,1.4;queuecommand,Update;"
+					UpdateCommand="decelerate,0.3;zoom,1.1;accelerate,0.3;zoom,1;decelerate,0.3;zoom,0.9;diffusealpha,0.9;accelerate,0.3;zoom,1;diffusealpha,1;queuecommand,Update;"
+				>
+					<children>
+						<Layer
+							File="@getResultStars('Green')"
+							InitCommand="diffusealpha,0;sleep,0.2;queuecommand,GradeSound;decelerate,0.6;zoom,1.5;diffusealpha,1;accelerate,0.4;zoom,1;decelerate,0.1;zoom,0.9;diffusealpha,0.8;accelerate,0.1;zoom,1;diffusealpha,1;"
+							OnCommand="sleep,0.2;"
+							GradeSoundCommand="%function(self)
+							if not getSpecialUSB() then
+								if gnGreenQuadP2 then
+									gnSound = GradeSound(3);
+									SOUND:PlayOnce( gnSound )
+									end
+								end
+							end"
+						/>
+					</children>
+				</ActorFrame>
+				<ActorFrame
+					OnCommand="hibernate,0.3;x,-90;y,-80;sleep,1.4;queuecommand,Update;"
+					UpdateCommand="decelerate,0.3;zoom,1.1;accelerate,0.3;zoom,1;decelerate,0.3;zoom,0.9;diffusealpha,0.9;accelerate,0.3;zoom,1;diffusealpha,1;queuecommand,Update;"
+				>
+					<children>
+						<Layer
+							File="@getResultStars('Green')"
+							InitCommand="diffusealpha,0;sleep,0.2;queuecommand,GradeSound;decelerate,0.6;zoom,1.5;diffusealpha,1;accelerate,0.4;zoom,1;decelerate,0.1;zoom,0.9;diffusealpha,0.8;accelerate,0.1;zoom,1;diffusealpha,1;"
+							OnCommand="sleep,0.2;"
+							GradeSoundCommand="%function(self)
+							if not getSpecialUSB() then
+								if gnGreenQuadP2 then
+									gnSound = GradeSound(4);
+									SOUND:PlayOnce( gnSound )
+									end
+								end
+							end"
+						/>
+					</children>
+				</ActorFrame>
+				<ActorFrame
+					OnCommand="hibernate,0.6;x,85;y,-80;sleep,1.4;queuecommand,Update;"
+					UpdateCommand="decelerate,0.3;zoom,1.1;accelerate,0.3;zoom,1;decelerate,0.3;zoom,0.9;diffusealpha,0.9;accelerate,0.3;zoom,1;diffusealpha,1;queuecommand,Update;"
+				>
+					<children>
+						<Layer
+							File="@getResultStars('Green')"
+							InitCommand="diffusealpha,0;sleep,0.2;queuecommand,GradeSound;decelerate,0.6;zoom,1.5;diffusealpha,1;accelerate,0.4;zoom,1;decelerate,0.1;zoom,0.9;diffusealpha,0.8;accelerate,0.1;zoom,1;diffusealpha,1;"
+							OnCommand="sleep,0.2;"
+							GradeSoundCommand="%function(self)
+							if not getSpecialUSB() then
+								if gnGreenQuadP2 then
+									gnSound = GradeSound(5);
+									SOUND:PlayOnce( gnSound )
+									end
+								end
+							end"
+						/>
+					</children>
+				</ActorFrame>
+				<ActorFrame
+					OnCommand="hibernate,0.9;x,85;y,80;sleep,1.4;queuecommand,Update;"
+					UpdateCommand="decelerate,0.3;zoom,1.1;accelerate,0.3;zoom,1;decelerate,0.3;zoom,0.9;diffusealpha,0.9;accelerate,0.3;zoom,1;diffusealpha,1;queuecommand,Update;"
+				>
+					<children>
+						<Layer
+							File="@getResultStars('Green')"
+							InitCommand="diffusealpha,0;sleep,0.2;queuecommand,GradeSound;decelerate,0.6;zoom,1.5;diffusealpha,1;accelerate,0.4;zoom,1;decelerate,0.1;zoom,0.9;diffusealpha,0.8;accelerate,0.1;zoom,1;diffusealpha,1;"
+							OnCommand="sleep,0.2;"
+							GradeSoundCommand="%function(self)
+							if not getSpecialUSB() then
+								if gnGreenQuadP2 then
+									gnSound = GradeSound(6);
+									SOUND:PlayOnce( gnSound )
+									end
+								end
+							end"
+						/>
+					</children>
+				</ActorFrame>
+			</children>
+		</ActorFrame>
+	</children>
+</ActorFrame>
+		
+		
+		
+		
+		
+		
+		
+		
+<!-- Player 1's Purple Quad -->	
+<ActorFrame
+			OnCommand="zoom,0.2;x,-2001;y,-1;wag;EffectMagnitude,0,0,2;sleep,0.1;queuecommand,Go;"
+			Condition="GAMESTATE:IsHumanPlayer(PLAYER_1)"
+			GoCommand="%function(self)
+			if gnPurpleQuadP1 == true and PurpleQuadP1Flag == 0 then
+				PurpleQuadP1Flag = 1;
+				self:x(-1);
+				end
+			end"
+		>
+			<children>
+				<!--Fireworks-->
+				<ActorFrame
+					OnCommand="hibernate,1.4;zoom,8;draworder,-2000;"
+				>
+					<children>
+				<ActorFrame
+					OnCommand="x,-20;y,20;sleep,1.4;queuecommand,Update;"
+					UpdateCommand="decelerate,0.3;zoom,1.1;accelerate,0.3;zoom,1;decelerate,0.3;zoom,0.9;diffusealpha,0.9;accelerate,0.3;zoom,1;diffusealpha,1;queuecommand,Update;"
+				>
+					<children>
+						<Layer
+							File="fworkgreen1.sprite"
+							InitCommand="diffusealpha,0;sleep,0.2;queuecommand,GradeSound;decelerate,0.6;zoom,1.5;diffusealpha,1;accelerate,0.4;zoom,1;decelerate,0.1;zoom,0.9;diffusealpha,0.8;accelerate,0.1;zoom,1;diffusealpha,1;"
+							OnCommand="sleep,0.2;"
+						/>
+					</children>
+				</ActorFrame>
+				<ActorFrame
+					OnCommand="hibernate,0.3;x,-20;y,-20;sleep,1.4;queuecommand,Update;"
+					UpdateCommand="decelerate,0.3;zoom,1.1;accelerate,0.3;zoom,1;decelerate,0.3;zoom,0.9;diffusealpha,0.9;accelerate,0.3;zoom,1;diffusealpha,1;queuecommand,Update;"
+				>
+					<children>
+						<Layer
+							File="fworkred3.sprite"
+							InitCommand="diffusealpha,0;sleep,0.2;queuecommand,GradeSound;decelerate,0.6;zoom,1.5;diffusealpha,1;accelerate,0.4;zoom,1;decelerate,0.1;zoom,0.9;diffusealpha,0.8;accelerate,0.1;zoom,1;diffusealpha,1;"
+							OnCommand="sleep,0.2;"
+						/>
+					</children>
+				</ActorFrame>
+				<ActorFrame
+					OnCommand="hibernate,0.6;x,20;y,-20;sleep,1.4;queuecommand,Update;"
+					UpdateCommand="decelerate,0.3;zoom,1.1;accelerate,0.3;zoom,1;decelerate,0.3;zoom,0.9;diffusealpha,0.9;accelerate,0.3;zoom,1;diffusealpha,1;queuecommand,Update;"
+				>
+					<children>
+						<Layer
+							File="fworkyellow3.sprite"
+							InitCommand="diffusealpha,0;sleep,0.2;queuecommand,GradeSound;decelerate,0.6;zoom,1.5;diffusealpha,1;accelerate,0.4;zoom,1;decelerate,0.1;zoom,0.9;diffusealpha,0.8;accelerate,0.1;zoom,1;diffusealpha,1;"
+							OnCommand="sleep,0.2;"
+						/>
+					</children>
+				</ActorFrame>
+				<ActorFrame
+					OnCommand="hibernate,0.9;x,20;y,20;sleep,1.4;queuecommand,Update;"
+					UpdateCommand="decelerate,0.3;zoom,1.1;accelerate,0.3;zoom,1;decelerate,0.3;zoom,0.9;diffusealpha,0.9;accelerate,0.3;zoom,1;diffusealpha,1;queuecommand,Update;"
+				>
+					<children>
+						<Layer
+							File="fworkgreen2.sprite"
+							InitCommand="diffusealpha,0;sleep,0.2;queuecommand,GradeSound;decelerate,0.6;zoom,1.5;diffusealpha,1;accelerate,0.4;zoom,1;decelerate,0.1;zoom,0.9;diffusealpha,0.8;accelerate,0.1;zoom,1;diffusealpha,1;"
+							OnCommand="sleep,0.2;"
+						/>
+					</children>
+				</ActorFrame>
+			</children>
+		</ActorFrame>
+		
+<ActorFrame
+			OnCommand="x,-2000;y,0;sleep,0.1;queuecommand,Go;"
+			Condition="GAMESTATE:IsHumanPlayer(PLAYER_1)"
+			GoCommand="%function(self)
+			if gnPurpleQuadP1 == true and PurpleQuadP1Flag == 1 then
+				PurpleQuadP1Flag = 2;
+				self:x(0);
+				end
+			end"
+		>
+			<children>
+				<!--Grades-->
+				<ActorFrame
+					OnCommand="x,-90;y,80;sleep,1.4;queuecommand,Update;"
+					UpdateCommand="decelerate,0.3;zoom,1.1;accelerate,0.3;zoom,1;decelerate,0.3;zoom,0.9;diffusealpha,0.9;accelerate,0.3;zoom,1;diffusealpha,1;queuecommand,Update;"
+				>
+					<children>
+						<Layer
+							File="@getResultStars('Purple')"
+							InitCommand="diffusealpha,0;sleep,0.2;queuecommand,GradeSound;decelerate,0.6;zoom,1.5;diffusealpha,1;accelerate,0.4;zoom,1;decelerate,0.1;zoom,0.9;diffusealpha,0.8;accelerate,0.1;zoom,1;diffusealpha,1;"
+							OnCommand="sleep,0.2;"
+							GradeSoundCommand="%function(self)
+							if not getSpecialUSB() then
+								if gnPurpleQuadP1 then
+									gnSound = GradeSound(3);
+									SOUND:PlayOnce( gnSound )
+									end
+								end
+							end"
+						/>
+					</children>
+				</ActorFrame>
+				<ActorFrame
+					OnCommand="hibernate,0.3;x,-90;y,-80;sleep,1.4;queuecommand,Update;"
+					UpdateCommand="decelerate,0.3;zoom,1.1;accelerate,0.3;zoom,1;decelerate,0.3;zoom,0.9;diffusealpha,0.9;accelerate,0.3;zoom,1;diffusealpha,1;queuecommand,Update;"
+				>
+					<children>
+						<Layer
+							File="@getResultStars('Purple')"
+							InitCommand="diffusealpha,0;sleep,0.2;queuecommand,GradeSound;decelerate,0.6;zoom,1.5;diffusealpha,1;accelerate,0.4;zoom,1;decelerate,0.1;zoom,0.9;diffusealpha,0.8;accelerate,0.1;zoom,1;diffusealpha,1;"
+							OnCommand="sleep,0.2;"
+							GradeSoundCommand="%function(self)
+							if not getSpecialUSB() then
+								if gnPurpleQuadP1 then
+									gnSound = GradeSound(4);
+									SOUND:PlayOnce( gnSound )
+									end
+								end
+							end"
+						/>
+					</children>
+				</ActorFrame>
+				<ActorFrame
+					OnCommand="hibernate,0.6;x,85;y,-80;sleep,1.4;queuecommand,Update;"
+					UpdateCommand="decelerate,0.3;zoom,1.1;accelerate,0.3;zoom,1;decelerate,0.3;zoom,0.9;diffusealpha,0.9;accelerate,0.3;zoom,1;diffusealpha,1;queuecommand,Update;"
+				>
+					<children>
+						<Layer
+							File="@getResultStars('Purple')"
+							InitCommand="diffusealpha,0;sleep,0.2;queuecommand,GradeSound;decelerate,0.6;zoom,1.5;diffusealpha,1;accelerate,0.4;zoom,1;decelerate,0.1;zoom,0.9;diffusealpha,0.8;accelerate,0.1;zoom,1;diffusealpha,1;"
+							OnCommand="sleep,0.2;"
+							GradeSoundCommand="%function(self)
+							if not getSpecialUSB() then
+								if gnPurpleQuadP1 then
+									gnSound = GradeSound(5);
+									SOUND:PlayOnce( gnSound )
+									end
+								end
+							end"
+						/>
+					</children>
+				</ActorFrame>
+				<ActorFrame
+					OnCommand="hibernate,0.9;x,85;y,80;sleep,1.4;queuecommand,Update;"
+					UpdateCommand="decelerate,0.3;zoom,1.1;accelerate,0.3;zoom,1;decelerate,0.3;zoom,0.9;diffusealpha,0.9;accelerate,0.3;zoom,1;diffusealpha,1;queuecommand,Update;"
+				>
+					<children>
+						<Layer
+							File="@getResultStars('Purple')"
+							InitCommand="diffusealpha,0;sleep,0.2;queuecommand,GradeSound;decelerate,0.6;zoom,1.5;diffusealpha,1;accelerate,0.4;zoom,1;decelerate,0.1;zoom,0.9;diffusealpha,0.8;accelerate,0.1;zoom,1;diffusealpha,1;"
+							OnCommand="sleep,0.2;"
+							GradeSoundCommand="%function(self)
+							if not getSpecialUSB() then
+								if gnPurpleQuadP1 then
+									gnSound = GradeSound(6);
+									SOUND:PlayOnce( gnSound )
+									end
+								end
+							end"
+						/>
+					</children>
+				</ActorFrame>
+			</children>
+		</ActorFrame>
+	</children>
+</ActorFrame>	
+
+
+		
+<!-- Player 2's Purple Quad -->	
+<ActorFrame
+			OnCommand="zoom,0.2;x,2001;y,-1;wag;EffectMagnitude,0,0,2;sleep,0.1;queuecommand,Go;"
+			Condition="GAMESTATE:IsHumanPlayer(PLAYER_2)"
+			GoCommand="%function(self)
+			if gnPurpleQuadP2 == true and PurpleQuadP2Flag == 0 then
+				PurpleQuadP2Flag = 1;
+				self:x(-1);
+				end	
+			end"
+		>
+			<children>
+				<!--Fireworks-->
+				<ActorFrame
+					OnCommand="hibernate,1.4;zoom,8;draworder,-2000;"
+				>
+					<children>
+				<ActorFrame
+					OnCommand="x,-20;y,20;sleep,1.4;queuecommand,Update;"
+					UpdateCommand="decelerate,0.3;zoom,1.1;accelerate,0.3;zoom,1;decelerate,0.3;zoom,0.9;diffusealpha,0.9;accelerate,0.3;zoom,1;diffusealpha,1;queuecommand,Update;"
+				>
+					<children>
+						<Layer
+							File="fworkgreen3.sprite"
+							InitCommand="diffusealpha,0;sleep,0.2;queuecommand,GradeSound;decelerate,0.6;zoom,1.5;diffusealpha,1;accelerate,0.4;zoom,1;decelerate,0.1;zoom,0.9;diffusealpha,0.8;accelerate,0.1;zoom,1;diffusealpha,1;"
+							OnCommand="sleep,0.2;"
+						/>
+					</children>
+				</ActorFrame>
+				<ActorFrame
+					OnCommand="hibernate,0.3;x,-20;y,-20;sleep,1.4;queuecommand,Update;"
+					UpdateCommand="decelerate,0.3;zoom,1.1;accelerate,0.3;zoom,1;decelerate,0.3;zoom,0.9;diffusealpha,0.9;accelerate,0.3;zoom,1;diffusealpha,1;queuecommand,Update;"
+				>
+					<children>
+						<Layer
+							File="fworkred4.sprite"
+							InitCommand="diffusealpha,0;sleep,0.2;queuecommand,GradeSound;decelerate,0.6;zoom,1.5;diffusealpha,1;accelerate,0.4;zoom,1;decelerate,0.1;zoom,0.9;diffusealpha,0.8;accelerate,0.1;zoom,1;diffusealpha,1;"
+							OnCommand="sleep,0.2;"
+						/>
+					</children>
+				</ActorFrame>
+				<ActorFrame
+					OnCommand="hibernate,0.6;x,20;y,-20;sleep,1.4;queuecommand,Update;"
+					UpdateCommand="decelerate,0.3;zoom,1.1;accelerate,0.3;zoom,1;decelerate,0.3;zoom,0.9;diffusealpha,0.9;accelerate,0.3;zoom,1;diffusealpha,1;queuecommand,Update;"
+				>
+					<children>
+						<Layer
+							File="fworkyellow4.sprite"
+							InitCommand="diffusealpha,0;sleep,0.2;queuecommand,GradeSound;decelerate,0.6;zoom,1.5;diffusealpha,1;accelerate,0.4;zoom,1;decelerate,0.1;zoom,0.9;diffusealpha,0.8;accelerate,0.1;zoom,1;diffusealpha,1;"
+							OnCommand="sleep,0.2;"
+						/>
+					</children>
+				</ActorFrame>
+				<ActorFrame
+					OnCommand="hibernate,0.9;x,20;y,20;sleep,1.4;queuecommand,Update;"
+					UpdateCommand="decelerate,0.3;zoom,1.1;accelerate,0.3;zoom,1;decelerate,0.3;zoom,0.9;diffusealpha,0.9;accelerate,0.3;zoom,1;diffusealpha,1;queuecommand,Update;"
+				>
+					<children>
+						<Layer
+							File="fworkgreen4.sprite"
+							InitCommand="diffusealpha,0;sleep,0.2;queuecommand,GradeSound;decelerate,0.6;zoom,1.5;diffusealpha,1;accelerate,0.4;zoom,1;decelerate,0.1;zoom,0.9;diffusealpha,0.8;accelerate,0.1;zoom,1;diffusealpha,1;"
+							OnCommand="sleep,0.2;"
+						/>
+					</children>
+				</ActorFrame>
+			</children>
+		</ActorFrame>
+		
+<ActorFrame
+			OnCommand="x,2000;y,0;sleep,0.1;queuecommand,Go;"
+			Condition="GAMESTATE:IsHumanPlayer(PLAYER_2)"
+			GoCommand="%function(self)
+			if gnPurpleQuadP2 == true and PurpleQuadP2Flag == 1 then
+				PurpleQuadP2Flag = 2;
+				self:x(0);
+				end
+			end"
+		>
+			<children>
+				<!--Grades-->
+				<ActorFrame
+					OnCommand="x,-90;y,80;sleep,1.4;queuecommand,Update;"
+					UpdateCommand="decelerate,0.3;zoom,1.1;accelerate,0.3;zoom,1;decelerate,0.3;zoom,0.9;diffusealpha,0.9;accelerate,0.3;zoom,1;diffusealpha,1;queuecommand,Update;"
+				>
+					<children>
+						<Layer
+							File="@getResultStars('Purple')"
+							InitCommand="diffusealpha,0;sleep,0.2;queuecommand,GradeSound;decelerate,0.6;zoom,1.5;diffusealpha,1;accelerate,0.4;zoom,1;decelerate,0.1;zoom,0.9;diffusealpha,0.8;accelerate,0.1;zoom,1;diffusealpha,1;"
+							OnCommand="sleep,0.2;"
+							GradeSoundCommand="%function(self)
+							if not getSpecialUSB() then
+								if gnPurpleQuadP2 then
+									gnSound = GradeSound(3);
+									SOUND:PlayOnce( gnSound )
+									end
+								end
+							end"
+						/>
+					</children>
+				</ActorFrame>
+				<ActorFrame
+					OnCommand="hibernate,0.3;x,-90;y,-80;sleep,1.4;queuecommand,Update;"
+					UpdateCommand="decelerate,0.3;zoom,1.1;accelerate,0.3;zoom,1;decelerate,0.3;zoom,0.9;diffusealpha,0.9;accelerate,0.3;zoom,1;diffusealpha,1;queuecommand,Update;"
+				>
+					<children>
+						<Layer
+							File="@getResultStars('Purple')"
+							InitCommand="diffusealpha,0;sleep,0.2;queuecommand,GradeSound;decelerate,0.6;zoom,1.5;diffusealpha,1;accelerate,0.4;zoom,1;decelerate,0.1;zoom,0.9;diffusealpha,0.8;accelerate,0.1;zoom,1;diffusealpha,1;"
+							OnCommand="sleep,0.2;"
+							GradeSoundCommand="%function(self)
+							if not getSpecialUSB() then
+								if gnPurpleQuadP2 then
+									gnSound = GradeSound(4);
+									SOUND:PlayOnce( gnSound )
+									end
+								end
+							end"
+						/>
+					</children>
+				</ActorFrame>
+				<ActorFrame
+					OnCommand="hibernate,0.6;x,85;y,-80;sleep,1.4;queuecommand,Update;"
+					UpdateCommand="decelerate,0.3;zoom,1.1;accelerate,0.3;zoom,1;decelerate,0.3;zoom,0.9;diffusealpha,0.9;accelerate,0.3;zoom,1;diffusealpha,1;queuecommand,Update;"
+				>
+					<children>
+						<Layer
+							File="@getResultStars('Purple')"
+							InitCommand="diffusealpha,0;sleep,0.2;queuecommand,GradeSound;decelerate,0.6;zoom,1.5;diffusealpha,1;accelerate,0.4;zoom,1;decelerate,0.1;zoom,0.9;diffusealpha,0.8;accelerate,0.1;zoom,1;diffusealpha,1;"
+							OnCommand="sleep,0.2;"
+							GradeSoundCommand="%function(self)
+							if not getSpecialUSB() then
+								if gnPurpleQuadP2 then
+									gnSound = GradeSound(5);
+									SOUND:PlayOnce( gnSound )
+									end
+								end
+							end"
+						/>
+					</children>
+				</ActorFrame>
+				<ActorFrame
+					OnCommand="hibernate,0.9;x,85;y,80;sleep,1.4;queuecommand,Update;"
+					UpdateCommand="decelerate,0.3;zoom,1.1;accelerate,0.3;zoom,1;decelerate,0.3;zoom,0.9;diffusealpha,0.9;accelerate,0.3;zoom,1;diffusealpha,1;queuecommand,Update;"
+				>
+					<children>
+						<Layer
+							File="@getResultStars('Purple')"
+							InitCommand="diffusealpha,0;sleep,0.2;queuecommand,GradeSound;decelerate,0.6;zoom,1.5;diffusealpha,1;accelerate,0.4;zoom,1;decelerate,0.1;zoom,0.9;diffusealpha,0.8;accelerate,0.1;zoom,1;diffusealpha,1;"
+							OnCommand="sleep,0.2;"
+							GradeSoundCommand="%function(self)
+							if not getSpecialUSB() then
+								if gnPurpleQuadP2 then
+									gnSound = GradeSound(6);
+									SOUND:PlayOnce( gnSound )
+									end
+								end
+							end"
+						/>
+					</children>
+				</ActorFrame>
+			</children>
+		</ActorFrame>
+	</children>
+</ActorFrame>
+		
+	</children>
+</ActorFrame>

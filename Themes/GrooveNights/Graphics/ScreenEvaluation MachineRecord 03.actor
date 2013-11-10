@@ -1,0 +1,3 @@
+[Actor]
+Text=@getTextMachineRecord('3')
+File=_eurostile normal

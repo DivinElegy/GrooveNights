@@ -1,0 +1,15 @@
+[Sprite]
+
+Texture=fireworks 13x1.png
+
+Frame0000=4;
+Delay0000=0.05;
+Frame0001=5;
+Delay0001=0.05;
+Frame0002=6;
+Delay0002=0.05;
+Frame0003=7;
+Delay0003=0.05;
+Frame0004=12;
+Delay0004=1.2;
+

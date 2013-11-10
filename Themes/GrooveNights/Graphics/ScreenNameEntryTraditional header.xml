@@ -1,0 +1,31 @@
+<ActorFrame>
+	<children>
+		<BitmapText
+			Text="@getTextNameEntryTitle()"
+			File="_eurostile blue glow"
+			InitCommand="%function(self)  self:x(self:GetWidth()/2) self:shadowlength(0) end"
+			
+			OffCommand=""
+		/>
+<!--Remove any restoration messages-->
+		<Layer
+			Type="Quad"
+			InitCommand="%function(self)
+			self:diffusealpha(0);
+			gnRateRestore = 0;
+			end"
+		/>
+		
+		<Layer File="ScreenNameEntryTraditional banner frame p1"
+		InitCommand="x,SCREEN_CENTER_X-19;y,SCREEN_CENTER_Y-134-41;"
+		/>
+		
+	
+<ActorFrame>
+	<children>
+		<Layer File="../BGAnimations/ScreenLogo background/BGVid.avi" OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;blend,add;zoom,2;rotationy,180;diffusealpha,0.15;" />
+	</children>
+</ActorFrame>
+
+	</children>
+</ActorFrame>

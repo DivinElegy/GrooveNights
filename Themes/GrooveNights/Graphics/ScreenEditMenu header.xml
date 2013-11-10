@@ -1,0 +1,19 @@
+<ActorFrame>
+	<children>
+		<BitmapText
+			Text="SELECT A SONG, STYLE AND DIFFICULTY TO EDIT"
+			File="_eurostile blue glow"
+			InitCommand="%function(self)  self:x(self:GetWidth()/2) self:shadowlength(0); end"
+			OnCommand=""
+			OffCommand=""
+		/>
+		
+<ActorFrame>
+	<children>
+		<Layer File="../BGAnimations/ScreenLogo background/BGVid.avi" OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;blend,add;zoom,2;rotationy,180;diffusealpha,0.15;" />
+	</children>
+</ActorFrame>
+
+	</children>
+
+</ActorFrame>

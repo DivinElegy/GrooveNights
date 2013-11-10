@@ -1,0 +1,5 @@
+<ActorFrame>
+	<children>
+		<AutoActor File="../_fade in normal" />
+	</children>
+</ActorFrame>

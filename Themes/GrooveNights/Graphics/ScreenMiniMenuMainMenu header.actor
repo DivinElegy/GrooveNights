@@ -1,0 +1,4 @@
+[Actor]
+Font=Common normal
+Text=Edit Menu
+InitCommand=shadowlength,0;

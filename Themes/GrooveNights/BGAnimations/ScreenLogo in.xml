@@ -1,0 +1,5 @@
+<BGAnimation>
+	<children>
+		<AutoActor File="_fade in normal" />
+	</children>
+</BGAnimation>

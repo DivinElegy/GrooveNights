@@ -1,0 +1,33 @@
+<ActorFrame InitCommand="%function(self) 
+if gnRateRestore == nil then
+	gnRateRestore = 0;
+	end
+end"> <children>
+<!--Rate Message-->
+	<Layer Type="Quad"
+	InitCommand="%function(self)
+	self:diffusealpha(0);
+	if gnRateRestore == 1 then
+		SCREENMAN:SystemMessage('Rate Modifier has been restored to 1.0x'); 
+		end
+	end"
+	/>
+	<Layer File="base frame" />
+	<Layer Type="ActorFrame" OnCommand="x,-136;y,31"> <children>
+		<Layer File="Judgment0001"	OnCommand="y,16*0;zoom,0.65;horizalign,left;shadowlength,0;" />
+		<Layer File="Judgment0002"	OnCommand="y,16*1;zoom,0.65;horizalign,left;shadowlength,0;" />
+		<Layer File="Judgment0003"		OnCommand="y,16*2;zoom,0.65;horizalign,left;shadowlength,0;" />
+		<Layer File="Judgment0004"		OnCommand="y,16*3;zoom,0.65;horizalign,left;shadowlength,0;" />
+		<Layer File="Judgment0005"	OnCommand="y,16*4;zoom,0.65;horizalign,left;shadowlength,0;" />
+		<Layer File="Judgment0006"		OnCommand="y,16*5;zoom,0.65;horizalign,left;shadowlength,0;" />
+	</children> </Layer>
+	<Layer Type="ActorFrame" OnCommand="x,8;y,31"> <children>
+		<Layer File="Judgment0007"		OnCommand="y,16*0;zoom,0.65;horizalign,left;shadowlength,0;" />
+		<Layer File="Judgment0008"		OnCommand="y,16*1;zoom,0.65;horizalign,left;shadowlength,0;" />
+		<Layer File="Judgment0009"		OnCommand="y,16*2;zoom,0.65;horizalign,left;shadowlength,0;" />
+		<Layer File="Judgment0010"		OnCommand="y,16*3;zoom,0.65;horizalign,left;shadowlength,0;" />
+		<Layer File="Judgment0011"		OnCommand="y,16*4;zoom,0.65;horizalign,left;shadowlength,0;" />
+		<Layer File="Judgment0012"		OnCommand="y,16*5;zoom,0.65;horizalign,left;shadowlength,0;" />
+	</children> </Layer>
+</children> </ActorFrame>
+

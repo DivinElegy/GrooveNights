@@ -1,0 +1,4 @@
+[Actor]
+Font=Common normal
+Text=Shortcut Keys
+OnCommand=shadowlength,0;

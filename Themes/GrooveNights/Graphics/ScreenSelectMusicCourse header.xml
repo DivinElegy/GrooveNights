@@ -1,0 +1,16 @@
+<ActorFrame>
+	<children>
+		<BitmapText
+			Text="@getTextCourseSelectTitle()"
+			File="_eurostile blue glow"
+			InitCommand="%function(self)  self:x(self:GetWidth()/2) end"
+			OnCommand="shadowlength,0;zoom,1;decelerate,0.3;zoom,1;"
+			
+		/>
+	<!--Screen Transition-->
+	<Layer Type="Quad"
+	OnCommand="zoom,SCREEN_WIDTH*2;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;draworder,1000;accelerate,0.2;zoom,SCREEN_WIDTH*0;diffuse,0,0,0,0;"
+	OffCommand="decelerate,0.2;zoom,SCREEN_WIDTH*2;diffuse,0,0,0,1;"
+	/>
+	</children>
+</ActorFrame>

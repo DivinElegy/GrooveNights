@@ -1,0 +1,5 @@
+<ActorFrame>
+	<children>
+		<Layer Type="Quad" InitCommand="diffusealpha,0;" />
+	</children>
+</ActorFrame>

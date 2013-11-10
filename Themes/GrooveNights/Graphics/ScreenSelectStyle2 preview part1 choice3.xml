@@ -1,0 +1,10 @@
+<ActorFrame><children>
+	<BitampText
+		Text="@getTextDoubleDescription()"
+		File="_eurostile normal"
+		InitCommand="zoom,0.8;horizalign,center;maxwidth,600;shadowlength,0;"
+		GainFocusCommand="%function(self) self:y(20); self:hidden(0); self:finishtweening(); gnChoice = 0; self:diffusealpha(0); self:linear(0.5); self:diffusealpha(1); end"
+		LoseFocusCommand="hidden,1"
+		OffCommand="linear,0.3;diffusealpha,0"
+	/>
+</children></ActorFrame>

@@ -1,0 +1,4 @@
+[Actor]
+Font=Common normal
+Text=Area Menu
+InitCommand=shadowlength,0;
