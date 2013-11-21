@@ -3835,6 +3835,7 @@ StepP2MessageCommand="%function(self)
 
 </children></ActorFrame>
 
+<!--Screen Transition-->
 	<Layer Type="Quad"
 	OnCommand="diffusealpha,0;"
 	ScreenTransitionMessageCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+SCREEN_HEIGHT;draworder,10000;accelerate,0.2;diffuse,0,0,0,1;y,SCREEN_CENTER_Y+(SCREEN_HEIGHT/2)"
@@ -3848,6 +3849,17 @@ StepP2MessageCommand="%function(self)
 	<Layer File="../../Graphics/TransitionArrow"
 	OnCommand="diffusealpha,0;"
 	ScreenTransitionMessageCommand="diffusealpha,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+SCREEN_HEIGHT+50;draworder,10000;accelerate,0.2;y,SCREEN_CENTER_Y"
+	/>
+	
+	<Layer File="Restarting" 
+	Condition="GAMESTATE:IsEventMode() and MenuButtonGiveUp()"
+	OnCommand="diffusealpha,0;"
+	ScreenTransitionMessageCommand="%function(self) 
+	if gnStaminaSongPercent > gnLowestRestartPercent and gnStaminaSongPercent < gnHighestRestartPercent then
+		self:queuecommand('Blink');
+		end
+	end" 
+	BlinkCommand="diffusealpha,1;draworder,10000;x,SCREEN_CENTER_X;Y,SCREEN_CENTER_Y+SCREEN_HEIGHT+50+65;accelerate,0.2;y,SCREEN_CENTER_Y+65;sleep,0.2;diffusealpha,0;sleep,0.2;diffusealpha,1;sleep,0.2;diffusealpha,0;sleep,0.2;diffusealpha,1;"
 	/>
 	
 </children> </ActorFrame>
