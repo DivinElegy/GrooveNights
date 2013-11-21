@@ -5,8 +5,7 @@
 				<ActorFrame FOV="105" OnCommand="zoom,1.3">
 					<children>
 						<!-- overlay -->
-						<Layer File="../ScreenLogo background/BGVid.avi" OnCommand="zoom,1*gnZoomRatio;rotationy,180;diffusealpha,0.3;" />
-						<Layer File="../ScreenLogo background/BGVid.avi" OnCommand="zoom,1.1*gnZoomRatio;diffusealpha,0.2;" />
+						<Layer File="../ScreenLogo background/BGVid2.avi" OnCommand="@'zoom,1.1*gnZoomRatio;diffusealpha,1;diffuse,'..FrameColor()..';'" />
 						
 					</children>
 				</ActorFrame>

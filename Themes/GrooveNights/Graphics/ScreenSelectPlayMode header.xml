@@ -5,6 +5,7 @@
 			File="_eurostile blue glow"
 			InitCommand="%function(self)  self:x(self:GetWidth()/2) gnDummy = ScreenTitleBranch(); end"
 			OnCommand="shadowlength,0;zoom,1;decelerate,0.3;zoom,1;"
+			OffCommand="accelerate,0.3;diffusealpha,0;"
 			
 		/>
 		<BitmapText
@@ -84,19 +85,27 @@
 			</children>
 		</ActorFrame>
 	<!--Screen Transition-->
+	<ActorFrame InitCommand="x,-18;y,-41;"><children>
 	<Layer Type="Quad"
-	OnCommand="zoom,SCREEN_WIDTH*2;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;draworder,10000;accelerate,0.2;zoom,SCREEN_WIDTH*0;diffuse,0,0,0,1;"
+	OnCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+(SCREEN_HEIGHT/2);draworder,10000;decelerate,0.2;diffuse,0,0,0,1;y,SCREEN_CENTER_Y+SCREEN_HEIGHT"
 	MadeChoiceP1MessageCommand="playcommand,GoOff"
 	MadeChoiceP2MessageCommand="playcommand,GoOff"
-	GoOffCommand="decelerate,0.2;zoom,SCREEN_WIDTH*2;diffuse,0,0,0,1;"
+	GoOffCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+SCREEN_HEIGHT;draworder,10000;accelerate,0.2;diffuse,0,0,0,1;y,SCREEN_CENTER_Y+(SCREEN_HEIGHT/2)"
 	/>
 	
+	<Layer Type="Quad"
+	OnCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT/2);draworder,10000;accelerate,0.2;diffuse,0,0,0,1;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT)"
+	MadeChoiceP1MessageCommand="playcommand,GoOff"
+	MadeChoiceP2MessageCommand="playcommand,GoOff"
+	GoOffCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-SCREEN_HEIGHT;draworder,10000;decelerate,0.2;diffuse,0,0,0,1;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT/2)"
+	/>
 	
-<ActorFrame>
-	<children>
-		<Layer File="../BGAnimations/ScreenLogo background/BGVid.avi" OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;blend,add;zoom,2;rotationy,180;diffusealpha,0.15;" />
-	</children>
-</ActorFrame>
-
+	<Layer File="TransitionArrow"
+	OnCommand="vibrate;EffectMagnitude,0.5,0.5,0.1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;draworder,10000;decelerate,0.2;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT/2)-50"
+	MadeChoiceP1MessageCommand="playcommand,GoOff"
+	MadeChoiceP2MessageCommand="playcommand,GoOff"
+	GoOffCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+SCREEN_HEIGHT+50;draworder,10000;accelerate,0.2;y,SCREEN_CENTER_Y"
+	/>
+	</children></ActorFrame>
 	</children>
 </ActorFrame>

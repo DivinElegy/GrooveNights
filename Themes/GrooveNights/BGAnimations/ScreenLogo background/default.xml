@@ -33,8 +33,8 @@ self:sleep(0.1);
 self:queuecommand('loop');
 end"><children>
 	<Layer
-		File="BGVid.avi"
-		OnCommand="diffusealpha,0.3;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoom,1.1*gnZoomRatio;queuecommand,Authenticate;"
+		File="BGVid2.avi"
+		OnCommand="@'diffusealpha,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoom,1.1*gnZoomRatio;diffuse,'..FrameColor()..';queuecommand,Authenticate;'"
 		AuthenticateCommand="%function(self)
 		GAMESTATE:SetEnv('Santa','Off');
 		GAMESTATE:SetEnv('Frost','Off');
@@ -68,45 +68,45 @@ end"><children>
 	
 	<!-- Home Mode Interface -->
 	<Layer Class="ActorFrame" Condition="GAMESTATE:GetCoinMode()==COIN_MODE_HOME"><children>
+	<ActorFrame InitCommand="vibrate;EffectMagnitude,0.5,0.5,0.1;"><children>
 		<Layer
 		File="TitleScreen0002.png"
-		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;addy,460;diffusealpha,1;sleep,1.7;zoom,1.7;diffusealpha,1;accelerate,0.5;addy,-510;zoom,0.8;decelerate,2;diffusealpha,1;addy,10;"
-	/>
+		OnCommand="pulse;EffectMagnitude,1,1.02,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;addy,460;diffusealpha,1;zoom,1.7;diffusealpha,1;addy,-510;zoom,0.8;diffusealpha,1;addy,10;zoom,0;linear,0.1;zoom,0.8;"
+	/></children></ActorFrame>
 		<Layer
 		File="TitleScreen0003.png"
-		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffusealpha,0;decelerate,0.12;rotationz,2;diffusealpha,1;zoom,1.1;accelerate,0.18;rotationz,0;zoom,1;decelerate,0.12;zoom,0.9;accelerate,0.08;rotationz,-2;zoom,1;decelerate,0.12;diffusealpha,1;zoom,1.1;accelerate,0.18;rotationz,0;zoom,1;linear,1.4;addy,-30;decelerate,0.2;addy,-20;"
+		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffusealpha,0;rotationz,2;diffusealpha,1;zoom,1.1;rotationz,0;zoom,1;zoom,0.9;rotationz,-2;zoom,1;diffusealpha,1;zoom,1.1;rotationz,0;zoom,1;addy,-30;addy,-20;zoom,0;linear,0.1;zoom,1;"
 	/>
 		<Layer
 		File="TitleScreen0001.png"
-		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffusealpha,0;decelerate,0.1;rotationz,4;diffusealpha,1;zoom,1.1;accelerate,0.2;rotationz,0;zoom,1;decelerate,0.1;zoom,0.9;accelerate,0.1;rotationz,-4;zoom,1;decelerate,0.1;diffusealpha,1;zoom,1.1;accelerate,0.2;rotationz,0;zoom,1;linear,1.4;addy,-30;decelerate,0.2;addy,-40;accelerate,0.2;addy,20;"
+		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffusealpha,0;rotationz,4;diffusealpha,1;zoom,1.1;rotationz,0;zoom,1;zoom,0.9;rotationz,-4;zoom,1;diffusealpha,1;zoom,1.1;rotationz,0;zoom,1;addy,-30;addy,-40;addy,20;zoom,0;linear,0.1;zoom,1;"
 	/>
 	</children></Layer>
 
 	<!-- All Other Mode Interface -->
 	<Layer Class="ActorFrame" Condition="GAMESTATE:GetCoinMode()~=COIN_MODE_HOME" InitCommand="y,60;"><children>
+	<ActorFrame InitCommand="vibrate;EffectMagnitude,0.5,0.5,0.1;"><children>
 		<Layer
 		File="TitleScreen0002.png"
-		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;addy,460;diffusealpha,1;sleep,1.7;zoom,1.7;diffusealpha,1;accelerate,0.5;addy,-510;zoom,0.8;decelerate,2;diffusealpha,1;addy,10;"
-	/>
+		OnCommand="pulse;EffectMagnitude,1,1.02,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;addy,460;diffusealpha,1;zoom,1.7;diffusealpha,1;addy,-510;zoom,0.8;diffusealpha,1;addy,10;zoom,0;linear,0.1;zoom,0.8;"
+	/></children></ActorFrame>
 		<Layer
 		File="TitleScreen0003.png"
-		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffusealpha,0;decelerate,0.12;rotationz,2;diffusealpha,1;zoom,1.1;accelerate,0.18;rotationz,0;zoom,1;decelerate,0.12;zoom,0.9;accelerate,0.08;rotationz,-2;zoom,1;decelerate,0.12;diffusealpha,1;zoom,1.1;accelerate,0.18;rotationz,0;zoom,1;linear,1.4;addy,-30;decelerate,0.2;addy,-20;"
+		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffusealpha,0;rotationz,2;diffusealpha,1;zoom,1.1;rotationz,0;zoom,1;zoom,0.9;rotationz,-2;zoom,1;diffusealpha,1;zoom,1.1;rotationz,0;zoom,1;addy,-30;addy,-20;zoom,0;linear,0.1;zoom,1;"
 	/>
 		<Layer
 		File="TitleScreen0001.png"
-		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffusealpha,0;decelerate,0.1;rotationz,4;diffusealpha,1;zoom,1.1;accelerate,0.2;rotationz,0;zoom,1;decelerate,0.1;zoom,0.9;accelerate,0.1;rotationz,-4;zoom,1;decelerate,0.1;diffusealpha,1;zoom,1.1;accelerate,0.2;rotationz,0;zoom,1;linear,1.4;addy,-30;decelerate,0.2;addy,-40;accelerate,0.2;addy,20;"
+		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffusealpha,0;rotationz,4;diffusealpha,1;zoom,1.1;rotationz,0;zoom,1;zoom,0.9;rotationz,-4;zoom,1;diffusealpha,1;zoom,1.1;rotationz,0;zoom,1;addy,-30;addy,-40;addy,20;zoom,0;linear,0.1;zoom,1;"
 	/>
 	</children></Layer>
-	
-	<Layer Class="ActorFrame"><children>
-		<Layer
-		File="BGVid.avi"
-		OnCommand="diffusealpha,0.4;blend,add;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoom,1.1*gnZoomRatio;"
-	/>
-	</children></Layer>
-											
+
 	<Layer
 		Class="Quad"
-		OnCommand="stretchto,SCREEN_LEFT,SCREEN_TOP,SCREEN_RIGHT,SCREEN_BOTTOM;diffuse,#FFFFFF;diffusealpha,0;sleep,0.1;accelerate,0.5;diffusealpha,0.3;sleep,0.2;decelerate,0.5;diffusealpha,0"
+		OnCommand="@'stretchto,SCREEN_LEFT,SCREEN_TOP,SCREEN_RIGHT,SCREEN_BOTTOM;diffuse,#FFFFFF;diffusealpha,1;linear,0.1;diffuse,'..FrameColor()..';diffusealpha,0;'"
+	/>
+	
+	<Layer
+		File="BGVid2.avi"
+		OnCommand="@'diffusealpha,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoom,1.1*gnZoomRatio;diffuse,'..FrameColor()..';blend,add;'"
 	/>
 </children></ActorFrame>

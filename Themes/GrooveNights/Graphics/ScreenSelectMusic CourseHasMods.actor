@@ -1,4 +1,4 @@
 [Actor]
-Text=WARNING: This Course Contains Modifiers
+Text=This Course Contains Modifiers
 File=_eurostile normal
-InitCommand=zoom,0.55;horizalign,left;
+InitCommand=zoom,0.55;horizalign,center;

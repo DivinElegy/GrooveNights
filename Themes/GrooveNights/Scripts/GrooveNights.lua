@@ -1693,6 +1693,7 @@ if not GAMESTATE:IsCourseMode() then
 		else
 		if steps:GetDifficulty() == DIFFICULTY_EDIT then 
 			gnNewDifficulty = steps:GetDescription()
+			gnDifficulty = 5
 			else
 			if steps:GetDifficulty() == DIFFICULTY_BEGINNER then 
 				gnNewDifficulty = getTextNovice()

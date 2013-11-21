@@ -25,3 +25,39 @@ function ContrastingDifficultyColor( dc )
 	return "1,1,1,1"
 end
 
+-- Set the colour of all borders in the theme
+function FrameColor( pn )
+	return "#1C2C3C"
+end
+
+-- Set the colour of all backgrounds in the theme
+function BackgroundColor( pn )
+	return "#060A0E"
+end
+
+-- Set the colour of all labels, eg BPM: on the Song Select Screen
+function LabelColor()
+	return "#FFA314"
+end
+
+
+-- Music Wheel Colours
+function SectionColor()
+	return LabelColor()
+end
+
+function SongTitleColor()
+	return "#FFFFFF"
+end
+
+function CourseTitleColor()
+	return SongTitleColor()
+end
+
+function SubTitleColor()
+	return "#8AB2F4"
+end
+
+function SortColor()
+	return LabelColor()
+end

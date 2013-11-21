@@ -18,7 +18,8 @@ end">
 			Text="@getTextPlayerOptionsTitle()"
 			File="_eurostile blue glow"
 			InitCommand="%function(self)  self:x(self:GetWidth()/2) DQCount = 0; self:shadowlength(0); end"
-			OnCommand="shadowlength,0;zoom,0;Decelerate,0.3;Zoom,1;"
+			OnCommand="shadowlength,0;diffusealpha,0;Decelerate,0.3;diffusealpha,1;"
+			OffCommand="accelerate,0.3;diffusealpha,0;"
 		/>
 <!--Rate Message-->
 	<Layer Type="Quad"

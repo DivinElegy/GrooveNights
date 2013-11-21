@@ -14,6 +14,8 @@
 				self:wag();
 				end
 			end"> <children>
+	
+
 		<ActorFrame InitCommand="x,409;y,222;">
 			<children>
 	<!--Total PlayTime-->
@@ -21,7 +23,7 @@
 				Text=""
 				File="_eurostile blue glow"
 				Condition="PlayTimeEnabled()"
-				InitCommand="DiffuseShift;EffectColor1,0.6,0.8,0.9,1;EffectColor2,0.6,0.8,0.9,1;queuecommand,Go"
+				InitCommand="@'diffuse,'..LabelColor()..';queuecommand,Go'"
 				GoCommand="%function(self)
 				self:x(-112);
 				self:y(248);
@@ -277,7 +279,7 @@
 			Text="STEPS:"
 			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1) and not GAMESTATE:IsCourseMode()"
 			File="_eurostile blue glow"
-			InitCommand="horizalign,left;shadowlength,0;zoom,0.5;diffuse,0.6,0.8,0.9,1;queuecommand,Go"
+			InitCommand="@'horizalign,left;shadowlength,0;zoom,0.5;diffuse,'..LabelColor()..';queuecommand,Go'"
 			GoCommand="%function(self)
 			self:x(SCREEN_CENTER_X-218);
 			self:y(SCREEN_CENTER_Y-150);
@@ -303,7 +305,7 @@
 			Text=":STEPS"
 			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2) and not GAMESTATE:IsCourseMode()"
 			File="_eurostile blue glow"
-			OnCommand="horizalign,right;shadowlength,0;zoom,0.5;diffuse,0.6,0.8,0.9,1;queuecommand,Go"
+			OnCommand="@'horizalign,right;shadowlength,0;zoom,0.5;diffuse,'..LabelColor()..';queuecommand,Go'"
 			GoCommand="%function(self)
 			self:x(SCREEN_CENTER_X+218);
 			self:y(SCREEN_CENTER_Y-150);
@@ -344,7 +346,7 @@
 			Text="BPM:"
 			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
 			File="_eurostile blue glow"
-			OnCommand="horizalign,left;shadowlength,0;zoom,0.55;diffuse,0.6,0.8,0.9,1;"
+			OnCommand="@'horizalign,left;shadowlength,0;zoom,0.55;diffuse,'..LabelColor()..';'"
 			
 			InitCommand="%function(self)
 			self:x(SCREEN_CENTER_X-307);
@@ -362,7 +364,7 @@
 			Text="SPEED:"
 			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
 			File="_eurostile blue glow"
-			OnCommand="horizalign,left;shadowlength,0;zoom,0.55;diffuse,0.6,0.8,0.9,1;queuecommand,loop"
+			OnCommand="@'horizalign,left;shadowlength,0;zoom,0.55;diffuse,'..LabelColor()..';'"
 
 			InitCommand="%function(self)
 			self:x(SCREEN_CENTER_X-307);
@@ -458,7 +460,7 @@
 			Text=":BPM"
 			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
 			File="_eurostile blue glow"
-			OnCommand="horizalign,right;shadowlength,0;zoom,0.55;diffuse,0.6,0.8,0.9,1;"
+			OnCommand="@'horizalign,right;shadowlength,0;zoom,0.55;diffuse,'..LabelColor()..';'"
 			
 			InitCommand="%function(self)
 			self:x(SCREEN_CENTER_X+307);
@@ -476,7 +478,7 @@
 			Text=":SPEED"
 			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
 			File="_eurostile blue glow"
-			OnCommand="horizalign,right;shadowlength,0;zoom,0.55;diffuse,0.6,0.8,0.9,1;"
+			OnCommand="@'horizalign,right;shadowlength,0;zoom,0.55;diffuse,'..LabelColor()..';'"
 			
 			InitCommand="%function(self)
 			self:x(SCREEN_CENTER_X+307);
@@ -579,10 +581,5 @@
 		OffCommand="accelerate,0.3;addx,SCREEN_WIDTH"
 		File="@THEME:GetPath(EC_GRAPHICS,'','_name p2')"
 	/>-->
-	
-	<!--Screen Transition-->
-	<Layer Type="Quad"
-	OnCommand="zoom,SCREEN_WIDTH*2;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;draworder,1000;accelerate,0.2;zoom,SCREEN_WIDTH*0;diffuse,0,0,0,0;"
-	OffCommand="decelerate,0.2;zoom,SCREEN_WIDTH*2;diffuse,0,0,0,1;"
-	/>
+
 </children> </ActorFrame>

@@ -1,0 +1,62 @@
+<ActorFrame>
+<children>
+<Layer
+File="../../Graphics/Common fallback banner"
+OnCommand="scaletoclipped,210,66;ztest,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-134;"
+/>
+
+<Layer
+File="../ScreenWithMenuElements underlay"
+/>
+
+<Layer
+File="name entry banner mask"
+OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-134;zbuffer,1;blend,noeffect;"
+OffCommand=""
+/>
+
+<Layer
+File="name entry BGA score frame"
+OnCommand="x,SCREEN_CENTER_X-223;y,SCREEN_CENTER_Y-115;zoom,0.9;"
+OffCommand=""
+Condition="GAMESTATE:IsHumanPlayer(PLAYER_1)"
+/>
+
+<Layer
+File="name entry BGA score frame"
+OnCommand="x,SCREEN_CENTER_X+223;y,SCREEN_CENTER_Y-115;zoom,0.9;"
+OffCommand=""
+Condition="GAMESTATE:IsHumanPlayer(PLAYER_2)"
+/>
+
+<Layer
+File="name entry BGA list frame"
+OnCommand="x,SCREEN_CENTER_X-157;y,SCREEN_CENTER_Y+106;"
+OffCommand=""
+Condition="GAMESTATE:IsHumanPlayer(PLAYER_1)"
+/>
+
+<Layer
+File="name entry BGA list frame"
+OnCommand="x,SCREEN_CENTER_X+156;y,SCREEN_CENTER_Y+106;"
+OffCommand=""
+Condition="GAMESTATE:IsHumanPlayer(PLAYER_2)"
+/>
+
+<!--Screen Transition doesn't work because the screen change is instantaneous-->
+	<Layer Type="Quad"
+	OnCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+(SCREEN_HEIGHT/2);draworder,10000;decelerate,0.2;diffuse,0,0,0,1;y,SCREEN_CENTER_Y+SCREEN_HEIGHT"
+	ScreenTransitionMessageCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+SCREEN_HEIGHT;draworder,10000;accelerate,0.2;diffuse,0,0,0,1;y,SCREEN_CENTER_Y+(SCREEN_HEIGHT/2)"
+	/>
+	
+	<Layer Type="Quad"
+	OnCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT/2);draworder,10000;accelerate,0.2;diffuse,0,0,0,1;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT)"
+	ScreenTransitionMessageCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-SCREEN_HEIGHT;draworder,10000;decelerate,0.2;diffuse,0,0,0,1;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT/2)"
+	/>
+	
+	<Layer File="../../Graphics/TransitionArrow"
+	OnCommand="vibrate;EffectMagnitude,0.5,0.5,0.1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;draworder,10000;decelerate,0.2;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT/2)-50"
+	ScreenTransitionMessageCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+SCREEN_HEIGHT+50;draworder,10000;accelerate,0.2;y,SCREEN_CENTER_Y"
+	/>
+</children>
+</ActorFrame>

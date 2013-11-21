@@ -1,7 +1,33 @@
-<ActorFrame InitCommand="%function(self) 
+<ActorFrame InitCommand="%function(self)
+self:hibernate(0.1);
+self:queuecommand('Calculate');
+end"
+
+CalculateCommand="%function(self)
 if gnRateRestore == nil then
 	gnRateRestore = 0;
 	end
+
+if GAMESTATE:IsPlayerEnabled(PLAYER_2) and not GAMESTATE:IsPlayerEnabled(PLAYER_1) then
+	if gnJudgeCount == 0 then
+	gnJudgeCount = gnJudgeCount + 2;
+	end
+end
+
+if GAMESTATE:IsPlayerEnabled(PLAYER_2) then
+	if gnJudgeCount == 1 then
+	gnJudgeCount = gnJudgeCount + 1;
+	end
+end
+
+if GAMESTATE:IsPlayerEnabled(PLAYER_1) then
+	if gnJudgeCount == 0 then
+	gnJudgeCount = gnJudgeCount + 1;
+	end
+end
+
+gnJudgeTotal = tonumber(SCREENMAN:GetTopScreen():GetChild('MarvelousNumberP'..gnJudgeCount):GetText()) + tonumber(SCREENMAN:GetTopScreen():GetChild('PerfectNumberP'..gnJudgeCount):GetText()) + tonumber(SCREENMAN:GetTopScreen():GetChild('GreatNumberP'..gnJudgeCount):GetText()) + tonumber(SCREENMAN:GetTopScreen():GetChild('GoodNumberP'..gnJudgeCount):GetText()) + tonumber(SCREENMAN:GetTopScreen():GetChild('BooNumberP'..gnJudgeCount):GetText()) + tonumber(SCREENMAN:GetTopScreen():GetChild('MissNumberP'..gnJudgeCount):GetText());
+
 end"> <children>
 <!--Rate Message-->
 	<Layer Type="Quad"
@@ -12,22 +38,84 @@ end"> <children>
 		end
 	end"
 	/>
-	<Layer File="base frame" />
-	<Layer Type="ActorFrame" OnCommand="x,-136;y,31"> <children>
+	<Layer File="base frame B" InitCommand="@'diffuse,'..BackgroundColor()..';'"/>
+	<Layer File="base frame F" InitCommand="@'diffuse,'..FrameColor()..';'"/>
+	<!-- +7s are for 4:3, will need to make them +6s if using widescreen -->
+	<Layer Type="ActorFrame" OnCommand="x,5;y,-114"> <children>
 		<Layer File="Judgment0001"	OnCommand="y,16*0;zoom,0.65;horizalign,left;shadowlength,0;" />
+		<Layer Type="Quad" OnCommand="y,16*0+7;x,3;horizalign,left;diffusealpha,0.1;zoomx,121;zoomy,1;" />
+		<Layer Type="Quad" OnCommand="y,16*0+7;x,3;horizalign,left;diffuse,51/255,153/255,204/255,1;zoomy,1;queuecommand,calculate;"
+		calculatecommand="%function(self)
+		gnJudgeText = math.ceil(tonumber(SCREENMAN:GetTopScreen():GetChild('MarvelousNumberP'..gnJudgeCount):GetText()) / gnJudgeTotal * 121);
+		self:zoomx(gnJudgeText);
+		end"/>
+		
 		<Layer File="Judgment0002"	OnCommand="y,16*1;zoom,0.65;horizalign,left;shadowlength,0;" />
+		<Layer Type="Quad" OnCommand="y,16*1+6;x,3;horizalign,left;diffusealpha,0.1;zoomx,121;zoomy,1;" />
+		<Layer Type="Quad" OnCommand="y,16*1+6;x,3;horizalign,left;diffuse,221/255,166/255,1/255,1;zoomy,1;queuecommand,calculate;"
+		calculatecommand="%function(self)
+		gnJudgeText = math.ceil(tonumber(SCREENMAN:GetTopScreen():GetChild('PerfectNumberP'..gnJudgeCount):GetText()) / gnJudgeTotal * 121);
+		self:zoomx(gnJudgeText);
+		end"/>
+		
 		<Layer File="Judgment0003"		OnCommand="y,16*2;zoom,0.65;horizalign,left;shadowlength,0;" />
+		<Layer Type="Quad" OnCommand="y,16*2+6;x,3;horizalign,left;diffusealpha,0.1;zoomx,121;zoomy,1;" />
+		<Layer Type="Quad" OnCommand="y,16*2+6;x,3;horizalign,left;diffuse,1/255,204/255,51/255,1;zoomy,1;queuecommand,calculate;"
+		calculatecommand="%function(self)
+		gnJudgeText = math.ceil(tonumber(SCREENMAN:GetTopScreen():GetChild('GreatNumberP'..gnJudgeCount):GetText()) / gnJudgeTotal * 121);
+		self:zoomx(gnJudgeText);
+		end"/>
+		
 		<Layer File="Judgment0004"		OnCommand="y,16*3;zoom,0.65;horizalign,left;shadowlength,0;" />
+		<Layer Type="Quad" OnCommand="y,16*3+7;x,3;horizalign,left;diffusealpha,0.1;zoomx,121;zoomy,1;" />
+		<Layer Type="Quad" OnCommand="y,16*3+7;x,3;horizalign,left;diffuse,127/255,127/255,255/255,1;zoomy,1;queuecommand,calculate;"
+		calculatecommand="%function(self)
+		gnJudgeText = math.ceil(tonumber(SCREENMAN:GetTopScreen():GetChild('GoodNumberP'..gnJudgeCount):GetText()) / gnJudgeTotal * 121);
+		self:zoomx(gnJudgeText);
+		end"/>
+		
 		<Layer File="Judgment0005"	OnCommand="y,16*4;zoom,0.65;horizalign,left;shadowlength,0;" />
+		<Layer Type="Quad" OnCommand="y,16*4+6;x,3;horizalign,left;diffusealpha,0.1;zoomx,121;zoomy,1;" />
+		<Layer Type="Quad" OnCommand="y,16*4+6;x,3;horizalign,left;diffuse,245/255,147/255,49/255,1;zoomy,1;queuecommand,calculate;"
+		calculatecommand="%function(self)
+		gnJudgeText = math.ceil(tonumber(SCREENMAN:GetTopScreen():GetChild('BooNumberP'..gnJudgeCount):GetText()) / gnJudgeTotal * 121);
+		self:zoomx(gnJudgeText);
+		end"/>
+		
 		<Layer File="Judgment0006"		OnCommand="y,16*5;zoom,0.65;horizalign,left;shadowlength,0;" />
+		<Layer Type="Quad" OnCommand="y,16*5+7;x,3;horizalign,left;diffusealpha,0.1;zoomx,121;zoomy,1;" />
+		<Layer Type="Quad" OnCommand="y,16*5+7;x,3;horizalign,left;diffuse,255/255,63/255,63/255,1;zoomy,1;queuecommand,calculate;"
+		calculatecommand="%function(self)
+		gnJudgeText = math.ceil(tonumber(SCREENMAN:GetTopScreen():GetChild('MissNumberP'..gnJudgeCount):GetText()) / gnJudgeTotal * 121);
+		self:zoomx(gnJudgeText);
+		end"/>
+		
 	</children> </Layer>
-	<Layer Type="ActorFrame" OnCommand="x,8;y,31"> <children>
+	<Layer Type="ActorFrame" OnCommand="x,4;y,-18"> <children>
 		<Layer File="Judgment0007"		OnCommand="y,16*0;zoom,0.65;horizalign,left;shadowlength,0;" />
+		<Layer Type="Quad" OnCommand="y,16*0+6;x,3;horizalign,left;diffusealpha,0.1;zoomx,121;zoomy,1;" />
+		<Layer Type="Quad" OnCommand="y,16*0+6;x,3;horizalign,left;diffuse,255/255,255/255,255/255,0.5;zoomx,1;zoomy,1;" />
+
 		<Layer File="Judgment0008"		OnCommand="y,16*1;zoom,0.65;horizalign,left;shadowlength,0;" />
+		<Layer Type="Quad" OnCommand="y,16*1+6;x,3;horizalign,left;diffusealpha,0.1;zoomx,121;zoomy,1;" />
+		<Layer Type="Quad" OnCommand="y,16*1+6;x,3;horizalign,left;diffuse,255/255,255/255,255/255,0.5;zoomx,1;zoomy,1;" />
+
 		<Layer File="Judgment0009"		OnCommand="y,16*2;zoom,0.65;horizalign,left;shadowlength,0;" />
+		<Layer Type="Quad" OnCommand="y,16*2+7;x,3;horizalign,left;diffusealpha,0.1;zoomx,121;zoomy,1;" />
+		<Layer Type="Quad" OnCommand="y,16*2+7;x,3;horizalign,left;diffuse,255/255,255/255,255/255,0.5;zoomx,1;zoomy,1;" />
+
 		<Layer File="Judgment0010"		OnCommand="y,16*3;zoom,0.65;horizalign,left;shadowlength,0;" />
+		<Layer Type="Quad" OnCommand="y,16*3+6;x,3;horizalign,left;diffusealpha,0.1;zoomx,121;zoomy,1;" />
+		<Layer Type="Quad" OnCommand="y,16*3+6;x,3;horizalign,left;diffuse,255/255,255/255,255/255,0.5;zoomx,1;zoomy,1;" />
+
 		<Layer File="Judgment0011"		OnCommand="y,16*4;zoom,0.65;horizalign,left;shadowlength,0;" />
+		<Layer Type="Quad" OnCommand="y,16*4+7;x,3;horizalign,left;diffusealpha,0.1;zoomx,121;zoomy,1;" />
+		<Layer Type="Quad" OnCommand="y,16*4+7;x,3;horizalign,left;diffuse,255/255,255/255,255/255,0.5;zoomx,1;zoomy,1;" />
+
 		<Layer File="Judgment0012"		OnCommand="y,16*5;zoom,0.65;horizalign,left;shadowlength,0;" />
+		<Layer Type="Quad" OnCommand="y,16*5+6;x,3;horizalign,left;diffusealpha,0.1;zoomx,121;zoomy,1;" />
+		<Layer Type="Quad" OnCommand="y,16*5+6;x,3;horizalign,left;diffuse,255/255,255/255,255/255,0.5;zoomx,1;zoomy,1;" />
+
 	</children> </Layer>
 </children> </ActorFrame>
 

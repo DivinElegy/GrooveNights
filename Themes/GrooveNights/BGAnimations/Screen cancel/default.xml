@@ -1,0 +1,19 @@
+<ActorFrame
+> <children>
+	<Actor
+		Type="Quad"
+		StartTransitioningCommand="%function(self) SCREENMAN:GetTopScreen():playcommand('Off') self:sleep(0.6); end"
+	/>
+
+	<Layer Type="Quad"
+	StartTransitioningCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X+SCREEN_WIDTH;y,SCREEN_CENTER_Y;draworder,10000;linear,0.3;diffuse,0,0,0,1;x,SCREEN_CENTER_X"
+	/>
+	
+	<Layer Type="Quad"
+	StartTransitioningCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X-SCREEN_WIDTH;y,SCREEN_CENTER_Y;draworder,10000;linear,0.3;diffuse,0,0,0,1;x,SCREEN_CENTER_X"
+	/>
+	
+	<Layer File="../../Graphics/TransitionArrow"
+	StartTransitioningCommand="rotationz,-90;x,SCREEN_CENTER_X+SCREEN_WIDTH+50;y,SCREEN_CENTER_Y;draworder,10000;linear,0.2;x,SCREEN_CENTER_X;linear,0.1;zoomx,0.9;linear,0.1;zoomx,1;linear,0.2;rotationz,0;"
+	/>
+</children> </ActorFrame>

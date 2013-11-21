@@ -89,7 +89,7 @@ end"> <children>
 				Text=""
 				File="_eurostile blue glow"
 				Condition="PlayTimeEnabled()"
-				InitCommand="DiffuseShift;EffectColor1,0.6,0.8,0.9,1;EffectColor2,0.6,0.8,0.9,1;queuecommand,Go"
+				InitCommand="@'diffuse,'..LabelColor()..';queuecommand,Go'"
 				GoCommand="%function(self)
 				self:x(-112);
 				self:y(248);
@@ -3835,5 +3835,20 @@ StepP2MessageCommand="%function(self)
 
 </children></ActorFrame>
 
+	<Layer Type="Quad"
+	OnCommand="diffusealpha,0;"
+	ScreenTransitionMessageCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+SCREEN_HEIGHT;draworder,10000;accelerate,0.2;diffuse,0,0,0,1;y,SCREEN_CENTER_Y+(SCREEN_HEIGHT/2)"
+	/>
+	
+	<Layer Type="Quad"
+	OnCommand="diffusealpha,0;"
+	ScreenTransitionMessageCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-SCREEN_HEIGHT;draworder,10000;decelerate,0.2;diffuse,0,0,0,1;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT/2)"
+	/>
+	
+	<Layer File="../../Graphics/TransitionArrow"
+	OnCommand="diffusealpha,0;"
+	ScreenTransitionMessageCommand="diffusealpha,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+SCREEN_HEIGHT+50;draworder,10000;accelerate,0.2;y,SCREEN_CENTER_Y"
+	/>
+	
 </children> </ActorFrame>
 

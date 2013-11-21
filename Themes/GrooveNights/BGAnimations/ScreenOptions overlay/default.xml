@@ -1,0 +1,55 @@
+<ActorFrame InitCommand="">
+<children>
+
+	<Layer
+	File="ScreenOptions frame"
+	InitCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;"
+	/>
+
+
+	<Layer
+	Condition="GAMESTATE:IsHumanPlayer(PLAYER_1)"
+	File="ScreenOptions playerframe"
+	InitCommand="x,SCREEN_CENTER_X-269;y,SCREEN_CENTER_Y-112;"
+	/>
+
+	<Layer
+	Condition="GAMESTATE:IsHumanPlayer(PLAYER_1)"
+	Text="@ScreenEndingGetDisplayName(PLAYER_1)"
+	File="_eurostile normal"
+	OnCommand="@'maxwidth,108;x,SCREEN_CENTER_X-269;y,SCREEN_CENTER_Y-154;horizalign,center;shadowlength,0;zoom,0.65;Diffuse,'..PlayerColor(PLAYER_1);"
+	/>
+
+	<Layer
+	Condition="GAMESTATE:IsHumanPlayer(PLAYER_2)"
+	File="ScreenOptions playerframe"
+	InitCommand="x,SCREEN_CENTER_X+269;y,SCREEN_CENTER_Y-112;rotationy,180;"
+	/>
+
+	<Layer
+	Condition="GAMESTATE:IsHumanPlayer(PLAYER_2)"
+	Text="@ScreenEndingGetDisplayName(PLAYER_2)"
+	File="_eurostile normal"
+	OnCommand="@'maxwidth,108;x,SCREEN_CENTER_X+270;y,SCREEN_CENTER_Y-154;horizalign,center;shadowlength,0;zoom,0.65;Diffuse,'..PlayerColor(PLAYER_2);"
+	/>
+
+	<Layer
+	Type="Quad"
+	OnCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+(SCREEN_HEIGHT/2);draworder,10000;decelerate,0.2;diffuse,0,0,0,1;y,SCREEN_CENTER_Y+SCREEN_HEIGHT"
+	OffCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+SCREEN_HEIGHT;draworder,10000;accelerate,0.2;diffuse,0,0,0,1;y,SCREEN_CENTER_Y+(SCREEN_HEIGHT/2)"
+	/>
+
+	<Layer	
+	Type="Quad"
+	OnCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT/2);draworder,10000;decelerate,0.2;diffuse,0,0,0,1;y,SCREEN_CENTER_Y-SCREEN_HEIGHT"
+	OffCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-SCREEN_HEIGHT;draworder,10000;accelerate,0.2;diffuse,0,0,0,1;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT/2)"
+	/>
+
+	<Layer
+	File="../../Graphics/TransitionArrow"
+	OnCommand="vibrate;EffectMagnitude,0.5,0.5,0.1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;draworder,10000;decelerate,0.2;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT/2)-50"
+	OffCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+SCREEN_HEIGHT+50;draworder,10000;accelerate,0.2;y,SCREEN_CENTER_Y"
+	/>
+
+</children>
+</ActorFrame>

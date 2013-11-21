@@ -9,7 +9,7 @@
 		<BitmapText
 			Font="_eurostile outline"
 			Text="Total Time"
-			InitCommand="y,-10;horizalign,center;x,5;zoom,0.5;diffuse,0.6,0.8,0.9,1;shadowlength,0;"
+			InitCommand="@'y,-10;horizalign,center;x,5;zoom,0.5;diffuse,'..LabelColor()..';shadowlength,0;'"
 		/>
 		<BitmapText
 			Font="_eurostile outline"
@@ -27,7 +27,7 @@
 		<BitmapText
 			Font="_eurostile outline"
 			Text="Total Time"
-			InitCommand="y,-10;horizalign,center;x,5;zoom,0.5;diffuse,0.6,0.8,0.9,1;shadowlength,0;"
+			InitCommand="@'y,-10;horizalign,center;x,5;zoom,0.5;diffuse,'..LabelColor()..';shadowlength,0;'"
 		/>
 		<BitmapText
 			Font="_eurostile outline"

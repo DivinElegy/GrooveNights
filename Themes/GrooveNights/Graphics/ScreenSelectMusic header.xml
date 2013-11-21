@@ -5,15 +5,28 @@
 			File="_eurostile blue glow"
 			InitCommand="%function(self)  self:x(self:GetWidth()/2) end"
 			OnCommand="shadowlength,0;zoom,1;decelerate,0.3;zoom,1;"
+			OffCommand="accelerate,0.3;diffusealpha,0;"
 			
 		/>
 	<Layer File="CDTitle OverFrame"
-	InitCommand="x,SCREEN_CENTER_X+250;y,SCREEN_CENTER_Y-91;"
+	InitCommand="hidden,1;x,SCREEN_CENTER_X+250;y,SCREEN_CENTER_Y-91;"
 	/>
 	<!--Screen Transition-->
+	<ActorFrame InitCommand="x,-18;y,-41;"><children>
 	<Layer Type="Quad"
-	OnCommand="zoom,SCREEN_WIDTH*2;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;draworder,1000;accelerate,0.2;zoom,SCREEN_WIDTH*0;diffuse,0,0,0,0;"
-	OffCommand="decelerate,0.2;zoom,SCREEN_WIDTH*2;diffuse,0,0,0,1;"
+	OnCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+(SCREEN_HEIGHT/2);draworder,10000;decelerate,0.2;diffuse,0,0,0,1;y,SCREEN_CENTER_Y+SCREEN_HEIGHT"
+	OffCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+SCREEN_HEIGHT;draworder,10000;accelerate,0.2;diffuse,0,0,0,1;y,SCREEN_CENTER_Y+(SCREEN_HEIGHT/2)"
 	/>
+	
+	<Layer Type="Quad"
+	OnCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT/2);draworder,10000;accelerate,0.2;diffuse,0,0,0,1;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT)"
+	OffCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-SCREEN_HEIGHT;draworder,10000;decelerate,0.2;diffuse,0,0,0,1;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT/2)"
+	/>
+	
+	<Layer File="TransitionArrow"
+	OnCommand="vibrate;EffectMagnitude,0.5,0.5,0.1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;draworder,10000;decelerate,0.2;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT/2)-50"
+	OffCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+SCREEN_HEIGHT+50;draworder,10000;accelerate,0.2;y,SCREEN_CENTER_Y"
+	/>
+	</children></ActorFrame>
 	</children>
 </ActorFrame>

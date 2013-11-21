@@ -95,12 +95,6 @@ end"> <children>
 			/>
 		</children> </ActorFrame>
 	</children> </ActorFrame>
-
-<ActorFrame>
-	<children>
-		<Layer File="ScreenLogo background/BGVid.avi" OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;blend,add;zoom,2;rotationy,180;diffusealpha,0.15;" />
-	</children>
-</ActorFrame>
 </children> </ActorFrame>
 
 

@@ -4,6 +4,7 @@ if GAMESTATE:GetEnv('Wag') == 'On' then
 	self:wag();
 	end
 end"> <children>
+	<Layer Type="Quad" InitCommand="diffusealpha,0;sleep,24;queuecommand,ScreenChange;" ScreenChangeCommand="%function(self) SCREENMAN:SetNewScreen('ScreenCompany'); end" />
 	<Layer
 		File="player pane"
 		OnCommand="x,SCREEN_CENTER_X-320+74;y,SCREEN_CENTER_Y+2"
@@ -1476,17 +1477,6 @@ Condition="GAMESTATE:IsHumanPlayer(PLAYER_2) and PROFILEMAN:IsPersistentProfile(
 
 
 
-	<!--Screen Transition-->
-	<Layer Type="Quad"
-	OnCommand="zoom,SCREEN_WIDTH*2;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;draworder,10000;accelerate,0.2;zoom,SCREEN_WIDTH*0;diffuse,0,0,0,0;"
-	OffCommand="decelerate,0.2;zoom,SCREEN_WIDTH*2;diffuse,0,0,0,1;"
-	/>
-	
-	
-<ActorFrame>
-	<children>
-		<Layer File="../BGAnimations/ScreenLogo background/BGVid.avi" OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;blend,add;zoom,2;rotationy,180;diffusealpha,0.15;" />
-	</children>
-</ActorFrame>
+<!--Screen transition is instantaneous from NameEntry Screen so there's no point in having it-->
 
 </children> </ActorFrame>
