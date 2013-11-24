@@ -127,6 +127,8 @@ function MenuButtonGiveUp()
 gnLowestRestartPercent = 0.05;
 gnHighestRestartPercent = 99.8;
 
+if gnStaminaSongPercent == nil then gnStaminaSongPercent = 0; end
+
 -- Set to true to enable this feature
 return true
 end

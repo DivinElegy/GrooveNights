@@ -350,7 +350,7 @@ end"
 	/>
 	
 	<Layer File="../PaneDisplay under.png"
-	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1) and not GAMESTATE:IsCourseMode()"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
 	OnCommand="@'diffuse,'..BackgroundColor()..';'"
 	InitCommand="%function(self)
 			self:x(SCREEN_CENTER_X-388*gnZoomRatio+VideoHorizontal()-(PixelCorrection()*7)); 
@@ -370,7 +370,7 @@ end"
 			self:draworder(-1000);
 			end"	
 	/>
-
+	
 	<Layer File="../PaneDisplay under under course.png"
 	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1) and GAMESTATE:IsCourseMode()"
 	OnCommand="@'diffuse,'..FrameColor()..';'"
@@ -413,7 +413,7 @@ end"
 	/>
 	
 	<Layer File="../PaneDisplay under.png"
-	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2) and not GAMESTATE:IsCourseMode()"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
 	OnCommand="@'diffuse,'..BackgroundColor()..';'"
 	InitCommand="%function(self)
 			self:x(SCREEN_CENTER_X-388*gnZoomRatio+VideoHorizontal()-(PixelCorrection()*7)); 

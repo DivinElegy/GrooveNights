@@ -12,23 +12,17 @@
 	<ActorFrame InitCommand="x,-18;y,-41;"><children>
 	<Layer Type="Quad"
 	OnCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+(SCREEN_HEIGHT/2);draworder,10000;decelerate,0.2;diffuse,0,0,0,1;y,SCREEN_CENTER_Y+SCREEN_HEIGHT"
-	MadeChoiceP1MessageCommand="playcommand,GoOff"
-	MadeChoiceP2MessageCommand="playcommand,GoOff"
-	GoOffCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+SCREEN_HEIGHT;draworder,10000;accelerate,0.2;diffuse,0,0,0,1;y,SCREEN_CENTER_Y+(SCREEN_HEIGHT/2)"
+	ScreenTransitionMessageCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+SCREEN_HEIGHT;draworder,10000;accelerate,0.2;diffuse,0,0,0,1;y,SCREEN_CENTER_Y+(SCREEN_HEIGHT/2)"
 	/>
 	
 	<Layer Type="Quad"
 	OnCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT/2);draworder,10000;accelerate,0.2;diffuse,0,0,0,1;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT)"
-	MadeChoiceP1MessageCommand="playcommand,GoOff"
-	MadeChoiceP2MessageCommand="playcommand,GoOff"
-	GoOffCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-SCREEN_HEIGHT;draworder,10000;decelerate,0.2;diffuse,0,0,0,1;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT/2)"
+	ScreenTransitionMessageCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-SCREEN_HEIGHT;draworder,10000;decelerate,0.2;diffuse,0,0,0,1;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT/2)"
 	/>
 	
 	<Layer File="TransitionArrow"
-	OnCommand="vibrate;EffectMagnitude,0.5,0.5,0.1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;draworder,10000;decelerate,0.2;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT/2)-50"
-	MadeChoiceP1MessageCommand="playcommand,GoOff"
-	MadeChoiceP2MessageCommand="playcommand,GoOff"
-	GoOffCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+SCREEN_HEIGHT+50;draworder,10000;accelerate,0.2;y,SCREEN_CENTER_Y"
+	OnCommand="vibrate;EffectMagnitude,0.5,0.5,0.1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;draworder,10000;accelerate,0.2;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT/2)-50"
+	ScreenTransitionMessageCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+SCREEN_HEIGHT+50;draworder,10000;accelerate,0.2;y,SCREEN_CENTER_Y"
 	/>
 	</children></ActorFrame>
 	</children>

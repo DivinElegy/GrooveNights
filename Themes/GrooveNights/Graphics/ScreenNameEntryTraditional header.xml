@@ -17,9 +17,23 @@
 		/>
 		
 		<Layer File="ScreenNameEntryTraditional banner frame p1"
-		InitCommand="x,SCREEN_CENTER_X-19;y,SCREEN_CENTER_Y-134-41;"
+		InitCommand="@'x,SCREEN_CENTER_X-18;y,SCREEN_CENTER_Y-134-41;diffuse,'..FrameColor()..';'"
 		/>
 		
+<Layer
+File="_difficulty frame F"
+OnCommand="@'x,SCREEN_CENTER_X-156-68-18;y,SCREEN_CENTER_Y-106-51-41;diffuse,'..FrameColor()..';draworder,100000;'"
+OffCommand=""
+Condition="GAMESTATE:IsHumanPlayer(PLAYER_1)"
+/>
+
+<Layer
+File="_difficulty frame F"
+OnCommand="@'x,SCREEN_CENTER_X+156+68-18;y,SCREEN_CENTER_Y-106-51-41;diffuse,'..FrameColor()..';rotationy,180;draworder,100000;'"
+OffCommand=""
+Condition="GAMESTATE:IsHumanPlayer(PLAYER_2)"
+/>
+
 <!--Screen Transition doesn't work because the screen change is instantaneous-->
 	<ActorFrame InitCommand="x,-18;y,-41;"><children>
 	<Layer Type="Quad"
@@ -33,7 +47,7 @@
 	/>
 	
 	<Layer File="TransitionArrow"
-	OnCommand="vibrate;EffectMagnitude,0.5,0.5,0.1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;draworder,10000;decelerate,0.2;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT/2)-50"
+	OnCommand="vibrate;EffectMagnitude,0.5,0.5,0.1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;draworder,10000;accelerate,0.2;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT/2)-50"
 	ScreenTransitionMessageCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+SCREEN_HEIGHT+50;draworder,10000;accelerate,0.2;y,SCREEN_CENTER_Y"
 	/>
 	</children></ActorFrame>

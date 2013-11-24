@@ -446,7 +446,7 @@ end">
 <!--Step Artists P1-->
 		<BitmapText
 			Text=""
-			Condition="GAMESTATE:IsHumanPlayer(PLAYER_1)"
+			Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and not GAMESTATE:IsCourseMode()"
 			File="_eurostile blue glow"
 			OnCommand="horizalign,center;maxwidth,200;shadowlength,0;zoom,0.5;queuecommand,Update;"
 			
@@ -460,7 +460,7 @@ end">
 <!--Step Artists P2-->
 		<BitmapText
 			Text=""
-			Condition="GAMESTATE:IsHumanPlayer(PLAYER_2)"
+			Condition="GAMESTATE:IsHumanPlayer(PLAYER_2) and not GAMESTATE:IsCourseMode()"
 			File="_eurostile blue glow"
 			OnCommand="horizalign,center;maxwidth,200;shadowlength,0;zoom,0.5;queuecommand,Update;"
 			
@@ -518,7 +518,7 @@ end">
 		
 		<ActorFrame
 			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1) and GAMESTATE:IsCourseMode()"
-			OnCommand="x,SCREEN_CENTER_X-250;y,SCREEN_CENTER_Y-95;difficultyoffset;queuecommand,Go"
+			OnCommand="x,SCREEN_CENTER_X-250-4;y,SCREEN_CENTER_Y-95+32;difficultyoffset;queuecommand,Go"
 			GoCommand="%function(self)
 			if GAMESTATE:PlayerUsingBothSides(PLAYER_1) then
 				self:addx(-75);
@@ -527,14 +527,19 @@ end">
 			end"
 		> <children>
 			<Actor
-				File="@THEME:GetPath(EC_GRAPHICS,'','_difficulty icons')"
+				File="@THEME:GetPath(EC_GRAPHICS,'','_difficulty cpips B')"
 				OnCommand="animate,0;playcommand,Update"
+				UpdateCommand="%function(self,parent) SetDifficultyFrameFromGameState(self, PLAYER_1) end"
+			/>
+			<Actor
+				File="@THEME:GetPath(EC_GRAPHICS,'','_difficulty cpips F')"
+				OnCommand="@'animate,0;diffuse,'..FrameColor()..';playcommand,Update'"
 				UpdateCommand="%function(self,parent) SetDifficultyFrameFromGameState(self, PLAYER_1) end"
 			/>
 					<Actor
 				Class="DifficultyMeter"
 				Type="ScreenGameplay DifficultyMeterP1"
-				OnCommand="playcommand,Update"
+				OnCommand="x,90-92;y,-1;playcommand,Update"
 				UpdateCommand="%function(self) 
 						if GAMESTATE:GetCurrentTrail(PLAYER_1) then 
 							self:SetFromTrail(GAMESTATE:GetCurrentTrail(PLAYER_1)) 
@@ -592,7 +597,7 @@ end">
 		
 		<ActorFrame
 			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2) and GAMESTATE:IsCourseMode()"
-			OnCommand="x,SCREEN_CENTER_X+248;y,SCREEN_CENTER_Y-95;difficultyoffset;queuecommand,Go"
+			OnCommand="x,SCREEN_CENTER_X+248-192;y,SCREEN_CENTER_Y-95+32;difficultyoffset;queuecommand,Go"
 			GoCommand="%function(self)
 			if GAMESTATE:PlayerUsingBothSides(PLAYER_2) then
 				self:addx(75);
@@ -601,14 +606,19 @@ end">
 			end"
 		> <children>
 			<Actor
-				File="@THEME:GetPath(EC_GRAPHICS,'','_difficulty icons')"
-				OnCommand="animate,0;rotationy,180;playcommand,Update"
+				File="@THEME:GetPath(EC_GRAPHICS,'','_difficulty cpips B')"
+				OnCommand="animate,0;playcommand,Update"
+				UpdateCommand="%function(self,parent) SetDifficultyFrameFromGameState(self, PLAYER_2) end"
+			/>
+			<Actor
+				File="@THEME:GetPath(EC_GRAPHICS,'','_difficulty cpips F')"
+				OnCommand="@'animate,0;diffuse,'..FrameColor()..';playcommand,Update'"
 				UpdateCommand="%function(self,parent) SetDifficultyFrameFromGameState(self, PLAYER_2) end"
 			/>
 					<Actor
 				Class="DifficultyMeter"
-				Type="ScreenGameplay DifficultyMeterP2"
-				OnCommand="playcommand,Update"
+				Type="ScreenGameplay DifficultyMeterP1"
+				OnCommand="x,90-92;y,-1;playcommand,Update"
 				UpdateCommand="%function(self) 
 						if GAMESTATE:GetCurrentTrail(PLAYER_2) then 
 							self:SetFromTrail(GAMESTATE:GetCurrentTrail(PLAYER_2)) 
@@ -655,6 +665,7 @@ end">
 	Font="_eurostile normal"
 	Text="@GetPlayerStatsAndAwards(PLAYER_1)"
 	Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and PROFILEMAN:IsPersistentProfile(PLAYER_1) and not GAMESTATE:PlayerUsingBothSides(PLAYER_1)"
+	OnCommand="@'diffuse,'..PlayerColor(PLAYER_1)..';'"
 	InitCommand="%function(self)
 	self:x(SCREEN_CENTER_X-219+7); self:y(SCREEN_CENTER_Y-219+277); self:diffusealpha(1); 
 	self:zoom(0);
@@ -679,6 +690,7 @@ end">
 	Font="_eurostile normal"
 	Text=""
 	Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and PROFILEMAN:IsPersistentProfile(PLAYER_1) and GAMESTATE:PlayerUsingBothSides(PLAYER_1)"
+	OnCommand="@'diffuse,'..PlayerColor(PLAYER_1)..';'"
 	InitCommand="%function(self)
 	self:x(SCREEN_CENTER_X-219); self:y(SCREEN_CENTER_Y-219); self:diffusealpha(1); 
 	self:zoom(0);
@@ -720,7 +732,7 @@ end">
 	/>
 	<Layer File="../Graphics/expMeter"
 	Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and PROFILEMAN:IsPersistentProfile(PLAYER_1)"
-	OnCommand="@'diffuse,'..FrameColor()..';'"
+	OnCommand="@'diffuse,'..LabelColor()..';'"
 	InitCommand="%function(self)
 	self:stoptweening();
 	if gnLevelP1 == '[Disabled]' then
@@ -802,6 +814,7 @@ end">
 	Font="_eurostile normal"
 	Text=""
 	Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and PROFILEMAN:IsPersistentProfile(PLAYER_1) and not GAMESTATE:PlayerUsingBothSides(PLAYER_1)"
+	OnCommand="@'diffuse,'..PlayerColor(PLAYER_1)..';queuecommand,Go'"
 	InitCommand="%function(self)
 	if gnSinglesSingleP1 == nil then
 		self:stoptweening();
@@ -828,6 +841,7 @@ end">
 	Font="_eurostile normal"
 	Text=""
 	Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and PROFILEMAN:IsPersistentProfile(PLAYER_1) and GAMESTATE:PlayerUsingBothSides(PLAYER_1)"
+	OnCommand="@'diffuse,'..PlayerColor(PLAYER_1)..';'"
 	InitCommand="%function(self)
 	if gnSinglesDoubleP1 == nil then
 		self:stoptweening();
@@ -880,6 +894,7 @@ end">
 	Font="_eurostile normal"
 	Text=""
 	Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and PROFILEMAN:IsPersistentProfile(PLAYER_1) and not GAMESTATE:PlayerUsingBothSides(PLAYER_1)"
+	OnCommand="@'diffuse,'..PlayerColor(PLAYER_1)..';'"
 	InitCommand="%function(self)
 	if gnDoublesSingleP1 == nil then
 		self:stoptweening();
@@ -906,6 +921,7 @@ end">
 	Font="_eurostile normal"
 	Text=""
 	Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and PROFILEMAN:IsPersistentProfile(PLAYER_1) and GAMESTATE:PlayerUsingBothSides(PLAYER_1)"
+	OnCommand="@'diffuse,'..PlayerColor(PLAYER_1)..';'"
 	InitCommand="%function(self)
 	if gnDoublesDoubleP1 == nil then
 		self:stoptweening();
@@ -957,6 +973,7 @@ end">
 	Font="_eurostile normal"
 	Text=""
 	Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and PROFILEMAN:IsPersistentProfile(PLAYER_1) and not GAMESTATE:PlayerUsingBothSides(PLAYER_1)"
+	OnCommand="@'diffuse,'..PlayerColor(PLAYER_1)..';'"
 	InitCommand="%function(self)
 	if gnTrisSingleP1 == nil then
 		self:stoptweening();
@@ -983,6 +1000,7 @@ end">
 	Font="_eurostile normal"
 	Text=""
 	Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and PROFILEMAN:IsPersistentProfile(PLAYER_1) and GAMESTATE:PlayerUsingBothSides(PLAYER_1)"
+	OnCommand="@'diffuse,'..PlayerColor(PLAYER_1)..';'"
 	InitCommand="%function(self)
 	if gnTrisDoubleP1 == nil then
 		self:stoptweening();
@@ -1034,6 +1052,7 @@ end">
 	Font="_eurostile normal"
 	Text=""
 	Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and PROFILEMAN:IsPersistentProfile(PLAYER_1) and not GAMESTATE:PlayerUsingBothSides(PLAYER_1)"
+	OnCommand="@'diffuse,'..PlayerColor(PLAYER_1)..';'"
 	InitCommand="%function(self)
 	if gnQuadsSingleP1 == nil then
 		self:stoptweening();
@@ -1060,6 +1079,7 @@ end">
 	Font="_eurostile normal"
 	Text=""
 	Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and PROFILEMAN:IsPersistentProfile(PLAYER_1) and GAMESTATE:PlayerUsingBothSides(PLAYER_1)"
+	OnCommand="@'diffuse,'..PlayerColor(PLAYER_1)..';'"
 	InitCommand="%function(self)
 	if gnQuadsDoubleP1 == nil then
 		self:stoptweening();
@@ -1111,6 +1131,7 @@ end">
 	Font="_eurostile normal"
 	Text="@GetPlayerStatsAndAwards(PLAYER_2)"
 	Condition="GAMESTATE:IsHumanPlayer(PLAYER_2) and PROFILEMAN:IsPersistentProfile(PLAYER_2) and not GAMESTATE:PlayerUsingBothSides(PLAYER_2)"
+	OnCommand="@'diffuse,'..PlayerColor(PLAYER_2)..';'"
 	InitCommand="%function(self)
 	self:x(SCREEN_CENTER_X-219+7); self:y(SCREEN_CENTER_Y-219+277); self:diffusealpha(1); 
 	self:zoom(0);
@@ -1135,6 +1156,7 @@ end">
 	Font="_eurostile normal"
 	Text=""
 	Condition="GAMESTATE:IsHumanPlayer(PLAYER_2) and PROFILEMAN:IsPersistentProfile(PLAYER_2) and GAMESTATE:PlayerUsingBothSides(PLAYER_2)"
+	OnCommand="@'diffuse,'..PlayerColor(PLAYER_2)..';'"
 	InitCommand="%function(self)
 	self:x(SCREEN_CENTER_X-219); self:y(SCREEN_CENTER_Y-219); self:diffusealpha(1); 
 	self:zoom(0);
@@ -1176,7 +1198,7 @@ end">
 	/>
 	<Layer File="../Graphics/expMeter"
 	Condition="GAMESTATE:IsHumanPlayer(PLAYER_2) and PROFILEMAN:IsPersistentProfile(PLAYER_2)"
-	OnCommand="@'diffuse,'..FrameColor()..';'"
+	OnCommand="@'diffuse,'..PlayerColor(PLAYER_2)..';'"
 	InitCommand="%function(self)
 	self:stoptweening();
 	if gnLevelP2 == '[Disabled]' then
@@ -1258,6 +1280,7 @@ end">
 	Font="_eurostile normal"
 	Text=""
 	Condition="GAMESTATE:IsHumanPlayer(PLAYER_2) and PROFILEMAN:IsPersistentProfile(PLAYER_2) and not GAMESTATE:PlayerUsingBothSides(PLAYER_2)"
+	OnCommand="@'diffuse,'..PlayerColor(PLAYER_2)..';'"
 	InitCommand="%function(self)
 	if gnSinglesSingleP2 == nil then
 		self:stoptweening();
@@ -1284,6 +1307,7 @@ end">
 	Font="_eurostile normal"
 	Text=""
 	Condition="GAMESTATE:IsHumanPlayer(PLAYER_2) and PROFILEMAN:IsPersistentProfile(PLAYER_2) and GAMESTATE:PlayerUsingBothSides(PLAYER_2)"
+	OnCommand="@'diffuse,'..PlayerColor(PLAYER_2)..';'"
 	InitCommand="%function(self)
 	if gnSinglesDoubleP2 == nil then
 		self:stoptweening();
@@ -1336,6 +1360,7 @@ end">
 	Font="_eurostile normal"
 	Text=""
 	Condition="GAMESTATE:IsHumanPlayer(PLAYER_2) and PROFILEMAN:IsPersistentProfile(PLAYER_2) and not GAMESTATE:PlayerUsingBothSides(PLAYER_2)"
+	OnCommand="@'diffuse,'..PlayerColor(PLAYER_2)..';'"
 	InitCommand="%function(self)
 	if gnDoublesSingleP2 == nil then
 		self:stoptweening();
@@ -1362,6 +1387,7 @@ end">
 	Font="_eurostile normal"
 	Text=""
 	Condition="GAMESTATE:IsHumanPlayer(PLAYER_2) and PROFILEMAN:IsPersistentProfile(PLAYER_2) and GAMESTATE:PlayerUsingBothSides(PLAYER_2)"
+	OnCommand="@'diffuse,'..PlayerColor(PLAYER_2)..';'"
 	InitCommand="%function(self)
 	if gnDoublesDoubleP2 == nil then
 		self:stoptweening();
@@ -1413,6 +1439,7 @@ end">
 	Font="_eurostile normal"
 	Text=""
 	Condition="GAMESTATE:IsHumanPlayer(PLAYER_2) and PROFILEMAN:IsPersistentProfile(PLAYER_2) and not GAMESTATE:PlayerUsingBothSides(PLAYER_2)"
+	OnCommand="@'diffuse,'..PlayerColor(PLAYER_2)..';'"
 	InitCommand="%function(self)
 	if gnTrisSingleP2 == nil then
 		self:stoptweening();
@@ -1439,6 +1466,7 @@ end">
 	Font="_eurostile normal"
 	Text=""
 	Condition="GAMESTATE:IsHumanPlayer(PLAYER_2) and PROFILEMAN:IsPersistentProfile(PLAYER_2) and GAMESTATE:PlayerUsingBothSides(PLAYER_2)"
+	OnCommand="@'diffuse,'..PlayerColor(PLAYER_2)..';'"
 	InitCommand="%function(self)
 	if gnTrisDoubleP2 == nil then
 		self:stoptweening();
@@ -1490,6 +1518,7 @@ end">
 	Font="_eurostile normal"
 	Text=""
 	Condition="GAMESTATE:IsHumanPlayer(PLAYER_2) and PROFILEMAN:IsPersistentProfile(PLAYER_2) and not GAMESTATE:PlayerUsingBothSides(PLAYER_2)"
+	OnCommand="@'diffuse,'..PlayerColor(PLAYER_2)..';'"
 	InitCommand="%function(self)
 	if gnQuadsSingleP2 == nil then
 		self:stoptweening();
@@ -1516,6 +1545,7 @@ end">
 	Font="_eurostile normal"
 	Text=""
 	Condition="GAMESTATE:IsHumanPlayer(PLAYER_2) and PROFILEMAN:IsPersistentProfile(PLAYER_2) and GAMESTATE:PlayerUsingBothSides(PLAYER_2)"
+	OnCommand="@'diffuse,'..PlayerColor(PLAYER_2)..';'"
 	InitCommand="%function(self)
 	if gnQuadsDoubleP2 == nil then
 		self:stoptweening();
@@ -1554,7 +1584,7 @@ end">
 	/>
 	
 	<Layer File="../Graphics/TransitionArrow"
-	OnCommand="vibrate;EffectMagnitude,0.5,0.5,0.1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;draworder,10000;decelerate,0.2;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT/2)-50"
+	OnCommand="vibrate;EffectMagnitude,0.5,0.5,0.1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;draworder,10000;accelerate,0.2;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT/2)-50"
 	ScreenTransitionMessageCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+SCREEN_HEIGHT+50;draworder,10000;accelerate,0.2;y,SCREEN_CENTER_Y"
 	/>
 	

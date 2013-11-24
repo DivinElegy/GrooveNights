@@ -42,6 +42,10 @@ end
 
 
 -- Music Wheel Colours
+function WheelBackgroundColor()
+	return FrameColor()
+end
+
 function SectionColor()
 	return LabelColor()
 end

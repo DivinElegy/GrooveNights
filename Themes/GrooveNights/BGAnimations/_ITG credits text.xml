@@ -1,25 +1,25 @@
 ﻿<BGAnimation 
 	UseScroller="1"
-	SecondsPerItem="0.26" 
+	SecondsPerItem="0.35" 
 	NumItemsToDraw="21" 
 	ItemPaddingStart="10"
 	ItemPaddingEnd="0"
 	TransformFunction="function(self,offset,itemIndex,numItems) self:y(offset*24); end"
 >
 	<children>
-		<Layer Type="BitmapText" Text="CREATED BY JAYCE NEWTON" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#D57676;ztest,1" />
+		<Layer Type="BitmapText" Text="CREATED BY JAYCE NEWTON" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#D57676;ztest,1;queuecommand,Diffuser;" DiffuserCommand="@'diffuse,'..LabelColor()..';'" />
 		<Layer Type="BitmapText" Text="http://divinelegy.com/" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#FFFFFF;ztest,1" />
 		<Layer Type="BitmapText" Text="" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#FFFFFF;ztest,1" />
 		<Layer Type="BitmapText" Text="" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#FFFFFF;ztest,1" />
-		<Layer Type="BitmapText" Text="MUSIC BY PSYBOT & WATERFLAME" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#D57676;ztest,1" />
+		<Layer Type="BitmapText" Text="MUSIC BY PSYBOT & WATERFLAME" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#D57676;ztest,1;queuecommand,Diffuser;" DiffuserCommand="@'diffuse,'..LabelColor()..';'" />
 		<Layer Type="BitmapText" Text="http://psybot.newgrounds.com/" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#FFFFFF;ztest,1" />
 		<Layer Type="BitmapText" Text="http://waterflame.newgrounds.com/" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#FFFFFF;ztest,1" />
 		<Layer Type="BitmapText" Text="" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#FFFFFF;ztest,1" />
-		<Layer Type="BitmapText" Text="THEME SOUNDS" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#D57676;ztest,1" />
+		<Layer Type="BitmapText" Text="THEME SOUNDS" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#D57676;ztest,1;queuecommand,Diffuser;" DiffuserCommand="@'diffuse,'..LabelColor()..';'" />
 		<Layer Type="BitmapText" Text="Super Mario RPG (SNES)" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#FFFFFF;ztest,1" />
 		<Layer Type="BitmapText" Text="Yoshi's Island (SNES)" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#FFFFFF;ztest,1" />
 		<Layer Type="BitmapText" Text="" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#FFFFFF;ztest,1" />
-		<Layer Type="BitmapText" Text="THEME GRAPHICS" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#D57676;ztest,1" />
+		<Layer Type="BitmapText" Text="THEME GRAPHICS" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#D57676;ztest,1;queuecommand,Diffuser;" DiffuserCommand="@'diffuse,'..LabelColor()..';'" />
 		<Layer Type="BitmapText" Text="Jayce Newton" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#FFFFFF;ztest,1" />
 		<Layer Type="BitmapText" Text="" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#FFFFFF;ztest,1" />
 		<Layer Type="BitmapText" Text="TESTERS" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#D57676;ztest,1" />
@@ -27,20 +27,20 @@
 		<Layer Type="BitmapText" Text="Stephanie 'Freyja' Nance" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#FFFFFF;ztest,1" />
 		<Layer Type="BitmapText" Text="Stephen Strasser" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#FFFFFF;ztest,1" />
 		<Layer Type="BitmapText" Text="" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#FFFFFF;ztest,1" />
-		<Layer Type="BitmapText" Text="SPECIAL THANKS" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#D57676;ztest,1" />
+		<Layer Type="BitmapText" Text="SPECIAL THANKS" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#D57676;ztest,1;queuecommand,Diffuser;" DiffuserCommand="@'diffuse,'..LabelColor()..';'" />
 		<Layer Type="BitmapText" Text="" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#FFFFFF;ztest,1" />
 		<Layer Type="BitmapText" Text="" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#FFFFFF;ztest,1" />
 		<Layer File="Team Proof of Concept" OnCommand="zoom,0.4;ztest,1" />
 		<Layer Type="BitmapText" Text="" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#FFFFFF;ztest,1" />
 		<Layer Type="BitmapText" Text="" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#FFFFFF;ztest,1" />
-		<Layer Type="BitmapText" Text="TEAM 'PROOF OF CONCEPT'" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#76B1D5;ztest,1" />
+		<Layer Type="BitmapText" Text="TEAM 'PROOF OF CONCEPT'" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#76B1D5;ztest,1;queuecommand,Diffuser;" DiffuserCommand="@'diffuse,'..LabelColor()..';'" />
 		<Layer Type="BitmapText" Text="Alan James" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#FFFFFF;ztest,1" />
 		<Layer Type="BitmapText" Text="Cameron Ball" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#FFFFFF;ztest,1" />
 		<Layer Type="BitmapText" Text="Nick Psyhogios" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#FFFFFF;ztest,1" />
 		<Layer Type="BitmapText" Text="Phil Shirey" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#FFFFFF;ztest,1" />
 		<Layer Type="BitmapText" Text="Stephen Strasser" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#FFFFFF;ztest,1" />
 		<Layer Type="BitmapText" Text="" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#FFFFFF;ztest,1" />
-		<Layer Type="BitmapText" Text="ADDITIONAL THANKS TO" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#76B1D5;ztest,1" />
+		<Layer Type="BitmapText" Text="ADDITIONAL THANKS TO" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#76B1D5;ztest,1;queuecommand,Diffuser;" DiffuserCommand="@'diffuse,'..LabelColor()..';'" />
 		<Layer Type="BitmapText" Text="Alex 'ITGAlex' Scepansky" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#FFFFFF;ztest,1" />
 		<Layer Type="BitmapText" Text="Ellen Scepansky" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#FFFFFF;ztest,1" />
 		<Layer Type="BitmapText" Text="Jim Nero" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#FFFFFF;ztest,1" />
@@ -58,7 +58,7 @@
 		<Layer Type="BitmapText" Text="" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#FFFFFF;ztest,1" />
 		<Layer Type="BitmapText" Text="" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#FFFFFF;ztest,1" />
 		<Layer Type="BitmapText" Text="" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#FFFFFF;ztest,1" />
-		<Layer Type="BitmapText" Text="FOR SIMFILES, NOTESKINS AND MORE VISIT" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#D57676;ztest,1" />
+		<Layer Type="BitmapText" Text="FOR SIMFILES, NOTESKINS AND MORE VISIT" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#D57676;ztest,1;queuecommand,Diffuser;" DiffuserCommand="@'diffuse,'..LabelColor()..';'" />
 		<Layer File="DivinElegy" OnCommand="shadowlength,0;zoom,0.6;ztest,1" />
 		<Layer Type="BitmapText" Text="http://divinelegy.com/" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#FFFFFF;ztest,1" />
 	</children>

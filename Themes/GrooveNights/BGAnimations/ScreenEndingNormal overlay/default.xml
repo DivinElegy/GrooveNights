@@ -6,14 +6,24 @@ if GAMESTATE:GetEnv('Wag') == 'On' then
 end"> <children>
 	<Layer Type="Quad" InitCommand="diffusealpha,0;sleep,24;queuecommand,ScreenChange;" ScreenChangeCommand="%function(self) SCREENMAN:SetNewScreen('ScreenCompany'); end" />
 	<Layer
-		File="player pane"
-		OnCommand="x,SCREEN_CENTER_X-320+74;y,SCREEN_CENTER_Y+2"
+		File="player pane B"
+		OnCommand="@'x,SCREEN_CENTER_X-320+74;y,SCREEN_CENTER_Y+2;diffuse,'..BackgroundColor()..';'"
+		Condition="GAMESTATE:IsHumanPlayer(PLAYER_1)"
+	/>	
+	<Layer
+		File="player pane F"
+		OnCommand="@'x,SCREEN_CENTER_X-320+74;y,SCREEN_CENTER_Y+2;diffuse,'..FrameColor()..';'"
 		Condition="GAMESTATE:IsHumanPlayer(PLAYER_1)"
 	/>
 	
 	<Layer
-		File="player pane"
-		OnCommand="x,SCREEN_CENTER_X+320-74;y,SCREEN_CENTER_Y+2"
+		File="player pane B"
+		OnCommand="@'x,SCREEN_CENTER_X+320-74;y,SCREEN_CENTER_Y+2;diffuse,'..BackgroundColor()..';'"
+		Condition="GAMESTATE:IsHumanPlayer(PLAYER_2)"
+	/>
+	<Layer
+		File="player pane F"
+		OnCommand="@'x,SCREEN_CENTER_X+320-74;y,SCREEN_CENTER_Y+2;diffuse,'..FrameColor()..';'"
 		Condition="GAMESTATE:IsHumanPlayer(PLAYER_2)"
 	/>
 	

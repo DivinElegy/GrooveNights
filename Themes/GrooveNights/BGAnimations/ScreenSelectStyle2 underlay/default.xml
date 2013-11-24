@@ -61,7 +61,20 @@ end"><children>
 	<Layer
 		Class="AutoActor" 
 		File="previewframe"
-		InitCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;"
+		InitCommand="@'x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoom,1;diffuse,'..FrameColor()..';'"
+	/>
+	
+	<Layer Class="AutoActor" 
+		File="explanation frame B" 
+		OnCommand="@'x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-11;diffuse,'..BackgroundColor()..';'" 
+		MadeChoiceP1MessageCommand="playcommand,GoOff"
+		MadeChoiceP2MessageCommand="playcommand,GoOff"
+	/>
+	<Layer Class="AutoActor" 
+		File="explanation frame F" 
+		OnCommand="@'x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-11;diffuse,'..FrameColor()..';'" 
+		MadeChoiceP1MessageCommand="playcommand,GoOff"
+		MadeChoiceP2MessageCommand="playcommand,GoOff"
 	/>
 	<Layer
 		Class="AutoActor" 

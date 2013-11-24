@@ -36,9 +36,8 @@ end">
 			OffCommand="accelerate,0.3;diffusealpha,0;"
 			
 		/>
-		<Layer Class="AutoActor" 
-			File="../BGAnimations/ScreenSelectStyle2 overlay/explanation frame" 
-			OnCommand="x,SCREEN_CENTER_X-18;y,SCREEN_CENTER_Y-52;" 
+		<Layer Type="Quad" 
+			OnCommand="diffusealpha,0;x,SCREEN_CENTER_X-18;y,SCREEN_CENTER_Y-52;" 
 			MadeChoiceP1MessageCommand="%function(self)
 			gnLocksOff = 1;
 			end"
