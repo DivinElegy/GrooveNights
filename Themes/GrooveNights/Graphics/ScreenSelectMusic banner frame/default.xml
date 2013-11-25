@@ -2,8 +2,8 @@
 if gnRateRestore == nil then
 	gnRateRestore = 0;
 	end
-if GAMESTATE:GetEnv('Wag') == 'On' then
-	self:wag();
+if GAMESTATE:GetEnv('Vibrate') == 'On' then
+	self:vibrate();
 	end
 gnGoBack = 0;
 
@@ -228,8 +228,8 @@ end"
 					if GAMESTATE:GetEnv('AngryGrandpa') == 'On' then
 						self:settext('music:');
 						end
-					if GAMESTATE:GetEnv('Wag') == 'On' then
-						self:wag();
+					if GAMESTATE:GetEnv('Vibrate') == 'On' then
+						self:vibrate();
 						end
 					end"
 				/>
@@ -241,8 +241,8 @@ end"
 					if GAMESTATE:GetEnv('AngryGrandpa') == 'On' then
 						self:settext('GO!');
 						end
-					if GAMESTATE:GetEnv('Wag') == 'On' then
-						self:wag();
+					if GAMESTATE:GetEnv('Vibrate') == 'On' then
+						self:vibrate();
 						end
 					end"
 				/>
@@ -255,8 +255,8 @@ end"
 					if GAMESTATE:GetEnv('AngryGrandpa') == 'On' then
 						self:settext('where:');
 						end
-					if GAMESTATE:GetEnv('Wag') == 'On' then
-						self:wag();
+					if GAMESTATE:GetEnv('Vibrate') == 'On' then
+						self:vibrate();
 						end
 					end"
 				/>
@@ -268,8 +268,8 @@ end"
 					if GAMESTATE:GetEnv('AngryGrandpa') == 'On' then
 						self:settext('like:');
 						end
-					if GAMESTATE:GetEnv('Wag') == 'On' then
-						self:wag();
+					if GAMESTATE:GetEnv('Vibrate') == 'On' then
+						self:vibrate();
 						end
 					end"
 				/>
@@ -281,8 +281,8 @@ end"
 					if GAMESTATE:GetEnv('AngryGrandpa') == 'On' then
 						self:settext('longer:');
 						end
-					if GAMESTATE:GetEnv('Wag') == 'On' then
-						self:wag();
+					if GAMESTATE:GetEnv('Vibrate') == 'On' then
+						self:vibrate();
 						end
 					end"
 				/>

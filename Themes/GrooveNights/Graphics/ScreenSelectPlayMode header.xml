@@ -22,8 +22,8 @@
 		InitCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+62;queuecommand,Update;"
 		UpdateCommand="%function(self)
 		self:stoptweening();
-		if GAMESTATE:GetEnv('Wag') == 'On' then
-			self:wag();
+		if GAMESTATE:GetEnv('Vibrate') == 'On' then
+			self:vibrate();
 			end
 		if gnChoice == 2 then
 			gnZoom1 = gnZoom1 + gnChoiceTween;
@@ -44,8 +44,8 @@
 		InitCommand="x,SCREEN_CENTER_X+203;y,SCREEN_CENTER_Y+62;queuecommand,Update;"
 		UpdateCommand="%function(self)
 		self:stoptweening();
-		if GAMESTATE:GetEnv('Wag') == 'On' then
-			self:wag();
+		if GAMESTATE:GetEnv('Vibrate') == 'On' then
+			self:vibrate();
 			end
 		if gnChoice == 1 then
 			gnZoom3 = gnZoom3 + gnChoiceTween;
@@ -65,8 +65,8 @@
 		InitCommand="x,SCREEN_CENTER_X-210;y,SCREEN_CENTER_Y+62;zoom,0.5;queuecommand,Update;"
 		UpdateCommand="%function(self)
 		self:stoptweening();
-		if GAMESTATE:GetEnv('Wag') == 'On' then
-			self:wag();
+		if GAMESTATE:GetEnv('Vibrate') == 'On' then
+			self:vibrate();
 			end
 		if gnChoice == 0 then
 			gnZoom4 = gnZoom4 + gnChoiceTween;

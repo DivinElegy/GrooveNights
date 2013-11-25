@@ -12,6 +12,7 @@ if GAMESTATE:IsPlayerEnabled(PLAYER_2) then
 	else
 	gnP2Sound = 1;
 	end
+if GAMESTATE:GetEnv('Vibrate') == 'On' then	self:vibrate(); end
 end">
 	<children>
 		<BitmapText

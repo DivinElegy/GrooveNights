@@ -1,6 +1,6 @@
 <ActorFrame InitCommand="%function(self)
-if GAMESTATE:GetEnv('Wag') == 'On' then
-	self:wag();
+if GAMESTATE:GetEnv('Vibrate') == 'On' then
+	self:vibrate();
 	end
 end"> <children>
 
@@ -8,8 +8,8 @@ end"> <children>
 	<Layer File="@'../../Graphics/NoBackground/'..getNoBackground()..'Background.png'"
 	InitCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffuse,0.6,0.6,0.6,1;queuecommand,Grandpa;"
 	GrandpaCommand="%function(self)
-	if GAMESTATE:GetEnv('Wag') == 'On' then
-		self:wag();
+	if GAMESTATE:GetEnv('Vibrate') == 'On' then
+		self:vibrate();
 		end
 	if GAMESTATE:GetEnv('Konami') == 'On' then
 		self:rainbow();
