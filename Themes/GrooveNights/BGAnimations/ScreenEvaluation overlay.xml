@@ -291,7 +291,62 @@ end">
 			self:hidden(0);
 			end"
 		/>	-->
-<ActorFrame InitCommand="x,0;y,4;"><children>
+		
+	<!--Main BPM Display-->
+		<BitmapText
+			Text=""
+			File="_eurostile blue glow"
+			OnCommand="horizalign,center;shadowlength,0;zoom,0.5;"
+			
+			InitCommand="%function(self)
+			self:x(SCREEN_CENTER_X);
+			self:y(SCREEN_CENTER_Y-146+60+4);
+			gnBPMDisplay = 0;
+			gnHighRoundBPM = 0;
+			gnLowRoundBPM = 0;
+			if lowBPM == highBPM then
+				if highBPM == 0 then
+					gnBPMDisplay = '...';
+					else
+					gnHighRoundBPM = highBPM*curRate;
+					gnHighRoundBPM = math.floor(gnHighRoundBPM);
+					gnBPMDisplay = gnHighRoundBPM;
+					end
+				else
+				gnLowRoundBPM = lowBPM*curRate;
+				gnLowRoundBPM = math.floor(gnLowRoundBPM);
+				gnHighRoundBPM = highBPM*curRate;
+				gnHighRoundBPM = math.floor(gnHighRoundBPM);
+				gnBPMDisplay = gnLowRoundBPM..'-'..gnHighRoundBPM;
+				end	
+			if curRate ~= 1 then
+			gnSongLengthDisplay = string.gsub(gnSongLength,'Patched','Length Patched');
+			gnSongLengthDisplay = string.gsub(gnSongLength,'Length Length Patched','Length Patched');
+			self:settext(gnBPMDisplay..' BPM ('..curRate..'x Music Rate) - '..gnSongLengthDisplay);
+			else
+			gnSongLengthDisplay = string.gsub(gnSongLength,'Patched','Length Patched');
+			gnSongLengthDisplay = string.gsub(gnSongLength,'Length Length Patched','Length Patched');
+			self:settext(gnBPMDisplay..' BPM - '..gnSongLengthDisplay);
+			end
+			end"
+		/>
+
+<!--For some reason checking which player is using both sides HERE returns true regardless so enabled-checking is required too-->
+<ActorFrame InitCommand="%function(self) self:x(0); self:y(4); 
+
+if GAMESTATE:PlayerUsingBothSides(PLAYER_1) then
+	if not GAMESTATE:IsPlayerEnabled(PLAYER_2) then
+	self:addx(147); self:addy(-1);
+	end
+end 
+
+if GAMESTATE:PlayerUsingBothSides(PLAYER_2) then
+	if not GAMESTATE:IsPlayerEnabled(PLAYER_1) then
+	self:addx(-147); self:addy(-1);
+	end	
+end
+
+end"><children>
 <!--No Card Data-->
 	<Layer File="nocard"
 	Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and not PROFILEMAN:IsPersistentProfile(PLAYER_1)"
@@ -406,43 +461,6 @@ end">
 	Condition="GAMESTATE:IsHumanPlayer(PLAYER_2) and PROFILEMAN:IsPersistentProfile(PLAYER_2)"
 	InitCommand="@'draworder,3;diffuse,'..FrameColor()..';x,SCREEN_CENTER_X+55;y,SCREEN_CENTER_Y+50;zoomx,1.01;'"
 	/>
-
-	<!--Main BPM Display-->
-		<BitmapText
-			Text=""
-			File="_eurostile blue glow"
-			OnCommand="horizalign,center;shadowlength,0;zoom,0.5;"
-			
-			InitCommand="%function(self)
-			self:x(SCREEN_CENTER_X);
-			self:y(SCREEN_CENTER_Y-146+60);
-			gnBPMDisplay = 0;
-			gnHighRoundBPM = 0;
-			gnLowRoundBPM = 0;
-			if lowBPM == highBPM then
-				if highBPM == 0 then
-					gnBPMDisplay = '...';
-					else
-					gnHighRoundBPM = highBPM*curRate;
-					gnHighRoundBPM = math.floor(gnHighRoundBPM);
-					gnBPMDisplay = gnHighRoundBPM;
-					end
-				else
-				gnLowRoundBPM = lowBPM*curRate;
-				gnLowRoundBPM = math.floor(gnLowRoundBPM);
-				gnHighRoundBPM = highBPM*curRate;
-				gnHighRoundBPM = math.floor(gnHighRoundBPM);
-				gnBPMDisplay = gnLowRoundBPM..'-'..gnHighRoundBPM;
-				end	
-			if curRate ~= 1 then
-			gnSongLengthDisplay = string.gsub(gnSongLength,'Patched','Length Patched');
-			self:settext(gnBPMDisplay..' BPM ('..curRate..'x Music Rate) - '..gnSongLengthDisplay);
-			else
-			gnSongLengthDisplay = string.gsub(gnSongLength,'Patched','Length Patched');
-			self:settext(gnBPMDisplay..' BPM - '..gnSongLengthDisplay);
-			end
-			end"
-		/>
 <!--Step Artists P1-->
 		<BitmapText
 			Text=""

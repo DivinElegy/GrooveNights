@@ -42,6 +42,21 @@ end
 
 
 
+-- ===SHIFT SCREENEVALUATION ELEMENTS IN DOUBLE MODE===
+function ScreenEvaluationDoubleShift(pn)
+	if GAMESTATE:PlayerUsingBothSides(pn) then
+		if pn == PLAYER_1 then
+		return -176;
+		else
+		return 185;
+		end
+	end
+return 0
+end
+
+
+
+
 
 
 

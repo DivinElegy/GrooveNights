@@ -77,11 +77,14 @@ gnRollsTotal = SCREENMAN:GetTopScreen():GetChild('RollsTextP'..gnJudgeCount):Get
 i = string.find(gnRollsTotal,'/');
 gnRollsTotal = string.gsub(string.sub(gnRollsTotal,i+1),'%s','');
 gnRollsTotal = tonumber(gnRollsTotal);
+
+gnPath = getSystemSound('gnJudgeBar', '0');
+SOUND:PlayOnce(gnPath);
 end"> <children>
 <!--Rate Message-->
 	<Layer Type="Quad"
 	InitCommand="%function(self)
-	self:diffusealpha(0);
+	self:diffusealpha(1);
 	if gnRateRestore == 1 then
 		SCREENMAN:SystemMessage('Rate Modifier has been restored to 1.0x'); 
 		end
@@ -91,9 +94,140 @@ end"> <children>
 	<Layer File="base frame F" InitCommand="@'diffuse,'..FrameColor()..';'"/>
 	<!-- +7s are for 4:3, will need to make them +6s if using widescreen -->
 	<Layer Type="ActorFrame" OnCommand="x,5;y,-114"> <children>
+		<Layer File="../Combo 1000milestone/arrowswoosh" OnCommand="diffuse,1,1,1,0;x,109;y,0;queuecommand,Bling"
+		BlingCommand="%function(self)
+		self:sleep(0.1/2+0.5);
+		self:diffusealpha(1);
+		self:zoom(0);
+		self:addy(6);
+		self:decelerate(0.049*3);
+		self:addx(16);
+		self:zoom(0.2);
+		self:diffusealpha(0.5);
+		self:sleep(0.001*3);
+		self:addy(17*3);
+		self:addx(-16);
+		
+		self:diffusealpha(1);
+		self:zoom(0);
+		self:decelerate(0.049*3);
+		self:addx(16);
+		self:zoom(0.2);
+		self:diffusealpha(0.5);
+		self:sleep(0.001*3);
+		self:addx(-16);
+		self:addy(17*3);
+		
+		self:diffusealpha(1);
+		self:zoom(0);
+		self:decelerate(0.049*3);
+		self:addx(16);
+		self:zoom(0.2);
+		self:diffusealpha(0.5);
+		self:sleep(0.001*3);
+		self:addx(-16);
+		self:addy(17*3);
+		
+		self:diffusealpha(1);
+		self:zoom(0);
+		self:decelerate(0.049*3);
+		self:addx(16);
+		self:zoom(0.2);
+		self:diffusealpha(0.5);
+		self:sleep(0.001*3);
+		self:addx(-16);
+		self:addy(17*3);
+		
+		self:diffusealpha(0);
+		end"
+		/>
+		<Layer File="../Combo 1000milestone/arrowswoosh" OnCommand="diffuse,1,1,1,0;x,111;y,7;queuecommand,Bling"
+		BlingCommand="%function(self)
+		self:sleep(0.2/2+0.5);
+		self:diffusealpha(1);
+		self:zoom(0);
+		self:addy(6+17);
+		self:decelerate(0.049*3);
+		self:addx(16);
+		self:zoom(0.2);
+		self:diffusealpha(0.5);
+		self:sleep(0.001*3);
+		self:addy(17*3);
+		self:addx(-16);
+		
+		self:diffusealpha(1);
+		self:zoom(0);
+		self:decelerate(0.049*3);
+		self:addx(16);
+		self:zoom(0.2);
+		self:diffusealpha(0.5);
+		self:sleep(0.001*3);
+		self:addx(-16);
+		self:addy(17*3);
+		
+		self:diffusealpha(1);
+		self:zoom(0);
+		self:decelerate(0.049*3);
+		self:addx(16);
+		self:zoom(0.2);
+		self:diffusealpha(0.5);
+		self:sleep(0.001*3);
+		self:addx(-16);
+		self:addy(17*3);
+		
+		self:diffusealpha(1);
+		self:zoom(0);
+		self:decelerate(0.049*3);
+		self:addx(16);
+		self:zoom(0.2);
+		self:diffusealpha(0.5);
+		self:sleep(0.001*3);
+		self:addx(-16);
+		self:addy(17*3);
+		
+		self:diffusealpha(0);
+		end"
+		/>
+		<Layer File="../Combo 1000milestone/arrowswoosh" OnCommand="diffuse,1,1,1,0;x,110;y,7;queuecommand,Bling"
+		BlingCommand="%function(self)
+		self:sleep(0.3/2+0.5);
+		self:diffusealpha(1);
+		self:zoom(0);
+		self:addy(6+34);
+		self:decelerate(0.049*3);
+		self:addx(16);
+		self:zoom(0.2);
+		self:diffusealpha(0.5);
+		self:sleep(0.001*3);
+		self:addy(17*3);
+		self:addx(-16);
+		
+		self:diffusealpha(1);
+		self:zoom(0);
+		self:decelerate(0.049*3);
+		self:addx(16);
+		self:zoom(0.2);
+		self:diffusealpha(0.5);
+		self:sleep(0.001*3);
+		self:addx(-16);
+		self:addy(17*3);
+		
+		self:diffusealpha(1);
+		self:zoom(0);
+		self:decelerate(0.049*3);
+		self:addx(16);
+		self:zoom(0.2);
+		self:diffusealpha(0.5);
+		self:sleep(0.001*3);
+		self:addx(-16);
+		self:addy(17*3);
+		
+		self:diffusealpha(0);
+		end"
+		/>
 		<Layer File="Judgment0001"	OnCommand="y,16*0;zoom,0.65;horizalign,left;shadowlength,0;" />
-		<Layer Type="Quad" OnCommand="y,16*0+7;x,3;horizalign,left;diffusealpha,0.1;zoomx,121;zoomy,1;sleep,0.1/2+0.5;decelerate,0.2;diffusealpha,0.5;accelerate,0.2;diffusealpha,0.1;" />
-		<Layer Type="Quad" OnCommand="y,16*0+7;x,3;horizalign,left;diffuse,51/255,153/255,204/255,1;zoomy,1;queuecommand,calculate;"
+		<Layer Type="Quad" OnCommand="y,16*0+7;x,3;horizalign,left;diffusealpha,0.1;zoomx,121;zoomy,1;accelerate,0.1/2+0.1;zoomx,0;decelerate,0.2;diffusealpha,0.3;accelerate,0.2;diffusealpha,0.1;zoomx,121;decelerate,0.2;diffusealpha,0.3;accelerate,0.2;diffusealpha,0.1;" />
+		<Layer Type="Quad" OnCommand="y,16*0+7;x,3;horizalign,left;diffuse,51/255,153/255,204/255,1;zoomx,0;zoomy,1;queuecommand,calculate;"
 		calculatecommand="%function(self)
 		self:sleep(0.1/2);
 		self:accelerate(0.5);
@@ -108,8 +242,8 @@ end"> <children>
 		end"/>
 		
 		<Layer File="Judgment0002"	OnCommand="y,16*1;zoom,0.65;horizalign,left;shadowlength,0;" />
-		<Layer Type="Quad" OnCommand="y,16*1+6;x,3;horizalign,left;diffusealpha,0.1;zoomx,121;zoomy,1;sleep,0.2/2+0.5;decelerate,0.2;diffusealpha,0.5;accelerate,0.2;diffusealpha,0.1;" />
-		<Layer Type="Quad" OnCommand="y,16*1+6;x,3;horizalign,left;diffuse,221/255,166/255,1/255,1;zoomy,1;queuecommand,calculate;"
+		<Layer Type="Quad" OnCommand="y,16*1+6;x,3;horizalign,left;diffusealpha,0.1;zoomx,121;zoomy,1;accelerate,0.2/2+0.1;zoomx,0;decelerate,0.2;diffusealpha,0.3;accelerate,0.2;diffusealpha,0.1;zoomx,121;decelerate,0.2;diffusealpha,0.3;accelerate,0.2;diffusealpha,0.1;" />
+		<Layer Type="Quad" OnCommand="y,16*1+6;x,3;horizalign,left;diffuse,221/255,166/255,1/255,1;zoomx,0;zoomy,1;queuecommand,calculate;"
 		calculatecommand="%function(self)
 		self:sleep(0.2/2);
 		self:accelerate(0.5);
@@ -124,8 +258,8 @@ end"> <children>
 		end"/>
 		
 		<Layer File="Judgment0003"		OnCommand="y,16*2;zoom,0.65;horizalign,left;shadowlength,0;" />
-		<Layer Type="Quad" OnCommand="y,16*2+6;x,3;horizalign,left;diffusealpha,0.1;zoomx,121;zoomy,1;sleep,0.3/2+0.5;decelerate,0.2;diffusealpha,0.5;accelerate,0.2;diffusealpha,0.1;" />
-		<Layer Type="Quad" OnCommand="y,16*2+6;x,3;horizalign,left;diffuse,1/255,204/255,51/255,1;zoomy,1;queuecommand,calculate;"
+		<Layer Type="Quad" OnCommand="y,16*2+6;x,3;horizalign,left;diffusealpha,0.1;zoomx,121;zoomy,1;accelerate,0.3/2+0.1;zoomx,0;decelerate,0.2;diffusealpha,0.3;accelerate,0.2;diffusealpha,0.1;zoomx,121;decelerate,0.2;diffusealpha,0.3;accelerate,0.2;diffusealpha,0.1;" />
+		<Layer Type="Quad" OnCommand="y,16*2+6;x,3;horizalign,left;diffuse,1/255,204/255,51/255,1;zoomx,0;zoomy,1;queuecommand,calculate;"
 		calculatecommand="%function(self)
 		self:sleep(0.3/2);
 		self:accelerate(0.5);
@@ -140,8 +274,8 @@ end"> <children>
 		end"/>
 		
 		<Layer File="Judgment0004"		OnCommand="y,16*3;zoom,0.65;horizalign,left;shadowlength,0;" />
-		<Layer Type="Quad" OnCommand="y,16*3+7;x,3;horizalign,left;diffusealpha,0.1;zoomx,121;zoomy,1;sleep,0.4/2+0.5;decelerate,0.2;diffusealpha,0.5;accelerate,0.2;diffusealpha,0.1;" />
-		<Layer Type="Quad" OnCommand="y,16*3+7;x,3;horizalign,left;diffuse,127/255,127/255,255/255,1;zoomy,1;queuecommand,calculate;"
+		<Layer Type="Quad" OnCommand="y,16*3+7;x,3;horizalign,left;diffusealpha,0.1;zoomx,121;zoomy,1;accelerate,0.4/2+0.1;zoomx,0;decelerate,0.2;diffusealpha,0.3;accelerate,0.2;diffusealpha,0.1;zoomx,121;decelerate,0.2;diffusealpha,0.3;accelerate,0.2;diffusealpha,0.1;" />
+		<Layer Type="Quad" OnCommand="y,16*3+7;x,3;horizalign,left;diffuse,127/255,127/255,255/255,1;zoomx,0;zoomy,1;queuecommand,calculate;"
 		calculatecommand="%function(self)
 		self:sleep(0.4/2);
 		self:accelerate(0.5);
@@ -156,8 +290,8 @@ end"> <children>
 		end"/>
 		
 		<Layer File="Judgment0005"	OnCommand="y,16*4;zoom,0.65;horizalign,left;shadowlength,0;" />
-		<Layer Type="Quad" OnCommand="y,16*4+6;x,3;horizalign,left;diffusealpha,0.1;zoomx,121;zoomy,1;sleep,0.5/2+0.5;decelerate,0.2;diffusealpha,0.5;accelerate,0.2;diffusealpha,0.1;" />
-		<Layer Type="Quad" OnCommand="y,16*4+6;x,3;horizalign,left;diffuse,245/255,147/255,49/255,1;zoomy,1;queuecommand,calculate;"
+		<Layer Type="Quad" OnCommand="y,16*4+6;x,3;horizalign,left;diffusealpha,0.1;zoomx,121;zoomy,1;accelerate,0.5/2+0.1;zoomx,0;decelerate,0.2;diffusealpha,0.3;accelerate,0.2;diffusealpha,0.1;zoomx,121;decelerate,0.2;diffusealpha,0.3;accelerate,0.2;diffusealpha,0.1;" />
+		<Layer Type="Quad" OnCommand="y,16*4+6;x,3;horizalign,left;diffuse,245/255,147/255,49/255,1;zoomx,0;zoomy,1;queuecommand,calculate;"
 		calculatecommand="%function(self)
 		self:sleep(0.5/2);
 		self:accelerate(0.5);
@@ -172,8 +306,8 @@ end"> <children>
 		end"/>
 		
 		<Layer File="Judgment0006"		OnCommand="y,16*5;zoom,0.65;horizalign,left;shadowlength,0;" />
-		<Layer Type="Quad" OnCommand="y,16*5+7;x,3;horizalign,left;diffusealpha,0.1;zoomx,121;zoomy,1;sleep,0.6/2+0.5;decelerate,0.2;diffusealpha,0.5;accelerate,0.2;diffusealpha,0.1;" />
-		<Layer Type="Quad" OnCommand="y,16*5+7;x,3;horizalign,left;diffuse,255/255,63/255,63/255,1;zoomy,1;queuecommand,calculate;"
+		<Layer Type="Quad" OnCommand="y,16*5+7;x,3;horizalign,left;diffusealpha,0.1;zoomx,121;zoomy,1;accelerate,0.6/2+0.1;zoomx,0;decelerate,0.2;diffusealpha,0.3;accelerate,0.2;diffusealpha,0.1;zoomx,121;decelerate,0.2;diffusealpha,0.3;accelerate,0.2;diffusealpha,0.1;" />
+		<Layer Type="Quad" OnCommand="y,16*5+7;x,3;horizalign,left;diffuse,255/255,63/255,63/255,1;zoomx,0;zoomy,1;queuecommand,calculate;"
 		calculatecommand="%function(self)
 		self:accelerate(0.5);
 		self:sleep(0.6/2);
@@ -190,8 +324,8 @@ end"> <children>
 	</children> </Layer>
 	<Layer Type="ActorFrame" OnCommand="x,4;y,-18"> <children>
 		<Layer File="Judgment0007"		OnCommand="y,16*0;zoom,0.65;horizalign,left;shadowlength,0;" />
-		<Layer Type="Quad" OnCommand="y,16*0+6;x,3;horizalign,left;diffusealpha,0.1;zoomx,121;zoomy,1;sleep,0.7/2+0.5;decelerate,0.2;diffusealpha,0.5;accelerate,0.2;diffusealpha,0.1;" />
-		<Layer Type="Quad" OnCommand="y,16*0+6;x,3;horizalign,left;diffuse,255/255,255/255,255/255,0.5;zoomx,1;zoomy,1;queuecommand,calculate;"
+		<Layer Type="Quad" OnCommand="y,16*0+6;x,3;horizalign,left;diffusealpha,0.1;zoomx,121;zoomy,1;accelerate,0.7/2+0.1;zoomx,0;decelerate,0.2;diffusealpha,0.3;accelerate,0.2;diffusealpha,0.1;zoomx,121;decelerate,0.2;diffusealpha,0.3;accelerate,0.2;diffusealpha,0.1;" />
+		<Layer Type="Quad" OnCommand="y,16*0+6;x,3;horizalign,left;diffuse,255/255,255/255,255/255,0.5;zoomx,0;zoomy,1;queuecommand,calculate;"
 		calculatecommand="%function(self)
 		self:sleep(0.7/2);
 		self:accelerate(0.5);
@@ -206,8 +340,8 @@ end"> <children>
 		end"/>
 
 		<Layer File="Judgment0008"		OnCommand="y,16*1;zoom,0.65;horizalign,left;shadowlength,0;" />
-		<Layer Type="Quad" OnCommand="y,16*1+6;x,3;horizalign,left;diffusealpha,0.1;zoomx,121;zoomy,1;sleep,0.8/2+0.5;decelerate,0.2;diffusealpha,0.5;accelerate,0.2;diffusealpha,0.1;" />
-		<Layer Type="Quad" OnCommand="y,16*1+6;x,3;horizalign,left;diffuse,255/255,255/255,255/255,0.5;zoomx,1;zoomy,1;queuecommand,calculate;"
+		<Layer Type="Quad" OnCommand="y,16*1+6;x,3;horizalign,left;diffusealpha,0.1;zoomx,121;zoomy,1;accelerate,0.8/2+0.1;zoomx,0;decelerate,0.2;diffusealpha,0.3;accelerate,0.2;diffusealpha,0.1;zoomx,121;decelerate,0.2;diffusealpha,0.3;accelerate,0.2;diffusealpha,0.1;" />
+		<Layer Type="Quad" OnCommand="y,16*1+6;x,3;horizalign,left;diffuse,255/255,255/255,255/255,0.5;zoomx,0;zoomy,1;queuecommand,calculate;"
 		calculatecommand="%function(self)
 		self:sleep(0.8/2);
 		self:accelerate(0.5);
@@ -222,8 +356,8 @@ end"> <children>
 		end"/>
 
 		<Layer File="Judgment0009"		OnCommand="y,16*2;zoom,0.65;horizalign,left;shadowlength,0;" />
-		<Layer Type="Quad" OnCommand="y,16*2+7;x,3;horizalign,left;diffusealpha,0.1;zoomx,121;zoomy,1;sleep,0.9/2+0.5;decelerate,0.2;diffusealpha,0.5;accelerate,0.2;diffusealpha,0.1;" />
-		<Layer Type="Quad" OnCommand="y,16*2+7;x,3;horizalign,left;diffuse,255/255,255/255,255/255,0.5;zoomx,1;zoomy,1;queuecommand,calculate;" 
+		<Layer Type="Quad" OnCommand="y,16*2+7;x,3;horizalign,left;diffusealpha,0.1;zoomx,121;zoomy,1;accelerate,0.9/2+0.1;zoomx,0;decelerate,0.2;diffusealpha,0.3;accelerate,0.2;diffusealpha,0.1;zoomx,121;decelerate,0.2;diffusealpha,0.3;accelerate,0.2;diffusealpha,0.1;" />
+		<Layer Type="Quad" OnCommand="y,16*2+7;x,3;horizalign,left;diffuse,255/255,255/255,255/255,0.5;zoomx,0;zoomy,1;queuecommand,calculate;" 
 		calculatecommand="%function(self)
 		self:sleep(0.9/2);
 		self:accelerate(0.5);
@@ -238,8 +372,8 @@ end"> <children>
 		end"/>
 
 		<Layer File="Judgment0010"		OnCommand="y,16*3;zoom,0.65;horizalign,left;shadowlength,0;" />
-		<Layer Type="Quad" OnCommand="y,16*3+6;x,3;horizalign,left;diffusealpha,0.1;zoomx,121;zoomy,1;sleep,1/2+0.5;decelerate,0.2;diffusealpha,0.5;accelerate,0.2;diffusealpha,0.1;" />
-		<Layer Type="Quad" OnCommand="y,16*3+6;x,3;horizalign,left;diffuse,255/255,255/255,255/255,0.5;zoomx,1;zoomy,1;queuecommand,calculate;"
+		<Layer Type="Quad" OnCommand="y,16*3+6;x,3;horizalign,left;diffusealpha,0.1;zoomx,121;zoomy,1;accelerate,1/2+0.1;zoomx,0;decelerate,0.2;diffusealpha,0.3;accelerate,0.2;diffusealpha,0.1;zoomx,121;decelerate,0.2;diffusealpha,0.3;accelerate,0.2;diffusealpha,0.1;" />
+		<Layer Type="Quad" OnCommand="y,16*3+6;x,3;horizalign,left;diffuse,255/255,255/255,255/255,0.5;zoomx,0;zoomy,1;queuecommand,calculate;"
 		calculatecommand="%function(self)
 		self:sleep(1/2);
 		self:accelerate(0.5);
@@ -254,8 +388,8 @@ end"> <children>
 		end"/>
 
 		<Layer File="Judgment0011"		OnCommand="y,16*4;zoom,0.65;horizalign,left;shadowlength,0;" />
-		<Layer Type="Quad" OnCommand="y,16*4+7;x,3;horizalign,left;diffusealpha,0.1;zoomx,121;zoomy,1;sleep,1.1/2+0.5;decelerate,0.2;diffusealpha,0.5;accelerate,0.2;diffusealpha,0.1;" />
-		<Layer Type="Quad" OnCommand="y,16*4+7;x,3;horizalign,left;diffuse,255/255,255/255,255/255,0.5;zoomx,1;zoomy,1;queuecommand,calculate;" 
+		<Layer Type="Quad" OnCommand="y,16*4+7;x,3;horizalign,left;diffusealpha,0.1;zoomx,121;zoomy,1;accelerate,1.1/2+0.1;zoomx,0;decelerate,0.2;diffusealpha,0.3;accelerate,0.2;diffusealpha,0.1;zoomx,121;decelerate,0.2;diffusealpha,0.3;accelerate,0.2;diffusealpha,0.1;" />
+		<Layer Type="Quad" OnCommand="y,16*4+7;x,3;horizalign,left;diffuse,255/255,255/255,255/255,0.5;zoomx,0;zoomy,1;queuecommand,calculate;" 
 		calculatecommand="%function(self)
 		self:sleep(1.1/2);
 		self:accelerate(0.5);
@@ -270,12 +404,12 @@ end"> <children>
 		end"/>
 
 		<Layer File="Judgment0012"		OnCommand="y,16*5;zoom,0.65;horizalign,left;shadowlength,0;" />
-		<Layer Type="Quad" OnCommand="y,16*5+6;x,3;horizalign,left;diffusealpha,0.1;zoomx,121;zoomy,1;sleep,1.2/2+0.5;decelerate,0.2;diffusealpha,0.5;accelerate,0.2;diffusealpha,0.1;" />
-		<Layer Type="Quad" OnCommand="y,16*5+6;x,3;horizalign,left;diffuse,255/255,255/255,255/255,0.5;zoomx,1;zoomy,1;queuecommand,calculate;"  
+		<Layer Type="Quad" OnCommand="y,16*5+6;x,3;horizalign,left;diffusealpha,0.1;zoomx,121;zoomy,1;accelerate,1.2/2+0.1;zoomx,0;decelerate,0.2;diffusealpha,0.3;accelerate,0.2;diffusealpha,0.1;zoomx,121;decelerate,0.2;diffusealpha,0.3;accelerate,0.2;diffusealpha,0.1;" />
+		<Layer Type="Quad" OnCommand="y,16*5+6;x,3;horizalign,left;diffuse,255/255,255/255,255/255,0.5;zoomx,0;zoomy,1;queuecommand,calculate;"  
 		calculatecommand="%function(self)
 		self:sleep(1.2/2);
 		self:accelerate(0.5);
-		gnJudgeText = math.ceil(tonumber(SCREENMAN:GetTopScreen():GetChild('MaxComboNumberP'..gnJudgeCount):GetText()) / 10 * 121);
+		gnJudgeText = math.ceil(tonumber(SCREENMAN:GetTopScreen():GetChild('MaxComboNumberP'..gnJudgeCount):GetText()) / 10000 * 121);
 		if gnJudgeText >= 121 then gnJudgeText = 121; self:rainbow(); end
 		self:zoomx(gnJudgeText);
 		self:queuecommand('SFX');
