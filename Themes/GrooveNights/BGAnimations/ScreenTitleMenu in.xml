@@ -1,4 +1,9 @@
-<BGAnimation Sound="_logo.ogg">
+<BGAnimation
+    Sound="_logo.ogg"
+    OnCommand="%function(self)
+                    InitSpeedMods()
+                end"
+>
 	<children>
 		<Layer Type="Quad" Command="diffuse,#FFFFFF;stretchto,SCREEN_LEFT,SCREEN_TOP,SCREEN_RIGHT,SCREEN_BOTTOM;diffusealpha,0.3;linear,0.3;diffusealpha,0" />
 	</children>

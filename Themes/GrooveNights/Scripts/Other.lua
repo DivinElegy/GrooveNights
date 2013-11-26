@@ -447,3 +447,164 @@ function GetRateMod()
    elseif GetRateModHelper('0.9xmusic') then curRate = 0.9;  return '0.9' 
    else curRate = 1; return '(Unknown rate mod)' end
 end
+
+function oitgACoptions()
+    -- Right now we return the same line names for both OITG and whatever else happens to be running. But in the future they might be different.
+    if OPENITG then return "1,2,3,4,5,6,7,8,9,10,11" end
+
+    return "1,2,3,4,5,6,7,8,9,10,11"
+end
+
+function SongModifiers()
+    -- this is very basic right now, but it can be modified to take in to account OITG specific stuff
+    return SpeedLines() .. "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24"
+end
+
+function SpeedLines()
+    local type = GetSpeedModType()
+
+    if type == "pro" then
+        return "1,2,3,"
+    else
+        return "1,"
+    end
+end
+
+function SpeedMods(name)
+    local modList = baseSpeed
+    local s = "Speed"
+
+    if name == "Extra" then
+        modList = extraSpeed
+        s = "Extra " .. s
+    end
+
+    if name == "Type" then
+        modList = typeSpeed
+        s = s .. " Type"
+    end
+
+    local Params = { Name = s, OneChoiceForAllPlayers = false }   
+
+    local function Load(self, list, pn)
+        -- default to the first item in the list
+        list[1] = true
+
+        -- now loop through everything else in the list and see if it is set to true
+        for i=2, table.getn(modList) do
+                if name == "Base" then
+                    if modList[i] == modBase[pn+1] then
+                        list[i] = true
+                        list[1] = false
+                    else
+                        list[i] = false
+                    end
+                end
+
+                if name == "Extra" then
+                    if modList[i] == modExtra[pn+1] then
+                        list[i] = true
+                        list[1] = false
+                    else
+                        list[i] = false
+                    end
+                end
+
+                if name == "type" then
+                    s = modList[n]
+                    s = string.gsub(s, '-Mod','')
+
+                    if s == modType[pn+1] then
+                        list[i] = true
+                        list[1] = false
+                    else
+                        list[i] = false
+                    end
+                end
+        end
+    end
+
+    local function Save(self, list, pn)
+        for i = 1, table.getn(modList) do
+            if list[i] then
+                s = modList[i]
+            end
+        end
+
+        local p = pn + 1
+
+        if name == "Type" then modType[p] = s end
+        if name == "Base" then
+            modBase[p] = s
+            
+            if GetSpeedModType() ~= "pro" then
+                if string.find(modBase[p],"x") then modBase[p] = string.gsub(modBase[p], "x", ""); modType[p] = 'x-mod' end
+                if string.find(modBase[p],"c") then modBase[p] = string.gsub(modBase[p], "c", ""); modType[p] = 'c-mod' end
+                if string.find(modBase[p],"m") then modBase[p] = string.gsub(modBase[p], "m", ""); modType[p] = 'm-mod' end
+            end
+        end
+
+        if name == "Extra" then modExtra[p] = s end
+
+        if modType[p] == 'x-mod' then modSpeed[p] = modBase[p] + modExtra[p] .. 'x' end
+        if modType[p] == 'c-mod' then modSpeed[p] = 'c' .. modBase[p]*100 + modExtra[p]*100 end
+        if modType[p] == 'c-mod' and GetSpeedModType() ~= "pro" then modSpeed[p] = 'c' .. modBase[p] end
+        if modType[p] == 'm-mod' then modSpeed[p] = 'm' .. modBase[p]*100 + modExtra[p]*100 end
+        if modType[p] == 'm-mod' and GetSpeedModType() ~= "pro" then modSpeed[p] = 'm' .. modBase[p] end
+        GAMESTATE:ApplyGameCommand('mod,1x',p)
+        ApplySpeedMods()
+        MESSAGEMAN:Broadcast('SpeedModChanged')
+    end
+
+    return CreateOptionRow( Params, modList, Load, Save )
+end
+
+function ApplySpeedMods()
+    for pn=1, 2 do
+        if GAMESTATE:IsPlayerEnabled( pn - 1 ) then
+            speed = string.gsub(modSpeed[pn],modType[pn],"")
+            if modType[pn] == "x" then speed = math.ceil(100*speed/modRate)/100 .. "x" end
+            if modType[pn] == "c" then speed = "c" .. math.ceil(speed/modRate) end
+            if modType[pn] == "m" then speed = "m" .. math.ceil(speed/modRate) end
+            GAMESTATE:ApplyGameCommand('mod,' .. speed,pn)
+        end
+    end
+end
+
+function InitSpeedMods()
+    Trace("Got in to initspeedmods")
+
+    modBase = { "1", "1" }
+    modExtra = { "+.5", "+.5" }
+    modType = { "x-mod", "x-mod" }
+    modSpeed = { "1.5x", "1.5x" }
+
+    if GetSpeedModType() == "pro" then
+        baseSpeed = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16" }
+        extraSpeed = { "0", "+.25", "+.5", "+.75", "+.1", "+.2", "+.3", "+.4", "+.6", "+.7", "+.8", "+.9" }
+    end
+        
+    if GetSpeedModType() == "advanced" then
+        if OPENITG then baseSpeed = { "0.25x", "0.5x", "0.75x", "1x", "1.25x", "1.5x", "1.75x", "2x", "2.25x", "2.5x", "2.75x", "3x", "3.25x", "3.5x", "3.75x", "4x", "4.25x", "4.5x", "4.75x", "5x", "5.25x", "5.5x", "5.75x", "6x", "6.25x", "6.5x", "6.75x", "7x", "c400", "c425", "c450", "c475", "c500", "c525", "c550", "c575", "c600", "c625", "c650", "c675", "c700", "c725", "c750", "c775", "c800", "c825", "c850", "c875", "c900", "c925", "c950", "c975", "c1000", "m400", "m425", "m450", "m475", "m500", "m525", "m550", "m575", "m600", "m625", "m650", "m675", "m700", "m725", "m750", "m775", "m800", "m825", "m850", "m875", "m900", "m925", "m950", "m975", "m1000" }
+        else baseSpeed = { "0.25x", "0.5x", "0.75x", "1x", "1.25x", "1.5x", "1.75x", "2x", "2.25x", "2.5x", "2.75x", "3x", "3.25x", "3.5x", "3.75x", "4x", "4.25x", "4.5x", "4.75x", "5x", "5.25x", "5.5x", "5.75x", "6x", "6.25x", "6.5x", "6.75x", "7x", "c400", "c425", "c450", "c475", "c500", "c525", "c550", "c575", "c600", "c625", "c650", "c675", "c700", "c725", "c750", "c775", "c800", "c825", "c850", "c875", "c900", "c925", "c950", "c975", "c1000" }
+        end
+
+        extraSpeed = { "0" }
+        modExtra = { "0", "0" }
+    end
+
+    if GetSpeedModType() == "basic" then
+        if OPENITG then baseSpeed = { "1x", "1.5x", "2x", "2.5x", "3x", "3.5x", "4x", "4.5x", "5x", "6x", "c450", "m450" }
+        else baseSpeed = { "1x", "1.5x", "2x", "2.5x", "3x", "3.5x", "4x", "4.5x", "5x", "5.5x", "6x", "c450" }
+        end
+
+        extraSpeed = { "0" }
+        modExtra = { "0", "0" }
+    end
+        
+    if OPENITG then
+        typeSpeed = { "x-mod", "c-mod", "m-mod" }
+    else
+        typeSpeed = { "x-mod", "c-mod" }
+    end
+end

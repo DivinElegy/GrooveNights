@@ -3,3 +3,6 @@
  
 #include everything in this directory
 !*
+
+#ignore netbeans crap
+nbproject
