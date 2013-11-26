@@ -1,7 +1,7 @@
 <ActorFrame InitCommand="%function(self)
 gnScreenEnd = false;
-if GAMESTATE:GetEnv('Wag') == 'On' then
-	self:wag();
+if GAMESTATE:GetEnv('Vibrate') == 'On' then
+	self:vibrate();
 	end
 end"> <children>
 	<Layer Type="Quad" InitCommand="diffusealpha,0;sleep,24;queuecommand,ScreenChange;" ScreenChangeCommand="%function(self) SCREENMAN:SetNewScreen('ScreenCompany'); end" />

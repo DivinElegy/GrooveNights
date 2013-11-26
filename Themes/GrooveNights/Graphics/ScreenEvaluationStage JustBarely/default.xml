@@ -1,6 +1,6 @@
 <ActorFrame InitCommand="%function(self)
-if GAMESTATE:GetEnv('Wag') == 'On' then
-	self:wag();
+if GAMESTATE:GetEnv('Vibrate') == 'On' then
+	self:vibrate();
 	end
 end"><children>
 	<BitmapText Font="_eurostile normal" Text="@getTextBarely()" OnCommand="horizalign,center;addx,3;shadowlength,0;zoom,0.5;y,-12;diffusealpha,0;addy,-20;sleep,0.75;accelerate,.2;diffusealpha,1;addy,+20;" />

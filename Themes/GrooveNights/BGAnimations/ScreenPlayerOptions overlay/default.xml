@@ -10,8 +10,8 @@
 			self:sleep(0.1);
 			if gnScreenSelectMusicTimer == nil then gnScreenSelectMusicTimer = gnDefaultSSM; end
 			if gnScreenPlayerOptionsTimer == nil then gnScreenPlayerOptionsTimer = gnDefaultSPO; end
-			if GAMESTATE:GetEnv('Wag') == 'On' then
-				self:wag();
+			if GAMESTATE:GetEnv('Vibrate') == 'On' then
+				self:vibrate();
 				end
 			end"> <children>
 	

@@ -1,6 +1,6 @@
 <ActorFrame InitCommand="%function(self)
-if GAMESTATE:GetEnv('Wag') == 'On' then
-	self:wag();
+if GAMESTATE:GetEnv('Vibrate') == 'On' then
+	self:vibrate();
 	end
 end"> <children>
 	<!-- Pause -->

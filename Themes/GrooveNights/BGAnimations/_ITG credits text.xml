@@ -22,7 +22,7 @@
 		<Layer Type="BitmapText" Text="THEME GRAPHICS" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#D57676;ztest,1;queuecommand,Diffuser;" DiffuserCommand="@'diffuse,'..LabelColor()..';'" />
 		<Layer Type="BitmapText" Text="Jayce Newton" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#FFFFFF;ztest,1" />
 		<Layer Type="BitmapText" Text="" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#FFFFFF;ztest,1" />
-		<Layer Type="BitmapText" Text="TESTERS" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#D57676;ztest,1" />
+		<Layer Type="BitmapText" Text="TESTERS" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#D57676;ztest,1;queuecommand,Diffuser;" DiffuserCommand="@'diffuse,'..LabelColor()..';'" />
 		<Layer Type="BitmapText" Text="Alan 'TaroNuke' James" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#FFFFFF;ztest,1" />
 		<Layer Type="BitmapText" Text="Stephanie 'Freyja' Nance" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#FFFFFF;ztest,1" />
 		<Layer Type="BitmapText" Text="Stephen Strasser" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#FFFFFF;ztest,1" />

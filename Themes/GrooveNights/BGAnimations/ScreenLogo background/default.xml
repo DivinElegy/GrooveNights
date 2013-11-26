@@ -17,9 +17,9 @@ if GAMESTATE:GetEnv('Rain') == 'Turn' then
 	SCREENMAN:SystemMessage('Rain Code Activated');
 	GAMESTATE:SetEnv('Rain','On');
 	end
-if GAMESTATE:GetEnv('Wag') == 'Turn' then
-	SCREENMAN:SystemMessage('Wag Code Activated');
-	GAMESTATE:SetEnv('Wag','On');
+if GAMESTATE:GetEnv('Vibrate') == 'Turn' then
+	SCREENMAN:SystemMessage('Vibrate Code Activated');
+	GAMESTATE:SetEnv('Vibrate','On');
 	end
 if GAMESTATE:GetEnv('AngryGrandpa') == 'Turn' then
 	SCREENMAN:SystemMessage('Angry Grandpa Code Activated');

@@ -53,8 +53,8 @@ end">
 		OnCommand="x,SCREEN_CENTER_X-206;y,SCREEN_CENTER_Y+15;zoom,1;queuecommand,Update;"
 		UpdateCommand="%function(self) 
 		self:stoptweening();
-		if GAMESTATE:GetEnv('Wag') == 'On' then
-			self:wag();
+		if GAMESTATE:GetEnv('Vibrate') == 'On' then
+			self:vibrate();
 			end
 		self:zoom(gnZoom4); 
 		self:sleep(0.032);
@@ -80,8 +80,8 @@ end">
 		OnCommand="x,SCREEN_CENTER_X-16;y,SCREEN_CENTER_Y+15;zoom,1;queuecommand,Update;"
 		UpdateCommand="%function(self) 
 		self:stoptweening();
-		if GAMESTATE:GetEnv('Wag') == 'On' then
-			self:wag();
+		if GAMESTATE:GetEnv('Vibrate') == 'On' then
+			self:vibrate();
 			end
 		self:zoom(gnZoom1); 
 		self:sleep(0.032);
@@ -102,8 +102,8 @@ end">
 		OnCommand="x,SCREEN_CENTER_X+174;y,SCREEN_CENTER_Y+15;zoom,1;queuecommand,Update;"
 		UpdateCommand="%function(self) 
 		self:stoptweening();
-		if GAMESTATE:GetEnv('Wag') == 'On' then
-			self:wag();
+		if GAMESTATE:GetEnv('Vibrate') == 'On' then
+			self:vibrate();
 			end
 		self:zoom(gnZoom3); 
 		self:sleep(0.032);
@@ -129,8 +129,8 @@ end">
 		InitCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+62;queuecommand,Update;"
 		UpdateCommand="%function(self)
 		self:stoptweening();
-		if GAMESTATE:GetEnv('Wag') == 'On' then
-			self:wag();
+		if GAMESTATE:GetEnv('Vibrate') == 'On' then
+			self:vibrate();
 			end
 		if gnChoice == 2 then
 			gnZoom1 = gnZoom1 + gnChoiceTween;
@@ -151,8 +151,8 @@ end">
 		InitCommand="x,SCREEN_CENTER_X+207;y,SCREEN_CENTER_Y+62;queuecommand,Update;"
 		UpdateCommand="%function(self)
 		self:stoptweening();
-		if GAMESTATE:GetEnv('Wag') == 'On' then
-			self:wag();
+		if GAMESTATE:GetEnv('Vibrate') == 'On' then
+			self:vibrate();
 			end
 		if gnChoice == 1 then
 			gnZoom3 = gnZoom3 + gnChoiceTween;
@@ -172,8 +172,8 @@ end">
 		InitCommand="x,SCREEN_CENTER_X-206;y,SCREEN_CENTER_Y+62;zoom,0.5;queuecommand,Update;"
 		UpdateCommand="%function(self)
 		self:stoptweening();
-		if GAMESTATE:GetEnv('Wag') == 'On' then
-			self:wag();
+		if GAMESTATE:GetEnv('Vibrate') == 'On' then
+			self:vibrate();
 			end
 		if gnChoice == 0 then
 			gnZoom4 = gnZoom4 + gnChoiceTween;

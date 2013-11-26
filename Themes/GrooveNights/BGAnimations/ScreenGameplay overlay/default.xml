@@ -61,8 +61,8 @@
 			gnP2Restarter = 0;
 			self:sleep(0.01);
 			self:queuecommand('KillBPM');
-			if GAMESTATE:GetEnv('Wag') == 'On' then
-				self:wag();
+			if GAMESTATE:GetEnv('Vibrate') == 'On' then
+				self:vibrate();
 				end
 end"
 KillBPMCommand="%function(self)
@@ -224,7 +224,7 @@ P2LosingMessageCommand="queuecommand,On;stoptweening;sleep,0.2;linear,0.2;diffus
 		Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and not GAMESTATE:IsDemonstration()"
 		InitCommand="diffusealpha,0;shadowlength,0;x,320;y,200;hibernate,0.1;queuecommand,Start;"
 		StartCommand="%function(self)
-			if GAMESTATE:GetEnv('Wag') == 'On' then
+			if GAMESTATE:GetEnv('Vibrate') == 'On' then
 			SCREENMAN:GetTopScreen():GetChild('PlayerP1'):wag();
 			end
 			self:settext(gnStamina);
@@ -238,7 +238,7 @@ P2LosingMessageCommand="queuecommand,On;stoptweening;sleep,0.2;linear,0.2;diffus
 		Condition="GAMESTATE:IsHumanPlayer(PLAYER_2) and not GAMESTATE:IsDemonstration()"
 		InitCommand="diffusealpha,0;shadowlength,0;x,320;y,220;hibernate,0.1;queuecommand,Start;"
 		StartCommand="%function(self)
-			if GAMESTATE:GetEnv('Wag') == 'On' then
+			if GAMESTATE:GetEnv('Vibrate') == 'On' then
 			SCREENMAN:GetTopScreen():GetChild('PlayerP2'):wag();
 			end
 			self:settext(gnStamina);
