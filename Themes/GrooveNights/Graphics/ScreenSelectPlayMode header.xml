@@ -1,4 +1,6 @@
-<ActorFrame>
+<ActorFrame InitCommand="%function(self)
+gnDummy = SetVariablesFor('ScreenSelectPlayMode');
+end">
 	<children>
 		<BitmapText
 			Text="@getTextPlayModeTitle()"
@@ -87,21 +89,28 @@
 	<!--Screen Transition-->
 	<ActorFrame InitCommand="x,-18;y,-41;"><children>
 	<Layer Type="Quad"
-	OnCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+(SCREEN_HEIGHT/2);draworder,10000;decelerate,0.2;diffuse,0,0,0,1;y,SCREEN_CENTER_Y+SCREEN_HEIGHT"
+	OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;linear,0.3;diffusealpha,0;"
+	GoOffCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,0;linear,0.3;diffusealpha,1;"
+	MadeChoiceP1MessageCommand="playcommand,GoOff"
+	MadeChoiceP2MessageCommand="playcommand,GoOff"
+	/>
+	
+	<Layer Type="Quad"
+	OnCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+(SCREEN_HEIGHT/2)-50;draworder,10000;sleep,0.2;decelerate,0.3;diffuse,0,0,0,1;y,SCREEN_CENTER_Y+SCREEN_HEIGHT"
 	MadeChoiceP1MessageCommand="playcommand,GoOff"
 	MadeChoiceP2MessageCommand="playcommand,GoOff"
 	GoOffCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+SCREEN_HEIGHT;draworder,10000;accelerate,0.2;diffuse,0,0,0,1;y,SCREEN_CENTER_Y+(SCREEN_HEIGHT/2)"
 	/>
 	
 	<Layer Type="Quad"
-	OnCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT/2);draworder,10000;accelerate,0.2;diffuse,0,0,0,1;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT)"
+	OnCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT/2);draworder,10000;sleep,0.2;accelerate,0.2;diffuse,0,0,0,1;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT)"
 	MadeChoiceP1MessageCommand="playcommand,GoOff"
 	MadeChoiceP2MessageCommand="playcommand,GoOff"
 	GoOffCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-SCREEN_HEIGHT;draworder,10000;decelerate,0.2;diffuse,0,0,0,1;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT/2)"
 	/>
 	
 	<Layer File="TransitionArrow"
-	OnCommand="vibrate;EffectMagnitude,0.5,0.5,0.1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;draworder,10000;accelerate,0.2;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT/2)-50"
+	OnCommand="vibrate;EffectMagnitude,0.5,0.5,0.1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;draworder,10000;zoom,2.4;decelerate,0.2;zoom,1;accelerate,0.2;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT/2)-50"
 	MadeChoiceP1MessageCommand="playcommand,GoOff"
 	MadeChoiceP2MessageCommand="playcommand,GoOff"
 	GoOffCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+SCREEN_HEIGHT+50;draworder,10000;accelerate,0.2;y,SCREEN_CENTER_Y"

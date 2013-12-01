@@ -29,7 +29,7 @@
 	<BitmapText
 		Font="_eurostile outline"
 		Text="???"
-		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_BOTTOM-56;zoom,1;diffuse,0.6,0.7,0.8,1;shadowlength,0;PlayCommand,Refresh"
+		OnCommand="@'x,SCREEN_CENTER_X;y,SCREEN_BOTTOM-56;zoom,1;diffuse,'..LabelColor()..';shadowlength,0;PlayCommand,Refresh;'"
 		RefreshCommand="%
 			function(self)
 				if GAMESTATE:IsEventMode() then self:settext('TOURNAMENT MODE') return end

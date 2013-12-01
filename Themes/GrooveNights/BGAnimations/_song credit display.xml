@@ -1,5 +1,5 @@
 <BitmapText
 	Font="_eurostile normal"
 	Text="@GetCreditsText()"
-	InitCommand="horizalign,left;x,SCREEN_LEFT+60;y,SCREEN_BOTTOM-100;zoom,0.75;shadowlength,0;"
+	InitCommand="horizalign,left;x,SCREEN_LEFT+60;y,SCREEN_BOTTOM-54;zoom,0.75;shadowlength,0;maxwidth,694;"
 />

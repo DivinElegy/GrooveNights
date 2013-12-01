@@ -1,34 +1,7 @@
 ﻿<ActorFrame InitCommand="sleep,0.1;queuecommand,loop;"
 loopCommand="%function(self)
 self:stoptweening();
-if GAMESTATE:GetEnv('Santa') == 'Turn' then
-	SCREENMAN:SystemMessage('Santa Code Activated');
-	GAMESTATE:SetEnv('Santa','On');
-	end
-if GAMESTATE:GetEnv('Frost') == 'Turn' then
-	SCREENMAN:SystemMessage('Frost Code Activated');
-	GAMESTATE:SetEnv('Frost','On');
-	end
-if GAMESTATE:GetEnv('Blizzard') == 'Turn' then
-	SCREENMAN:SystemMessage('Blizzard Code Activated');
-	GAMESTATE:SetEnv('Blizzard','On');
-	end
-if GAMESTATE:GetEnv('Rain') == 'Turn' then
-	SCREENMAN:SystemMessage('Rain Code Activated');
-	GAMESTATE:SetEnv('Rain','On');
-	end
-if GAMESTATE:GetEnv('Vibrate') == 'Turn' then
-	SCREENMAN:SystemMessage('Vibrate Code Activated');
-	GAMESTATE:SetEnv('Vibrate','On');
-	end
-if GAMESTATE:GetEnv('AngryGrandpa') == 'Turn' then
-	SCREENMAN:SystemMessage('Angry Grandpa Code Activated');
-	GAMESTATE:SetEnv('AngryGrandpa','On');
-	end
-if GAMESTATE:GetEnv('Konami') == 'Turn' then
-	SCREENMAN:SystemMessage('Konami Code Activated');
-	GAMESTATE:SetEnv('Konami','On');
-	end
+SetVariablesFor('ScreenLogo');
 self:sleep(0.1);
 self:queuecommand('loop');
 end"><children>

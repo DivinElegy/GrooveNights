@@ -1,17 +1,5 @@
 <ActorFrame InitCommand="%function(self)
-	if gnRateRestore == nil then
-		gnRateRestore = 0;
-		end
-if GAMESTATE:IsPlayerEnabled(PLAYER_1) then
-	gnP1Sound = 0;
-	else
-	gnP1Sound = 1;
-	end
-if GAMESTATE:IsPlayerEnabled(PLAYER_2) then
-	gnP2Sound = 0;
-	else
-	gnP2Sound = 1;
-	end
+gnDummy = SetVariablesFor('ScreenPlayerOptions');
 if GAMESTATE:GetEnv('Vibrate') == 'On' then	self:vibrate(); end
 end">
 	<children>
@@ -51,7 +39,8 @@ end">
 			self:diffusealpha(0);
 			self:decelerate(0.4);
 			self:diffusealpha(1);
-			self:draworder(5);  
+			self:draworder(5);
+			self:hidden(1);
 			end"
 		/>
 	
@@ -72,7 +61,8 @@ end">
 			self:diffusealpha(0);
 			self:decelerate(0.4);
 			self:diffusealpha(1);
-			self:draworder(5); 
+			self:draworder(5);
+			self:hidden(1);
 			end"			
 		/>
 		
@@ -91,7 +81,8 @@ end">
 			self:diffusealpha(0);
 			self:decelerate(0.4);
 			self:diffusealpha(1);
-			self:draworder(3); 
+			self:draworder(3);
+			self:hidden(1);
 			end"	
 	/>
 	<Layer File="@'../Graphics/NoAvatar/'..getNoAvatar(PLAYER_2)"
@@ -109,14 +100,15 @@ end">
 			self:diffusealpha(0);
 			self:decelerate(0.4);
 			self:diffusealpha(1);
-			self:draworder(3); 
+			self:draworder(3);
+			self:hidden(1);
 			end"	
 	/>
 		
 		<Layer
 			File="arrow.png"
 			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1) and ShowArrowIndicators()"
-			InitCommand="x,SCREEN_CENTER_X-310+18;y,-500;zoom,0.9;rotationz,90;queuecommand,Update;"
+			InitCommand="hidden,1;x,SCREEN_CENTER_X-310+18;y,-500;zoom,0.9;rotationz,90;queuecommand,Update;"
 			ResetCommand="%function(self)
 				self:stoptweening();
 				p1y = p1Target + 550;
@@ -207,7 +199,7 @@ end">
 		<Layer
 			File="arrow.png"
 			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2) and ShowArrowIndicators()"
-			InitCommand="x,SCREEN_CENTER_X+238+18;y,-500;zoom,0.9;rotationz,-90;queuecommand,Update;"
+			InitCommand="hidden,1;x,SCREEN_CENTER_X+238+18;y,-500;zoom,0.9;rotationz,-90;queuecommand,Update;"
 			ResetCommand="%function(self)
 				self:stoptweening();
 				p2y = p2Target + 550;
@@ -292,80 +284,6 @@ end">
 					end
 				self:queuecommand('Update');
 				end
-			end"
-		/>
-		
-	<Layer
-			File="PlayerReady"
-			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
-			InitCommand="%function(self)
-			self:diffusealpha(0);
-			self:x(SCREEN_CENTER_X-288); self:y(SCREEN_CENTER_Y-112); self:zoom(0.1);self:draworder(5);
-			self:diffuseblink();
-			self:queuecommand('loop');
-			end"
-			
-			loopcommand="%function(self)
-			self:stoptweening();
-			if gnP1Ready == 1 then
-				self:zoom(1); self:diffusealpha(0.9);
-				if gnP1Sound == 0 then
-					if gnP2Sound == 0 then
-						local Path = THEME:GetPath( EC_SOUNDS, 'PlayerReady', 'sound' )
-						SOUND:PlayOnce(Path)
-						else
-						local Path = THEME:GetPath( EC_SOUNDS, 'PlayerBothReady', 'sound' )
-						SOUND:PlayOnce(Path)
-						end
-					gnP1Sound = 1;
-					end
-				else
-				self:zoom(0.1); self:diffusealpha(0);
-				if gnP1Sound == 1 then
-					local Path = THEME:GetPath( EC_SOUNDS, 'PlayerNotReady', 'sound' )
-					SOUND:PlayOnce(Path)
-					gnP1Sound = 0;
-					end
-				end
-			self:sleep(0.05);
-			self:queuecommand('loop');
-			end"
-		/>
-		
-	<Layer
-			File="PlayerReady"
-			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
-			InitCommand="%function(self)
-			self:diffusealpha(0);
-			self:x(SCREEN_CENTER_X+252); self:y(SCREEN_CENTER_Y-112); self:zoom(0.1);self:draworder(5);
-			self:diffuseblink();
-			self:queuecommand('loop');
-			end"
-			
-			loopcommand="%function(self)
-			self:stoptweening();
-			if gnP2Ready == 1 then
-				self:zoom(1); self:diffusealpha(0.9);
-				if gnP2Sound == 0 then
-					if gnP1Sound == 0 then
-						local Path = THEME:GetPath( EC_SOUNDS, 'PlayerReady', 'sound' )
-						SOUND:PlayOnce(Path)
-						else
-						local Path = THEME:GetPath( EC_SOUNDS, 'PlayerBothReady', 'sound' )
-						SOUND:PlayOnce(Path)
-						end
-					gnP2Sound = 1;
-					end
-				else
-				self:zoom(0.1); self:diffusealpha(0);
-				if gnP2Sound == 1 then
-					local Path = THEME:GetPath( EC_SOUNDS, 'PlayerNotReady', 'sound' )
-					SOUND:PlayOnce(Path)
-					gnP2Sound = 0;
-					end
-				end
-			self:sleep(0.05);
-			self:queuecommand('loop');
 			end"
 		/>
 		

@@ -19,10 +19,19 @@ end
 function GetCreditsText()
 	local song = GAMESTATE:GetCurrentSong()
 	if not song then return "" end
-
+	
+	local fulldir = song:GetSongDir();
+	local short = string.sub(fulldir, 8, -2);
+	local shorter = string.sub(short,1,5);
+	if shorter == "n The" then
+		short = "Memory Card"..string.sub(fulldir, 22, -2);
+	end
+	text = short
+	
 	return 
 		song:GetDisplayFullTitle() .. "\n" ..
-		song:GetDisplayArtist()
+		song:GetDisplayArtist() .. "\n" ..
+		text
 end
 
 function StopCourseEarly()

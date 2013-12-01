@@ -1,23 +1,8 @@
 <ActorFrame InitCommand="%function(self) self:hibernate(0.02)
-if gnRateRestore == nil then
-	gnRateRestore = 0;
-	end
 if GAMESTATE:GetEnv('Vibrate') == 'On' then
 	self:vibrate();
 	end
-gnGoBack = 0;
-
-gnBlazedP1 = 0;
-gnBlazedP2 = 0;
-gnP1Ready = 0;
-gnP2Ready = 0;
-gnJudgeCount = 0;
-
-gnTotalDone = 0;
-
-gnSpecialUSB = false;
-if gnStatFrequency == nil then gnStatFrequency = 0; end
-gnStatFrequency = gnStatFrequency + 1;
+gnDummy = SetVariablesFor('ScreenSelectMusic');
 end"
 >
 	<children>
@@ -579,7 +564,7 @@ end"
 	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
 	NoAvatarCommand="@'diffuse,'..PlayerColor(PLAYER_1)..';'"
 	InitCommand="%function(self)
-			self:x(SCREEN_CENTER_X-504-CourseHorizontal()+(0*HorizontalRecovery())); self:y(SCREEN_CENTER_Y-197); self:diffusealpha(1); self:zoom(0);
+			self:x(SCREEN_CENTER_X-504-CourseHorizontal()+(0*HorizontalRecovery())); self:y(SCREEN_CENTER_Y-198); self:diffusealpha(1); self:zoom(0);
 			a1Width = self:GetWidth(); 
 			a1Height = self:GetHeight(); 
 			if a1Width >= a1Height then 
@@ -587,7 +572,7 @@ end"
 				self:zoomtoheight(68-1/68); 
 				else  
 				self:scaletoclipped(68,68); 
-				end 
+				end
 			self:diffusealpha(0);
 			self:sleep(0.1);
 			self:diffusealpha(1);
@@ -602,14 +587,14 @@ end"
 	OnCommand="%function(self)
 	self:x(SCREEN_CENTER_X-504-CourseHorizontal()+(0*HorizontalRecovery())); self:y(SCREEN_CENTER_Y-197);
 	end"
-	InitCommand="@'draworder,3;diffuse,'..BackgroundColor()..';zoomx,1.01;'"
+	InitCommand="@'draworder,3;diffuse,'..BackgroundColor()..';zoomx,1.01;zoomy,0.975;'"
 	/>
 	<Layer File="../../BGAnimations/AvatarFrame.png"
 	Condition="GAMESTATE:IsHumanPlayer(PLAYER_1)"
 	OnCommand="%function(self)
 	self:x(SCREEN_CENTER_X-504-CourseHorizontal()+(0*HorizontalRecovery())); self:y(SCREEN_CENTER_Y-197);
 	end"
-	InitCommand="@'draworder,3;diffuse,'..FrameColor()..';zoomx,1.01;'"
+	InitCommand="@'draworder,3;diffuse,'..FrameColor()..';zoomx,0.95;zoomy,0.95;'"
 	/>
 	
 	
@@ -1070,14 +1055,14 @@ end"
 	OnCommand="%function(self)
 	self:x(SCREEN_CENTER_X-504-CourseHorizontal()+(0*HorizontalRecovery())); self:y(SCREEN_CENTER_Y-98);
 	end"
-	InitCommand="@'draworder,3;diffuse,'..BackgroundColor()..';zoomx,1.01;'"
+	InitCommand="@'draworder,3;diffuse,'..BackgroundColor()..';zoomx,1.01;zoomy,0.975;'"
 	/>
 	<Layer File="../../BGAnimations/AvatarFrame.png"
 	Condition="GAMESTATE:IsHumanPlayer(PLAYER_2)"
 	OnCommand="%function(self)
 	self:x(SCREEN_CENTER_X-504-CourseHorizontal()+(0*HorizontalRecovery())); self:y(SCREEN_CENTER_Y-98);
 	end"
-	InitCommand="@'draworder,3;diffuse,'..FrameColor()..';zoomx,1.01;'"
+	InitCommand="@'draworder,3;diffuse,'..FrameColor()..';zoomx,0.95;zoomy,0.95;'"
 	/>
 </children>
 </ActorFrame>

@@ -1,69 +1,11 @@
 <ActorFrame InitCommand="%function(self)
-			self:sleep(0.01);
-			GreenQuadP1Flag = 0;
-			GreenQuadP2Flag = 0;
-			PurpleQuadP1Flag = 0;
-			PurpleQuadP2Flag = 0;
-			gnGreenQuadP1 = false;
-			gnGreenQuadP2 = false;
-			gnPurpleQuadP1 = false;
-			gnPurpleQuadP2 = false;
-			gnCustomPlayed = 0;
-			gnScreenEvaluationFlag = true;
-			if GAMESTATE:IsHumanPlayer(PLAYER_1) then
-				gnNoP1 = false;
-				else
-				gnNoP1 = true;
-				end
-			gnPlayer = 0;
-			if lowBPM == nil then
-				lowBPM = 0;
-				end
-			if highBPM == nil then
-				highBPM = 0;
-				end
-			if popTimer == nil then
-				popTimer = 0;
-				end
-			gnLastWinP1 = 0;
-			gnLastWinP2 = 0;
-			if gnStamina == nil then gnStamina = ''; end
-			if FinalBPM == nil then FinalBPM = 0; end
-			if curRate == nil then curRate = 1; end
-			
-			gnP1Winning = false;
-			gnP2Winning = false;
-			gnLowHealth = false;
-			gnRateRestore = 0;
-			gnLowHealth = false;
-			gnVoiceTimer = 0;
-			gnStaminaTimer = 0;
-			gnRandomVoice = math.random(1,5); 
-			gnRandomMark1 = math.random(5,92);
-			gnRandomMark2 = math.random(5,92);
-			gnRandomMark3 = math.random(5,92);
-			gnStaminaSongPercent = 0;
-			gnStamina25Window = 0;
-			gnStamina50Window = 0;
-			gnStamina75Window = 0;
-			gnStamina80Window = 0;
-			gnStamina90Window = 0;
-			gnStaminaLowHealth = 0;
-			gnStaminaRandom = 0;
-			gnStaminaRandomizer = 0;
-			gnStaminaStepP1 = 0;
-			gnStaminaStepP2 = 0;
-			gnStaminaStepCutoff = 0;
-			gnStreamCountP1 = 0;
-			gnStreamCountP2 = 0;
-			gnStaminaStepTarget = 0;
-			gnP1Restarter = 0;
-			gnP2Restarter = 0;
-			self:sleep(0.01);
-			self:queuecommand('KillBPM');
-			if GAMESTATE:GetEnv('Vibrate') == 'On' then
-				self:vibrate();
-				end
+self:sleep(0.01);
+gnDummy = SetVariablesFor('ScreenGameplay');
+self:sleep(0.01);
+self:queuecommand('KillBPM');
+if GAMESTATE:GetEnv('Vibrate') == 'On' then
+	self:vibrate();
+	end
 end"
 KillBPMCommand="%function(self)
 SCREENMAN:GetTopScreen():GetChild('BPMDisplay'):addy(-10000);
@@ -216,820 +158,6 @@ P2LosingMessageCommand="queuecommand,On;stoptweening;sleep,0.2;linear,0.2;diffus
 </children>
 </ActorFrame>
 
-
-<!--Activate Stamina P1-->
-	<LayerType="BitmapText"
-		Font="Journey"
-		Text=""
-		Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and not GAMESTATE:IsDemonstration()"
-		InitCommand="diffusealpha,0;shadowlength,0;x,320;y,200;hibernate,0.1;queuecommand,Start;"
-		StartCommand="%function(self)
-			if GAMESTATE:GetEnv('Vibrate') == 'On' then
-			SCREENMAN:GetTopScreen():GetChild('PlayerP1'):wag();
-			end
-			self:settext(gnStamina);
-			end"
-		/>
-		
-<!--Activate Stamina P2-->
-	<LayerType="BitmapText"
-		Font="Journey"
-		Text=""
-		Condition="GAMESTATE:IsHumanPlayer(PLAYER_2) and not GAMESTATE:IsDemonstration()"
-		InitCommand="diffusealpha,0;shadowlength,0;x,320;y,220;hibernate,0.1;queuecommand,Start;"
-		StartCommand="%function(self)
-			if GAMESTATE:GetEnv('Vibrate') == 'On' then
-			SCREENMAN:GetTopScreen():GetChild('PlayerP2'):wag();
-			end
-			self:settext(gnStamina);
-			end"
-		/>
-
-<!--Stamina Mod for 1P Mode-->
-	<LayerType="BitmapText"
-		Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and not GAMESTATE:IsHumanPlayer(PLAYER_2)"
-		Font="Journey"
-		Text=""
-		InitCommand="diffusealpha,1;shadowlength,0;x,320;y,200;hibernate,0.2;queuecommand,Timer;"
-		TimerCommand="%function(self)
-		if gnStamina ~= '' then
-			SCREENMAN:SystemMessage('Stamina Mod ['..gnStamina..'] Activated');
-			self:queuecommand('Start');
-			end
-		end"
-		StartCommand="%function(self)
-		self:stoptweening();
-		
-		gnStaminaRandomizer = math.random(1,2);
-		
-		gnStaminaStepCutoff = gnStaminaStepCutoff + 1;
-		
-		if gnStaminaSongPercent < 92.5 then
-			if gnStaminaStepCutoff >= (math.floor((FinalBPM/60)*(650/FinalBPM)/curRate)+3) then
-				gnStaminaStepTarget = math.floor((FinalBPM/60)*(650/FinalBPM)/curRate)
-				if gnStaminaStepP1 > gnStaminaStepTarget then
-					gnStreamCountP1 = gnStreamCountP1 + 1;
-					else
-					if gnStreamCountP1 >= 16 then
-						if gnVoiceTimer == 0 then
-							gnStaminaSound = THEME:GetPath( EC_SOUNDS, '', 'gnStamina-'..gnStamina..'-Density-'..gnStaminaRandomizer )
-							SOUND:PlayOnce(gnStaminaSound);
-							gnVoiceTimer = 20;
-							end
-						end
-					gnStreamCountP1 = 0;
-					end
-				gnStaminaStepCutoff = 0;
-				gnStaminaStepP1 = 0;
-				gnStaminaStepP2 = 0;
-				end
-			end
-			
-		if gnLowHealth == true then
-			if gnStaminaLowHealth == 0 then
-				if gnVoiceTimer == 0 then
-					gnStaminaSound = THEME:GetPath( EC_SOUNDS, '', 'gnStamina-'..gnStamina..'-LowHealth-'..gnStaminaRandomizer )
-					SOUND:PlayOnce(gnStaminaSound);
-					gnStaminaLowHealth = 150;
-					gnLowHealth = false;
-					gnVoiceTimer = 20;
-					end
-				end
-			end
-		
-		
-		if gnRandomVoice == 1 then	
-			if gnStamina == 'Zetorux' then
-				if CheckPlayerName('REEN') or CheckPlayerName('SteveReen') then
-					if gnRandomMark1 >= gnStaminaSongPercent and gnRandomMark1 <= (gnStaminaSongPercent+0.3) then
-						if gnVoiceTimer == 0 then
-							gnStaminaSound = THEME:GetPath( EC_SOUNDS, '', 'gnStamina-'..gnStamina..'-SteveReen' )
-							SOUND:PlayOnce(gnStaminaSound);
-							gnVoiceTimer = 60;
-							gnRandomMark1 = 0;
-							end
-						end
-					end
-				end
-			if gnStamina == 'SteveReen' then
-				if CheckPlayerName('PHIL') or CheckPlayerName('Zetorux') then
-					if gnRandomMark1 >= gnStaminaSongPercent and gnRandomMark1 <= (gnStaminaSongPercent+0.3) then
-						if gnVoiceTimer == 0 then
-							gnStaminaSound = THEME:GetPath( EC_SOUNDS, '', 'gnStamina-'..gnStamina..'-Zetorux' )
-							SOUND:PlayOnce(gnStaminaSound);
-							gnVoiceTimer = 60;
-							gnRandomMark1 = 0;
-							end
-						end
-					end
-				end
-			end
-			
-			
-		if gnRandomVoice == 3 then
-			if gnStamina == 'Jayce' then
-				curSteps = GAMESTATE:GetCurrentSteps(PLAYER_1):GetDescription();
-				if gnRandomMark1 >= gnStaminaSongPercent and gnRandomMark1 <= (gnStaminaSongPercent+0.3) then
-					if gnVoiceTimer == 0 then
-						gnApostrophe = ',';
-						if curSteps ~= '(-[Jayce]-)' and curSteps ~= 'Jayce' and curSteps ~= 'Jayce'..gnApostrophe..'s Simfile' then
-							gnStaminaSound = THEME:GetPath( EC_SOUNDS, '', 'gnStamina-'..gnStamina..'-NotChart-'..gnStaminaRandomizer )
-							SOUND:PlayOnce(gnStaminaSound);
-							gnVoiceTimer = 20;
-							gnRandomMark1 = 0;
-							end
-						end
-					end
-				end
-			
-		
-			if gnStamina == 'WinDEU' then
-				if gnRandomMark1 >= gnStaminaSongPercent and gnRandomMark1 <= (gnStaminaSongPercent+0.3) then
-					if gnVoiceTimer == 0 then
-						gnStaminaSound = THEME:GetPath( EC_SOUNDS, '', 'gnStamina-'..gnStamina..'-Random-1' )
-						SOUND:PlayOnce(gnStaminaSound);
-						gnVoiceTimer = 20;
-						gnRandomMark1 = 0;
-						end
-					end
-				if gnRandomMark2 >= gnStaminaSongPercent and gnRandomMark2 <= (gnStaminaSongPercent+0.3) then
-					if gnVoiceTimer == 0 then
-						gnStaminaSound = THEME:GetPath( EC_SOUNDS, '', 'gnStamina-'..gnStamina..'-Random-2' )
-						SOUND:PlayOnce(gnStaminaSound);
-						gnVoiceTimer = 20;
-						gnRandomMark2 = 0;
-						end
-					end
-				end
-		
-			if gnStamina == 'Zetorux' or gnStamina == 'SteveReen' or gnStamina == 'Aoreo' then
-				if gnRandomMark1 >= gnStaminaSongPercent and gnRandomMark1 <= (gnStaminaSongPercent+0.3) then
-					if gnVoiceTimer == 0 then
-						gnStaminaRandomizer = math.random(1,2);
-						gnStaminaSound = THEME:GetPath( EC_SOUNDS, '', 'gnStamina-'..gnStamina..'-Random-'..gnStaminaRandomizer )
-						SOUND:PlayOnce(gnStaminaSound);
-						gnVoiceTimer = 60;
-						gnRandomMark1 = 0;
-						end
-					end
-				if gnRandomMark2 >= gnStaminaSongPercent and gnRandomMark2 <= (gnStaminaSongPercent+0.3) then
-					if gnVoiceTimer == 0 then
-						gnStaminaRandomizer = math.random(3,5);
-						gnStaminaSound = THEME:GetPath( EC_SOUNDS, '', 'gnStamina-'..gnStamina..'-Random'..gnStaminaRandomizer )
-						SOUND:PlayOnce(gnStaminaSound);
-						gnVoiceTimer = 60;
-						gnRandomMark2 = 0;
-						end
-					end
-				end
-			end
-			
-
-		if gnRandomVoice == 5 then		
-			if gnStamina == 'Zetorux' or gnStamina == 'SteveReen' or gnStamina == 'Aoreo' then
-				if gnRandomMark1 >= gnStaminaSongPercent and gnRandomMark1 <= (gnStaminaSongPercent+0.3) then
-					if gnVoiceTimer == 0 then
-						gnStaminaRandomizer = math.random(1,2);
-						gnStaminaSound = THEME:GetPath( EC_SOUNDS, '', 'gnStamina-'..gnStamina..'-Random-'..gnStaminaRandomizer )
-						SOUND:PlayOnce(gnStaminaSound);
-						gnVoiceTimer = 60;
-						gnRandomMark1 = 0;
-						end
-					end
-				if gnRandomMark2 >= gnStaminaSongPercent and gnRandomMark2 <= (gnStaminaSongPercent+0.3) then
-					if gnVoiceTimer == 0 then
-						gnStaminaSound = THEME:GetPath( EC_SOUNDS, '', 'gnStamina-'..gnStamina..'-Random3' )
-						SOUND:PlayOnce(gnStaminaSound);
-						gnVoiceTimer = 60;
-						gnRandomMark2 = 0;
-						end
-					end
-				if gnRandomMark3 >= gnStaminaSongPercent and gnRandomMark3 <= (gnStaminaSongPercent+0.3) then
-					if gnVoiceTimer == 0 then
-						gnStaminaRandomizer = math.random(4,5);
-						gnStaminaSound = THEME:GetPath( EC_SOUNDS, '', 'gnStamina-'..gnStamina..'-Random'..gnStaminaRandomizer )
-						SOUND:PlayOnce(gnStaminaSound);
-						gnVoiceTimer = 60;
-						gnRandomMark3 = 0;
-						end
-					end
-				end
-			end
-			
-		if gnStaminaSongPercent >= 25 and gnStaminaSongPercent < 92 then
-			if gnStamina25Window == 0 then
-				if gnVoiceTimer == 0 then
-					gnStaminaSound = THEME:GetPath( EC_SOUNDS, '', 'gnStamina-'..gnStamina..'-25Percent-'..gnStaminaRandomizer )
-					SOUND:PlayOnce(gnStaminaSound);
-					gnStamina25Window = 1;
-					gnVoiceTimer = 20;
-					if gnStamina == 'Zetorux' then gnVoiceTimer = gnVoiceTimer * 1.8; end
-					end
-				end
-			end
-		if gnStaminaSongPercent >= 50 and gnStaminaSongPercent < 92 then
-			if gnStamina50Window == 0 then
-				if gnVoiceTimer == 0 then
-					gnStaminaSound = THEME:GetPath( EC_SOUNDS, '', 'gnStamina-'..gnStamina..'-50Percent-'..gnStaminaRandomizer )
-					SOUND:PlayOnce(gnStaminaSound);
-					gnStamina50Window = 1;
-					gnVoiceTimer = 20;
-					if gnStamina == 'Zetorux' then gnVoiceTimer = gnVoiceTimer * 1.8; end
-					end
-				end
-			end
-		if gnStaminaSongPercent >= 75 and gnStaminaSongPercent < 92 then
-			if gnStamina75Window == 0 then
-				if gnVoiceTimer == 0 then
-					gnStaminaSound = THEME:GetPath( EC_SOUNDS, '', 'gnStamina-'..gnStamina..'-75Percent-'..gnStaminaRandomizer )
-					SOUND:PlayOnce(gnStaminaSound);
-					gnStamina75Window = 1;
-					gnVoiceTimer = 20;
-					if gnStamina == 'Zetorux' then gnVoiceTimer = gnVoiceTimer * 1.8; end
-					end
-				end
-			end
-		if gnStaminaSongPercent >= 80 and gnStaminaSongPercent < 92 then
-			if gnStamina80Window == 0 then
-				if gnVoiceTimer == 0 then
-					gnStaminaSound = THEME:GetPath( EC_SOUNDS, '', 'gnStamina-'..gnStamina..'-80Percent-'..gnStaminaRandomizer )
-					SOUND:PlayOnce(gnStaminaSound);
-					gnStamina80Window = 1;
-					gnVoiceTimer = 20;
-					if gnStamina == 'Zetorux' then gnVoiceTimer = gnVoiceTimer * 1.8; end
-					end
-				end
-			end
-		if gnStaminaSongPercent >= 90 and gnStaminaSongPercent < 92 then
-			if gnStamina90Window == 0 then
-				if gnVoiceTimer == 0 then
-					gnStaminaSound = THEME:GetPath( EC_SOUNDS, '', 'gnStamina-'..gnStamina..'-90Percent-'..gnStaminaRandomizer )
-					SOUND:PlayOnce(gnStaminaSound);
-					gnStamina90Window = 1;
-					gnVoiceTimer = 20;
-					if gnStamina == 'Zetorux' then gnVoiceTimer = gnVoiceTimer * 1.8; end
-					end
-				end
-			end
-			
-		gnVoiceTimer = gnVoiceTimer - 1;
-		if gnVoiceTimer <= 0 then
-			gnVoiceTimer = 0;
-			end
-			
-		gnStaminaLowHealth = gnStaminaLowHealth - 1;
-		if gnStaminaLowHealth <= 0 then gnStaminaLowHealth = 0; end
-		
-		self:sleep(0.1);
-		self:queuecommand('Start');
-		end"
-		/>
-
-		
-<!--Stamina Mod for 2P Mode-->
-	<LayerType="BitmapText"
-		Condition="GAMESTATE:IsHumanPlayer(PLAYER_2) and not GAMESTATE:IsHumanPlayer(PLAYER_1)"
-		Font="Journey"
-		Text=""
-		InitCommand="diffusealpha,1;shadowlength,0;x,320;y,200;hibernate,0.2;queuecommand,Timer;"
-		TimerCommand="%function(self)
-		if gnStamina ~= '' then
-			SCREENMAN:SystemMessage('Stamina Mod ['..gnStamina..'] Activated');
-			self:queuecommand('Start');
-			end
-		end"
-		StartCommand="%function(self)
-		self:stoptweening();
-		
-		gnStaminaRandomizer = math.random(1,2);
-		
-		gnStaminaStepCutoff = gnStaminaStepCutoff + 1;
-		
-		if gnStaminaSongPercent < 92.5 then
-			if gnStaminaStepCutoff >= (math.floor((FinalBPM/60)*(650/FinalBPM)/curRate)+3) then
-				gnStaminaStepTarget = math.floor((FinalBPM/60)*(650/FinalBPM)/curRate)
-				if gnStaminaStepP2 > gnStaminaStepTarget then
-					gnStreamCountP2 = gnStreamCountP2 + 1;
-					else
-					if gnStreamCountP2 >= 16 then
-						if gnVoiceTimer == 0 then
-							gnStaminaSound = THEME:GetPath( EC_SOUNDS, '', 'gnStamina-'..gnStamina..'-Density-'..gnStaminaRandomizer )
-							SOUND:PlayOnce(gnStaminaSound);
-							gnVoiceTimer = 20;
-							end
-						end
-					gnStreamCountP2 = 0;
-					end
-				gnStaminaStepCutoff = 0;
-				gnStaminaStepP2 = 0;
-				gnStaminaStepP2 = 0;
-				end
-			end
-			
-		if gnLowHealth == true then
-			if gnStaminaLowHealth == 0 then
-				if gnVoiceTimer == 0 then
-					gnStaminaSound = THEME:GetPath( EC_SOUNDS, '', 'gnStamina-'..gnStamina..'-LowHealth-'..gnStaminaRandomizer )
-					SOUND:PlayOnce(gnStaminaSound);
-					gnStaminaLowHealth = 150;
-					gnLowHealth = false;
-					gnVoiceTimer = 20;
-					end
-				end
-			end
-		
-		
-		if gnRandomVoice == 1 then	
-			if gnStamina == 'Zetorux' then
-				if CheckPlayerName('REEN') or CheckPlayerName('SteveReen') then
-					if gnRandomMark1 >= gnStaminaSongPercent and gnRandomMark1 <= (gnStaminaSongPercent+0.3) then
-						if gnVoiceTimer == 0 then
-							gnStaminaSound = THEME:GetPath( EC_SOUNDS, '', 'gnStamina-'..gnStamina..'-SteveReen' )
-							SOUND:PlayOnce(gnStaminaSound);
-							gnVoiceTimer = 60;
-							gnRandomMark1 = 0;
-							end
-						end
-					end
-				end
-			if gnStamina == 'SteveReen' then
-				if CheckPlayerName('PHIL') or CheckPlayerName('Zetorux') then
-					if gnRandomMark1 >= gnStaminaSongPercent and gnRandomMark1 <= (gnStaminaSongPercent+0.3) then
-						if gnVoiceTimer == 0 then
-							gnStaminaSound = THEME:GetPath( EC_SOUNDS, '', 'gnStamina-'..gnStamina..'-Zetorux' )
-							SOUND:PlayOnce(gnStaminaSound);
-							gnVoiceTimer = 60;
-							gnRandomMark1 = 0;
-							end
-						end
-					end
-				end
-			end
-			
-			
-		if gnRandomVoice == 3 then
-			if gnStamina == 'Jayce' then
-				curSteps = GAMESTATE:GetCurrentSteps(PLAYER_1):GetDescription();
-				if gnRandomMark1 >= gnStaminaSongPercent and gnRandomMark1 <= (gnStaminaSongPercent+0.3) then
-					if gnVoiceTimer == 0 then
-						gnApostrophe = ',';
-						if curSteps ~= '(-[Jayce]-)' and curSteps ~= 'Jayce' and curSteps ~= 'Jayce'..gnApostrophe..'s Simfile' then
-							gnStaminaSound = THEME:GetPath( EC_SOUNDS, '', 'gnStamina-'..gnStamina..'-NotChart-'..gnStaminaRandomizer )
-							SOUND:PlayOnce(gnStaminaSound);
-							gnVoiceTimer = 20;
-							gnRandomMark1 = 0;
-							end
-						end
-					end
-				end
-			
-		
-			if gnStamina == 'WinDEU' then
-				if gnRandomMark1 >= gnStaminaSongPercent and gnRandomMark1 <= (gnStaminaSongPercent+0.3) then
-					if gnVoiceTimer == 0 then
-						gnStaminaSound = THEME:GetPath( EC_SOUNDS, '', 'gnStamina-'..gnStamina..'-Random-1' )
-						SOUND:PlayOnce(gnStaminaSound);
-						gnVoiceTimer = 20;
-						gnRandomMark1 = 0;
-						end
-					end
-				if gnRandomMark2 >= gnStaminaSongPercent and gnRandomMark2 <= (gnStaminaSongPercent+0.3) then
-					if gnVoiceTimer == 0 then
-						gnStaminaSound = THEME:GetPath( EC_SOUNDS, '', 'gnStamina-'..gnStamina..'-Random-2' )
-						SOUND:PlayOnce(gnStaminaSound);
-						gnVoiceTimer = 20;
-						gnRandomMark2 = 0;
-						end
-					end
-				end
-		
-			if gnStamina == 'Zetorux' or gnStamina == 'SteveReen' or gnStamina == 'Aoreo' then
-				if gnRandomMark1 >= gnStaminaSongPercent and gnRandomMark1 <= (gnStaminaSongPercent+0.3) then
-					if gnVoiceTimer == 0 then
-						gnStaminaRandomizer = math.random(1,2);
-						gnStaminaSound = THEME:GetPath( EC_SOUNDS, '', 'gnStamina-'..gnStamina..'-Random-'..gnStaminaRandomizer )
-						SOUND:PlayOnce(gnStaminaSound);
-						gnVoiceTimer = 60;
-						gnRandomMark1 = 0;
-						end
-					end
-				if gnRandomMark2 >= gnStaminaSongPercent and gnRandomMark2 <= (gnStaminaSongPercent+0.3) then
-					if gnVoiceTimer == 0 then
-						gnStaminaRandomizer = math.random(3,5);
-						gnStaminaSound = THEME:GetPath( EC_SOUNDS, '', 'gnStamina-'..gnStamina..'-Random'..gnStaminaRandomizer )
-						SOUND:PlayOnce(gnStaminaSound);
-						gnVoiceTimer = 60;
-						gnRandomMark2 = 0;
-						end
-					end
-				end
-			end
-			
-
-		if gnRandomVoice == 5 then		
-			if gnStamina == 'Zetorux' or gnStamina == 'SteveReen' or gnStamina == 'Aoreo' then
-				if gnRandomMark1 >= gnStaminaSongPercent and gnRandomMark1 <= (gnStaminaSongPercent+0.3) then
-					if gnVoiceTimer == 0 then
-						gnStaminaRandomizer = math.random(1,2);
-						gnStaminaSound = THEME:GetPath( EC_SOUNDS, '', 'gnStamina-'..gnStamina..'-Random-'..gnStaminaRandomizer )
-						SOUND:PlayOnce(gnStaminaSound);
-						gnVoiceTimer = 60;
-						gnRandomMark1 = 0;
-						end
-					end
-				if gnRandomMark2 >= gnStaminaSongPercent and gnRandomMark2 <= (gnStaminaSongPercent+0.3) then
-					if gnVoiceTimer == 0 then
-						gnStaminaSound = THEME:GetPath( EC_SOUNDS, '', 'gnStamina-'..gnStamina..'-Random3' )
-						SOUND:PlayOnce(gnStaminaSound);
-						gnVoiceTimer = 60;
-						gnRandomMark2 = 0;
-						end
-					end
-				if gnRandomMark3 >= gnStaminaSongPercent and gnRandomMark3 <= (gnStaminaSongPercent+0.3) then
-					if gnVoiceTimer == 0 then
-						gnStaminaRandomizer = math.random(4,5);
-						gnStaminaSound = THEME:GetPath( EC_SOUNDS, '', 'gnStamina-'..gnStamina..'-Random'..gnStaminaRandomizer )
-						SOUND:PlayOnce(gnStaminaSound);
-						gnVoiceTimer = 60;
-						gnRandomMark3 = 0;
-						end
-					end
-				end
-			end
-			
-		if gnStaminaSongPercent >= 25 and gnStaminaSongPercent < 92 then
-			if gnStamina25Window == 0 then
-				if gnVoiceTimer == 0 then
-					gnStaminaSound = THEME:GetPath( EC_SOUNDS, '', 'gnStamina-'..gnStamina..'-25Percent-'..gnStaminaRandomizer )
-					SOUND:PlayOnce(gnStaminaSound);
-					gnStamina25Window = 1;
-					gnVoiceTimer = 20;
-					if gnStamina == 'Zetorux' then gnVoiceTimer = gnVoiceTimer * 1.8; end
-					end
-				end
-			end
-		if gnStaminaSongPercent >= 50 and gnStaminaSongPercent < 92 then
-			if gnStamina50Window == 0 then
-				if gnVoiceTimer == 0 then
-					gnStaminaSound = THEME:GetPath( EC_SOUNDS, '', 'gnStamina-'..gnStamina..'-50Percent-'..gnStaminaRandomizer )
-					SOUND:PlayOnce(gnStaminaSound);
-					gnStamina50Window = 1;
-					gnVoiceTimer = 20;
-					if gnStamina == 'Zetorux' then gnVoiceTimer = gnVoiceTimer * 1.8; end
-					end
-				end
-			end
-		if gnStaminaSongPercent >= 75 and gnStaminaSongPercent < 92 then
-			if gnStamina75Window == 0 then
-				if gnVoiceTimer == 0 then
-					gnStaminaSound = THEME:GetPath( EC_SOUNDS, '', 'gnStamina-'..gnStamina..'-75Percent-'..gnStaminaRandomizer )
-					SOUND:PlayOnce(gnStaminaSound);
-					gnStamina75Window = 1;
-					gnVoiceTimer = 20;
-					if gnStamina == 'Zetorux' then gnVoiceTimer = gnVoiceTimer * 1.8; end
-					end
-				end
-			end
-		if gnStaminaSongPercent >= 80 and gnStaminaSongPercent < 92 then
-			if gnStamina80Window == 0 then
-				if gnVoiceTimer == 0 then
-					gnStaminaSound = THEME:GetPath( EC_SOUNDS, '', 'gnStamina-'..gnStamina..'-80Percent-'..gnStaminaRandomizer )
-					SOUND:PlayOnce(gnStaminaSound);
-					gnStamina80Window = 1;
-					gnVoiceTimer = 20;
-					if gnStamina == 'Zetorux' then gnVoiceTimer = gnVoiceTimer * 1.8; end
-					end
-				end
-			end
-		if gnStaminaSongPercent >= 90 and gnStaminaSongPercent < 92 then
-			if gnStamina90Window == 0 then
-				if gnVoiceTimer == 0 then
-					gnStaminaSound = THEME:GetPath( EC_SOUNDS, '', 'gnStamina-'..gnStamina..'-90Percent-'..gnStaminaRandomizer )
-					SOUND:PlayOnce(gnStaminaSound);
-					gnStamina90Window = 1;
-					gnVoiceTimer = 20;
-					if gnStamina == 'Zetorux' then gnVoiceTimer = gnVoiceTimer * 1.8; end
-					end
-				end
-			end
-			
-		gnVoiceTimer = gnVoiceTimer - 1;
-		if gnVoiceTimer <= 0 then
-			gnVoiceTimer = 0;
-			end
-			
-		gnStaminaLowHealth = gnStaminaLowHealth - 1;
-		if gnStaminaLowHealth <= 0 then gnStaminaLowHealth = 0; end
-		
-		self:sleep(0.1);
-		self:queuecommand('Start');
-		end"
-		/>
-		
-		
-<!--Stamina Mod for Both Player Mode-->
-	<LayerType="BitmapText"
-		Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and GAMESTATE:IsHumanPlayer(PLAYER_2)"
-		Font="Journey"
-		Text=""
-		InitCommand="diffusealpha,1;shadowlength,0;x,320;y,200;hibernate,0.2;queuecommand,Timer;"
-		TimerCommand="%function(self)
-		gnStaminaDifficultyP1 = GAMESTATE:GetCurrentSteps(PLAYER_1):GetDifficulty();
-		gnStaminaDifficultyP2 = GAMESTATE:GetCurrentSteps(PLAYER_2):GetDifficulty();
-		if gnStamina ~= '' then
-			SCREENMAN:SystemMessage('Stamina Mod ['..gnStamina..'] Activated');
-			self:queuecommand('Start');
-			end
-		end"
-		StartCommand="%function(self)
-		self:stoptweening();
-		
-		gnStaminaRandomizer = math.random(1,2);
-		
-		gnStaminaStepCutoff = gnStaminaStepCutoff + 1;
-		
-		if gnStaminaSongPercent < 92.5 then
-			if gnStaminaStepCutoff >= (math.floor((FinalBPM/60)*(650/FinalBPM)/curRate)+3) then
-				gnStaminaStepTarget = math.floor((FinalBPM/60)*(650/FinalBPM)/curRate)
-				if gnStaminaDifficultyP1 >= gnStaminaDifficultyP2 then
-					if gnStaminaStepP1 > gnStaminaStepTarget then
-						gnStreamCountP1 = gnStreamCountP1 + 1;
-						else
-						if gnStreamCountP1 >= 16 then
-							if gnVoiceTimer == 0 then
-								gnStaminaSound = THEME:GetPath( EC_SOUNDS, '', 'gnStamina-'..gnStamina..'-Density-'..gnStaminaRandomizer )
-								SOUND:PlayOnce(gnStaminaSound);
-								gnVoiceTimer = 20;
-								end
-							end
-						gnStreamCountP1 = 0;
-						end
-					else
-					if gnStaminaStepP2 > gnStaminaStepTarget then
-						gnStreamCountP2 = gnStreamCountP2 + 1;
-						else
-						if gnStreamCountP2 >= 16 then
-							if gnVoiceTimer == 0 then
-								gnStaminaSound = THEME:GetPath( EC_SOUNDS, '', 'gnStamina-'..gnStamina..'-Density-'..gnStaminaRandomizer )
-								SOUND:PlayOnce(gnStaminaSound);
-								gnVoiceTimer = 20;
-								end
-							end
-						gnStreamCountP2 = 0;
-						end
-					end
-				gnStaminaStepCutoff = 0;
-				gnStaminaStepP1 = 0;
-				gnStaminaStepP2 = 0;
-				end
-			end
-			
-		if gnLowHealth == true then
-			if gnStaminaLowHealth == 0 then
-				if gnVoiceTimer == 0 then
-					gnStaminaSound = THEME:GetPath( EC_SOUNDS, '', 'gnStamina-'..gnStamina..'-LowHealth-'..gnStaminaRandomizer )
-					SOUND:PlayOnce(gnStaminaSound);
-					gnStaminaLowHealth = 150;
-					gnLowHealth = false;
-					gnVoiceTimer = 20;
-					end
-				end
-			end
-		
-		if gnRandomVoice == 1 then	
-			if gnStamina == 'Zetorux' then
-				if CheckPlayerName('REEN') or CheckPlayerName('SteveReen') then
-					if gnRandomMark1 >= gnStaminaSongPercent and gnRandomMark1 <= (gnStaminaSongPercent+0.3) then
-						if gnVoiceTimer == 0 then
-							gnStaminaSound = THEME:GetPath( EC_SOUNDS, '', 'gnStamina-'..gnStamina..'-SteveReen' )
-							SOUND:PlayOnce(gnStaminaSound);
-							gnVoiceTimer = 60;
-							gnRandomMark1 = 0;
-							end
-						end
-					end
-				end
-			if gnStamina == 'SteveReen' then
-				if CheckPlayerName('PHIL') or CheckPlayerName('Zetorux') then
-					if gnRandomMark1 >= gnStaminaSongPercent and gnRandomMark1 <= (gnStaminaSongPercent+0.3) then
-						if gnVoiceTimer == 0 then
-							gnStaminaSound = THEME:GetPath( EC_SOUNDS, '', 'gnStamina-'..gnStamina..'-Zetorux' )
-							SOUND:PlayOnce(gnStaminaSound);
-							gnVoiceTimer = 60;
-							gnRandomMark1 = 0;
-							end
-						end
-					end
-				end
-			end
-			
-			
-		if gnRandomVoice == 3 then
-			if gnStamina == 'Jayce' then
-				curSteps = GAMESTATE:GetCurrentSteps(PLAYER_1):GetDescription();
-				if gnRandomMark1 >= gnStaminaSongPercent and gnRandomMark1 <= (gnStaminaSongPercent+0.3) then
-					if gnVoiceTimer == 0 then
-						gnApostrophe = ',';
-						if curSteps ~= '(-[Jayce]-)' and curSteps ~= 'Jayce' and curSteps ~= 'Jayce'..gnApostrophe..'s Simfile' then
-							gnStaminaSound = THEME:GetPath( EC_SOUNDS, '', 'gnStamina-'..gnStamina..'-NotChart-'..gnStaminaRandomizer )
-							SOUND:PlayOnce(gnStaminaSound);
-							gnVoiceTimer = 20;
-							gnRandomMark1 = 0;
-							end
-						end
-					end
-				end
-			
-		
-			if gnStamina == 'WinDEU' then
-				if gnRandomMark1 >= gnStaminaSongPercent and gnRandomMark1 <= (gnStaminaSongPercent+0.3) then
-					if gnVoiceTimer == 0 then
-						gnStaminaSound = THEME:GetPath( EC_SOUNDS, '', 'gnStamina-'..gnStamina..'-Random-1' )
-						SOUND:PlayOnce(gnStaminaSound);
-						gnVoiceTimer = 20;
-						gnRandomMark1 = 0;
-						end
-					end
-				if gnRandomMark2 >= gnStaminaSongPercent and gnRandomMark2 <= (gnStaminaSongPercent+0.3) then
-					if gnVoiceTimer == 0 then
-						gnStaminaSound = THEME:GetPath( EC_SOUNDS, '', 'gnStamina-'..gnStamina..'-Random-2' )
-						SOUND:PlayOnce(gnStaminaSound);
-						gnVoiceTimer = 20;
-						gnRandomMark2 = 0;
-						end
-					end
-				end
-		
-			if gnStamina == 'Zetorux' or gnStamina == 'SteveReen' or gnStamina == 'Aoreo' then
-				if gnRandomMark1 >= gnStaminaSongPercent and gnRandomMark1 <= (gnStaminaSongPercent+0.3) then
-					if gnVoiceTimer == 0 then
-						gnStaminaRandomizer = math.random(1,2);
-						gnStaminaSound = THEME:GetPath( EC_SOUNDS, '', 'gnStamina-'..gnStamina..'-Random-'..gnStaminaRandomizer )
-						SOUND:PlayOnce(gnStaminaSound);
-						gnVoiceTimer = 60;
-						gnRandomMark1 = 0;
-						end
-					end
-				if gnRandomMark2 >= gnStaminaSongPercent and gnRandomMark2 <= (gnStaminaSongPercent+0.3) then
-					if gnVoiceTimer == 0 then
-						gnStaminaRandomizer = math.random(3,5);
-						gnStaminaSound = THEME:GetPath( EC_SOUNDS, '', 'gnStamina-'..gnStamina..'-Random'..gnStaminaRandomizer )
-						SOUND:PlayOnce(gnStaminaSound);
-						gnVoiceTimer = 60;
-						gnRandomMark2 = 0;
-						end
-					end
-				end
-			end
-			
-
-		if gnRandomVoice == 5 then		
-			if gnStamina == 'Zetorux' or gnStamina == 'SteveReen' or gnStamina == 'Aoreo' then
-				if gnRandomMark1 >= gnStaminaSongPercent and gnRandomMark1 <= (gnStaminaSongPercent+0.3) then
-					if gnVoiceTimer == 0 then
-						gnStaminaRandomizer = math.random(1,2);
-						gnStaminaSound = THEME:GetPath( EC_SOUNDS, '', 'gnStamina-'..gnStamina..'-Random-'..gnStaminaRandomizer )
-						SOUND:PlayOnce(gnStaminaSound);
-						gnVoiceTimer = 60;
-						gnRandomMark1 = 0;
-						end
-					end
-				if gnRandomMark2 >= gnStaminaSongPercent and gnRandomMark2 <= (gnStaminaSongPercent+0.3) then
-					if gnVoiceTimer == 0 then
-						gnStaminaSound = THEME:GetPath( EC_SOUNDS, '', 'gnStamina-'..gnStamina..'-Random3' )
-						SOUND:PlayOnce(gnStaminaSound);
-						gnVoiceTimer = 60;
-						gnRandomMark2 = 0;
-						end
-					end
-				if gnRandomMark3 >= gnStaminaSongPercent and gnRandomMark3 <= (gnStaminaSongPercent+0.3) then
-					if gnVoiceTimer == 0 then
-						gnStaminaRandomizer = math.random(4,5);
-						gnStaminaSound = THEME:GetPath( EC_SOUNDS, '', 'gnStamina-'..gnStamina..'-Random'..gnStaminaRandomizer )
-						SOUND:PlayOnce(gnStaminaSound);
-						gnVoiceTimer = 60;
-						gnRandomMark3 = 0;
-						end
-					end
-				end
-			end
-		
-		if gnStaminaSongPercent >= 25 and gnStaminaSongPercent < 92 then
-			if gnStamina25Window == 0 then
-				if gnVoiceTimer == 0 then
-					gnStaminaSound = THEME:GetPath( EC_SOUNDS, '', 'gnStamina-'..gnStamina..'-25Percent-'..gnStaminaRandomizer )
-					SOUND:PlayOnce(gnStaminaSound);
-					gnStamina25Window = 1;
-					gnVoiceTimer = 20;
-					end
-				end
-			end
-		if gnStaminaSongPercent >= 50 and gnStaminaSongPercent < 92 then
-			if gnStamina50Window == 0 then
-				if gnVoiceTimer == 0 then
-					gnStaminaSound = THEME:GetPath( EC_SOUNDS, '', 'gnStamina-'..gnStamina..'-50Percent-'..gnStaminaRandomizer )
-					SOUND:PlayOnce(gnStaminaSound);
-					gnStamina50Window = 1;
-					gnVoiceTimer = 20;
-					end
-				end
-			end
-		if gnStaminaSongPercent >= 75 and gnStaminaSongPercent < 92 then
-			if gnStamina75Window == 0 then
-				if gnVoiceTimer == 0 then
-					gnStaminaSound = THEME:GetPath( EC_SOUNDS, '', 'gnStamina-'..gnStamina..'-75Percent-'..gnStaminaRandomizer )
-					SOUND:PlayOnce(gnStaminaSound);
-					gnStamina75Window = 1;
-					gnVoiceTimer = 20;
-					end
-				end
-			end
-		if gnStaminaSongPercent >= 80 and gnStaminaSongPercent < 92 then
-			if gnStamina80Window == 0 then
-				if gnVoiceTimer == 0 then
-					gnStaminaSound = THEME:GetPath( EC_SOUNDS, '', 'gnStamina-'..gnStamina..'-80Percent-'..gnStaminaRandomizer )
-					SOUND:PlayOnce(gnStaminaSound);
-					gnStamina80Window = 1;
-					gnVoiceTimer = 20;
-					end
-				end
-			end
-		if gnStaminaSongPercent >= 90 and gnStaminaSongPercent < 92 then
-			if gnStamina90Window == 0 then
-				if gnVoiceTimer == 0 then
-					gnStaminaSound = THEME:GetPath( EC_SOUNDS, '', 'gnStamina-'..gnStamina..'-90Percent-'..gnStaminaRandomizer )
-					SOUND:PlayOnce(gnStaminaSound);
-					gnStamina90Window = 1;
-					gnVoiceTimer = 20;
-					end
-				end
-			end
-			
-		gnVoiceTimer = gnVoiceTimer - 1;
-		if gnVoiceTimer <= 0 then
-			gnVoiceTimer = 0;
-			end
-			
-		gnStaminaLowHealth = gnStaminaLowHealth - 1;
-		if gnStaminaLowHealth <= 0 then gnStaminaLowHealth = 0; end
-			
-		self:sleep(0.1);
-		self:queuecommand('Start');
-		end"
-		/>
-	
-	<LayerType="BitmapText"
-		Font="Journey"
-		Text=""
-		InitCommand="diffusealpha,1;shadowlength,0;x,320;y,220;"
-		StepP1MessageCommand="%function(self)
-		if gnStaminaStepP1 == nil then gnStaminaStepP1 = 0; end
-		gnStaminaStepP1 = gnStaminaStepP1 + 1;
-		end"
-		StepP2MessageCommand="%function(self)
-		if gnStaminaStepP2 == nil then gnStaminaStepP2 = 0; end
-		gnStaminaStepP2 = gnStaminaStepP2 + 1;
-		end"
-		/>
-		
-		
-	<LayerType="BitmapText"
-		Font="Journey"
-		Text=""
-		InitCommand="diffusealpha,1;shadowlength,0;x,320;y,220;queuecommand,Loop"
-		LoopCommand="%function(self)
-		self:stoptweening();
-		if gnStaminaSongPercent > 95 then
-			gnLowHealth = false;
-			gnRateRestore = 0;
-			gnLowHealth = false;
-			gnVoiceTimer = 0;
-			gnStaminaTimer = 0;
-			gnRandomVoice = math.random(1,5); 
-			gnRandomMark1 = math.random(5,92);
-			gnRandomMark2 = math.random(5,92);
-			gnRandomMark3 = math.random(5,92);
-			gnStaminaSongPercent = 0;
-			gnStamina25Window = 0;
-			gnStamina50Window = 0;
-			gnStamina75Window = 0;
-			gnStamina80Window = 0;
-			gnStamina90Window = 0;
-			gnStaminaLowHealth = 0;
-			gnStaminaRandom = 0;
-			gnStaminaRandomizer = 0;
-			gnStaminaStepP1 = 0;
-			gnStaminaStepP2 = 0;
-			gnStaminaStepCutoff = 0;
-			gnStreamCountP1 = 0;
-			gnStreamCountP2 = 0;
-			gnStaminaStepTarget = 0;
-			end
-		self:sleep(0.1);
-		self:queuecommand('Loop');
-		end"
-		/>
-
 <!--Custom BPM Display-->
 <ActorFrame><children>
 	<LayerType="BitmapText"
@@ -1088,21 +216,6 @@ P2LosingMessageCommand="queuecommand,On;stoptweening;sleep,0.2;linear,0.2;diffus
 
 
 <!--Default Stuff-->
-	<LayerType="BitmapText"
-		Condition="GAMESTATE:GetPlayMode() == PLAY_MODE_RAVE"
-		Font="Common normal"
-		Text="@GAMESTATE:GetPlayerDisplayName(PLAYER_1)"
-		OnCommand="x,SCREEN_CENTER_X-224;y,SCREEN_TOP+53;diffuse,#000000;zoom,.5;maxwidth,180;addy,-100;addy,+100"
-		OffCommand="accelerate,0.8;addy,-100"
-	/>
-	<Layer Type="BitmapText"
-		Condition="GAMESTATE:GetPlayMode() == PLAY_MODE_RAVE"
-		Font="Common normal"
-		Text="@GAMESTATE:GetPlayerDisplayName(PLAYER_2)"
-		OnCommand="x,SCREEN_CENTER_X+224;y,SCREEN_TOP+53;diffuse,#000000;zoom,.5;maxwidth,180;addy,-100;addy,+100"
-		OffCommand="accelerate,0.8;addy,-100"
-	/>
-
 	<Layer Type="ActorFrame"
 		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_TOP+24;sleep,0.5;queuecommand,TweenOn"
 		OffCommand="queuecommand,TweenOff"
@@ -1112,23 +225,23 @@ P2LosingMessageCommand="queuecommand,On;stoptweening;sleep,0.2;linear,0.2;diffus
 		TweenOffCommand=""
 		> <children>
 		
-		<Layer File="meter measure" />
+		<Layer File="meter measure" OnCommand="@'diffuse,'..FrameColor()..';'" />
 		
 		<Layer
 			Type="SongMeterDisplay"
 			StreamWidth="390"
 			StreamPath="meter stream"
-			OnCommand="sleep,0.1;queuecommand,Check;"
+			OnCommand="@'diffuse,'..LifeMeterColor(2)..';diffusealpha,0.75;blend,add;sleep,0.1;queuecommand,Check;'"
 			CheckCommand="%function(self) self:stoptweening(); MESSAGEMAN:Broadcast('TipX'); self:sleep(0.1); self:queuecommand('Check'); end"
 		>
 			<Tip
 				File="tip"
-				OnCommand=""
+				OnCommand="@'diffuse,'..SongMeterColor()..';'"
 				TipXMessageCommand="%function(self) gnStaminaTimer = self:GetX(); gnStaminaSongPercent = math.floor((1-((195-gnStaminaTimer)/389))*100) end"
 			/>
 		</Layer>
 
-		<Layer File="meter frame" />
+		<Layer File="meter frame" OnCommand="@'diffuse,'..FrameColor()..';'" />
 
 		<Layer
 			Type="BitmapText"
@@ -1178,6 +291,10 @@ P2LosingMessageCommand="queuecommand,On;stoptweening;sleep,0.2;linear,0.2;diffus
 					self:y(-1);
 					end"
 			/>
+			<Actor
+				File="@THEME:GetPath(EC_GRAPHICS,'','_difficulty frame F')"
+				OnCommand="@'diffuse,'..FrameColor()..';'"
+			/>
 		</children></ActorFrame>
 		
 		<ActorFrame Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1) and GAMESTATE:IsCourseMode();" OnCommand="x,SCREEN_CENTER_X-264-CourseHorizontal()+(13*HorizontalRecovery());y,SCREEN_TOP+25;" TweenOnCommand="" TweenOffCommand=""><children>
@@ -1199,6 +316,10 @@ P2LosingMessageCommand="queuecommand,On;stoptweening;sleep,0.2;linear,0.2;diffus
 							self:SetFromSteps(GAMESTATE:GetCurrentSteps(PLAYER_1))
 						end
 					end"
+			/>
+			<Actor
+				File="@THEME:GetPath(EC_GRAPHICS,'','_difficulty frame F')"
+				OnCommand="@'diffuse,'..FrameColor()..';'"
 			/>
 		</children></ActorFrame>
 		
@@ -1232,15 +353,16 @@ P2LosingMessageCommand="queuecommand,On;stoptweening;sleep,0.2;linear,0.2;diffus
 					self:y(-1);
 					end"
 			/>
+			<Actor
+				File="@THEME:GetPath(EC_GRAPHICS,'','_difficulty frame F')"
+				OnCommand="@'diffuse,'..FrameColor()..';rotationy,180;'"
+			/>
 		</children></ActorFrame>
 		
 		<ActorFrame Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2) and GAMESTATE:IsCourseMode();" OnCommand="x,SCREEN_CENTER_X+263+CourseHorizontal()-(13*HorizontalRecovery());y,SCREEN_TOP+25;" TweenOnCommand="" TweenOffCommand=""><children>
 			<Actor
 				File="@THEME:GetPath(EC_GRAPHICS,'','_difficulty icons')"
-				OnCommand="animate,0;rotationy,180;playcommand,Update"
-				CurrentStepsP1ChangedMessageCommand="playcommand,Update"
-				CurrentStepsP2ChangedMessageCommand="playcommand,Update"
-				UpdateCommand="%function(self,parent) SetDifficultyFrameFromSteps(self, PLAYER_2) end"
+				OnCommand="animate,0;rotationy,180;"
 			/>
 					<Actor
 				Class="DifficultyMeter"
@@ -1254,21 +376,25 @@ P2LosingMessageCommand="queuecommand,On;stoptweening;sleep,0.2;linear,0.2;diffus
 						end
 					end"
 			/>
+			<Actor
+				File="@THEME:GetPath(EC_GRAPHICS,'','_difficulty frame F')"
+				OnCommand="@'diffuse,'..FrameColor()..';rotationy,180;'"
+			/>
 		</children></ActorFrame>
 	</children> </Layer>
 
 
 	<!-- Draw on top of the rest -->
-
 	<Layer
 		Type="Quad"
 		OnCommand="diffuse,#000000;stretchto,SCREEN_LEFT,SCREEN_TOP,SCREEN_RIGHT,SCREEN_BOTTOM;diffusealpha,1;linear,0.1;diffusealpha,0"
 	/>
 
+	<!-- Finally we can find out where a song is located if it plays on the Demo Screen -->
 	<Layer
-		Condition="not GAMESTATE:IsDemonstration()"
+		Condition="GAMESTATE:IsDemonstration()"
 		File="../_song credit display"
-		OnCommand="sleep,2.5;linear,0.3;diffusealpha,0"
+		OnCommand=""
 	/>
 
 	<!-- Demonstration only: -->
@@ -1286,29 +412,29 @@ P2LosingMessageCommand="queuecommand,On;stoptweening;sleep,0.2;linear,0.2;diffus
 	
 	
 	<!-- Easter Eggs -->
-<!--Summer Rain, I made this chart so I don't need to credit myself (oops)-->
-<ActorFrame Condition="EasterEggSummerRain()" InitCommand="addy,-(12*HorizontalRecovery());zoom,gnZoomRatio;"><children>
-<Layer
-File="easter_eggs/rainnear"
-OnCommand="x,320;y,240;customtexturerect,0,0,1,1;texcoordvelocity,0.00,-1.00;ZoomToWidth,640;ZoomToHeight,480;diffusealpha,0;linear,1;diffusealpha,1;"
-/>
+	<!--Summer Rain, I made this chart so I don't need to credit myself (oops)-->
+	<ActorFrame Condition="EasterEggSummerRain()" InitCommand="addy,-(12*HorizontalRecovery());zoom,gnZoomRatio;"><children>
+	<Layer
+	File="easter_eggs/rainnear"
+	OnCommand="x,320;y,240;customtexturerect,0,0,1,1;texcoordvelocity,0.00,-1.00;ZoomToWidth,640;ZoomToHeight,480;diffusealpha,0;linear,1;diffusealpha,1;"
+	/>
 
-<Layer
-File="easter_eggs/rainmed"
-OnCommand="x,320;y,240;rotationz,5;customtexturerect,0,0,1,1;texcoordvelocity,0.00,-0.80;ZoomToWidth,640;ZoomToHeight,480;diffusealpha,0;linear,1;diffusealpha,1;"
-/>
+	<Layer
+	File="easter_eggs/rainmed"
+	OnCommand="x,320;y,240;rotationz,5;customtexturerect,0,0,1,1;texcoordvelocity,0.00,-0.80;ZoomToWidth,640;ZoomToHeight,480;diffusealpha,0;linear,1;diffusealpha,1;"
+	/>
 
-<Layer
-File="easter_eggs/rainfar"
-OnCommand="x,320;y,240;rotationz,-5;customtexturerect,0,0,1,1;texcoordvelocity,0.00,-0.6;ZoomToWidth,640;ZoomToHeight,480;diffusealpha,0;linear,1;diffusealpha,1;"
-/>
+	<Layer
+	File="easter_eggs/rainfar"
+	OnCommand="x,320;y,240;rotationz,-5;customtexturerect,0,0,1,1;texcoordvelocity,0.00,-0.6;ZoomToWidth,640;ZoomToHeight,480;diffusealpha,0;linear,1;diffusealpha,1;"
+	/>
 
-<Layer
-File="easter_eggs/rainClouds"
-OnCommand="x,320;y,240;diffusealpha,0;linear,1.000;diffusealpha,1;"
-/>
+	<Layer
+	File="easter_eggs/rainClouds"
+	OnCommand="x,320;y,240;diffusealpha,0;linear,1.000;diffusealpha,1;"
+	/>
 
-</children></ActorFrame>
+	</children></ActorFrame>
 
 
 
@@ -1430,268 +556,268 @@ OnCommand="x,320;y,240;diffusealpha,0;linear,1.000;diffusealpha,1;"
 	
 	
 	<!--Frost: Credit to Puurokulho and his Napolese chart-->
-<ActorFrame Condition="EasterEggFrost()" InitCommand="addx,-CourseHorizontal();addy,-(12*HorizontalRecovery());zoom,gnZoomRatio;"> <children>
-
-<!-- Dicks -->
-
-	<Layer
-		File="easter_eggs/ice.png"
-		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoom,1.07;diffusealpha,0;croptop,0.9;fadetop,0.1;sleep,0;linear,1;diffusealpha,0.5;linear,4.5;croptop,0;linear,0.1;fadetop,0"
-	/>
+	<ActorFrame Condition="EasterEggFrost()" InitCommand="addx,-CourseHorizontal();addy,-(12*HorizontalRecovery());zoom,gnZoomRatio;"> <children>
+
+	<!-- Dicks -->
+
+		<Layer
+			File="easter_eggs/ice.png"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoom,1.07;diffusealpha,0;croptop,0.9;fadetop,0.1;sleep,0;linear,1;diffusealpha,0.5;linear,4.5;croptop,0;linear,0.1;fadetop,0"
+		/>
 
-<!-- 1 -->
-	<Layer
-		File="easter_eggs/line1.png"
-		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+200;zoom,1;diffusealpha,0;sleep,0;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
-	/>
-
-	<Layer
-		File="easter_eggs/line1.png"
-		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+200;zoom,1;diffusealpha,0;diffusealpha,0;sleep,0;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
-	/>
+	<!-- 1 -->
+		<Layer
+			File="easter_eggs/line1.png"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+200;zoom,1;diffusealpha,0;sleep,0;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
+		/>
+
+		<Layer
+			File="easter_eggs/line1.png"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+200;zoom,1;diffusealpha,0;diffusealpha,0;sleep,0;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
+		/>
 
-<!-- 2 -->
-
-	<Layer
-		File="easter_eggs/line2.png"
-		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+180;zoom,1;diffusealpha,0;diffusealpha,0;sleep,0.2;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
-	/>
-
-	<Layer
-		File="easter_eggs/line2.png"
-		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+180;zoom,1;diffusealpha,0;diffusealpha,0;sleep,0.2;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
-	/>
+	<!-- 2 -->
+
+		<Layer
+			File="easter_eggs/line2.png"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+180;zoom,1;diffusealpha,0;diffusealpha,0;sleep,0.2;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
+		/>
+
+		<Layer
+			File="easter_eggs/line2.png"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+180;zoom,1;diffusealpha,0;diffusealpha,0;sleep,0.2;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
+		/>
 
-<!-- 3 -->
-
-	<Layer
-		File="easter_eggs/line3.png"
-		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+160;zoom,1;diffusealpha,0;diffusealpha,0;sleep,0.4;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
-	/>
-
-	<Layer
-		File="easter_eggs/line3.png"
-		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+160;zoom,1;diffusealpha,0;diffusealpha,0;sleep,0.4;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
-	/>
+	<!-- 3 -->
+
+		<Layer
+			File="easter_eggs/line3.png"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+160;zoom,1;diffusealpha,0;diffusealpha,0;sleep,0.4;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
+		/>
+
+		<Layer
+			File="easter_eggs/line3.png"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+160;zoom,1;diffusealpha,0;diffusealpha,0;sleep,0.4;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
+		/>
 
-<!-- 4 -->
-
-	<Layer
-		File="easter_eggs/line4.png"
-		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+140;zoom,1;diffusealpha,0;diffusealpha,0;sleep,0.6;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
-	/>
-
-	<Layer
-		File="easter_eggs/line4.png"
-		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+140;zoom,1;diffusealpha,0;diffusealpha,0;sleep,0.6;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
-	/>
+	<!-- 4 -->
+
+		<Layer
+			File="easter_eggs/line4.png"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+140;zoom,1;diffusealpha,0;diffusealpha,0;sleep,0.6;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
+		/>
+
+		<Layer
+			File="easter_eggs/line4.png"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+140;zoom,1;diffusealpha,0;diffusealpha,0;sleep,0.6;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
+		/>
 
-<!-- 5 -->
-
-	<Layer
-		File="easter_eggs/line5.png"
-		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+120;zoom,1;diffusealpha,0;diffusealpha,0;sleep,0.8;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
-	/>
-
-	<Layer
-		File="easter_eggs/line5.png"
-		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+120;zoom,1;diffusealpha,0;diffusealpha,0;sleep,0.8;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
-	/>
-
-<!-- 6 -->
-
-	<Layer
-		File="easter_eggs/line6.png"
-		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+100;zoom,1;diffusealpha,0;diffusealpha,0;sleep,1;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
-	/>
-
-	<Layer
-		File="easter_eggs/line6.png"
-		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+100;zoom,1;diffusealpha,0;diffusealpha,0;sleep,1;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
-	/>
-
-<!-------------------- ADDFDAFADFADADFADFADFAD -------------------->
-
-<!-- 7 -->
-	<Layer
-		File="easter_eggs/line1.png"
-		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+80;zoom,1;diffusealpha,0;sleep,1.2;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
-	/>
-
-	<Layer
-		File="easter_eggs/line1.png"
-		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+80;zoom,1;diffusealpha,0;sleep,1.2;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
-	/>
+	<!-- 5 -->
+
+		<Layer
+			File="easter_eggs/line5.png"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+120;zoom,1;diffusealpha,0;diffusealpha,0;sleep,0.8;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
+		/>
+
+		<Layer
+			File="easter_eggs/line5.png"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+120;zoom,1;diffusealpha,0;diffusealpha,0;sleep,0.8;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
+		/>
+
+	<!-- 6 -->
+
+		<Layer
+			File="easter_eggs/line6.png"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+100;zoom,1;diffusealpha,0;diffusealpha,0;sleep,1;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
+		/>
+
+		<Layer
+			File="easter_eggs/line6.png"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+100;zoom,1;diffusealpha,0;diffusealpha,0;sleep,1;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
+		/>
+
+	<!-------------------- ADDFDAFADFADADFADFADFAD -------------------->
+
+	<!-- 7 -->
+		<Layer
+			File="easter_eggs/line1.png"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+80;zoom,1;diffusealpha,0;sleep,1.2;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
+		/>
+
+		<Layer
+			File="easter_eggs/line1.png"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+80;zoom,1;diffusealpha,0;sleep,1.2;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
+		/>
 
-<!-- 8 -->
-
-	<Layer
-		File="easter_eggs/line2.png"
-		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+60;zoom,1;diffusealpha,0;diffusealpha,0;sleep,1.4;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
-	/>
-
-	<Layer
-		File="easter_eggs/line2.png"
-		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+60;zoom,1;diffusealpha,0;diffusealpha,0;sleep,1.4;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
-	/>
+	<!-- 8 -->
+
+		<Layer
+			File="easter_eggs/line2.png"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+60;zoom,1;diffusealpha,0;diffusealpha,0;sleep,1.4;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
+		/>
+
+		<Layer
+			File="easter_eggs/line2.png"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+60;zoom,1;diffusealpha,0;diffusealpha,0;sleep,1.4;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
+		/>
 
-<!-- 9 -->
-
-	<Layer
-		File="easter_eggs/line3.png"
-		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+40;zoom,1;diffusealpha,0;diffusealpha,0;sleep,1.6;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
-	/>
-
-	<Layer
-		File="easter_eggs/line3.png"
-		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+40;zoom,1;diffusealpha,0;diffusealpha,0;sleep,1.6;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
-	/>
+	<!-- 9 -->
+
+		<Layer
+			File="easter_eggs/line3.png"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+40;zoom,1;diffusealpha,0;diffusealpha,0;sleep,1.6;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
+		/>
+
+		<Layer
+			File="easter_eggs/line3.png"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+40;zoom,1;diffusealpha,0;diffusealpha,0;sleep,1.6;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
+		/>
 
-<!-- 10 -->
-
-	<Layer
-		File="easter_eggs/line4.png"
-		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+20;zoom,1;diffusealpha,0;diffusealpha,0;sleep,1.8;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
-	/>
-
-	<Layer
-		File="easter_eggs/line4.png"
-		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+20;zoom,1;diffusealpha,0;diffusealpha,0;sleep,1.8;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
-	/>
+	<!-- 10 -->
+
+		<Layer
+			File="easter_eggs/line4.png"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+20;zoom,1;diffusealpha,0;diffusealpha,0;sleep,1.8;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
+		/>
+
+		<Layer
+			File="easter_eggs/line4.png"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+20;zoom,1;diffusealpha,0;diffusealpha,0;sleep,1.8;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
+		/>
 
-<!-- 11 -->
-
-	<Layer
-		File="easter_eggs/line5.png"
-		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoom,1;diffusealpha,0;diffusealpha,0;sleep,2.0;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
-	/>
-
-	<Layer
-		File="easter_eggs/line5.png"
-		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoom,1;diffusealpha,0;diffusealpha,0;sleep,2.0;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
-	/>
+	<!-- 11 -->
+
+		<Layer
+			File="easter_eggs/line5.png"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoom,1;diffusealpha,0;diffusealpha,0;sleep,2.0;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
+		/>
+
+		<Layer
+			File="easter_eggs/line5.png"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoom,1;diffusealpha,0;diffusealpha,0;sleep,2.0;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
+		/>
 
-<!-- 12 -->
-
-	<Layer
-		File="easter_eggs/line6.png"
-		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-20;zoom,1;diffusealpha,0;diffusealpha,0;sleep,2.2;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
-	/>
-
-	<Layer
-		File="easter_eggs/line6.png"
-		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-20;zoom,1;diffusealpha,0;diffusealpha,0;sleep,2.2;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
-	/>
+	<!-- 12 -->
+
+		<Layer
+			File="easter_eggs/line6.png"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-20;zoom,1;diffusealpha,0;diffusealpha,0;sleep,2.2;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
+		/>
+
+		<Layer
+			File="easter_eggs/line6.png"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-20;zoom,1;diffusealpha,0;diffusealpha,0;sleep,2.2;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
+		/>
 
-<!-------------------- ADDFDAFADFADADFADFADFAD -------------------->
-
-<!-- 13 -->
-	<Layer
-		File="easter_eggs/line1.png"
-		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-40;zoom,1;diffusealpha,0;sleep,2.4;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
-	/>
-
-	<Layer
-		File="easter_eggs/line1.png"
-		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-40;zoom,1;diffusealpha,0;sleep,2.4;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
-	/>
-
-<!-- 14 -->
-
-	<Layer
-		File="easter_eggs/line2.png"
-		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-60;zoom,1;diffusealpha,0;diffusealpha,0;sleep,2.6;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
-	/>
-
-	<Layer
-		File="easter_eggs/line2.png"
-		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-60;zoom,1;diffusealpha,0;diffusealpha,0;sleep,2.6;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
-	/>
-
-<!-- 15 -->
-
-	<Layer
-		File="easter_eggs/line3.png"
-		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-80;zoom,1;diffusealpha,0;diffusealpha,0;sleep,2.8;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
-	/>
-
-	<Layer
-		File="easter_eggs/line3.png"
-		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-80;zoom,1;diffusealpha,0;diffusealpha,0;sleep,2.8;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
-	/>
-
-<!-- 16 -->
-
-	<Layer
-		File="easter_eggs/line4.png"
-		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-100;zoom,1;diffusealpha,0;diffusealpha,0;sleep,3.0;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
-	/>
-
-	<Layer
-		File="easter_eggs/line4.png"
-		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-100;zoom,1;diffusealpha,0;diffusealpha,0;sleep,3.0;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
-	/>
-
-<!-- 17 -->
-
-	<Layer
-		File="easter_eggs/line5.png"
-		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-120;zoom,1;diffusealpha,0;diffusealpha,0;sleep,3.2;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
-	/>
-
-	<Layer
-		File="easter_eggs/line5.png"
-		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-120;zoom,1;diffusealpha,0;diffusealpha,0;sleep,3.2;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
-	/>
-
-<!-- 18 -->
-
-	<Layer
-		File="easter_eggs/line6.png"
-		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-140;zoom,1;diffusealpha,0;diffusealpha,0;sleep,3.4;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
-	/>
-
-	<Layer
-		File="easter_eggs/line6.png"
-		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-140;zoom,1;diffusealpha,0;diffusealpha,0;sleep,3.4;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
-	/>
-
-<!-- 19 -->
-
-	<Layer
-		File="easter_eggs/line2.png"
-		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-180;zoom,1;diffusealpha,0;diffusealpha,0;sleep,3.6;linear,1;diffusealpha,1;sleep,1;linear,1;diffusealpha,0"
-	/>
-
-	<Layer
-		File="easter_eggs/line2.png"
-		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-180;zoom,1;diffusealpha,0;diffusealpha,0;sleep,3.6;linear,1;diffusealpha,0;sleep,1;linear,1;diffusealpha,0"
-	/>
-
-<!-- 20 -->
-
-	<Layer
-		File="easter_eggs/line3.png"
-		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-200;zoom,1;diffusealpha,0;diffusealpha,0;sleep,3.8;linear,1;diffusealpha,1;sleep,1;linear,1;diffusealpha,0"
-	/>
-
-	<Layer
-		File="easter_eggs/line3.png"
-		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-200;zoom,1;diffusealpha,0;diffusealpha,0;sleep,3.8;linear,1;diffusealpha,0;sleep,1;linear,1;diffusealpha,0"
-	/>
-
-<!-- 21 -->
-
-	<Layer
-		File="easter_eggs/line6.png"
-		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-220;zoom,1;diffusealpha,0;diffusealpha,0;sleep,4.0;linear,1;diffusealpha,1;sleep,1;linear,1;diffusealpha,0"
-	/>
-
-	<Layer
-		File="easter_eggs/line6.png"
-		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-220;zoom,1;diffusealpha,0;diffusealpha,0;sleep,4.0;linear,1;diffusealpha,0;sleep,1;linear,1;diffusealpha,0;sleep,17.923"
-	/>
-</children> </ActorFrame>
+	<!-------------------- ADDFDAFADFADADFADFADFAD -------------------->
+
+	<!-- 13 -->
+		<Layer
+			File="easter_eggs/line1.png"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-40;zoom,1;diffusealpha,0;sleep,2.4;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
+		/>
+
+		<Layer
+			File="easter_eggs/line1.png"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-40;zoom,1;diffusealpha,0;sleep,2.4;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
+		/>
+
+	<!-- 14 -->
+
+		<Layer
+			File="easter_eggs/line2.png"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-60;zoom,1;diffusealpha,0;diffusealpha,0;sleep,2.6;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
+		/>
+
+		<Layer
+			File="easter_eggs/line2.png"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-60;zoom,1;diffusealpha,0;diffusealpha,0;sleep,2.6;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
+		/>
+
+	<!-- 15 -->
+
+		<Layer
+			File="easter_eggs/line3.png"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-80;zoom,1;diffusealpha,0;diffusealpha,0;sleep,2.8;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
+		/>
+
+		<Layer
+			File="easter_eggs/line3.png"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-80;zoom,1;diffusealpha,0;diffusealpha,0;sleep,2.8;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
+		/>
+
+	<!-- 16 -->
+
+		<Layer
+			File="easter_eggs/line4.png"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-100;zoom,1;diffusealpha,0;diffusealpha,0;sleep,3.0;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
+		/>
+
+		<Layer
+			File="easter_eggs/line4.png"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-100;zoom,1;diffusealpha,0;diffusealpha,0;sleep,3.0;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
+		/>
+
+	<!-- 17 -->
+
+		<Layer
+			File="easter_eggs/line5.png"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-120;zoom,1;diffusealpha,0;diffusealpha,0;sleep,3.2;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
+		/>
+
+		<Layer
+			File="easter_eggs/line5.png"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-120;zoom,1;diffusealpha,0;diffusealpha,0;sleep,3.2;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
+		/>
+
+	<!-- 18 -->
+
+		<Layer
+			File="easter_eggs/line6.png"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-140;zoom,1;diffusealpha,0;diffusealpha,0;sleep,3.4;linear,1;diffusealpha,1;linear,1;diffusealpha,0"
+		/>
+
+		<Layer
+			File="easter_eggs/line6.png"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-140;zoom,1;diffusealpha,0;diffusealpha,0;sleep,3.4;linear,1;diffusealpha,0;linear,1;diffusealpha,0"
+		/>
+
+	<!-- 19 -->
+
+		<Layer
+			File="easter_eggs/line2.png"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-180;zoom,1;diffusealpha,0;diffusealpha,0;sleep,3.6;linear,1;diffusealpha,1;sleep,1;linear,1;diffusealpha,0"
+		/>
+
+		<Layer
+			File="easter_eggs/line2.png"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-180;zoom,1;diffusealpha,0;diffusealpha,0;sleep,3.6;linear,1;diffusealpha,0;sleep,1;linear,1;diffusealpha,0"
+		/>
+
+	<!-- 20 -->
+
+		<Layer
+			File="easter_eggs/line3.png"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-200;zoom,1;diffusealpha,0;diffusealpha,0;sleep,3.8;linear,1;diffusealpha,1;sleep,1;linear,1;diffusealpha,0"
+		/>
+
+		<Layer
+			File="easter_eggs/line3.png"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-200;zoom,1;diffusealpha,0;diffusealpha,0;sleep,3.8;linear,1;diffusealpha,0;sleep,1;linear,1;diffusealpha,0"
+		/>
+
+	<!-- 21 -->
+
+		<Layer
+			File="easter_eggs/line6.png"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-220;zoom,1;diffusealpha,0;diffusealpha,0;sleep,4.0;linear,1;diffusealpha,1;sleep,1;linear,1;diffusealpha,0"
+		/>
+
+		<Layer
+			File="easter_eggs/line6.png"
+			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-220;zoom,1;diffusealpha,0;diffusealpha,0;sleep,4.0;linear,1;diffusealpha,0;sleep,1;linear,1;diffusealpha,0;sleep,17.923"
+		/>
+	</children> </ActorFrame>
 
 
 
@@ -1744,42 +870,42 @@ OnCommand="x,320;y,240;diffusealpha,0;linear,1.000;diffusealpha,1;"
 	/>
 	
 	
-<!--- SNOW --->
+	<!--- SNOW --->
 
-	<Layer
-	File="easter_eggs/blurredsnow.png"
-	OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;customtexturerect,0,0,1,1;texcoordvelocity,1.40,-0.90;ZoomToWidth,SCREEN_WIDTH;ZoomToHeight,SCREEN_HEIGHT;diffusealpha,0;linear,1;diffusealpha,0;bob;linear,1;diffusealpha,1;sleep,20000;linear,1;diffusealpha,0"
+		<Layer
+		File="easter_eggs/blurredsnow.png"
+		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;customtexturerect,0,0,1,1;texcoordvelocity,1.40,-0.90;ZoomToWidth,SCREEN_WIDTH;ZoomToHeight,SCREEN_HEIGHT;diffusealpha,0;linear,1;diffusealpha,0;bob;linear,1;diffusealpha,1;sleep,20000;linear,1;diffusealpha,0"
 
-	/>
-
-
-	<Layer
-	File="easter_eggs/blurredsnowFar.png"
-	OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;customtexturerect,0,0,1,1;texcoordvelocity,1.20,-0.90;ZoomToWidth,SCREEN_WIDTH;ZoomToHeight,SCREEN_HEIGHT;diffusealpha,0;linear,1;diffusealpha,0;bob;linear,1;diffusealpha,1;sleep,20000;linear,1;diffusealpha,0"
-
-	/>
+		/>
 
 
-	<Layer
-	File="easter_eggs/blurredsnowNear.png"
-	OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;customtexturerect,0,0,1,1;texcoordvelocity,1.00,-0.90;ZoomToWidth,SCREEN_WIDTH;ZoomToHeight,SCREEN_HEIGHT;diffusealpha,0;linear,1;diffusealpha,0;bob;linear,1;diffusealpha,1;sleep,20000;linear,1;diffusealpha,0"
+		<Layer
+		File="easter_eggs/blurredsnowFar.png"
+		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;customtexturerect,0,0,1,1;texcoordvelocity,1.20,-0.90;ZoomToWidth,SCREEN_WIDTH;ZoomToHeight,SCREEN_HEIGHT;diffusealpha,0;linear,1;diffusealpha,0;bob;linear,1;diffusealpha,1;sleep,20000;linear,1;diffusealpha,0"
 
-	/>
+		/>
 
 
+		<Layer
+		File="easter_eggs/blurredsnowNear.png"
+		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;customtexturerect,0,0,1,1;texcoordvelocity,1.00,-0.90;ZoomToWidth,SCREEN_WIDTH;ZoomToHeight,SCREEN_HEIGHT;diffusealpha,0;linear,1;diffusealpha,0;bob;linear,1;diffusealpha,1;sleep,20000;linear,1;diffusealpha,0"
+
+		/>
 
 
 
-<!--- OVERLAY --->
 
-	<Layer
-	File="easter_eggs/white.png"
-	OnCommand="diffusealpha,0;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;ZoomToWidth,SCREEN_WIDTH;ZoomToHeight,SCREEN_HEIGHT;sleep,1;linear,2;diffusealpha,0.7;sleep,19000.5;linear,1;diffusealpha,0"
 
-	/>
-	
+	<!--- OVERLAY --->
 
-</children> </ActorFrame>
+		<Layer
+		File="easter_eggs/white.png"
+		OnCommand="diffusealpha,0;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;ZoomToWidth,SCREEN_WIDTH;ZoomToHeight,SCREEN_HEIGHT;sleep,1;linear,2;diffusealpha,0.7;sleep,19000.5;linear,1;diffusealpha,0"
+
+		/>
+		
+
+	</children> </ActorFrame>
 
 
 
@@ -1919,24 +1045,25 @@ StepP2MessageCommand="%function(self)
 
 		SCREENMAN:GetTopScreen():GetChild('PlayerP2'):rotationz(Mover*Multiplier);
 		
-		if Guesser == 1 then
-			SCREENMAN:GetTopScreen():addx(Mover*Multiplier);
+		if not GAMESTATE:IsPlayerEnabled(PLAYER_1) then
+			if Guesser == 1 then
+				SCREENMAN:GetTopScreen():addx(Mover*Multiplier);
+				end
+			if Guesser == 2 then
+				SCREENMAN:GetTopScreen():addy(Mover*Multiplier);
+				end
+			if Guesser == 3 then
+				SCREENMAN:GetTopScreen():addx(Mover*Multiplier);
+				SCREENMAN:GetTopScreen():addy(Mover*Multiplier);
+				end
+			SCREENMAN:GetTopScreen():decelerate(0.05);
+			SCREENMAN:GetTopScreen():x(0);
+			SCREENMAN:GetTopScreen():y(0);
 			end
-		if Guesser == 2 then
-			SCREENMAN:GetTopScreen():addy(Mover*Multiplier);
-			end
-		if Guesser == 3 then
-			SCREENMAN:GetTopScreen():addx(Mover*Multiplier);
-			SCREENMAN:GetTopScreen():addy(Mover*Multiplier);
-			end
-		
-		SCREENMAN:GetTopScreen():decelerate(0.05);
+			
 		SCREENMAN:GetTopScreen():GetChild('PlayerP2'):decelerate(0.05);
 
 		SCREENMAN:GetTopScreen():GetChild('PlayerP2'):rotationz(0);
-		
-		SCREENMAN:GetTopScreen():x(0);
-		SCREENMAN:GetTopScreen():y(0);
 
 		end	
 	end"
@@ -3837,6 +2964,12 @@ StepP2MessageCommand="%function(self)
 
 <!--Screen Transition-->
 	<Layer Type="Quad"
+	Condition="not GAMESTATE:IsCourseMode();"
+	OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;linear,0.3;diffusealpha,0;"
+	ScreenTransitionMessageCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,0;linear,0.3;diffusealpha,1;"
+	/>
+	
+	<Layer Type="Quad"
 	OnCommand="diffusealpha,0;"
 	ScreenTransitionMessageCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+SCREEN_HEIGHT;draworder,10000;accelerate,0.2;diffuse,0,0,0,1;y,SCREEN_CENTER_Y+(SCREEN_HEIGHT/2)"
 	/>
@@ -3852,14 +2985,14 @@ StepP2MessageCommand="%function(self)
 	/>
 	
 	<Layer File="Restarting" 
-	Condition="GAMESTATE:IsEventMode() and MenuButtonGiveUp()"
+	Condition="GAMESTATE:IsEventMode() and MenuButtonGiveUp() and not GAMESTATE:IsCourseMode()"
 	OnCommand="diffusealpha,0;"
 	ScreenTransitionMessageCommand="%function(self) 
 	if gnStaminaSongPercent > gnLowestRestartPercent and gnStaminaSongPercent < gnHighestRestartPercent then
 		self:queuecommand('Blink');
 		end
 	end" 
-	BlinkCommand="diffusealpha,1;draworder,10000;x,SCREEN_CENTER_X;Y,SCREEN_CENTER_Y+SCREEN_HEIGHT+50+65;accelerate,0.2;y,SCREEN_CENTER_Y+65;sleep,0.2;diffusealpha,0;sleep,0.2;diffusealpha,1;sleep,0.2;diffusealpha,0;sleep,0.2;diffusealpha,1;"
+	BlinkCommand="draworder,10000;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+65;diffusealpha,1;sleep,0.195;diffusealpha,0;sleep,0.195;diffusealpha,1;sleep,0.195;diffusealpha,0;sleep,0.195;diffusealpha,1;sleep,0.195;diffusealpha,0;sleep,0.195;diffusealpha,1;sleep,0.195;diffusealpha,0;sleep,0.195;diffusealpha,1;"
 	/>
 	
 </children> </ActorFrame>

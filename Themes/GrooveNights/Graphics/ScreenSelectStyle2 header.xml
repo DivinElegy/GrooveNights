@@ -1,31 +1,5 @@
 <ActorFrame InitCommand="%function(self)
-	gnSongsP1 = nil;
-	gnSongsP1Total = nil;
-	gnTotalP1 = nil;
-	gnStarsTotalP1 = nil;
-	gnSinglesSingleP1 = nil;
-	gnDoublesSingleP1 = nil;
-	gnTrisSingleP1 = nil;
-	gnQuadsSingleP1 = nil;
-	gnSinglesDoubleP1 = nil;
-	gnDoublesDoubleP1 = nil;
-	gnTrisDoubleP1 = nil;
-	gnQuadsDoubleP1 = nil;
-	gnPercentageP1 = nil;
-	gnSongsP2 = nil;
-	gnSongsP2Total = nil;
-	gnTotalP2 = nil;
-	gnStarsTotalP2 = nil;
-	gnSinglesSingleP2 = nil;
-	gnDoublesSingleP2 = nil;
-	gnTrisSingleP2 = nil;
-	gnQuadsSingleP2 = nil;
-	gnSinglesDoubleP2 = nil;
-	gnDoublesDoubleP2 = nil;
-	gnTrisDoubleP2 = nil;
-	gnQuadsDoubleP2 = nil;
-	gnPercentageP2 = nil;
-	gnChoice = 2; gnChoiceTween = 0.05; gnZoom1 = 0.7; gnZoom3 = 0.7; gnZoom4 = 0.7; gnMaxZoom = 0.6; gnMinZoom = 0.4; 
+gnDummy = SetVariablesFor('ScreenSelectStyle2');
 end">
 	<children>
 		<BitmapText
@@ -192,6 +166,13 @@ end">
 			</children>
 		</ActorFrame>
 	<!--Screen Transition-->
+	<Layer Type="Quad"
+	OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;linear,0.3;diffusealpha,0;"
+	GoOffCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,0;linear,0.3;diffusealpha,1;"
+	MadeChoiceP1MessageCommand="playcommand,GoOff"
+	MadeChoiceP2MessageCommand="playcommand,GoOff"
+	/>
+	
 	<Layer Type="Quad"
 	OnCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X-18;y,SCREEN_CENTER_Y+(SCREEN_HEIGHT/2)-41;draworder,10000;decelerate,0.2;diffuse,0,0,0,1;y,SCREEN_CENTER_Y+SCREEN_HEIGHT-41"
 	MadeChoiceP1MessageCommand="playcommand,GoOff"

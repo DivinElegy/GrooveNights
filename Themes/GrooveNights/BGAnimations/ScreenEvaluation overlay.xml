@@ -2,14 +2,14 @@
 if GAMESTATE:GetEnv('Vibrate') == 'On' then
 	self:vibrate();
 	end
-gnSongCount = gnSongCount + 1;
+gnDummy = SetVariablesFor('ScreenEvaluation');
 end">
 	<children>
 	<!--Restart the song on event mode if you pressed the menu button-->
 		<BitmapText
 		Text=""
 		File="_eurostile blue glow"
-		Condition="GAMESTATE:IsEventMode() and MenuButtonGiveUp()"
+		Condition="GAMESTATE:IsEventMode() and MenuButtonGiveUp() and not GAMESTATE:IsCourseMode()"
 		InitCommand="%function(self)
 		if gnStaminaSongPercent > gnLowestRestartPercent and gnStaminaSongPercent < gnHighestRestartPercent then
 			local Path = THEME:GetPath( EC_SOUNDS, '', '_save');
@@ -350,21 +350,17 @@ end"><children>
 <!--No Card Data-->
 	<Layer File="nocard"
 	Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and not PROFILEMAN:IsPersistentProfile(PLAYER_1)"
-	OnCommand="@'diffuse,'..FrameColor()..';'"
+	OnCommand="@'diffuse,'..FrameColor()..';diffusealpha,1;'"
 	InitCommand="%function(self)
-			self:x(SCREEN_CENTER_X-225); self:y(SCREEN_CENTER_Y+68); self:diffusealpha(0);
-			self:decelerate(0.3);
-			self:diffusealpha(0.5); 
+			self:x(SCREEN_CENTER_X-225); self:y(SCREEN_CENTER_Y+68);
 			end"	
 	/>
 	
 	<Layer File="nocard"
 	Condition="GAMESTATE:IsHumanPlayer(PLAYER_2) and not PROFILEMAN:IsPersistentProfile(PLAYER_2)"
-	OnCommand="@'diffuse,'..FrameColor()..';'"
+	OnCommand="@'diffuse,'..FrameColor()..';diffusealpha,1;'"
 	InitCommand="%function(self)
-			self:x(SCREEN_CENTER_X+85); self:y(SCREEN_CENTER_Y+68); self:diffusealpha(0);
-			self:decelerate(0.3);
-			self:diffusealpha(0.5); 
+			self:x(SCREEN_CENTER_X+85); self:y(SCREEN_CENTER_Y+68);
 			end"	
 	/>
 <!--Avatar-->
@@ -1592,7 +1588,12 @@ end"><children>
 </ActorFrame>
 <!--Screen Transition-->
 	<Layer Type="Quad"
-	OnCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+(SCREEN_HEIGHT/2);draworder,10000;decelerate,0.2;diffuse,0,0,0,1;y,SCREEN_CENTER_Y+SCREEN_HEIGHT"
+	OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;linear,0.3;diffusealpha,0;"
+	ScreenTransitionMessageCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,0;linear,0.3;diffusealpha,1;"
+	/>
+	
+	<Layer Type="Quad"
+	OnCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+(SCREEN_HEIGHT/2)-50;draworder,10000;decelerate,0.3;diffuse,0,0,0,1;y,SCREEN_CENTER_Y+SCREEN_HEIGHT"
 	ScreenTransitionMessageCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+SCREEN_HEIGHT;draworder,10000;accelerate,0.2;diffuse,0,0,0,1;y,SCREEN_CENTER_Y+(SCREEN_HEIGHT/2)"
 	/>
 	

@@ -84,7 +84,7 @@ end"> <children>
 <!--Rate Message-->
 	<Layer Type="Quad"
 	InitCommand="%function(self)
-	self:diffusealpha(1);
+	self:diffusealpha(0);
 	if gnRateRestore == 1 then
 		SCREENMAN:SystemMessage('Rate Modifier has been restored to 1.0x'); 
 		end

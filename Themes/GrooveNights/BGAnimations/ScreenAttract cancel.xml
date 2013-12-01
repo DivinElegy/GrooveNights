@@ -1,7 +1,12 @@
 <ActorFrame>
 	<children>
 		<Layer Type="Quad" Command="diffuse,#000000;stretchto,SCREEN_LEFT,SCREEN_TOP,SCREEN_RIGHT,SCREEN_BOTTOM;diffusealpha,0;linear,0.5;diffusealpha,1" />
-		<Layer Type="AutoActor" File="_flash" Command="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;Zoom,0;blend,add;DiffuseAlpha,1;RotationZ,-20;decelerate,0.7;Zoom,8;DiffuseAlpha,0;RotationZ,40" />
-		<Layer Type="AutoActor" File="_flash" Command="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;Zoom,0;blend,add;DiffuseAlpha,1;RotationZ,20;decelerate,0.7;Zoom,8;DiffuseAlpha,0;RotationZ,-40" />
+		<Layer Type="AutoActor" File="../Graphics/TransitionArrow" Command="@'x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;Zoom,0;DiffuseAlpha,0;decelerate,0.4;Zoom,2;diffuseshift;EffectColor1,'..FrameColor()..';EffectColor2,1,1,1,1;DiffuseAlpha,0.5;accelerate,0.4;zoom,0;diffuse,1,1,1,1;DiffuseAlpha,0.3;'" />
+		<Layer Type="AutoActor" File="_flash" Command="@'diffuse,'..FrameColor()..';x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;Zoom,0.5;blend,add;DiffuseAlpha,1;RotationZ,-20;decelerate,0.7;Zoom,14;DiffuseAlpha,0.5;RotationZ,40;addy,50;'" />
+		<Layer Type="AutoActor" File="_flash" Command="@'diffuse,'..FrameColor()..';x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;Zoom,0.5;blend,add;DiffuseAlpha,1;RotationZ,20;decelerate,0.7;Zoom,14;DiffuseAlpha,0.5;RotationZ,-40;addy,50;'" />
+		<Layer Type="AutoActor" File="_flash" Command="@'diffuse,'..FrameColor()..';x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;Zoom,0.5;blend,add;DiffuseAlpha,1;RotationZ,-20;decelerate,0.7;Zoom,14;DiffuseAlpha,0.5;RotationZ,40;addy,50;'" />
+		<Layer Type="AutoActor" File="_flash" Command="@'diffuse,'..FrameColor()..';x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;Zoom,0.5;blend,add;DiffuseAlpha,1;RotationZ,20;decelerate,0.7;Zoom,14;DiffuseAlpha,0.5;RotationZ,-40;addy,50;'" />
+		<Layer Type="AutoActor" File="_flash" Command="@'diffuse,'..FrameColor()..';x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;Zoom,0.5;blend,add;DiffuseAlpha,1;RotationZ,-20;decelerate,0.7;Zoom,14;DiffuseAlpha,0.5;RotationZ,40;addy,50;'" />
+		<Layer Type="AutoActor" File="_flash" Command="@'diffuse,'..FrameColor()..';x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;Zoom,0.5;blend,add;DiffuseAlpha,1;RotationZ,20;decelerate,0.7;Zoom,14;DiffuseAlpha,0.5;RotationZ,-40;addy,50;'" />
 	</children>
 </ActorFrame>

@@ -63,7 +63,7 @@ end
 
 
 -- ===CHANGE SPEED, ADDSPEED & RATE MODS===
-SpeedMods = { "1x", "2x", "3x", "4x", "5x", "6x", "7x", "8x", "c420", "c600", "c660" }
+SpeedMods = { "1x", "1.5x", "2x", "2.5x", "3x", "3.5x", "4x", "4.5x", "5x", "5.5x", "6x", "c420", "c600", "c660" }
 AddSpeedMods = { "0", "+0.25x", "+0.5x", "+0.75x", "+c25", "+c50", "+c75", "+c100" }
 Rate = { "1.0x", "1.1x", "1.2x", "1.3x", "1.4x", "1.5x", "1.6x", "1.7x", "2.0x"}
 
@@ -1142,64 +1142,6 @@ end
 
 
 
--- LIFE DEPLETED
--- This is the GrooveNights example, SteveReen & Zetorux like MLP so
--- this is their failure screen, you can add your own names here or copy the scripts marked below
--- to make reference to your own files.
-function getCustomLifeDepletedImageOrVideo()
-	if CheckPlayerName('REEN') or CheckPlayerName('SteveReen') or CheckPlayerName('PHIL') or CheckPlayerName('Zetorux') then			-- Copy from here
-		gnAddxFromCenter = 0;
-		gnAddyFromCenter = 200;
-		return 'gnFluttershyLifeDepleted image.png'
-		end																	-- To here
-
-	if CheckPlayerName('ALEX') or CheckPlayerName('ITGAlex') then			-- Copy from here
-		gnAddxFromCenter = 0;
-		gnAddyFromCenter = 0;
-		return 'gnAwesomeLifeDepleted image.png'
-		end	
-																-- To here
-		
-	if CheckPlayerName('COW9') or CheckPlayerName('ACOW') then			-- Copy from here
-		gnAddxFromCenter = 0;
-		gnAddyFromCenter = 220;
-		return 'gnCowLifeDepleted image.png'
-		end																	-- To here
-		
-	-- Paste and edit here
-
-	
-	
-	-- Ignore this
-	gnDimBGMSeconds = 0;
-	gnOnScreenSeconds = 0;
-	gnDimBackgroundSeconds = 0;
-	gnAddxFromCenter = 0;
-	gnAddyFromCenter = 0;
-	gnZoom = 1;
-	gnDiffusealpha = 0;	
-	
-	return '_blank.png'
-end
-
-function getCustomLifeDepletedSound()
-	if CheckPlayerName('REEN') or CheckPlayerName('SteveReen') or CheckPlayerName('PHIL') or CheckPlayerName('Zetorux') then			-- Copy from here
-		local Path = THEME:GetPath( EC_SOUNDS, 'gnFluttershyLifeDepleted', 'sound' )	
-		return Path
-		end																	-- To here
-		
-	-- Paste and edit here	
-
-	
-	
-	-- Ignore this
-	local Path = THEME:GetPath( EC_SOUNDS, '', '_silent' )
-	return Path
-end
-
-
-
-
 -- ===SYSTEM STUFF===
 -- Details from here onwards are system related, but you can change some things here too...
 -- Details from here onwards are system related, but you can change some things here too...
@@ -1763,7 +1705,9 @@ function SSMSongLocText( actor )
 	end
 	text = short
    end
-   actor:settext( text )
+   if actor then
+	actor:settext( text )
+	end
 end
 
 

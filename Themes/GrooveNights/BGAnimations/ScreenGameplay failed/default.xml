@@ -2,58 +2,35 @@
 if GAMESTATE:GetEnv('Vibrate') == 'On' then
 	self:vibrate();
 	end
+self:sleep(3);
 end"> <children>
-	<Layer
-		Type="Quad"
-		OnCommand="stretchto,SCREEN_LEFT,SCREEN_TOP,SCREEN_RIGHT,SCREEN_BOTTOM;diffuse,#000000;diffusealpha,0;linear,1.5;diffusealpha,1;linear,1.6;diffusealpha,0;"
+	
+	<Layer Condition="not GAMESTATE:IsEventMode()" Type="Quad" OnCommand="%function(self)
+	self:diffusealpha(0);
+	self:queuecommand('PlaySound');
+	end"
+	PlaySoundCommand="%function(self)
+	gnPath = getSystemSound('gnLifeDepleted3sFadeIn', 'sound');
+	SOUND:PlayOnce(gnPath);
+	end"
 	/>
 	
-	<Layer
-		File="BG Vid.avi"
-		OnCommand="zoom,1*gnZoomRatio;rate,0.5;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffusealpha,0;linear,1.5;diffusealpha,1;sleep,3;linear,1.6;diffusealpha,0;"
-	/>
-	
-	<Layer File="@'../../Sounds/'..getCustomLifeDepletedImageOrVideo()" 
-		InitCommand="diffusealpha,0;"
-		OnCommand="%function(self) 
-		self:queuecommand('SoundIt');
-		self:diffusealpha(0);
-		self:x(SCREEN_CENTER_X+gnAddxFromCenter);
-		self:y(SCREEN_CENTER_Y+gnAddyFromCenter);
-		self:zoom(0);
-		self:decelerate(2.3);
-		self:zoom(1.8);
-		self:diffusealpha(1);
-		self:accelerate(0.7);
-		self:zoom(1.7);
-		self:decelerate(1);
-		self:diffusealpha(0);
-		self:zoom(1.6);
-		end"
-		SoundItCommand="%function(self)
-		gnPath = getCustomLifeDepletedSound(); 
-		SOUND:PlayOnce(gnPath); 
-		end"
-	/>
-	
+	<ActorFrame OnCommand="sleep,0.4;linear,0.2;addx,-75;linear,0.2;addx,-75;">
+	<children>
 	<Layer
 		File="GameOver0001"
-		OnCommand="wag;EffectMagnitude,1,2,1;diffusealpha,0;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;rotationz,10;zoom,0;accelerate,1.8;addx,-25;rotationz,0;diffusealpha,1;zoom,1;decelerate,1.8;addx,-25;rotationz,-10;zoom,2;diffusealpha,0;"
+		OnCommand="x,SCREEN_CENTER_X+100;y,SCREEN_CENTER_Y-SCREEN_HEIGHT;accelerate,0.4;y,SCREEN_CENTER_Y-60;decelerate,0.2;rotationz,-10;addy,-60;accelerate,0.2;addy,105;linear,0.1;rotationz,0;addy,25;sleep,1.5;accelerate,0.1;addx,20;decelerate,0.1;addx,20;accelerate,0.4;addx,-SCREEN_WIDTH/2-20;"
 	/>
+	</children>
+	</ActorFrame>
 	
+	<ActorFrame OnCommand="sleep,1.4;linear,0.2;addx,67;linear,0.2;addx,66;">
+	<children>
 	<Layer
 		File="GameOver0002"
-		OnCommand="wag;EffectMagnitude,1,2,1;diffusealpha,0;x,SCREEN_CENTER_X-50;y,SCREEN_CENTER_Y;sleep,1.5;rotationz,-10;zoom,0;accelerate,1.8;addx,40;rotationz,0;diffusealpha,1;zoom,1;decelerate,1.8;addx,40;rotationz,10;zoom,2;diffusealpha,0;"
+		OnCommand="hibernate,1;x,SCREEN_CENTER_X-100;y,SCREEN_CENTER_Y-SCREEN_HEIGHT;accelerate,0.4;y,SCREEN_CENTER_Y-60;decelerate,0.2;rotationz,10;addy,-60;accelerate,0.2;addy,105;linear,0.1;rotationz,0;addy,25;sleep,0.5;accelerate,0.1;addx,-20;decelerate,0.1;addx,-20;accelerate,0.4;addx,SCREEN_WIDTH/2+20;"
 	/>
-	
-	<Layer
-		File="GameOver0003"
-		OnCommand="wag;EffectMagnitude,1,2,1;diffusealpha,0;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoom,0;sleep,4.3;decelerate,2.3;zoom,1.8;diffusealpha,1;accelerate,0.7;zoom,1.5;decelerate,1;diffusealpha,0;zoom,1.1;"
-	/>
-	
-	<Layer
-		File="BG Vid.avi"
-		OnCommand="zoom,1*gnZoomRatio;rate,0.5;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffusealpha,0;linear,1.5;diffusealpha,0.4;sleep,4.6;linear,0.2;diffusealpha,0;"
-	/>
+	</children>
+	</ActorFrame>
 
-</children> </ActorFrame>
+	</children> </ActorFrame>

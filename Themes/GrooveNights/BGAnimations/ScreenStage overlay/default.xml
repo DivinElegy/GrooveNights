@@ -8,27 +8,31 @@
 			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;ZoomToWidth,SCREEN_WIDTH;ZoomToHeight,SCREEN_HEIGHT;diffusealpha,0;accelerate,0.1;diffusealpha,1"
 		/>
 		<ActorFrame Condition="not GAMESTATE:IsCourseMode() and not (GAMESTATE:GetCurrentSong() == SONGMAN:FindSong('In The Groove/Training1/'))" 
-					InitCommand="hibernate,0.199;decelerate,0.15;addy,-80;accelerate,0.15;addy,80;"><children>
+					InitCommand="hibernate,0.199;"><children>
 			<Actor
 				File="@'../../Graphics/ScreenGameplay stage '..GetStageText()"
-				OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoom,0;linear,0.15;zoom,0.5;linear,0.15;zoom,1;"
-			/>
-			<Actor
-				File="../_song credit display"
-				OnCommand="diffusealpha,0;sleep,0.199;zoom,0;linear,0.15;zoom,0.5;linear,0.15;zoom,0.75;diffusealpha,0;linear,0.15;diffusealpha,1;"
+				OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+SCREEN_HEIGHT;decelerate,0.3;y,SCREEN_CENTER_Y-40;accelerate,0.1;y,SCREEN_CENTER_Y;"
 			/>
 		</children></ActorFrame>
 		<ActorFrame Condition="GAMESTATE:IsCourseMode()" 
-					InitCommand="hibernate,0.199;decelerate,0.15;addy,-80;accelerate,0.15;addy,80;"><children>
+					InitCommand="hibernate,0.199;"><children>
 			<Actor
 				File="../../Graphics/ScreenGameplay course song 1"
-				OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoom,0;linear,0.15;zoom,0.5;linear,0.15;zoom,1;"
+				OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+SCREEN_HEIGHT;decelerate,0.3;y,SCREEN_CENTER_Y-40;accelerate,0.1;y,SCREEN_CENTER_Y;"
 			/>
 		</children></ActorFrame>
+		
+		
+		
 	<!--Screen Transition-->
 	<ActorFrame InitCommand="x,0;y,0;"><children>
 	<Layer Type="Quad"
-	OnCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+(SCREEN_HEIGHT/2);draworder,10000;decelerate,0.2;diffuse,0,0,0,1;y,SCREEN_CENTER_Y+SCREEN_HEIGHT"
+	OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;linear,0.3;diffusealpha,0;"
+	OffCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,0;linear,0.3;diffusealpha,1;"
+	/>
+	
+	<Layer Type="Quad"
+	OnCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+(SCREEN_HEIGHT/2)-50;draworder,10000;decelerate,0.3;diffuse,0,0,0,1;y,SCREEN_CENTER_Y+SCREEN_HEIGHT"
 	OffCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+SCREEN_HEIGHT;draworder,10000;accelerate,0.2;diffuse,0,0,0,1;y,SCREEN_CENTER_Y+(SCREEN_HEIGHT/2)"
 	/>
 	
@@ -43,7 +47,7 @@
 	/>
 	
 	<Layer File="../ScreenGameplay overlay/Restarting" 
-	Condition="GAMESTATE:IsEventMode() and MenuButtonGiveUp()"
+	Condition="GAMESTATE:IsEventMode() and MenuButtonGiveUp() and not GAMESTATE:IsCourseMode()"
 	OnCommand="%function(self) 
 	self:diffusealpha(0);
 	if gnStaminaSongPercent > gnLowestRestartPercent and gnStaminaSongPercent < gnHighestRestartPercent then

@@ -4,10 +4,24 @@
 			File="@THEME:GetPath(EC_BGANIMATIONS,'','_shared background no streaks')" 
 			OnCommand="%function(self) self:rotationz(90); self:zoomx(1.2); self:x(SCREEN_CENTER_X); self:y(SCREEN_CENTER_Y); end" 
 		/>
-		
 		<Layer 
-			File="ScreenEdit BG.png"
-			OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;sleep,0.1;queuecommand,Update;"
+			File="ScreenEdit B.png"
+			OnCommand="@'diffuse,'..BackgroundColor()..';x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;sleep,0.1;queuecommand,Update;'"
+			UpdateCommand="%function(self) 
+			if gnPlayRecord == nil then
+				gnPlayRecord = 0;
+				end
+			if gnPlayRecord == 1 then
+				self:zoom(2);
+				else
+				self:zoom(1);
+				end
+			gnScreenEdit = true;
+			end"
+		/>
+		<Layer 
+			File="ScreenEdit F.png"
+			OnCommand="@'diffuse,'..FrameColor()..';x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;sleep,0.1;queuecommand,Update;'"
 			UpdateCommand="%function(self) 
 			if gnPlayRecord == nil then
 				gnPlayRecord = 0;
