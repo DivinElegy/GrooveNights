@@ -5,12 +5,9 @@ local ProfileTable = PROFILEMAN:GetMachineProfile():GetSaved()
 local Names = { "Basic", "Advanced", "Pro" }
 
 function SpeedModTypeRow()
-        local type = ProfileTable.SpeedModType
+        local type = GetSpeedModType()
 
         local function Load(self, list, pn)
-                -- if type is not set then default to basic
-                if not type then list[1] = true return end
-
                 -- what we're doing here is checking what we got from profileman against the valid names.
                 for i=1,3 do
                         if type == string.lower(Names[i]) then list[i] = true return end
