@@ -43,4 +43,7 @@ function GetSpeedModType()
         for i=1,3 do
             if type == string.lower(Names[i]) then return type end
         end
+
+        -- no pref, default to the first name in the list.
+        return string.lower(Names[1])
 end
