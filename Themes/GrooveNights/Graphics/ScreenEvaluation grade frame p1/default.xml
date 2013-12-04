@@ -1,5 +1,6 @@
 <ActorFrame InitCommand="%function(self)
 self:hibernate(0.1);
+gnDummy = SameThingDifferentPlayer();
 self:queuecommand('Calculate');
 end"
 
@@ -8,72 +9,54 @@ if gnRateRestore == nil then
 	gnRateRestore = 0;
 	end
 
-if GAMESTATE:IsPlayerEnabled(PLAYER_2) and not GAMESTATE:IsPlayerEnabled(PLAYER_1) then
-	if gnJudgeCount == 0 then
-	gnJudgeCount = gnJudgeCount + 2;
-	end
-end
+gnJudgeTotal = tonumber(SCREENMAN:GetTopScreen():GetChild('MarvelousNumberP'..gnPlayerCount):GetText()) + tonumber(SCREENMAN:GetTopScreen():GetChild('PerfectNumberP'..gnPlayerCount):GetText()) + tonumber(SCREENMAN:GetTopScreen():GetChild('GreatNumberP'..gnPlayerCount):GetText()) + tonumber(SCREENMAN:GetTopScreen():GetChild('GoodNumberP'..gnPlayerCount):GetText()) + tonumber(SCREENMAN:GetTopScreen():GetChild('BooNumberP'..gnPlayerCount):GetText()) + tonumber(SCREENMAN:GetTopScreen():GetChild('MissNumberP'..gnPlayerCount):GetText());
 
-if GAMESTATE:IsPlayerEnabled(PLAYER_2) then
-	if gnJudgeCount == 1 then
-	gnJudgeCount = gnJudgeCount + 1;
-	end
-end
-
-if GAMESTATE:IsPlayerEnabled(PLAYER_1) then
-	if gnJudgeCount == 0 then
-	gnJudgeCount = gnJudgeCount + 1;
-	end
-end
-
-gnJudgeTotal = tonumber(SCREENMAN:GetTopScreen():GetChild('MarvelousNumberP'..gnJudgeCount):GetText()) + tonumber(SCREENMAN:GetTopScreen():GetChild('PerfectNumberP'..gnJudgeCount):GetText()) + tonumber(SCREENMAN:GetTopScreen():GetChild('GreatNumberP'..gnJudgeCount):GetText()) + tonumber(SCREENMAN:GetTopScreen():GetChild('GoodNumberP'..gnJudgeCount):GetText()) + tonumber(SCREENMAN:GetTopScreen():GetChild('BooNumberP'..gnJudgeCount):GetText()) + tonumber(SCREENMAN:GetTopScreen():GetChild('MissNumberP'..gnJudgeCount):GetText());
-
-gnJumpsNumber = SCREENMAN:GetTopScreen():GetChild('JumpsTextP'..gnJudgeCount):GetText();
+gnJumpsNumber = SCREENMAN:GetTopScreen():GetChild('JumpsTextP'..gnPlayerCount):GetText();
 i = string.find(gnJumpsNumber,'/');
 gnJumpsNumber = string.gsub(string.sub(gnJumpsNumber,1,i-1),'%s','');
 gnJumpsNumber = tonumber(gnJumpsNumber);
 
-gnJumpsTotal = SCREENMAN:GetTopScreen():GetChild('JumpsTextP'..gnJudgeCount):GetText();
+gnJumpsTotal = SCREENMAN:GetTopScreen():GetChild('JumpsTextP'..gnPlayerCount):GetText();
 i = string.find(gnJumpsTotal,'/');
 gnJumpsTotal = string.gsub(string.sub(gnJumpsTotal,i+1),'%s','');
 gnJumpsTotal = tonumber(gnJumpsTotal);
 
-gnHoldsNumber = SCREENMAN:GetTopScreen():GetChild('HoldsTextP'..gnJudgeCount):GetText();
+gnHoldsNumber = SCREENMAN:GetTopScreen():GetChild('HoldsTextP'..gnPlayerCount):GetText();
 i = string.find(gnHoldsNumber,'/');
 gnHoldsNumber = string.gsub(string.sub(gnHoldsNumber,1,i-1),'%s','');
 gnHoldsNumber = tonumber(gnHoldsNumber);
 
-gnHoldsTotal = SCREENMAN:GetTopScreen():GetChild('HoldsTextP'..gnJudgeCount):GetText();
+gnHoldsTotal = SCREENMAN:GetTopScreen():GetChild('HoldsTextP'..gnPlayerCount):GetText();
 i = string.find(gnHoldsTotal,'/');
 gnHoldsTotal = string.gsub(string.sub(gnHoldsTotal,i+1),'%s','');
 gnHoldsTotal = tonumber(gnHoldsTotal);
 
-gnMinesNumber = SCREENMAN:GetTopScreen():GetChild('MinesTextP'..gnJudgeCount):GetText();
+gnMinesNumber = SCREENMAN:GetTopScreen():GetChild('MinesTextP'..gnPlayerCount):GetText();
 i = string.find(gnMinesNumber,'/');
 gnMinesNumber = string.gsub(string.sub(gnMinesNumber,1,i-1),'%s','');
 gnMinesNumber = tonumber(gnMinesNumber);
 
-gnMinesTotal = SCREENMAN:GetTopScreen():GetChild('MinesTextP'..gnJudgeCount):GetText();
+gnMinesTotal = SCREENMAN:GetTopScreen():GetChild('MinesTextP'..gnPlayerCount):GetText();
 i = string.find(gnMinesTotal,'/');
 gnMinesTotal = string.gsub(string.sub(gnMinesTotal,i+1),'%s','');
 gnMinesTotal = tonumber(gnMinesTotal);
 
-gnHandsNumber = SCREENMAN:GetTopScreen():GetChild('HandsTextP'..gnJudgeCount):GetText();
+gnHandsNumber = SCREENMAN:GetTopScreen():GetChild('HandsTextP'..gnPlayerCount):GetText();
 i = string.find(gnHandsNumber,'/');
 gnHandsNumber = string.gsub(string.sub(gnHandsNumber,1,i-1),'%s','');
 gnHandsNumber = tonumber(gnHandsNumber);
 
-gnHandsTotal = SCREENMAN:GetTopScreen():GetChild('HandsTextP'..gnJudgeCount):GetText();
+gnHandsTotal = SCREENMAN:GetTopScreen():GetChild('HandsTextP'..gnPlayerCount):GetText();
 i = string.find(gnHandsTotal,'/');
 gnHandsTotal = string.gsub(string.sub(gnHandsTotal,i+1),'%s','');
 gnHandsTotal = tonumber(gnHandsTotal);
 
-gnRollsNumber = SCREENMAN:GetTopScreen():GetChild('RollsTextP'..gnJudgeCount):GetText();
+gnRollsNumber = SCREENMAN:GetTopScreen():GetChild('RollsTextP'..gnPlayerCount):GetText();
 i = string.find(gnRollsNumber,'/');
 gnRollsNumber = string.gsub(string.sub(gnRollsNumber,1,i-1),'%s','');
 gnRollsNumber = tonumber(gnRollsNumber);
 
-gnRollsTotal = SCREENMAN:GetTopScreen():GetChild('RollsTextP'..gnJudgeCount):GetText();
+gnRollsTotal = SCREENMAN:GetTopScreen():GetChild('RollsTextP'..gnPlayerCount):GetText();
 i = string.find(gnRollsTotal,'/');
 gnRollsTotal = string.gsub(string.sub(gnRollsTotal,i+1),'%s','');
 gnRollsTotal = tonumber(gnRollsTotal);
@@ -231,7 +214,7 @@ end"> <children>
 		calculatecommand="%function(self)
 		self:sleep(0.1/2);
 		self:accelerate(0.5);
-		gnJudgeText = math.ceil(tonumber(SCREENMAN:GetTopScreen():GetChild('MarvelousNumberP'..gnJudgeCount):GetText()) / gnJudgeTotal * 121);
+		gnJudgeText = math.ceil(tonumber(SCREENMAN:GetTopScreen():GetChild('MarvelousNumberP'..gnPlayerCount):GetText()) / gnJudgeTotal * 121);
 		if gnJudgeText >= 121 then gnJudgeText = 121; end
 		self:zoomx(gnJudgeText);
 		self:queuecommand('SFX');
@@ -247,7 +230,7 @@ end"> <children>
 		calculatecommand="%function(self)
 		self:sleep(0.2/2);
 		self:accelerate(0.5);
-		gnJudgeText = math.ceil(tonumber(SCREENMAN:GetTopScreen():GetChild('PerfectNumberP'..gnJudgeCount):GetText()) / gnJudgeTotal * 121);
+		gnJudgeText = math.ceil(tonumber(SCREENMAN:GetTopScreen():GetChild('PerfectNumberP'..gnPlayerCount):GetText()) / gnJudgeTotal * 121);
 		if gnJudgeText >= 121 then gnJudgeText = 121; end
 		self:zoomx(gnJudgeText);
 		self:queuecommand('SFX');
@@ -263,7 +246,7 @@ end"> <children>
 		calculatecommand="%function(self)
 		self:sleep(0.3/2);
 		self:accelerate(0.5);
-		gnJudgeText = math.ceil(tonumber(SCREENMAN:GetTopScreen():GetChild('GreatNumberP'..gnJudgeCount):GetText()) / gnJudgeTotal * 121);
+		gnJudgeText = math.ceil(tonumber(SCREENMAN:GetTopScreen():GetChild('GreatNumberP'..gnPlayerCount):GetText()) / gnJudgeTotal * 121);
 		if gnJudgeText >= 121 then gnJudgeText = 121; end
 		self:zoomx(gnJudgeText);
 		self:queuecommand('SFX');
@@ -279,7 +262,7 @@ end"> <children>
 		calculatecommand="%function(self)
 		self:sleep(0.4/2);
 		self:accelerate(0.5);
-		gnJudgeText = math.ceil(tonumber(SCREENMAN:GetTopScreen():GetChild('GoodNumberP'..gnJudgeCount):GetText()) / gnJudgeTotal * 121);
+		gnJudgeText = math.ceil(tonumber(SCREENMAN:GetTopScreen():GetChild('GoodNumberP'..gnPlayerCount):GetText()) / gnJudgeTotal * 121);
 		if gnJudgeText >= 121 then gnJudgeText = 121; end
 		self:zoomx(gnJudgeText);
 		self:queuecommand('SFX');
@@ -295,7 +278,7 @@ end"> <children>
 		calculatecommand="%function(self)
 		self:sleep(0.5/2);
 		self:accelerate(0.5);
-		gnJudgeText = math.ceil(tonumber(SCREENMAN:GetTopScreen():GetChild('BooNumberP'..gnJudgeCount):GetText()) / gnJudgeTotal * 121);
+		gnJudgeText = math.ceil(tonumber(SCREENMAN:GetTopScreen():GetChild('BooNumberP'..gnPlayerCount):GetText()) / gnJudgeTotal * 121);
 		if gnJudgeText >= 121 then gnJudgeText = 121; end
 		self:zoomx(gnJudgeText);
 		self:queuecommand('SFX');
@@ -311,7 +294,7 @@ end"> <children>
 		calculatecommand="%function(self)
 		self:accelerate(0.5);
 		self:sleep(0.6/2);
-		gnJudgeText = math.ceil(tonumber(SCREENMAN:GetTopScreen():GetChild('MissNumberP'..gnJudgeCount):GetText()) / gnJudgeTotal * 121);
+		gnJudgeText = math.ceil(tonumber(SCREENMAN:GetTopScreen():GetChild('MissNumberP'..gnPlayerCount):GetText()) / gnJudgeTotal * 121);
 		if gnJudgeText >= 121 then gnJudgeText = 121; end
 		self:zoomx(gnJudgeText);
 		self:queuecommand('SFX');
@@ -409,7 +392,7 @@ end"> <children>
 		calculatecommand="%function(self)
 		self:sleep(1.2/2);
 		self:accelerate(0.5);
-		gnJudgeText = math.ceil(tonumber(SCREENMAN:GetTopScreen():GetChild('MaxComboNumberP'..gnJudgeCount):GetText()) / 10000 * 121);
+		gnJudgeText = math.ceil(tonumber(SCREENMAN:GetTopScreen():GetChild('MaxComboNumberP'..gnPlayerCount):GetText()) / 10000 * 121);
 		if gnJudgeText >= 121 then gnJudgeText = 121; self:rainbow(); end
 		self:zoomx(gnJudgeText);
 		self:queuecommand('SFX');

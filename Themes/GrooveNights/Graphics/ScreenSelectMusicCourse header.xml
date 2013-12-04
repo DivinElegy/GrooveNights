@@ -11,6 +11,10 @@
 	<!--Screen Transition-->
 	<ActorFrame InitCommand="x,-18;y,-41;"><children>
 	<Layer Type="Quad"
+	OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,1,1,1,0;"
+	ScreenTransitionMessageCommand="@'x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoomx,SCREEN_WIDTH*2;zoomy,SCREEN_HEIGHT*2;diffuse,1,1,1,1;diffusealpha,0.05;linear,0.1;diffusealpha,0;'"
+	/>
+	<Layer Type="Quad"
 	OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;linear,0.3;diffusealpha,0;"
 	ScreenTransitionMessageCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,0;linear,0.3;diffusealpha,1;"
 	/>

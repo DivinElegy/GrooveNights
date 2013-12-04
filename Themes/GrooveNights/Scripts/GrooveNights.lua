@@ -15,8 +15,8 @@
 -- COPY THE BELOW TERMS AND DO A WORD FIND FOR IT SO THAT YOU CAN EDIT DIFFERENT SETTINGS
 
 -- CHANGE FREQUENCY OF USB STAT LOADS
--- CHANGE SPEED, ADDSPEED & RATE MODS
 -- CHANGE MACHINE LOCATION TEXT
+-- CHANGE THE RATE MODS
 -- SHOW/HIDE ARROW SPEED INDICATORS
 -- SHOW/HIDE "WINNING PLAYER" CROWNS
 -- SHOW/HIDE TOTAL PLAYTIME
@@ -61,7 +61,7 @@ function getMaxStatFrequency()
 	return 8
 end
 
-Rate = { "1.0x", "1.1x", "1.2x", "1.3x", "1.4x", "1.5x", "1.6x", "1.7x", "2.0x" }
+
 
 
 -- ===CHANGE MACHINE LOCATION TEXT===
@@ -70,6 +70,10 @@ function getTheCurrentMachine()
 return "GrooveNights Theme by Jayce"
 end
 
+
+
+-- ===CHANGE THE RATE MODS===
+Rate = { "1.0x", "1.1x", "1.2x", "1.3x", "1.4x", "1.5x", "1.6x", "1.7x", "2.0x"}
 
 
 
@@ -816,6 +820,10 @@ if tier == 'Normal' then
 if tier == 'Failed' then
 	gnDummy = getCustomFailedImageOrVideo()
 	end
+	
+if tier == 'Test' then
+	gnDummy = getCustomTestImageOrVideo()
+	end
 
 if gnAddxFromCenterP1 == nil then gnAddxFromCenterP1 = 0; end
 if gnAddyFromCenterP1 == nil then gnAddyFromCenterP1 = 0; end
@@ -1047,7 +1055,6 @@ end
 function getCustomNormalImageOrVideo()
 		
 	-- Paste and edit here
-
 	
 	
 	-- Ignore this
@@ -1132,6 +1139,37 @@ function getCustomFailedSound()
 	return Path
 end
 
+
+
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+
+-- TEST
+-- Test environment, won't actually appear anywhere...
+
+function getCustomTestImageOrVideo()
+		
+	-- Paste and edit here
+	gnSpecialUSB = true
+	gnDimBGMSeconds = 15;
+	gnOnScreenSeconds = 15;
+	gnDimBackgroundSeconds = 15;
+	gnAddxFromCenterP1 = 0;
+	gnAddyFromCenterP1 = 0;
+	gnAddxFromCenterP2 = 0;
+	gnAddyFromCenterP2 = 0;
+	gnZoom = 1;
+	gnDiffusealpha = 1;
+	return 'gnJonTronQuad video.avi'
+end
+
+function getCustomTestSound()
+		
+	local Path = THEME:GetPath( EC_SOUNDS, 'gnJonTronQuad', 'sound' )	
+	return Path
+
+end
 
 
 

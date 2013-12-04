@@ -17,6 +17,7 @@
 -- SYSTEM SOUNDS
 -- SHIFT SCREEN EVALUATION ELEMENTS IN DOUBLE MODE
 -- SET SCREEN SPECIFIC VARIABLES
+-- DIFFERENTIATE PLAYERS USING SHARED RESOURCES
 
 
 
@@ -63,7 +64,7 @@ end
 -- ===SET SCREEN SPECIFIC VARIABLES===
 function SetVariablesFor(scn)
 if scn == 'ScreenCompany' then
--- nothing to add yet
+return 0;
 end
 
 
@@ -153,7 +154,7 @@ if scn == 'ScreenSelectMusic' then
 	gnBlazedP2 = 0;
 	gnP1Ready = 0;
 	gnP2Ready = 0;
-	gnJudgeCount = 0;
+	gnPlayerCount = 0;
 	gnTotalDone = 0;
 	gnSpecialUSB = false;
 	if gnStatFrequency == nil then gnStatFrequency = 0; end
@@ -248,12 +249,29 @@ if scn == 'ScreenGameplay' then
 	gnStaminaStepTarget = 0;
 	gnP1Restarter = 0;
 	gnP2Restarter = 0;
+	gnSameGrade = 0;
+	gnSoundCheck = true;
 end
 
 
 if scn == 'ScreenEvaluation' then
 gnSongCount = gnSongCount + 1;
 end
+
+
+
+if scn == 'GradeModels' then
+if getSpecialUSB() then
+	if gnDimBGMSeconds == nil then
+		gnDimBGMSeconds = 0.1;
+		end
+	if gnDimBGMSeconds == 0 then
+		gnDimBGMSeconds = 0.1;
+		end
+	SOUND:DimMusic( 0, gnDimBGMSeconds )
+	end
+end
+
 
 
 if scn == 'ScreenNameEntry' then
@@ -273,10 +291,27 @@ end
 
 
 
+-- ===DIFFERENTIATE PLAYERS USING SHARED RESOURCES===
+function SameThingDifferentPlayer()
+	if GAMESTATE:IsPlayerEnabled(PLAYER_2) and not GAMESTATE:IsPlayerEnabled(PLAYER_1) then
+		if gnPlayerCount == 0 then
+		gnPlayerCount = gnPlayerCount + 2;
+		end
+	end
 
+	if GAMESTATE:IsPlayerEnabled(PLAYER_2) then
+		if gnPlayerCount == 1 then
+		gnPlayerCount = gnPlayerCount + 1;
+		end
+	end
 
-
-
+	if GAMESTATE:IsPlayerEnabled(PLAYER_1) then
+		if gnPlayerCount == 0 then
+		gnPlayerCount = gnPlayerCount + 1;
+		end
+	end
+return gnPlayerCount;
+end
 
 
 
