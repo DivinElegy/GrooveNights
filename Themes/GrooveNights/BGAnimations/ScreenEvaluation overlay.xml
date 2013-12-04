@@ -319,15 +319,27 @@ end">
 				gnHighRoundBPM = math.floor(gnHighRoundBPM);
 				gnBPMDisplay = gnLowRoundBPM..'-'..gnHighRoundBPM;
 				end	
-			if curRate ~= 1 then
-			gnSongLengthDisplay = string.gsub(gnSongLength,'Patched','Length Patched');
-			gnSongLengthDisplay = string.gsub(gnSongLength,'Length Length Patched','Length Patched');
-			self:settext(gnBPMDisplay..' BPM ('..curRate..'x Music Rate) - '..gnSongLengthDisplay);
-			else
-			gnSongLengthDisplay = string.gsub(gnSongLength,'Patched','Length Patched');
-			gnSongLengthDisplay = string.gsub(gnSongLength,'Length Length Patched','Length Patched');
-			self:settext(gnBPMDisplay..' BPM - '..gnSongLengthDisplay);
-			end
+			if GAMESTATE:IsPlayerEnabled(PLAYER_2) and not GAMESTATE:IsPlayerEnabled(PLAYER_1) then
+				if curRate ~= 1 then
+					gnSongLengthDisplay = string.gsub(gnSongLength,'Patched','Length Patched');
+					gnSongLengthDisplay = string.gsub(gnSongLength,'Length Length Patched','Length Patched');
+					self:settext(DisplayBPM(2, true, false)..' BPM ('..curRate..'x Music Rate) - '..gnSongLengthDisplay);
+					else
+					gnSongLengthDisplay = string.gsub(gnSongLength,'Patched','Length Patched');
+					gnSongLengthDisplay = string.gsub(gnSongLength,'Length Length Patched','Length Patched');
+					self:settext(DisplayBPM(2, true, false)..' BPM - '..gnSongLengthDisplay);
+					end
+				else
+				if curRate ~= 1 then
+					gnSongLengthDisplay = string.gsub(gnSongLength,'Patched','Length Patched');
+					gnSongLengthDisplay = string.gsub(gnSongLength,'Length Length Patched','Length Patched');
+					self:settext(DisplayBPM(1, true, false)..' BPM ('..curRate..'x Music Rate) - '..gnSongLengthDisplay);
+					else
+					gnSongLengthDisplay = string.gsub(gnSongLength,'Patched','Length Patched');
+					gnSongLengthDisplay = string.gsub(gnSongLength,'Length Length Patched','Length Patched');
+					self:settext(DisplayBPM(1, true, false)..' BPM - '..gnSongLengthDisplay);
+					end
+				end
 			end"
 		/>
 

@@ -649,7 +649,7 @@
 			loopCommand="%function(self)
 			self:stoptweening();
 			if curRate ~= 1 then self:settext(gnSongLength..' (x'..curRate..' Music Rate)'); else self:settext(gnSongLength); end
-			self:sleep(0.1);
+			self:sleep(0.03);
 			self:queuecommand('loop');
 			end"
 		/>
@@ -780,7 +780,7 @@
 			loopCommand="%function(self)
 			self:stoptweening();
 			if curRate ~= 1 then self:settext(gnSongLength..' (x'..curRate..' Music Rate)'); else self:settext(gnSongLength); end
-			self:sleep(0.1);
+			self:sleep(0.03);
 			self:queuecommand('loop');
 			end"
 		/>
