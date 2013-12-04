@@ -71,13 +71,6 @@ return "GrooveNights Theme by Jayce"
 end
 
 
-
--- ===CHANGE THE RATE MODS===
-Rate = { "1.0x", "1.1x", "1.2x", "1.3x", "1.4x", "1.5x", "1.6x", "1.7x", "2.0x"}
-
-
-
-
 -- ===SHOW/HIDE ARROW SPEED INDICATORS===
 -- If you want the Arrow Speed Indicators to appear in the options menu you can switch them on here.
 -- It has been reported that they can sometimes cause lag during 2-Player mode so I opted to disable it by default.
@@ -1255,46 +1248,50 @@ return 0;
 
 end
 
+	
+	bpm = { "1", "2", "3" }
+	Rate = { "1.0", "1.1", "1.2", "1.3", "1.4", "1.5", "1.6", "1.7", "2.0"}
 
+function RateMods()
+	local modList = Rate
 
-function RateMod()
-	local ModList = Rate
-	local t = {
-		Name = "Rate",
-		LayoutType = "ShowAllInRow",
-		SelectType = "SelectOne",
-		OneChoiceForAllPlayers = true,
-		ExportOnChange = false,
-		Choices = ModList,
-
-		LoadSelections = function(self, list, pn)
-		for n = 1, table.getn(ModList) do
-			if GAMESTATE:PlayerIsUsingModifier(pn,ModList[n]..'music') then
-				list[n] = true; 
-				s = string.gsub(ModList[n],'x','');
-				ModRate = tonumber(s);
-				else 
-				list[n] = false ;
-				end
-			end
-		end,
-
-		SaveSelections = function(self, list, pn)
-		p = pn + 1;
-		for n = 1, table.getn(ModList) do
-			if list[n] then
-				s = ModList[n];
-				end
+	local function Load(self, list, pn)
+		for n = 1, table.getn(modList) do
+			if GAMESTATE:PlayerIsUsingModifier(pn,modList[n]..'xmusic') then list[n] = true; modRate = modList[n] else list[n] = false end
 		end
-		s = string.gsub(s,'x','');
-		ModRate = s;
-		GAMESTATE:ApplyGameCommand('mod, 1.0xmusic',p);
-		GAMESTATE:ApplyGameCommand('mod,'..ModRate..'xmusic',p);
-		GAMESTATE:SetEnv('RateMod','1');
+	end
+
+	local function Save(self, list, pn)
+		for n = 1, table.getn(modList) do
+			if list[n] then s = modList[n] end
 		end
-	}
-	setmetatable(t, t)
-	return t
+		modRate = s
+		GAMESTATE:ApplyGameCommand('mod,'..s..'xmusic',pn+1)
+		ApplyRateAdjust()
+		MESSAGEMAN:Broadcast('RateModChanged')
+	end
+
+	local Params = { Name = "Rate" }
+	return CreateOptionRow( Params, modList, Load, Save )
+end
+
+function ApplyRateAdjust()
+	for pn=1, 2 do
+		if GAMESTATE:IsPlayerEnabled( pn - 1 ) then
+			speed = string.gsub(modSpeed[pn],modType[pn],"")
+			if modType[pn] == "x" then speed = math.ceil(100*speed/modRate)/100 .. "x" end
+			if modType[pn] == "c" then speed = "c" .. math.ceil(speed/modRate) end
+			if modType[pn] == "m" then speed = "m" .. math.ceil(speed/modRate) end
+			GAMESTATE:ApplyGameCommand('mod,' .. speed,pn)
+		end
+	end
+end
+
+-- I doubt we will ever use this but it's nice to have for completeness
+function RevertRateAdjust()
+	for pn=1, 2 do
+		if modSpeed and modSpeed[pn] then GAMESTATE:ApplyGameCommand('mod,' .. modSpeed[pn],pn) end
+	end
 end
 
 

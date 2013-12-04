@@ -125,30 +125,6 @@ end"
 			Text=""
 			File="_eurostile blue glow"
 			InitCommand="%function(self)  self:x(100) self:shadowlength(0) self:draworder(10000); self:addy(21); self:queuecommand('Update'); end"
-			CurrentSongChangedMessageCommand="queuecommand,Update"
-			UpdateCommand="%function(self)
-			lowBPM = tostring(SCREENMAN:GetTopScreen():GetChild('BPMDisplay'):GetChild('Text'):GetText());
-			
-			if lowBPM == nil then
-				lowBPM = '0';
-				end
-			
-			if lowBPM == '...' then
-				lowBPM = '0';
-				end
-				
-			highBPM = lowBPM
-			 
-			delimPos = string.find(lowBPM, '-')
-			if delimPos==1 then
-				delimPos = string.find(lowBPM, '-',2)
-			end
-			 
-			if delimPos then
-				lowBPM = string.sub(lowBPM, 1, delimPos-1)
-				highBPM = string.sub(highBPM, delimPos+1, string.len(highBPM))
-			end
-			end"
 		/>
 <!--Timer Recorder-->
 	<Layer Type="Quad"

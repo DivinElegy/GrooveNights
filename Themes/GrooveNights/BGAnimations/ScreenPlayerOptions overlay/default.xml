@@ -537,7 +537,10 @@
 			Text=""
 			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
 			File="_eurostile blue glow"
-			InitCommand="%function(self) self:stoptweening(); self:zoom(0.5); self:shadowlength(0); self:x(SCREEN_CENTER_X-200); self:y(SCREEN_CENTER_Y+118); if lowBPM == highBPM then self:settext(math.ceil(highBPM*curRate)); else self:settext(math.ceil(lowBPM*curRate)..'-'..math.ceil(highBPM*curRate)) end self:maxwidth(140);  self:sleep(0.1); self:queuecommand('Init'); end"
+			InitCommand="%function(self) self:stoptweening(); self:zoom(0.5); self:shadowlength(0); self:x(SCREEN_CENTER_X-200); self:y(SCREEN_CENTER_Y+118); self:maxwidth(140); end"
+			SpeedModChangedMessageCommand="queuecommand,Update"
+			RateModChangedMessageCommand="queuecommand,Update"
+			UpdateCommand="%function(self) self:settext(DisplayBPM(1, true, false)) end"
 			OnCommand="horizalign,left;zoom,0.5;"			
 		/>
 		<BitmapText
@@ -556,19 +559,47 @@
 			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
 			File="_eurostile blue glow"
 			InitCommand="%function(self) self:zoom(0.5); self:shadowlength(0); self:x(SCREEN_CENTER_X-200); self:y(SCREEN_CENTER_Y+134); p1Distance=0; end"
-			OnCommand="horizalign,left;zoom,0.5;"
+			OnCommand="horizalign,left;zoom,0.5;queuecommand,loop;"
+			SpeedModChangedMessageCommand="queuecommand,Update"
+			RateModChangedMessageCommand="queuecommand,Update"
+			UpdateCommand="%function(self) self:settext(DisplayBPM(1, true, true)) end"			
 			
-			SpeedModChangedMessageCommand="%function(self)
-			if gnOptionModType == 'x' then
-			gnOptionMod = gnOptionMod*highBPM*curRate;
-			end
-			if gnOptionModType == 'c' then
-			gnOptionMod = gnOptionMod
-			end
-			if gnOptionModType == 'm' then
-			gnOptionMod = gnOptionMod*curRate;
-			end
-			self:settext(gnOptionMod);
+			loopCommand="%function(self)
+			getModP1 = 0;
+			if setModP1 == nil then
+				setModP1 = 0;
+				end
+			if modStyleP1 == nil then
+				modStyleP1 = 0;
+				end
+			if addModP1 == nil then
+				addModP1 = 0;
+				end
+			if curRate == nil then
+				curRate = 1;
+				end
+			if modStyleP1 == 1 then
+				if addModP1 <= 1 then
+					self:settext(''..math.ceil((setModP1+addModP1)*highBPM*curRate)..'');
+					gnP1Speed = setModP1+addModP1..'X';
+					gnBlazeP1 = math.ceil((setModP1+addModP1)*highBPM*curRate)
+					else
+					self:settext(''..math.ceil((setModP1)*highBPM*curRate)..'');
+					gnP1Speed = setModP1..'X';
+					gnBlazeP1 = math.ceil((setModP1)*highBPM*curRate)
+					end
+				end
+			if modStyleP1 == 2 then
+				if addModP1 > 1 then
+					self:settext(''..math.ceil((setModP1+addModP1) * curRate)..'');
+					gnP1Speed = 'C'..setModP1+addModP1;
+					gnBlazeP1 = math.ceil((setModP1+addModP1) * curRate)
+					else
+					self:settext(''..math.ceil((setModP1) * curRate)..'');
+					gnP1Speed = 'C'..setModP1;
+					gnBlazeP1 = math.ceil((setModP1) * curRate)
+					end
+				end
 			end"
 		/>
 <!--Step Artists P1-->
@@ -638,8 +669,11 @@
 			Text=""
 			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
 			File="_eurostile blue glow"
-			InitCommand="%function(self) self:stoptweening(); self:zoom(0.5); self:shadowlength(0); self:x(SCREEN_CENTER_X+119); self:y(SCREEN_CENTER_Y+118); if lowBPM == highBPM then self:settext(math.ceil(highBPM*curRate)); else self:settext(math.ceil(lowBPM*curRate)..'-'..math.ceil(highBPM*curRate)) end self:maxwidth(140); self:sleep(0.1); self:queuecommand('Init'); end"
+			InitCommand="%function(self) self:stoptweening(); self:zoom(0.5); self:shadowlength(0); self:x(SCREEN_CENTER_X+119); self:y(SCREEN_CENTER_Y+118); self:maxwidth(140); end"
 			OnCommand="horizalign,left;zoom,0.5;"			
+			SpeedModChangedMessageCommand="queuecommand,Update"
+			RateModChangedMessageCommand="queuecommand,Update"
+			UpdateCommand="%function(self) self:settext(DisplayBPM(2, true, false)) end"
 		/>
 		<BitmapText
 			Text="Speed:"
@@ -656,8 +690,11 @@
 			Text=""
 			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
 			File="_eurostile blue glow"
-			InitCommand="%function(self)  self:zoom(0.5); self:shadowlength(0); self:x(SCREEN_CENTER_X+119); self:y(SCREEN_CENTER_Y+134); self:queuecommand('loop'); end"
+			InitCommand="%function(self)  self:zoom(0.5); self:shadowlength(0); self:x(SCREEN_CENTER_X+119); self:y(SCREEN_CENTER_Y+134); end"
 			OnCommand="horizalign,left;zoom,0.5;queuecommand,loop;"
+			SpeedModChangedMessageCommand="queuecommand,Update"
+			RateModChangedMessageCommand="queuecommand,Update"
+			UpdateCommand="%function(self) self:settext(DisplayBPM(2, true, true)) end"			
 			
 			loopCommand="%function(self)
 			getModP2 = 0;
@@ -695,9 +732,6 @@
 					gnBlazeP2 = math.ceil((setModP2) * curRate)
 					end
 				end
-			self:stoptweening();
-			self:sleep(0.1);
-			self:queuecommand('loop');
 			end"
 		/>
 

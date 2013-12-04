@@ -615,3 +615,86 @@ function InitSpeedMods()
         typeSpeed = { "x-mod", "c-mod" }
     end
 end
+
+function DisplayBPM(pn, includeRate, includeSpeed)      
+        local lowBPM = bpm[1]
+        local highBPM = bpm[2]
+		local speedMod = 1
+		local rateMod = 1
+		
+		if includeRate then rateMod = modRate end
+		
+		if includeSpeed then
+			speedMod = modSpeed[pn]
+			speedMod = string.gsub(speedMod,'x','')
+			speedMod = string.gsub(speedMod,'c','')
+			speedMod = string.gsub(speedMod,'m','')
+		end
+
+        if modType[pn] == "x-mod" then
+
+                if lowBPM == "Various" or lowBPM == "..." or lowBPM == nil then
+                return "???"
+                end
+                
+                lowScrollBPM = lowBPM * speedMod * rateMod
+        
+                if string.sub(lowScrollBPM, 2, 2) == "." then
+                lowScrollBPM = string.sub(lowScrollBPM, 1, 1)
+                end
+                
+                if string.sub(lowScrollBPM, 3, 3) == "." then
+                lowScrollBPM = string.sub(lowScrollBPM, 1, 2)
+                end
+        
+                if string.sub(lowScrollBPM, 4, 4) == "." then
+                lowScrollBPM = string.sub(lowScrollBPM, 1, 3)
+                end
+                
+                if string.sub(lowScrollBPM, 5, 5) == "." then
+                lowScrollBPM = string.sub(lowScrollBPM, 1, 4)
+                end
+                
+                if string.sub(lowScrollBPM, 6, 6) == "." then
+                lowScrollBPM = string.sub(lowScrollBPM, 1, 5)
+                end
+
+                if highBPM ~= "" then
+
+                        highScrollBPM = highBPM * speedMod * rateMod
+                
+                        if string.sub(highScrollBPM, 2, 2) == "." then
+                        highScrollBPM = string.sub(highScrollBPM, 1, 1)
+                        end
+
+                        if string.sub(highScrollBPM, 3, 3) == "." then
+                        highScrollBPM = string.sub(highScrollBPM, 1, 2)
+                        end
+
+                        if string.sub(highScrollBPM, 4, 4) == "." then
+                        highScrollBPM = string.sub(highScrollBPM, 1, 3)
+                        end
+        
+                        if string.sub(highScrollBPM, 5, 5) == "." then
+                        highScrollBPM = string.sub(highScrollBPM, 1, 4)
+                        end
+                
+                        if string.sub(highScrollBPM, 6, 6) == "." then
+                        highScrollBPM = string.sub(highScrollBPM, 1, 5)
+                        end
+                
+                end
+
+                if highBPM == "" then
+                return lowScrollBPM
+                else
+                return lowScrollBPM .. "-" .. highScrollBPM
+                end
+        end
+
+        if modType[pn] == "c-mod" or modType[pn] == "m-mod" then
+        return speedMod
+        end
+
+        return "???"
+end
