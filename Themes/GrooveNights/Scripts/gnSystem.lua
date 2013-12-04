@@ -51,7 +51,7 @@ function ScreenEvaluationDoubleShift(pn)
 		if pn == PLAYER_1 then
 		return -158;
 		else
-		return 167;
+		return 155;
 		end
 	end
 return 0
@@ -253,7 +253,6 @@ if scn == 'ScreenGameplay' then
 	gnP2Restarter = 0;
 	gnSameGrade = 0;
 	gnSoundCheck = true;
-	gnMiniSoundCheck = true;
 	gnAward = 0;
 end
 

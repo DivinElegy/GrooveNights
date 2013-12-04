@@ -106,16 +106,13 @@
 <!-- Grade Sound-->
 <Layer Type="Quad" InitCommand="diffusealpha,0;zoom,SCREEN_WIDTH*20;sleep,0.25;queuecommand,PlaySound1"
 PlaySound1Command="%function(self)
-if gnMiniSoundCheck == true then
 	if not getSpecialUSB() then
 		gnSound = GradeSound(1);
 		SOUND:PlayOnce( gnSound )
 		end
-	gnMiniSoundCheck = false;
 	self:diffusealpha(0.1);
 	self:accelerate(0.35);
 	self:diffusealpha(0);
-	end
 end" 
 />
 <!--Grade Graphics-->
