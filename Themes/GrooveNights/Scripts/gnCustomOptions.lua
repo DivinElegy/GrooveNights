@@ -1,5 +1,10 @@
 -- This is purely for convenience
-local ProfileTable = PROFILEMAN:GetMachineProfile():GetSaved()
+local ProfileTable
+
+-- Without this check, when StepMania starts it will report a lua runtime error as PROFILEMAN apparently doesn't exist yet.
+if PROFILEMAN ~= nil then
+    ProfileTable = PROFILEMAN:GetMachineProfile():GetSaved()
+end
 
 -- Valid speed mod row type names.
 local Names = { "Basic", "Advanced", "Pro" }
