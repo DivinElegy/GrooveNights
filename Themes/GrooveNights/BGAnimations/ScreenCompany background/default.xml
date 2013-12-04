@@ -1,5 +1,5 @@
 <ActorFrame InitCommand="%function(self)
-gnDummy = SetVariablesFor('ScreenCompany');
+SetVariablesFor('ScreenCompany');
 end">
 <children>
 <Layer Type="Quad"

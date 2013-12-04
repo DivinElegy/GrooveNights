@@ -18,8 +18,8 @@ function SpeedModTypeRow()
                         if type == string.lower(Names[i]) then list[i] = true return end
                 end
 
-                -- if nothing matched then just default to basic
-                list[1] = true
+                -- if nothing matched then just default to pro
+                list[3] = true
         end
 
         local function Save(self, list, pn)

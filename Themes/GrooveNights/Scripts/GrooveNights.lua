@@ -1186,7 +1186,7 @@ end
 
 -- Play different sounds on the results menu
 function GradeSound( snd )
-	local Path = THEME:GetPath( EC_SOUNDS, '', 'grade'..snd)
+	local Path = THEME:GetPath( EC_SOUNDS, 'gnGradeUp', ''..snd..'')
 	return Path
 	end
 	

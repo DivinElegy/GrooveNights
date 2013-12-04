@@ -2,7 +2,7 @@
 			
 <ActorFrame	InitCommand="queuecommand,Start;"
 			StartCommand="%function(self)
-			gnDummy = SetVariablesFor('GradeModels');
+			SetVariablesFor('GradeModels');
 			gnSameGrade = gnSameGrade + 1;
 			self:queuecommand('SameGradeCheck');
 			end"
@@ -56,18 +56,18 @@
 		</children></ActorFrame>
 		
 <!--Special Video to Play-->
-		<Layer File="@'../../Sounds/'..getCustomTestImageOrVideo()"
+		<Layer File="@'../../Sounds/'..getCustomNormalImageOrVideo()"
 		InitCommand="%function(self)
 		
 		if GAMESTATE:IsPlayerEnabled(PLAYER_1) then
-				self:x(244+AddFromCenter('x','Test',PLAYER_1)-42);
-				self:y(40+AddFromCenter('y','Test',PLAYER_1)+108);
+				self:x(244+AddFromCenter('x','Normal',PLAYER_1)-42);
+				self:y(40+AddFromCenter('y','Normal',PLAYER_1)+108);
 				if GAMESTATE:PlayerUsingBothSides(PLAYER_1) then
 					self:addx(29);
 					end
 				else
-				self:x(-66+AddFromCenter('x','Test',PLAYER_2)-130);
-				self:y(40+AddFromCenter('y','Test',PLAYER_2)+108);
+				self:x(-66+AddFromCenter('x','Normal',PLAYER_2)-130);
+				self:y(40+AddFromCenter('y','Normal',PLAYER_2)+108);
 				if GAMESTATE:PlayerUsingBothSides(PLAYER_2) then
 					self:addx(-38);
 					end
@@ -78,7 +78,7 @@
 		self:diffusealpha(gnDiffusealpha);
 		self:zoom(gnZoom);
 		if gnSoundCheck == true then
-			gnPath = getCustomTestSound();
+			gnPath = getCustomNormalSound();
 			SOUND:PlayOnce(gnPath);
 			gnSoundCheck = false;
 			end
@@ -99,19 +99,85 @@
 </ActorFrame>
 
 
-<ActorFrame OnCommand="zoom,0.30;x,-2;y,6;wag;EffectMagnitude,0,0,2;"><children>
-<!-- Grade -->
+
+
+<ActorFrame OnCommand="zoom,0.40;x,-2;y,6;wag;EffectMagnitude,0,0,2;" InitCommand="%function(self) self:hibernate(gnOnScreenSeconds); end"><children>
+<!-- Grade Sound-->
+<Layer Type="Quad" InitCommand="diffusealpha,0;zoom,SCREEN_WIDTH*20;sleep,0.2;queuecommand,PlaySound1"
+PlaySound1Command="%function(self)
+if gnMiniSoundCheck == true then
+	if not getSpecialUSB() then
+		gnSound = GradeSound(0);
+		SOUND:PlayOnce( gnSound )
+		end
+	gnMiniSoundCheck = false;
+	self:diffusealpha(0.075);
+	self:accelerate(0.25);
+	self:diffusealpha(0);
+	end
+end"
+/>
+<!--Grade Graphics-->
+
 <Layer
 	File="GradeTier0017"
 	InitCommand="%function(self)
-	self:hibernate(gnOnScreenSeconds+0.3);
 	self:queuecommand('Start');
 	end"
-	StartCommand="diffusealpha,0;sleep,0.2;queuecommand,GradeSound;decelerate,0.6;zoom,1.5;diffusealpha,1;accelerate,0.4;zoom,1;decelerate,0.1;zoom,0.9;diffusealpha,0.8;accelerate,0.1;zoom,1;diffusealpha,1;"
-	GradeSoundCommand="%function(self)
-	gnSound = GradeSound(1);
-	SOUND:PlayOnce( gnSound )
+	StartCommand="diffusealpha,0;zoom,0;sleep,0.2;decelerate,0.2;zoom,1.5;diffusealpha,1;accelerate,0.2;zoom,1;decelerate,0.1;zoom,0.9;diffusealpha,0.8;accelerate,0.1;zoom,1;diffusealpha,1;"
+/>
+
+<!--Extra Effects-->
+<!--Grade Explosion-->
+<ActorFrame OnCommand="y,-32;x,3;zoom,1.2;"><children>
+<Layer
+	File="../Combo 1000milestone/arrowswoosh"
+	InitCommand="%function(self)
+	self:queuecommand('Start');
 	end"
+	StartCommand="diffusealpha,0;x,30;y,-20;zoom,2;sleep,0.2;diffusealpha,1;decelerate,0.3;addx,100;diffusealpha,0;"
+/>
+
+<Layer
+	File="../Combo 1000milestone/arrowswoosh"
+	InitCommand="%function(self)
+	self:queuecommand('Start');
+	end"
+	StartCommand="diffusealpha,0;rotationy,180;x,-30;y,-20;zoom,2;sleep,0.2;diffusealpha,1;decelerate,0.3;addx,-100;diffusealpha,0;"
+/>
+
+
+<Layer
+	File="../Combo 1000milestone/arrowswoosh"
+	InitCommand="%function(self)
+	self:queuecommand('Start');
+	end"
+	StartCommand="diffusealpha,0;rotationz,270;y,-30;zoom,2;sleep,0.2;diffusealpha,1;decelerate,0.3;addy,-100;diffusealpha,0;"
+/>
+
+<Layer
+	File="../Combo 1000milestone/arrowswoosh"
+	InitCommand="%function(self)
+	self:queuecommand('Start');
+	end"
+	StartCommand="diffusealpha,0;rotationz,90;y,30;zoom,2;sleep,0.2;diffusealpha,1;decelerate,0.3;addy,100;diffusealpha,0;"
+/>
+
+
+<Layer
+	File="../Combo 100milestone/explosion"
+	InitCommand="%function(self)
+	self:queuecommand('Start');
+	end"
+	StartCommand="diffusealpha,0;blend,add;rotationz,0;zoom,2;sleep,0.2;diffusealpha,0.5;linear,0.5;rotationz,-90;zoom,1;diffusealpha,0"
+/>
+
+<Layer
+	File="../Combo 100milestone/explosion"
+	InitCommand="%function(self)
+	self:queuecommand('Start');
+	end"
+	StartCommand="diffusealpha,0;blend,add;rotationz,0;zoom,2;sleep,0.2;diffusealpha,0.5;linear,0.5;rotationz,90;zoom,1;diffusealpha,0"
 />
 </children></ActorFrame>
 

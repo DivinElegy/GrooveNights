@@ -1,5 +1,5 @@
 <ActorFrame InitCommand="%function(self)
-			gnDummy = SetVariablesFor('ScreenPlayerOptions');
+			SetVariablesFor('ScreenPlayerOptions');
 			self:sleep(0.1);
 			if GAMESTATE:GetEnv('Vibrate') == 'On' then
 				self:vibrate();
@@ -556,47 +556,19 @@
 			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
 			File="_eurostile blue glow"
 			InitCommand="%function(self) self:zoom(0.5); self:shadowlength(0); self:x(SCREEN_CENTER_X-200); self:y(SCREEN_CENTER_Y+134); p1Distance=0; end"
-			OnCommand="horizalign,left;zoom,0.5;queuecommand,loop;"
+			OnCommand="horizalign,left;zoom,0.5;"
 			
-			loopCommand="%function(self)
-			getModP1 = 0;
-			if setModP1 == nil then
-				setModP1 = 0;
-				end
-			if modStyleP1 == nil then
-				modStyleP1 = 0;
-				end
-			if addModP1 == nil then
-				addModP1 = 0;
-				end
-			if curRate == nil then
-				curRate = 1;
-				end
-			if modStyleP1 == 1 then
-				if addModP1 <= 1 then
-					self:settext(''..math.ceil((setModP1+addModP1)*highBPM*curRate)..'');
-					gnP1Speed = setModP1+addModP1..'X';
-					gnBlazeP1 = math.ceil((setModP1+addModP1)*highBPM*curRate)
-					else
-					self:settext(''..math.ceil((setModP1)*highBPM*curRate)..'');
-					gnP1Speed = setModP1..'X';
-					gnBlazeP1 = math.ceil((setModP1)*highBPM*curRate)
-					end
-				end
-			if modStyleP1 == 2 then
-				if addModP1 > 1 then
-					self:settext(''..math.ceil((setModP1+addModP1) * curRate)..'');
-					gnP1Speed = 'C'..setModP1+addModP1;
-					gnBlazeP1 = math.ceil((setModP1+addModP1) * curRate)
-					else
-					self:settext(''..math.ceil((setModP1) * curRate)..'');
-					gnP1Speed = 'C'..setModP1;
-					gnBlazeP1 = math.ceil((setModP1) * curRate)
-					end
-				end
-			self:stoptweening();
-			self:sleep(0.1);
-			self:queuecommand('loop');
+			SpeedModChangedMessageCommand="%function(self)
+			if gnOptionModType == 'x' then
+			gnOptionMod = gnOptionMod*highBPM*curRate;
+			end
+			if gnOptionModType == 'c' then
+			gnOptionMod = gnOptionMod
+			end
+			if gnOptionModType == 'm' then
+			gnOptionMod = gnOptionMod*curRate;
+			end
+			self:settext(gnOptionMod);
 			end"
 		/>
 <!--Step Artists P1-->

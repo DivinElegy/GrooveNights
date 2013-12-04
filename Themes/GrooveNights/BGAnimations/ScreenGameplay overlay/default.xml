@@ -1,6 +1,6 @@
 <ActorFrame InitCommand="%function(self)
 self:sleep(0.01);
-gnDummy = SetVariablesFor('ScreenGameplay');
+SetVariablesFor('ScreenGameplay');
 self:sleep(0.01);
 self:queuecommand('KillBPM');
 if GAMESTATE:GetEnv('Vibrate') == 'On' then

@@ -49,9 +49,9 @@ end
 function ScreenEvaluationDoubleShift(pn)
 	if GAMESTATE:PlayerUsingBothSides(pn) then
 		if pn == PLAYER_1 then
-		return -176;
+		return -158;
 		else
-		return 185;
+		return 167;
 		end
 	end
 return 0
@@ -159,6 +159,8 @@ if scn == 'ScreenSelectMusic' then
 	gnSpecialUSB = false;
 	if gnStatFrequency == nil then gnStatFrequency = 0; end
 	gnStatFrequency = gnStatFrequency + 1;
+	gnOptionMod = 0;
+	gnOptionModType = 0;
 end
 
 
@@ -251,6 +253,8 @@ if scn == 'ScreenGameplay' then
 	gnP2Restarter = 0;
 	gnSameGrade = 0;
 	gnSoundCheck = true;
+	gnMiniSoundCheck = true;
+	gnAward = 0;
 end
 
 

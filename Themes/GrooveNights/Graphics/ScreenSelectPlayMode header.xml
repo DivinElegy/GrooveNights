@@ -1,5 +1,5 @@
 <ActorFrame InitCommand="%function(self)
-gnDummy = SetVariablesFor('ScreenSelectPlayMode');
+SetVariablesFor('ScreenSelectPlayMode');
 end">
 	<children>
 		<BitmapText

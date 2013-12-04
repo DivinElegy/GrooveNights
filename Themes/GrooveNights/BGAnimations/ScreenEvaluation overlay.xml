@@ -2,7 +2,7 @@
 if GAMESTATE:GetEnv('Vibrate') == 'On' then
 	self:vibrate();
 	end
-gnDummy = SetVariablesFor('ScreenEvaluation');
+SetVariablesFor('ScreenEvaluation');
 end">
 	<children>
 	<!--Restart the song on event mode if you pressed the menu button-->

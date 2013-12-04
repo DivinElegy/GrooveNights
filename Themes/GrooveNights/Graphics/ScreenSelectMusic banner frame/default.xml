@@ -2,7 +2,7 @@
 if GAMESTATE:GetEnv('Vibrate') == 'On' then
 	self:vibrate();
 	end
-gnDummy = SetVariablesFor('ScreenSelectMusic');
+SetVariablesFor('ScreenSelectMusic');
 end"
 >
 	<children>
