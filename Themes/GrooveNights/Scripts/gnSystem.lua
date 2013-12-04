@@ -149,7 +149,6 @@ if scn == 'ScreenSelectMusic' then
 		gnRateRestore = 0;
 		end
 	if curRate == nil then curRate = 1 end
-	gnGoBack = 0;
 	gnBlazedP1 = 0;
 	gnBlazedP2 = 0;
 	gnP1Ready = 0;

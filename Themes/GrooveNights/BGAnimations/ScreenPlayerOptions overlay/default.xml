@@ -172,38 +172,19 @@
 	<Layer Type="Quad"
 	InitCommand="diffusealpha,0;sleep,0.01;queuecommand,CountDown;"
 	CountDownCommand="%function(self)
-	self:stoptweening();
-	if PREFSMAN:GetPreference('MenuTimer') == 0 then
-	gnScreenPlayerOptionsTimer = 9999;
-	gnScreenSelectMusicTimer = 9999;
-		end
-	gnScreenPlayerOptionsTimer = gnScreenPlayerOptionsTimer - 0.1;
-	if gnScreenPlayerOptionsTimer <= 0 then
-		gnScreenPlayerOptionsTimer = 0;
-		end
-	if gnGoBack == nil then 
-		gnGoBack = 0;
-		end
-	if gnScreenSelectMusicTimer > 5 then	
-		if gnScreenPlayerOptionsTimer > 5 then	
-			if gnGoBack == 2 then
-				GAMESTATE:SetEnv('BackScreen','YES')
-				else
-				GAMESTATE:SetEnv('BackScreen','NO')
-				end
-			else
-			gnGoBack = 3;
-			GAMESTATE:SetEnv('BackScreen','NO')
-			end
-	else
-		gnGoBack = 3;
-		GAMESTATE:SetEnv('BackScreen','NO')
-	end
-	self:sleep(0.1);
-	self:queuecommand('CountDown');
-	end"
+            self:stoptweening();
+            if PREFSMAN:GetPreference('MenuTimer') == 0 then
+                gnScreenPlayerOptionsTimer = 9999;
+                gnScreenSelectMusicTimer = 9999;
+            end
+            
+            gnScreenPlayerOptionsTimer = gnScreenPlayerOptionsTimer - 0.1;
+
+            self:sleep(0.1);
+            self:queuecommand('CountDown');
+            end"
 	/>
-<!--Activate the Back Button-->
+
 		<BitmapText
 			Text=""
 			File="_eurostile blue glow"

@@ -61,14 +61,7 @@ function getMaxStatFrequency()
 	return 8
 end
 
-
--- ===CHANGE SPEED, ADDSPEED & RATE MODS===
-SpeedMods = { "1x", "1.5x", "2x", "2.5x", "3x", "3.5x", "4x", "4.5x", "5x", "5.5x", "6x", "c420", "c600", "c660" }
-AddSpeedMods = { "0", "+0.25x", "+0.5x", "+0.75x", "+c25", "+c50", "+c75", "+c100" }
-Rate = { "1.0x", "1.1x", "1.2x", "1.3x", "1.4x", "1.5x", "1.6x", "1.7x", "2.0x"}
-
-
-
+Rate = { "1.0x", "1.1x", "1.2x", "1.3x", "1.4x", "1.5x", "1.6x", "1.7x", "2.0x" }
 
 
 -- ===CHANGE MACHINE LOCATION TEXT===
@@ -1172,40 +1165,20 @@ end
 
 -- This controls the 'Go Back' button... You should probably just leave it alone.
 
-Back = { "NO", "YES"}
+function BackButton()
+    local function Load(self, list, pn) end
+    local function Save(self, list, pn)
+        if list[1] and (gnScreenSelectMusicTimer > 5) and (gnScreenPlayerOptionsTimer > 5) then
+            SCREENMAN:SetNewScreen('ScreenSelectMusic') 
+        elseif list[1] then
+            SCREENMAN:SystemMessage('Not Enough Time Left to Go Back!') 
+        end
+    end
 
-function GoBack()
-	gnGoBack = 0;
-	local ModList = Back
-	local t = {
-		Name = "GoBack",
-		LayoutType = "ShowAllInRow",
-		SelectType = "SelectOne",
-		OneChoiceForAllPlayers = true,
-		ExportOnChange = false,
-		Choices = ModList,
-
-		LoadSelections = function(self, list, pn)
-		list[1] = true;
-		list[2] = false; 
-		end,
-
-		SaveSelections = function(self, list, pn)
-		p = pn + 1;
-		for n = 1, table.getn(ModList) do
-			if list[n] then
-				s = ModList[n];
-				end
-		end
-		if s == 'YES' then
-			gnGoBack = 2;
-			else
-			gnGoBack = 1;
-			end
-		end
-	}
-	setmetatable(t, t)
-	return t
+    local Names = {'Return to Music Selection'}
+    local Params = { Name = "BackButton", SelectType = "SelectMultiple", OneChoiceForAllPlayers = GAMESTATE:IsPlayerEnabled(PLAYER_1) }
+    
+    return CreateOptionRow(Params, Names, Load, Save)
 end
 
 -- This sets the menu timer to its last recorded value so that you can't cheat the menus
@@ -1243,10 +1216,6 @@ if scr == 'ScreenPlayerOptions' then
 return 0;
 
 end
-
-
-
-
 
 
 
@@ -1289,279 +1258,6 @@ function RateMod()
 	setmetatable(t, t)
 	return t
 end
-
-
-
-
-
-function SpeedMod()
-	local ModList = SpeedMods
-	local t = {
-		Name = "Speed",
-		LayoutType = "ShowAllInRow",
-		SelectType = "SelectOne",
-		OneChoiceForAllPlayers = false,
-		ExportOnChange = false,
-		Choices = ModList,
-
-		LoadSelections = function(self, list, pn)
-		for n = 1, table.getn(ModList) do
-			s = string.sub(ModList[n],1,1);
-			if s == 'c' then
-				s = string.gsub(ModList[n], "c", "");
-				s = tonumber(s);
-				for t = 0, 200, 50 do
-					for k = 0, table.getn(ModList), 1 do
-						if k < table.getn(ModList) then
-							l = string.gsub(ModList[k+1], "x", "");
-							l = string.gsub(l, "c", "");
-							l = tonumber(l);
-							else
-							l = 100;
-							end
-						if GAMESTATE:PlayerIsUsingModifier(pn,'c'..l) then
-							HigherMod = true;
-							break
-							end
-						if GAMESTATE:PlayerIsUsingModifier(pn,'c'..l+t) then
-							HigherMod = true;
-							break
-							end
-						if GAMESTATE:PlayerIsUsingModifier(pn,'c'..s+t) then
-							GotMod = true;
-							break
-							end
-						if GAMESTATE:PlayerIsUsingModifier(pn,'c'..(s+t+5)) then
-							GotMod = true;
-							break
-							end
-						if GAMESTATE:PlayerIsUsingModifier(pn,'c'..(s+t+10)) then
-							GotMod = true;
-							break
-							end
-						if GAMESTATE:PlayerIsUsingModifier(pn,'c'..(s+t+15)) then
-							GotMod = true;
-							break
-							end
-						if GAMESTATE:PlayerIsUsingModifier(pn,'c'..(s+t+20)) then
-							GotMod = true;
-							break
-							end
-						if GAMESTATE:PlayerIsUsingModifier(pn,'c'..(s+t+25)) then
-							GotMod = true;
-							break
-							end
-						if GAMESTATE:PlayerIsUsingModifier(pn,'c'..(s+t+30)) then
-							GotMod = true;
-							break
-							end
-						if GAMESTATE:PlayerIsUsingModifier(pn,'c'..(s+t+35)) then
-							GotMod = true;
-							break
-							end
-						if GAMESTATE:PlayerIsUsingModifier(pn,'c'..(s+t+40)) then
-							GotMod = true;
-							break
-							end
-						if GAMESTATE:PlayerIsUsingModifier(pn,'c'..(s+t+45)) then
-							GotMod = true;
-							break
-							end
-						end
-						if HigherMod then
-							break
-							end
-						if GotMod then
-							break
-							end
-						end
-				else
-				s = string.gsub(ModList[n], "x", "");
-				s = tonumber(s);
-				for t = 0, 400, 1 do
-					if t < 99 then
-						if t < 10 then
-							t = '0.0'..t
-							else
-							t = '0.'..t
-							end
-						end
-					t = string.sub(t,1,4)
-					t = tonumber(t);
-					if GAMESTATE:PlayerIsUsingModifier(pn,s..'x') then
-						GotMod = true;
-						break
-						end
-					for k = 0, table.getn(ModList), 1 do
-						if k < table.getn(ModList) then
-							l = string.gsub(ModList[k+1], "x", "");
-							l = string.gsub(l, "c", "");
-							l = tonumber(l);
-							else
-							l = 1;
-							end
-						Trace("base")
-						Trace(s)
-						Trace("+ Addspeed")
-						Trace(t)
-						if GAMESTATE:PlayerIsUsingModifier(pn,s+t..'x') then
-							GotMod = true;
-							Trace('yolo')
-							break
-							end
-						if GAMESTATE:PlayerIsUsingModifier(pn,l..'x') then
-							HigherMod = true;
-							break
-							end
-						if GAMESTATE:PlayerIsUsingModifier(pn,l+t..'x') then
-							HigherMod = true;
-							break
-							end
-						end
-						t = t * 100;
-						if HigherMod then
-							break
-							end
-						if GotMod then
-							break
-							end
-					end
-				end
-			HigherMod = false;
-			if GotMod then
-				GotMod = false;
-				list[n] = true;
-				break
-				else
-				list[n] = false ;
-				end
-			end
-		end,
-
-		SaveSelections = function(self, list, pn)
-		p = pn + 1;
-		for n = 1, table.getn(ModList) do
-			if list[n] then
-				s = n;
-				end
-		end
-		m = string.gsub(SpeedMods[s], "x", "");
-		m = string.gsub(m, "c", "");
-		m = tonumber(m);
-		gnT = string.sub(ModList[s],1,1);
-		
-		if gnT == 'c' then
-			if p == 1 then
-				modStyleP1 = 2
-				else
-				modStyleP2 = 2
-				end
-			else
-			if p == 1 then
-				modStyleP1 = 1
-				else
-				modStyleP2 = 1
-				end
-			end
-			
-		if p == 1 then
-			setModP1 = string.gsub(SpeedMods[s], "x", "");
-			setModP1 = string.gsub(setModP1, "c", "");
-			setModP1 = tonumber(setModP1);
-			else
-			setModP2 = string.gsub(SpeedMods[s], "x", "");
-			setModP2 = string.gsub(setModP2, "c", "");
-			setModP2 = tonumber(setModP2);
-			end
-		
-		ModSpeed = m;
-		GAMESTATE:ApplyGameCommand('mod, no invert',p);
-		GAMESTATE:ApplyGameCommand('mod,'..(ModSpeed/10000)..'% invert',p);
-		GAMESTATE:SetEnv('SpeedMod','1');
-		end
-	}
-	setmetatable(t, t)
-	return t
-end
-
-
-
-function AddSpeedMod()
-	local ModList = AddSpeedMods
-	local t = {
-		Name = "AddSpeed",
-		LayoutType = "ShowAllInRow",
-		SelectType = "SelectOne",
-		OneChoiceForAllPlayers = false,
-		ExportOnChange = false,
-		Choices = ModList,
-
-		LoadSelections = function(self, list, pn)
-		for n = 1, table.getn(ModList) do
-		s = string.gsub(AddSpeedMods[n], "c", "");
-		s = string.gsub(s, "+", "");
-		s = string.gsub(s, "x", "");
-		s = tonumber(s);
-		if s == nil then s = 0; end
-		if s == 0 then
-			s = "no"
-			else
-			if s > 10 then
-				if s > 99 then
-					s = "-"..(s/100).."%"
-					else
-					s = "-0."..s.."%"
-					end
-				else
-				s = s.."%"
-				end
-			end
-			if GAMESTATE:PlayerIsUsingModifier(pn,s..' split') then
-				list[n] = true; 
-				else 
-				list[n] = false ;
-				end
-			end
-		end,
-
-		SaveSelections = function(self, list, pn)
-		p = pn + 1;
-		for n = 1, table.getn(ModList) do
-			if list[n] then
-				s = n;
-				end
-		end
-		if p == 1 then
-			addModP1 = string.gsub(AddSpeedMods[s], "c", "");
-			addModP1 = string.gsub(addModP1, "+", "");
-			addModP1 = string.gsub(addModP1, "x", "");
-			addModP1 = tonumber(addModP1);
-			else
-			addModP2 = string.gsub(AddSpeedMods[s], "c", "");
-			addModP2 = string.gsub(addModP2, "+", "");
-			addModP2 = string.gsub(addModP2, "x", "");
-			addModP2 = tonumber(addModP2);
-			end
-			
-		ModAddSpeed = string.gsub(AddSpeedMods[s], "c", "");
-		ModAddSpeed = string.gsub(ModAddSpeed, "+", "");
-		ModAddSpeed = string.gsub(ModAddSpeed, "x", "");
-		ModAddSpeed = tonumber(ModAddSpeed);
-		if ModAddSpeed > 10 then
-			ModAddSpeed = ((ModAddSpeed/100)*-1).."%"
-			else
-			ModAddSpeed = ModAddSpeed.."%"
-			end
-			
-		GAMESTATE:ApplyGameCommand('mod, no split',p);
-		GAMESTATE:ApplyGameCommand('mod,'..ModAddSpeed..' split',p);
-		GAMESTATE:SetEnv('AddSpeedMod','1');
-		end
-	}
-	setmetatable(t, t)
-	return t
-end
-
 
 
 

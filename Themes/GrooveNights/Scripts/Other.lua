@@ -581,8 +581,6 @@ function ApplySpeedMods()
 end
 
 function InitSpeedMods()
-    Trace("Got in to initspeedmods")
-
     modBase = { "1", "1" }
     modExtra = { "+.5", "+.5" }
     modType = { "x-mod", "x-mod" }
