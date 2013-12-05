@@ -1250,14 +1250,15 @@ end
 
 	
 	bpm = { "1", "2", "3" }
-	Rate = { "1.0", "1.1", "1.2", "1.3", "1.4", "1.5", "1.6", "1.7", "2.0"}
+	Rate = { "1.0x", "1.1x", "1.2x", "1.3x", "1.4x", "1.5x", "1.6x", "1.7x", "2.0x"}
 
 function RateMods()
 	local modList = Rate
 
 	local function Load(self, list, pn)
 		for n = 1, table.getn(modList) do
-			if GAMESTATE:PlayerIsUsingModifier(pn,modList[n]..'xmusic') then list[n] = true; modRate = modList[n] else list[n] = false end
+                        s = string.gsub(modList[n],'x','')
+			if GAMESTATE:PlayerIsUsingModifier(pn,modList[n]..'music') then list[n] = true; modRate = tonumber(s) else list[n] = false end
 		end
 	end
 
@@ -1265,6 +1266,7 @@ function RateMods()
 		for n = 1, table.getn(modList) do
 			if list[n] then s = modList[n] end
 		end
+                s = string.gsub(s,'x','')
 		modRate = s
 		GAMESTATE:ApplyGameCommand('mod,'..s..'xmusic',pn+1)
 		ApplyRateAdjust()
