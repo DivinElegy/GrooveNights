@@ -254,6 +254,7 @@ if scn == 'ScreenGameplay' then
 	gnSameGrade = 0;
 	gnSoundCheck = true;
 	gnAward = 0;
+	if modRate == nil then modRate = 1 end
 end
 
 
