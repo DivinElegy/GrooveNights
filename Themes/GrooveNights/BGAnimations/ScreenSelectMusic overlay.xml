@@ -3,46 +3,26 @@ if GAMESTATE:GetEnv('Vibrate') == 'On' then
 	self:vibrate();
 	end
 end"> <children>
-<!-- Determine BPM -->
-		<BitmapText
-			Text=""
-			File="_eurostile blue glow"
-			InitCommand="%function(self)  self:x(100) self:shadowlength(0) self:draworder(10000); self:addy(20); self:queuecommand('loop'); end"
-			OnCommand="Zoom,1"
-			loopCommand="%function(self)
-			lowBPM = tostring(SCREENMAN:GetTopScreen():GetChild('BPMDisplay'):GetChild('Text'):GetText());
-			
-			if lowBPM == nil then
-				lowBPM = '0';
-				end
-			
-			if lowBPM == '...' then
-				lowBPM = '0';
-				end
-				
-			if lowBPM == 'Various' then
-				lowBPM = '0';
-				end
-				
-			highBPM = lowBPM
-			 
-			delimPos = string.find(lowBPM, '-')
-			if delimPos==1 then
-				delimPos = string.find(lowBPM, '-',2)
+    
+<!--Capture BPM-->
+<Layer Type="Quad"
+	InitCommand="queuecommand,BPMCapture;" 
+	BPMCaptureCommand="%function(self)
+		songBPM = SCREENMAN:GetTopScreen():GetChild('BPMDisplay'):GetChild('Text'):GetText();
+		bpm[1] = string.gsub(songBPM,'-%d+','');
+		bpm[2] = string.gsub(songBPM,'%d+-','');
+			if bpm[2] == bpm[1] then bpm[2] = '';
 			end
-			 
-			if delimPos then
-				lowBPM = string.sub(lowBPM, 1, delimPos-1)
-				highBPM = string.sub(highBPM, delimPos+1, string.len(highBPM))
+		bpm[3] = SCREENMAN:GetTopScreen():GetChild('BPMDisplay'):GetChild('Text'):GetText();
+			if not OPENITG then bpm[3] = math.floor(bpm[3] * modRate + 0.5)
 			end
-			
-			self:stoptweening();
-			self:sleep(0.1);
-			self:queuecommand('loop');
-			end"
-		/>
-		
-	<ActorFrame OnCommand="y,SCREEN_BOTTOM-17-18"> <children>
+		end"
+	CurrentSongChangedMessageCommand="queuecommand,BPMCapture"
+	CurrentStepsP1ChangedMessageCommand="queuecommand,BPMCapture"
+	CurrentStepsP2ChangedMessageCommand="queuecommand,BPMCapture"
+/>
+    
+<ActorFrame OnCommand="y,SCREEN_BOTTOM-17-18"> <children>
 		<Layer
 			Type="BitmapText"
 			Font="_eurostile normal"
@@ -56,6 +36,8 @@ end"> <children>
 		<ActorFrame
 			OnCommand="%function(self) if ModeMenuAvailable() then self:x(SCREEN_CENTER_X-225) else self:x(SCREEN_CENTER_X-125) end end"
 		> <children>
+                    
+                    
 			<Layer
 				Type="BitmapText"
 				Font="_eurostile normal"

@@ -1249,8 +1249,8 @@ return 0;
 end
 
 	
-	bpm = { "1", "2", "3" }
-	Rate = { "1.0x", "1.1x", "1.2x", "1.3x", "1.4x", "1.5x", "1.6x", "1.7x", "2.0x"}
+bpm = { "1", "2", "3" }
+Rate = { "1.0x", "1.1x", "1.2x", "1.3x", "1.4x", "1.5x", "1.6x", "1.7x", "2.0x"}
 
 function RateMods()
 	local modList = Rate

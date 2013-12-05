@@ -434,27 +434,27 @@ end
 
 
 function GetRateMod()
-   if GetRateModHelper('1.0xmusic') then curRate = 1; return '1'
-   elseif GetRateModHelper('1.1xmusic') then curRate = 1.1; return '1.1' 
-   elseif GetRateModHelper('1.2xmusic') then curRate = 1.2; return '1.2' 
-   elseif GetRateModHelper('1.3xmusic') then curRate = 1.3; return '1.3' 
-   elseif GetRateModHelper('1.4xmusic') then curRate = 1.4;  return '1.4' 
-   elseif GetRateModHelper('1.5xmusic') then curRate = 1.5;  return '1.5' 
-   elseif GetRateModHelper('1.6xmusic') then curRate = 1.6;  return '1.6' 
-   elseif GetRateModHelper('1.7xmusic') then curRate = 1.7;  return '1.7' 
-   elseif GetRateModHelper('1.8xmusic') then curRate = 1.8;  return '1.8' 
-   elseif GetRateModHelper('1.9xmusic') then curRate = 1.9;  return '1.9' 
-   elseif GetRateModHelper('2.0xmusic') then curRate = 2;  return '2' 
-   elseif GetRateModHelper('0.1xmusic') then curRate = 0.1; return '0.1' 
-   elseif GetRateModHelper('0.2xmusic') then curRate = 0.2; return '0.2' 
-   elseif GetRateModHelper('0.3xmusic') then curRate = 0.3; return '0.3' 
-   elseif GetRateModHelper('0.4xmusic') then curRate = 0.4;  return '0.4' 
-   elseif GetRateModHelper('0.5xmusic') then curRate = 0.5;  return '0.5' 
-   elseif GetRateModHelper('0.6xmusic') then curRate = 0.6;  return '0.6' 
-   elseif GetRateModHelper('0.7xmusic') then curRate = 0.7;  return '0.7' 
-   elseif GetRateModHelper('0.8xmusic') then curRate = 0.8;  return '0.8' 
-   elseif GetRateModHelper('0.9xmusic') then curRate = 0.9;  return '0.9' 
-   else curRate = 1; return '(Unknown rate mod)' end
+   if GetRateModHelper('1.0xmusic') then return '1'
+   elseif GetRateModHelper('1.1xmusic') then return '1.1' 
+   elseif GetRateModHelper('1.2xmusic') then return '1.2' 
+   elseif GetRateModHelper('1.3xmusic') then return '1.3' 
+   elseif GetRateModHelper('1.4xmusic') then return '1.4' 
+   elseif GetRateModHelper('1.5xmusic') then return '1.5' 
+   elseif GetRateModHelper('1.6xmusic') then return '1.6' 
+   elseif GetRateModHelper('1.7xmusic') then return '1.7' 
+   elseif GetRateModHelper('1.8xmusic') then return '1.8' 
+   elseif GetRateModHelper('1.9xmusic') then return '1.9' 
+   elseif GetRateModHelper('2.0xmusic') then return '2' 
+   elseif GetRateModHelper('0.1xmusic') then return '0.1' 
+   elseif GetRateModHelper('0.2xmusic') then return '0.2' 
+   elseif GetRateModHelper('0.3xmusic') then return '0.3' 
+   elseif GetRateModHelper('0.4xmusic') then return '0.4' 
+   elseif GetRateModHelper('0.5xmusic') then return '0.5' 
+   elseif GetRateModHelper('0.6xmusic') then return '0.6' 
+   elseif GetRateModHelper('0.7xmusic') then return '0.7' 
+   elseif GetRateModHelper('0.8xmusic') then return '0.8' 
+   elseif GetRateModHelper('0.9xmusic') then return '0.9' 
+   else return '(Unknown rate mod)' end
 end
 
 function oitgACoptions()
@@ -616,85 +616,83 @@ function InitSpeedMods()
     end
 end
 
-function DisplayBPM(pn, includeRate, includeSpeed)      
+function DisplayBPM(pn, includeRate, includeSpeed) 
         local lowBPM = bpm[1]
-        local highBPM = bpm[2]
-		local speedMod = 1
-		local rateMod = 1
-		
-		if includeRate then rateMod = modRate end
-		
-		if includeSpeed then
-			speedMod = modSpeed[pn]
-			speedMod = string.gsub(speedMod,'x','')
-			speedMod = string.gsub(speedMod,'c','')
-			speedMod = string.gsub(speedMod,'m','')
-		end
+        local highBPM = bpm[2]        
+        local rateMod = modRate
+        local speedMod = modSpeed[pn]
 
-        if modType[pn] == "x-mod" then
+        speedMod = string.gsub(speedMod,'x','')
+        speedMod = string.gsub(speedMod,'c','')
+        speedMod = string.gsub(speedMod,'m','')
 
-                if lowBPM == "Various" or lowBPM == "..." or lowBPM == nil then
-                return "???"
-                end
-                
-                lowScrollBPM = lowBPM * speedMod * rateMod
-        
-                if string.sub(lowScrollBPM, 2, 2) == "." then
-                lowScrollBPM = string.sub(lowScrollBPM, 1, 1)
-                end
-                
-                if string.sub(lowScrollBPM, 3, 3) == "." then
-                lowScrollBPM = string.sub(lowScrollBPM, 1, 2)
-                end
-        
-                if string.sub(lowScrollBPM, 4, 4) == "." then
-                lowScrollBPM = string.sub(lowScrollBPM, 1, 3)
-                end
-                
-                if string.sub(lowScrollBPM, 5, 5) == "." then
-                lowScrollBPM = string.sub(lowScrollBPM, 1, 4)
-                end
-                
-                if string.sub(lowScrollBPM, 6, 6) == "." then
-                lowScrollBPM = string.sub(lowScrollBPM, 1, 5)
-                end
+        if not includeRate then rateMod = 1 end
+        if not includeSpeed then speedMod = 1 end
 
-                if highBPM ~= "" then
+        if lowBPM == "Various" or lowBPM == "..." or lowBPM == nil then
+            return "???"
+        end
 
-                        highScrollBPM = highBPM * speedMod * rateMod
-                
-                        if string.sub(highScrollBPM, 2, 2) == "." then
-                        highScrollBPM = string.sub(highScrollBPM, 1, 1)
-                        end
+        lowScrollBPM = lowBPM * speedMod * rateMod
 
-                        if string.sub(highScrollBPM, 3, 3) == "." then
-                        highScrollBPM = string.sub(highScrollBPM, 1, 2)
-                        end
+        if string.sub(lowScrollBPM, 2, 2) == "." then
+        lowScrollBPM = string.sub(lowScrollBPM, 1, 1)
+        end
 
-                        if string.sub(highScrollBPM, 4, 4) == "." then
-                        highScrollBPM = string.sub(highScrollBPM, 1, 3)
-                        end
-        
-                        if string.sub(highScrollBPM, 5, 5) == "." then
-                        highScrollBPM = string.sub(highScrollBPM, 1, 4)
-                        end
-                
-                        if string.sub(highScrollBPM, 6, 6) == "." then
-                        highScrollBPM = string.sub(highScrollBPM, 1, 5)
-                        end
-                
+        if string.sub(lowScrollBPM, 3, 3) == "." then
+        lowScrollBPM = string.sub(lowScrollBPM, 1, 2)
+        end
+
+        if string.sub(lowScrollBPM, 4, 4) == "." then
+        lowScrollBPM = string.sub(lowScrollBPM, 1, 3)
+        end
+
+        if string.sub(lowScrollBPM, 5, 5) == "." then
+        lowScrollBPM = string.sub(lowScrollBPM, 1, 4)
+        end
+
+        if string.sub(lowScrollBPM, 6, 6) == "." then
+        lowScrollBPM = string.sub(lowScrollBPM, 1, 5)
+        end
+
+        if highBPM ~= "" then
+
+                highScrollBPM = highBPM * speedMod * rateMod
+
+                if string.sub(highScrollBPM, 2, 2) == "." then
+                highScrollBPM = string.sub(highScrollBPM, 1, 1)
                 end
 
-                if highBPM == "" then
-                return lowScrollBPM
-                else
-                return lowScrollBPM .. "-" .. highScrollBPM
+                if string.sub(highScrollBPM, 3, 3) == "." then
+                highScrollBPM = string.sub(highScrollBPM, 1, 2)
+                end
+
+                if string.sub(highScrollBPM, 4, 4) == "." then
+                highScrollBPM = string.sub(highScrollBPM, 1, 3)
+                end
+
+                if string.sub(highScrollBPM, 5, 5) == "." then
+                highScrollBPM = string.sub(highScrollBPM, 1, 4)
+                end
+
+                if string.sub(highScrollBPM, 6, 6) == "." then
+                highScrollBPM = string.sub(highScrollBPM, 1, 5)
                 end
         end
 
-        if modType[pn] == "c-mod" or modType[pn] == "m-mod" then
-        return speedMod
+        --[[
+        If we want to include rate and speed but we also have a c or m mod, we
+        can just return the speedMod as that will be the scroll speed regardless
+        of the rate/speed mod chosen
+        ]]--
+        if includeRate and includeSpeed and (modType[pn] == "m-mod" or modType[pn] == "c-mod") then
+            return speedMod
         end
 
-        return "???"
+        -- In every other case we return the bpm range adjusted for the speed and rate.
+        if highBPM == "" then
+            return lowScrollBPM
+        else
+            return lowScrollBPM .. "-" .. highScrollBPM
+        end
 end
