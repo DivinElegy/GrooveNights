@@ -519,10 +519,10 @@ function SpeedMods(name)
                     end
                 end
 
-                if name == "type" then
-                    s = modList[n]
-                    s = string.gsub(s, '-Mod','')
-
+                if name == "Type" then
+					Trace(modType[pn+1] .. "WUT")
+					Trace(s .. "OK")
+					
                     if s == modType[pn+1] then
                         list[i] = true
                         list[1] = false
