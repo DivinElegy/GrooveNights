@@ -428,33 +428,15 @@ function GetModifierNames( num )
 	return s
 end
 
-function GetRateModHelper( rate )
-   return GAMESTATE:PlayerIsUsingModifier(0, rate) or GAMESTATE:PlayerIsUsingModifier(1, rate)
-end
-
-
 function GetRateMod()
-   if GetRateModHelper('1.0xmusic') then return '1'
-   elseif GetRateModHelper('1.1xmusic') then return '1.1' 
-   elseif GetRateModHelper('1.2xmusic') then return '1.2' 
-   elseif GetRateModHelper('1.3xmusic') then return '1.3' 
-   elseif GetRateModHelper('1.4xmusic') then return '1.4' 
-   elseif GetRateModHelper('1.5xmusic') then return '1.5' 
-   elseif GetRateModHelper('1.6xmusic') then return '1.6' 
-   elseif GetRateModHelper('1.7xmusic') then return '1.7' 
-   elseif GetRateModHelper('1.8xmusic') then return '1.8' 
-   elseif GetRateModHelper('1.9xmusic') then return '1.9' 
-   elseif GetRateModHelper('2.0xmusic') then return '2' 
-   elseif GetRateModHelper('0.1xmusic') then return '0.1' 
-   elseif GetRateModHelper('0.2xmusic') then return '0.2' 
-   elseif GetRateModHelper('0.3xmusic') then return '0.3' 
-   elseif GetRateModHelper('0.4xmusic') then return '0.4' 
-   elseif GetRateModHelper('0.5xmusic') then return '0.5' 
-   elseif GetRateModHelper('0.6xmusic') then return '0.6' 
-   elseif GetRateModHelper('0.7xmusic') then return '0.7' 
-   elseif GetRateModHelper('0.8xmusic') then return '0.8' 
-   elseif GetRateModHelper('0.9xmusic') then return '0.9' 
-   else return '(Unknown rate mod)' end
+	local RateMods = GetRateMods()
+	for n = 1, table.getn(RateMods) do
+		if GAMESTATE:PlayerIsUsingModifier(0, RateMods[n] .. 'music') or GAMESTATE:PlayerIsUsingModifier(1, RateMods[n] .. 'music') then
+			return RateMods[n]
+		end
+	end
+
+	return '(Unknown rate mod)'
 end
 
 function oitgACoptions()
@@ -569,6 +551,8 @@ function SpeedMods(name)
 end
 
 function ApplySpeedMods()
+	local modRate = GetRateMod()
+
     for pn=1, 2 do
         if GAMESTATE:IsPlayerEnabled( pn - 1 ) then
             speed = string.gsub(modSpeed[pn],modType[pn],"")
@@ -618,8 +602,9 @@ end
 
 function DisplayBPM(pn, includeRate, includeSpeed) 
         local lowBPM = bpm[1]
-        local highBPM = bpm[2]        
-        local rateMod = modRate
+        local highBPM = bpm[2]  
+		local rateMod = string.gsub(GetRateMod(),'x','')
+        rateMod = tonumber(rateMod)
         local speedMod = modSpeed[pn]
 
         speedMod = string.gsub(speedMod,'x','')

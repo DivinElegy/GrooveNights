@@ -9,14 +9,6 @@ end">
 			
 			OffCommand=""
 		/>
-<!--Remove any restoration messages-->
-		<Layer
-			Type="Quad"
-			InitCommand="%function(self)
-			self:diffusealpha(0);
-			gnRateRestore = 0;
-			end"
-		/>
 		
 		<Layer File="ScreenNameEntryTraditional banner frame p1"
 		InitCommand="@'x,SCREEN_CENTER_X-18;y,SCREEN_CENTER_Y-134-41;diffuse,'..FrameColor()..';'"

@@ -220,51 +220,7 @@ end">
 		gnModHeight = self:GetHeight();
 	end"
 	OffCommand="accelerate,0.3;addx,EvalTweenDistance()"
-	/>
-	
-	<!--[OBSOLETE BUT HAS CALCULATIONS] Restore Rate Mod-->
-	<BitmapText Font="_eurostile normal" Text=""
-	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
-	OnCommand="%function(self)
-	if GetRateMod() ~= '1' or gnRateRestore == 1 then
-		GAMESTATE:ApplyGameCommand('mod, 1.0xmusic',1);
-		self:hidden(1);
-		self:settext(GetRateMod()..'X Rate');
-		self:zoom(0.5);
-			self:x(SCREEN_CENTER_X-154);
-			self:y(SCREEN_CENTER_Y-92);
-			self:shadowlength(0);
-			self:horizalign('center');
-			self:draworder(6);
-		gnRateRestore = 1;
-		end	
-	end"
-	/>
-	<BitmapText Font="_eurostile normal" Text=""
-	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
-	OnCommand="%function(self)
-	if GetRateMod() ~= '1' or gnRateRestore == 1 then
-		GAMESTATE:ApplyGameCommand('mod, 1.0xmusic',2);
-		self:hidden(1);
-		self:settext(GetRateMod() .. 'X Rate');
-		self:zoom(0.5);
-			self:x(SCREEN_CENTER_X+155);
-			self:y(SCREEN_CENTER_Y-92);
-			self:shadowlength(0);
-			self:horizalign('center');
-			self:draworder(6);
-		gnRateRestore = 1;
-		end	
-	end"
-	/>
-	
-	<BitmapText Font="_eurostile normal" Text=""
-	OnCommand="%function(self)
-	if GetRateMod() ~= '1' then
-		curRate = 1;
-		end
-	end"
-	/>
+	/>	
 	
 <!--Current Song-->
 		<BitmapText
@@ -308,10 +264,10 @@ end">
 
                             local bpm = DisplayBPM(pn, true, false)
 
-                            if GetRateMod() ~= '1' then
+                            if GetRateMod() ~= '1.0x' then
                                 gnSongLengthDisplay = string.gsub(gnSongLength,'Patched','Length Patched');
                                 gnSongLengthDisplay = string.gsub(gnSongLength,'Length Length Patched','Length Patched');
-                                self:settext(bpm .. ' BPM ('..GetRateMod()..'x Music Rate) - '..gnSongLengthDisplay);
+                                self:settext(bpm .. ' BPM ('..GetRateMod()..' Music Rate) - '..gnSongLengthDisplay);
                             else
                                 gnSongLengthDisplay = string.gsub(gnSongLength,'Patched','Length Patched');
                                 gnSongLengthDisplay = string.gsub(gnSongLength,'Length Length Patched','Length Patched');

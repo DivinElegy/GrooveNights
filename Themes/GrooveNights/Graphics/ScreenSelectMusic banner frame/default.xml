@@ -142,15 +142,7 @@ end"
 	self:queuecommand('CountDown');
 	end"
 	/>
-<!--Rate Message-->
-	<Layer Type="Quad"
-	InitCommand="%function(self)
-	self:diffusealpha(0);
-	if gnRateRestore == 1 then
-		SCREENMAN:SystemMessage('Rate Modifier has been restored to 1.0x'); 
-		end
-	end"
-	/>
+
 				<Layer 
 					File="../ScreenSelectMusic divider B"
 					InitCommand="@'x,-120;y,18;diffuse,'..BackgroundColor()..';draworder,-1000;'"

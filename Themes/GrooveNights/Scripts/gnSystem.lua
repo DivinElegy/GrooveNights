@@ -146,9 +146,6 @@ end
 
 
 if scn == 'ScreenSelectMusic' then
-	if gnRateRestore == nil then
-		gnRateRestore = 0;
-		end
 	if curRate == nil then curRate = 1 end
 	gnBlazedP1 = 0;
 	gnBlazedP2 = 0;
@@ -165,9 +162,6 @@ end
 
 
 if scn == 'ScreenPlayerOptions' then
-	if gnRateRestore == nil then
-		gnRateRestore = 0;
-		end
 	if GAMESTATE:IsPlayerEnabled(PLAYER_1) then
 		gnP1Sound = 0;
 		else
@@ -254,7 +248,6 @@ if scn == 'ScreenGameplay' then
 	gnSameGrade = 0;
 	gnSoundCheck = true;
 	gnAward = 0;
-	if modRate == nil then modRate = 1 end
 end
 
 

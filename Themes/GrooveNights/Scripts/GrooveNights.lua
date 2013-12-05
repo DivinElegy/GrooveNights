@@ -1250,27 +1250,28 @@ end
 
 	
 bpm = { "1", "2", "3" }
-Rate = { "1.0x", "1.1x", "1.2x", "1.3x", "1.4x", "1.5x", "1.6x", "1.7x", "2.0x"}
+
+function GetRateMods()
+	return { "1.0x", "1.1x", "1.2x", "1.3x", "1.4x", "1.5x", "1.6x", "1.7x", "2.0x"}
+end
 
 function RateMods()
-	local modList = Rate
+	local modList = GetRateMods();
 
 	local function Load(self, list, pn)
 		for n = 1, table.getn(modList) do
-                        s = string.gsub(modList[n],'x','')
-			if GAMESTATE:PlayerIsUsingModifier(pn,modList[n]..'music') then list[n] = true; modRate = tonumber(s) else list[n] = false end
+			if GAMESTATE:PlayerIsUsingModifier(pn,modList[n]..'music') then list[n] = true else list[n] = false end
 		end
 	end
 
 	local function Save(self, list, pn)
 		for n = 1, table.getn(modList) do
-			if list[n] then s = modList[n] end
+			if list[n] then
+				GAMESTATE:ApplyGameCommand('mod,'..modList[n]..'music',pn+1)
+				ApplyRateAdjust()
+				MESSAGEMAN:Broadcast('RateModChanged')
+			end
 		end
-                s = string.gsub(s,'x','')
-		modRate = s
-		GAMESTATE:ApplyGameCommand('mod,'..s..'xmusic',pn+1)
-		ApplyRateAdjust()
-		MESSAGEMAN:Broadcast('RateModChanged')
 	end
 
 	local Params = { Name = "Rate" }
@@ -1278,12 +1279,15 @@ function RateMods()
 end
 
 function ApplyRateAdjust()
+	local rateMod = string.gsub(GetRateMod(),'x','')
+	rateMod = tonumber(rateMod)
+
 	for pn=1, 2 do
 		if GAMESTATE:IsPlayerEnabled( pn - 1 ) then
 			speed = string.gsub(modSpeed[pn],modType[pn],"")
-			if modType[pn] == "x" then speed = math.ceil(100*speed/modRate)/100 .. "x" end
-			if modType[pn] == "c" then speed = "c" .. math.ceil(speed/modRate) end
-			if modType[pn] == "m" then speed = "m" .. math.ceil(speed/modRate) end
+			if modType[pn] == "x" then speed = math.ceil(100*speed/RateMod)/100 .. "x" end
+			if modType[pn] == "c" then speed = "c" .. math.ceil(speed/RateMod) end
+			if modType[pn] == "m" then speed = "m" .. math.ceil(speed/RateMod) end
 			GAMESTATE:ApplyGameCommand('mod,' .. speed,pn)
 		end
 	end

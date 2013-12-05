@@ -5,10 +5,6 @@ self:queuecommand('Calculate');
 end"
 
 CalculateCommand="%function(self)
-if gnRateRestore == nil then
-	gnRateRestore = 0;
-	end
-
 gnJudgeTotal = tonumber(SCREENMAN:GetTopScreen():GetChild('MarvelousNumberP'..gnPlayerCount):GetText()) + tonumber(SCREENMAN:GetTopScreen():GetChild('PerfectNumberP'..gnPlayerCount):GetText()) + tonumber(SCREENMAN:GetTopScreen():GetChild('GreatNumberP'..gnPlayerCount):GetText()) + tonumber(SCREENMAN:GetTopScreen():GetChild('GoodNumberP'..gnPlayerCount):GetText()) + tonumber(SCREENMAN:GetTopScreen():GetChild('BooNumberP'..gnPlayerCount):GetText()) + tonumber(SCREENMAN:GetTopScreen():GetChild('MissNumberP'..gnPlayerCount):GetText());
 
 gnJumpsNumber = SCREENMAN:GetTopScreen():GetChild('JumpsTextP'..gnPlayerCount):GetText();
@@ -65,14 +61,8 @@ gnPath = getSystemSound('gnJudgeBar', '0');
 SOUND:PlayOnce(gnPath);
 end"> <children>
 <!--Rate Message-->
-	<Layer Type="Quad"
-	InitCommand="%function(self)
-	self:diffusealpha(0);
-	if gnRateRestore == 1 then
-		SCREENMAN:SystemMessage('Rate Modifier has been restored to 1.0x'); 
-		end
-	end"
-	/>
+	<Layer Type="Quad" InitCommand="%function(self) if GetRateMod() ~= '1.0x' then GAMESTATE:ApplyGameCommand('mod, 1.0xmusic',1); SCREENMAN:SystemMessage('Rate Modifier has been restored to 1.0x') end end" />
+
 	<Layer File="base frame B" InitCommand="@'diffuse,'..BackgroundColor()..';'"/>
 	<Layer File="base frame F" InitCommand="@'diffuse,'..FrameColor()..';'"/>
 	<!-- +7s are for 4:3, will need to make them +6s if using widescreen -->

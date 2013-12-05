@@ -10,16 +10,6 @@ end">
 			OnCommand="shadowlength,0;diffusealpha,0;Decelerate,0.3;diffusealpha,1;"
 			OffCommand="accelerate,0.3;diffusealpha,0;"
 		/>
-<!--Rate Message-->
-	<Layer Type="Quad"
-	InitCommand="%function(self)
-	self:diffusealpha(0);
-	if gnRateRestore == 1 then
-		SCREENMAN:SystemMessage('Rate Modifier has been restored to 1.0x'); 
-		gnRateRestore = 0;
-		end
-	end"
-	/>
 
 <!--Avatar + Info Display-->
 		<Layer
