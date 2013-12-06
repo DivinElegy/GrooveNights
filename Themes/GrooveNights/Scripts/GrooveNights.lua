@@ -1309,6 +1309,7 @@ function RateMods()
 			if list[n] then
 				GAMESTATE:ApplyGameCommand('mod,'..modList[n]..'music',pn)
 				--ApplyRateAdjust()
+				Trace("The pn for ratemod is " .. pn)
 				MESSAGEMAN:Broadcast('RateModChanged')
 			end
 		end
@@ -1317,30 +1318,6 @@ function RateMods()
 	local Params = { Name = "Rate" }
 	return CreateOptionRow( Params, modList, Load, Save )
 end
-
-function ApplyRateAdjust()
-	local rateMod = string.gsub(GetRateMod(),'x','')
-	rateMod = tonumber(rateMod)
-
-	for pn=1, 2 do
-		if GAMESTATE:IsPlayerEnabled( pn - 1 ) then
-			speed = string.gsub(modSpeed[pn],modType[pn],"")
-			if modType[pn] == "x" then speed = math.ceil(100*speed/RateMod)/100 .. "x" end
-			if modType[pn] == "c" then speed = "c" .. math.ceil(speed/RateMod) end
-			if modType[pn] == "m" then speed = "m" .. math.ceil(speed/RateMod) end
-			GAMESTATE:ApplyGameCommand('mod,' .. speed,pn)
-		end
-	end
-end
-
--- I doubt we will ever use this but it's nice to have for completeness
-function RevertRateAdjust()
-	for pn=1, 2 do
-		if modSpeed and modSpeed[pn] then GAMESTATE:ApplyGameCommand('mod,' .. modSpeed[pn],pn) end
-	end
-end
-
-
 
 -- Stamina Mod
 StaminaMods = { 0, 0.01, 0.02, 0.03, 0.04, 0.05 }

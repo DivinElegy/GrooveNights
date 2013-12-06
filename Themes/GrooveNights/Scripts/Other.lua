@@ -612,12 +612,10 @@ function SpeedMods(name)
         for i = 1, table.getn(modList) do
             if list[i] then
                 if name == "Base" then ModBase = modList[i] end
-                if name == "Extra" then ModExtra = modList[i] end
+                if name == "Extra" then ModExtra = string.gsub(modList[i], '+0.', '') end
                 if name == "Type" then ModType = modList[i] end
             end
         end
-
-        Trace("LEEROY " .. ModBase .. '.' .. ModExtra)
 
         SpeedMod = tonumber(ModBase .. '.' .. ModExtra);
 
@@ -625,26 +623,15 @@ function SpeedMods(name)
         if ModType == 'm-mod' then SpeedMod = 'm' .. SpeedMod*100 end
         if ModType == 'x-mod' then SpeedMod = SpeedMod .. 'x' end      
                     
-        --GAMESTATE:ApplyGameCommand('mod,'..SpeedMod,pn)
+		Trace("THE SPEEDMOD IS " .. SpeedMod)
+		Trace("Trying to apply to " .. pn)
+		Trace("PLAYER 1 is " .. PLAYER_1)
+        GAMESTATE:ApplyGameCommand('mod,'..SpeedMod,pn+1) --this is so annoying, the player number has to be 1 or 2 for ApplyGameCommand
         --ApplySpeedMods()
-        --MESSAGEMAN:Broadcast('SpeedModChanged')
+        MESSAGEMAN:Broadcast('SpeedModChanged')
     end
 
     return CreateOptionRow( Params, modList, Load, Save )
-end
-
-function ApplySpeedMods()
-    local modRate = GetRateMod()
-
-    for pn=1, 2 do
-        if GAMESTATE:IsPlayerEnabled( pn - 1 ) then
-            speed = string.gsub(modSpeed[pn],modType[pn],"")
-            if modType[pn] == "x" then speed = math.ceil(100*speed/modRate)/100 .. "x" end
-            if modType[pn] == "c" then speed = "c" .. math.ceil(speed/modRate) end
-            if modType[pn] == "m" then speed = "m" .. math.ceil(speed/modRate) end
-            GAMESTATE:ApplyGameCommand('mod,' .. speed,pn)
-        end
-    end
 end
 
 function DisplayBPM(pn, includeRate, includeSpeed) 
