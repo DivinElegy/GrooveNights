@@ -10,7 +10,7 @@ end
 local Names = { "Basic", "Advanced", "Pro" }
 
 function SpeedModTypeRow()
-        local type = GetSpeedModType()
+        local type = GetSpeedModRowType()
 
         local function Load(self, list, pn)
                 -- what we're doing here is checking what we got from profileman against the valid names.
@@ -38,7 +38,7 @@ function SpeedModTypeRow()
         return CreateOptionRow( Params, Names, Load, Save )
 end
 
-function GetSpeedModType()
+function GetSpeedModRowType()
         local type = ProfileTable.SpeedModType
 
         -- as soon as we find a valid name, return it.

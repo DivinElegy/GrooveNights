@@ -258,9 +258,9 @@ end">
                             self:x(SCREEN_CENTER_X);
                             self:y(SCREEN_CENTER_Y-146+60+4);
 
-                            local pn = 1
+                            local pn = PLAYER_1
                             
-                            if GAMESTATE:IsPlayerEnabled(PLAYER_2) then pn = 2 end
+                            if GAMESTATE:IsPlayerEnabled(PLAYER_2) then pn = PLAYER_2 end
 
                             local bpm = DisplayBPM(pn, true, false)
 

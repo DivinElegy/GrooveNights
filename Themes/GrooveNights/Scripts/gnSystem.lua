@@ -96,10 +96,7 @@ if GAMESTATE:GetEnv('AngryGrandpa') == 'Turn' then
 if GAMESTATE:GetEnv('Konami') == 'Turn' then
 	SCREENMAN:SystemMessage('Konami Code Activated');
 	GAMESTATE:SetEnv('Konami','On');
-	end
-	
-InitSpeedMods()
-
+	end	
 end
 
 

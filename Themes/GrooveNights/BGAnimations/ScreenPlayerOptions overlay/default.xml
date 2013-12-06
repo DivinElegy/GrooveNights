@@ -106,68 +106,6 @@
 		
 	<Layer File="../ScreenOptions overlay"/>
 
-<!--Apply Mods-->
-	<Layer Type="Quad"
-	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
-	InitCommand="diffusealpha,0;hibernate,0.01;queuecommand,Mods;"
-	ModsCommand="%function(self)
-		self:stoptweening();
-		GAMESTATE:ApplyGameCommand('mod, 1x',1);
-		if addModP1 < 4 then
-			if setModP1 < 50 then
-				GAMESTATE:ApplyGameCommand('mod,'..setModP1+addModP1..'x',1);
-				else
-				GAMESTATE:ApplyGameCommand('mod,c'..setModP1,1);
-				end
-			else
-			if setModP1 < 50 then
-				GAMESTATE:ApplyGameCommand('mod,'..setModP1..'x',1);
-				else
-				GAMESTATE:ApplyGameCommand('mod,c'..setModP1+addModP1,1);
-				end
-			end
-		hideBGp1 = 0;
-		for getModP1=0, 100, 5 do
-			if GAMESTATE:PlayerIsUsingModifier(PLAYER_1,''..(getModP1/100)..'% cross') then 
-				hideBGp1 = getModP1;
-				break
-				end
-			end
-		self:sleep(0.1);
-		self:queuecommand('Mods');
-	end"
-	/>
-
-	<Layer Type="Quad"
-	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
-	InitCommand="diffusealpha,0;hibernate,0.01;queuecommand,Mods;"
-	ModsCommand="%function(self)
-		self:stoptweening();
-		GAMESTATE:ApplyGameCommand('mod, 1x',2);
-		if addModP2 < 4 then
-			if setModP2 < 50 then
-				GAMESTATE:ApplyGameCommand('mod,'..setModP2+addModP2..'x',2);
-				else
-				GAMESTATE:ApplyGameCommand('mod,c'..setModP2,2);
-				end
-			else
-			if setModP2 < 50 then
-				GAMESTATE:ApplyGameCommand('mod,'..setModP2..'x',2);
-				else
-				GAMESTATE:ApplyGameCommand('mod,c'..setModP2+addModP2,2);
-				end
-			end
-		hideBGp2 = 0;
-		for getModP2=0, 100, 5 do
-			if GAMESTATE:PlayerIsUsingModifier(PLAYER_2,''..(getModP2/100)..'% cross') then 
-				hideBGp2 = getModP2;
-				break
-				end
-			end
-		self:sleep(0.1);
-		self:queuecommand('Mods');
-	end"
-	/>
 <!--Timer Recorder-->
 	<Layer Type="Quad"
 	InitCommand="diffusealpha,0;sleep,0.01;queuecommand,CountDown;"

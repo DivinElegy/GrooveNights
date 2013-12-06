@@ -439,8 +439,95 @@ function GetRateMod()
 	return '(Unknown rate mod)'
 end
 
-function GetSpeedMod()
---hello
+function GetSpeedMod(pn)
+    local BaseSpeeds = GetBaseSpeeds()
+    local ExtraSpeeds = GetExtraSpeeds()    
+    for n = 1, table.getn(BaseSpeeds) do
+        if GetSpeedModRowType() == "basic" or GetSpeedModRowType() == "advanced" then
+            if GAMESTATE:PlayerIsUsingModifier(pn, BaseSpeeds[n]) then return BaseSpeeds[n] end
+        end
+
+        if GetSpeedModRowType() == "pro" then
+            for m = 1, table.getn(ExtraSpeeds) do
+                local ExtraSpeed = string.gsub(ExtraSpeeds[m],'+0', '')
+                if ExtraSpeed == "0" then ExtraSpeed = ".0" end
+
+                local CombinedSpeeds = tonumber(BaseSpeeds[n])*100 + tonumber(ExtraSpeed)*100 --combines the speeds in to things like 450
+
+                --check x-mods
+                Trace('Checking the swag for ' .. pn .. ' ' .. BaseSpeeds[n] .. ExtraSpeed .. 'x')
+                if GAMESTATE:PlayerIsUsingModifier(pn, BaseSpeeds[n] .. ExtraSpeed .. 'x') then
+                    Trace("Returning the swag " .. BaseSpeeds[n] .. ExtraSpeed .. 'x')
+                    return BaseSpeeds[n] .. ExtraSpeed .. 'x'
+                end
+
+                --check c-mods
+                Trace('Checking the swag for ' .. pn .. ' c' .. CombinedSpeeds)
+                if GAMESTATE:PlayerIsUsingModifier(pn, 'c' .. CombinedSpeeds) then 
+                    Trace("Returning the swag c" .. CombinedSpeeds)
+                    return 'c' .. CombinedSpeeds
+                end
+
+                --check m-mods (for some reason m0 is always applied, so skip it)
+                Trace('Checking the swag for ' .. pn .. ' m' .. CombinedSpeeds)
+                if GAMESTATE:PlayerIsUsingModifier(pn, 'm' .. CombinedSpeeds) and CombinedSpeeds ~= 0 then 
+                    Trace("Returning the swag m" .. CombinedSpeeds)
+                    return 'm' .. CombinedSpeeds
+                end
+            end
+       end  
+    end
+
+    --If we got here, chances are that we ignored m0, so return that
+    return "m0"
+end
+
+function GetSpeedModBase(pn)
+    local SpeedMod = GetSpeedMod(pn)
+    SpeedMod = string.gsub(SpeedMod, 'c', '')
+    SpeedMod = string.gsub(SpeedMod, 'm', '')
+
+    local SpeedModType = GetSpeedModType(pn)
+    
+    if SpeedModType == 'x-mod' then
+        local pos = string.find(SpeedMod, '.', 1, true)
+        return string.sub(SpeedMod, 1, pos-1)
+    end
+
+    if SpeedModType == 'c-mod' or SpeedModType == 'm-mod' then
+        SpeedMod = tonumber(SpeedMod)/100
+        SpeedMod = tostring(SpeedMod)
+        local pos = string.find(SpeedMod, '.', 1, true)
+
+        if pos ~= nil then return string.sub(pos, 1, pos-1) else return SpeedMod end
+    end
+end
+
+function GetSpeedModExtra(pn)
+    local SpeedMod = GetSpeedMod(pn)
+    local SpeedModBase = GetSpeedModBase(pn)
+
+    Trace('GETSPEEDMODEXTRA SHIT:')
+    Trace('SpeedMod: ' .. SpeedMod)
+    Trace('SpeedModBase: ' .. SpeedModBase)
+
+    local SpeedModExtra = string.gsub(SpeedMod, SpeedModBase .. '.', '')
+
+    Trace('1st SpeedModExtra: ' .. SpeedModExtra)
+
+    SpeedModExtra = string.gsub(SpeedModExtra, 'x', '')
+
+    Trace('2nd SpeedModExtra: ' .. SpeedModExtra)
+
+    if SpeedModExtra ~= nil then return SpeedModExtra else return "0" end
+end
+
+function GetSpeedModType(pn)
+    local SpeedMod = GetSpeedMod(pn)
+
+    if string.find(SpeedMod, ".") ~= nil then return 'x-mod' end
+    if string.find(SpeedMod, "c") ~= nil then return 'c-mod' end
+    if string.find(SpeedMod, "m") ~= nil then return 'm-mod' end
 end
 
 function oitgACoptions()
@@ -456,7 +543,7 @@ function SongModifiers()
 end
 
 function SpeedLines()
-    local type = GetSpeedModType()
+    local type = GetSpeedModRowType()
 
     if type == "pro" then
         return "1,2,3,"
@@ -466,16 +553,16 @@ function SpeedLines()
 end
 
 function SpeedMods(name)
-    local modList = baseSpeed
+    local modList = GetBaseSpeeds()
     local s = "Speed"
 
     if name == "Extra" then
-        modList = extraSpeed
+        modList = GetExtraSpeeds()
         s = "Extra " .. s
     end
 
     if name == "Type" then
-        modList = typeSpeed
+        modList = GetSpeedModTypes()
         s = s .. " Type"
     end
 
@@ -488,7 +575,7 @@ function SpeedMods(name)
         -- now loop through everything else in the list and see if it is set to true
         for i=2, table.getn(modList) do
                 if name == "Base" then
-                    if modList[i] == modBase[pn+1] then
+                    if modList[i] == GetSpeedModBase(pn) then
                         list[i] = true
                         list[1] = false
                     else
@@ -497,7 +584,7 @@ function SpeedMods(name)
                 end
 
                 if name == "Extra" then
-                    if modList[i] == modExtra[pn+1] then
+                    if modList[i] == GetSpeedModExtra(pn) then
                         list[i] = true
                         list[1] = false
                     else
@@ -505,11 +592,8 @@ function SpeedMods(name)
                     end
                 end
 
-                if name == "Type" then
-                    s = modList[i]
-                    s = string.gsub(s, '-Mod','')
-					
-                    if s == modType[pn+1] then
+                if name == "Type" then				
+                    if modList[i] == GetSpeedModType(pn) then
                         list[i] = true
                         list[1] = false
                     else
@@ -520,42 +604,37 @@ function SpeedMods(name)
     end
 
     local function Save(self, list, pn)
+        local SpeedMod = GetSpeedMod(pn)
+        local ModBase = GetSpeedModBase(pn)
+        local ModExtra = GetSpeedModExtra(pn)
+        local ModType = GetSpeedModType(pn)
+
         for i = 1, table.getn(modList) do
             if list[i] then
-                s = modList[i]
+                if name == "Base" then ModBase = modList[i] end
+                if name == "Extra" then ModExtra = modList[i] end
+                if name == "Type" then ModType = modList[i] end
             end
         end
 
-        local p = pn + 1
+        Trace("LEEROY " .. ModBase .. '.' .. ModExtra)
 
-        if name == "Type" then modType[p] = s end
-        if name == "Base" then
-            modBase[p] = s
-            
-            if GetSpeedModType() ~= "pro" then
-                if string.find(modBase[p],"x") then modBase[p] = string.gsub(modBase[p], "x", ""); modType[p] = 'x-mod' end
-                if string.find(modBase[p],"c") then modBase[p] = string.gsub(modBase[p], "c", ""); modType[p] = 'c-mod' end
-                if string.find(modBase[p],"m") then modBase[p] = string.gsub(modBase[p], "m", ""); modType[p] = 'm-mod' end
-            end
-        end
+        SpeedMod = tonumber(ModBase .. '.' .. ModExtra);
 
-        if name == "Extra" then modExtra[p] = s end
-
-        if modType[p] == 'x-mod' then modSpeed[p] = modBase[p] + modExtra[p] .. 'x' end
-        if modType[p] == 'c-mod' then modSpeed[p] = 'c' .. modBase[p]*100 + modExtra[p]*100 end
-        if modType[p] == 'c-mod' and GetSpeedModType() ~= "pro" then modSpeed[p] = 'c' .. modBase[p] end
-        if modType[p] == 'm-mod' then modSpeed[p] = 'm' .. modBase[p]*100 + modExtra[p]*100 end
-        if modType[p] == 'm-mod' and GetSpeedModType() ~= "pro" then modSpeed[p] = 'm' .. modBase[p] end
-        GAMESTATE:ApplyGameCommand('mod,1x',p)
-        ApplySpeedMods()
-        MESSAGEMAN:Broadcast('SpeedModChanged')
+        if ModType == 'c-mod' then SpeedMod = 'c' .. SpeedMod*100 end
+        if ModType == 'm-mod' then SpeedMod = 'm' .. SpeedMod*100 end
+        if ModType == 'x-mod' then SpeedMod = SpeedMod .. 'x' end      
+                    
+        --GAMESTATE:ApplyGameCommand('mod,'..SpeedMod,pn)
+        --ApplySpeedMods()
+        --MESSAGEMAN:Broadcast('SpeedModChanged')
     end
 
     return CreateOptionRow( Params, modList, Load, Save )
 end
 
 function ApplySpeedMods()
-	local modRate = GetRateMod()
+    local modRate = GetRateMod()
 
     for pn=1, 2 do
         if GAMESTATE:IsPlayerEnabled( pn - 1 ) then
@@ -571,10 +650,11 @@ end
 function DisplayBPM(pn, includeRate, includeSpeed) 
         local lowBPM = bpm[1]
         local highBPM = bpm[2]  
-		local rateMod = string.gsub(GetRateMod(),'x','')
-        rateMod = tonumber(rateMod)
-        local speedMod = modSpeed[pn]
 
+        local rateMod = string.gsub(GetRateMod(),'x','')
+        rateMod = tonumber(rateMod)
+
+        local speedMod = GetSpeedMod(pn)
         speedMod = string.gsub(speedMod,'x','')
         speedMod = string.gsub(speedMod,'c','')
         speedMod = string.gsub(speedMod,'m','')
@@ -638,7 +718,7 @@ function DisplayBPM(pn, includeRate, includeSpeed)
         can just return the speedMod as that will be the scroll speed regardless
         of the rate/speed mod chosen
         ]]--
-        if includeRate and includeSpeed and (modType[pn] == "m-mod" or modType[pn] == "c-mod") then
+        if includeRate and includeSpeed and (GetSpeedModType(pn) == "m-mod" or GetSpeedModType(pn) == "c-mod") then
             return speedMod
         end
 
