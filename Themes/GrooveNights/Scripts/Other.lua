@@ -488,7 +488,7 @@ function GetSpeedModBase(pn)
     SpeedMod = string.gsub(SpeedMod, 'm', '')
 
     local SpeedModType = GetSpeedModType(pn)
-    
+    Trace("GETSPEEDMODBASE " .. SpeedModType .. " " .. SpeedMod .. " " .. SpeedMod)
     if SpeedModType == 'x-mod' then
         local pos = string.find(SpeedMod, '.', 1, true)
         return string.sub(SpeedMod, 1, pos-1)
@@ -496,17 +496,24 @@ function GetSpeedModBase(pn)
 
     if SpeedModType == 'c-mod' or SpeedModType == 'm-mod' then
         SpeedMod = tonumber(SpeedMod)/100
-        SpeedMod = tostring(SpeedMod)
+		
         local pos = string.find(SpeedMod, '.', 1, true)
-
-        if pos ~= nil then return string.sub(pos, 1, pos-1) else return SpeedMod end
+		
+        if pos ~= nil then return string.sub(SpeedMod, 1, pos-1) else return SpeedMod end
     end
 end
 
 function GetSpeedModExtra(pn)
     local SpeedMod = GetSpeedMod(pn)
     local SpeedModBase = GetSpeedModBase(pn)
-
+	local SpeedModType = GetSpeedModType(pn)
+	
+	if SpeedModType == "c-mod" or SpeedModType == "m-mod" then
+		SpeedMod = string.gsub(SpeedMod, 'c', '')
+		SpeedMod = string.gsub(SpeedMod, 'm', '')
+		SpeedMod = tonumber(SpeedMod)/100
+	end
+	
     Trace('GETSPEEDMODEXTRA SHIT:')
     Trace('SpeedMod: ' .. SpeedMod)
     Trace('SpeedModBase: ' .. SpeedModBase)
@@ -525,9 +532,9 @@ end
 function GetSpeedModType(pn)
     local SpeedMod = GetSpeedMod(pn)
 
-    if string.find(SpeedMod, ".") ~= nil then return 'x-mod' end
-    if string.find(SpeedMod, "c") ~= nil then return 'c-mod' end
-    if string.find(SpeedMod, "m") ~= nil then return 'm-mod' end
+    if string.find(SpeedMod, ".", 1, true) ~= nil then Trace("Im in here lol"); return 'x-mod' end
+    if string.find(SpeedMod, "c", 1, true) ~= nil then return 'c-mod' end
+    if string.find(SpeedMod, "m", 1, true) ~= nil then return 'm-mod' end
 end
 
 function oitgACoptions()
@@ -575,6 +582,7 @@ function SpeedMods(name)
         -- now loop through everything else in the list and see if it is set to true
         for i=2, table.getn(modList) do
                 if name == "Base" then
+					Trace("Comparing " .. modList[i] .. " with " .. GetSpeedModBase(pn))
                     if modList[i] == GetSpeedModBase(pn) then
                         list[i] = true
                         list[1] = false
@@ -583,16 +591,19 @@ function SpeedMods(name)
                     end
                 end
 
+				
                 if name == "Extra" then
-                    if modList[i] == GetSpeedModExtra(pn) then
+					Trace("Comparing " .. modList[i] .. " with " .. GetSpeedModExtra(pn))
+                    if string.gsub(modList[i], '+0.', '') == GetSpeedModExtra(pn) then
                         list[i] = true
                         list[1] = false
                     else
                         list[i] = false
                     end
                 end
-
+				
                 if name == "Type" then				
+					Trace("Comparing " .. modList[i] .. " with " .. GetSpeedModType(pn))
                     if modList[i] == GetSpeedModType(pn) then
                         list[i] = true
                         list[1] = false
@@ -617,6 +628,8 @@ function SpeedMods(name)
             end
         end
 
+		Trace("OMFG " .. ModBase .. " " .. ModExtra)
+		
         SpeedMod = tonumber(ModBase .. '.' .. ModExtra);
 
         if ModType == 'c-mod' then SpeedMod = 'c' .. SpeedMod*100 end
