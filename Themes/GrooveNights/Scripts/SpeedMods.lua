@@ -244,6 +244,15 @@ function SpeedMods(name)
         if ModType == 'x-mod' then SpeedMod = SpeedMod .. 'x' end      
           
 		Trace("SpeedMods: About to apply " .. SpeedMod)
+		
+		--[[ This is the most retarded thing. For some reason when you apply an M-Mod or an X-Mod you can
+		get these weird situations where GAMESTATE:PlayerIsUsingModifier will tell you that there is an M and
+		an X mod in use. Therefore GetSpeedMod often returns the wrong speed mod (this seems to happen most when
+		you choose 0x or m0 and then try change the mod type). This is a silly fix that checks what the mod being
+		set is, then set the other one (IE if we're setting X, then change M) to a value outside of where GetSpeedMod
+		will ever look ]]--
+		if ModType == 'm-mod' then GAMESTATE:ApplyGameCommand('mod,99x',pn+1) end --quick fix. Need to make it go just one higher than the highest possible according to GetSpeeds
+		if ModType == 'x-mod' then GAMESTATE:ApplyGameCommand('mod,m9999',pn+1) end --quick fix. Need to make it go just one higher than the highest possible according to GetSpeeds
         GAMESTATE:ApplyGameCommand('mod,'..SpeedMod,pn+1) --this is so annoying, the player number has to be 1 or 2 for ApplyGameCommand
         MESSAGEMAN:Broadcast('SpeedModChanged')
     end
