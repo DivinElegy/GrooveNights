@@ -2,7 +2,7 @@
 			
 <ActorFrame	InitCommand="queuecommand,Start;"
 			StartCommand="%function(self)
-			SetVariablesFor('GradeModels');
+			InitScreen('GradeModels');
 			gnSameGrade = gnSameGrade + 1;
 			self:queuecommand('SameGradeCheck');
 			end"

@@ -1,4 +1,4 @@
-<ActorFrame>
+<ActorFrame InitCommand="%function(self) InitScreen('ScreenStage'); end">
 	<children>
 		<Actor
 			File="../ScreenWithMenuElements underlay"
@@ -26,6 +26,8 @@
 		
 	<!--Screen Transition-->
 	<ActorFrame InitCommand="x,0;y,0;"><children>
+	<Layer Type="Quad" InitCommand="diffusealpha,0;" OffCommand="%function(self) ScreenTransitionWhoosh('in'); end" />
+
 	<Layer Type="Quad"
 	OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;linear,0.3;diffusealpha,0;"
 	OffCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,0;linear,0.3;diffusealpha,1;"

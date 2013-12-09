@@ -1,7 +1,7 @@
 ﻿<ActorFrame InitCommand="sleep,0.1;queuecommand,loop;"
 loopCommand="%function(self)
 self:stoptweening();
-SetVariablesFor('ScreenLogo');
+InitScreen('ScreenLogo');
 self:sleep(0.1);
 self:queuecommand('loop');
 end"><children>

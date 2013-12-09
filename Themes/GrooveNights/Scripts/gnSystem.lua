@@ -63,7 +63,7 @@ end
 
 
 -- ===SET SCREEN SPECIFIC VARIABLES===
-function SetVariablesFor(scn)
+function InitScreen(scn)
 if scn == 'ScreenCompany' then
 return 0;
 end
@@ -102,11 +102,13 @@ end
 
 
 if scn == 'ScreenSelectPlayMode' then
+ScreenTransitionWhoosh('long');
 -- nothing to add yet
 end
 
 
 if scn == 'ScreenSelectStyle2' then
+ScreenTransitionWhoosh('short');
 	gnSongsP1 = nil;
 	gnSongsP1Total = nil;
 	gnTotalP1 = nil;
@@ -144,6 +146,8 @@ end
 
 
 if scn == 'ScreenSelectMusic' then
+ScreenTransitionWhoosh('short');
+RateRestoreMessage(false);
 	if curRate == nil then curRate = 1 end
 	gnBlazedP1 = 0;
 	gnBlazedP2 = 0;
@@ -156,11 +160,11 @@ if scn == 'ScreenSelectMusic' then
 	gnStatFrequency = gnStatFrequency + 1;
 	gnOptionMod = 0;
 	gnOptionModType = 0;
-	RateRestoreMessage(false)
 end
 
 
 if scn == 'ScreenPlayerOptions' then
+ScreenTransitionWhoosh('short');
 	if GAMESTATE:IsPlayerEnabled(PLAYER_1) then
 		gnP1Sound = 0;
 		else
@@ -182,6 +186,11 @@ if scn == 'ScreenPlayerOptions' then
 	if gnScreenSelectMusicTimer == nil then gnScreenSelectMusicTimer = gnDefaultSSM; end
 	if gnScreenPlayerOptionsTimer == nil then gnScreenPlayerOptionsTimer = gnDefaultSPO; end
 	RateRestoreMessage(true);
+end
+
+
+if scn == 'ScreenStage' then
+ScreenTransitionWhoosh('short');
 end
 
 
@@ -251,6 +260,7 @@ end
 
 
 if scn == 'ScreenEvaluation' then
+ScreenTransitionWhoosh('short');
 gnSongCount = gnSongCount + 1;
 RateRestoreMessage(false);
 end
@@ -272,6 +282,7 @@ end
 
 
 if scn == 'ScreenNameEntry' then
+ScreenTransitionWhoosh('short');
 -- nothing to add yet
 end
 
@@ -323,4 +334,15 @@ function RateRestoreMessage(i)
 		end 
 	SCREENMAN:SystemMessage('Rate Modifier has been restored to 1.0x')
 	end
+end
+
+
+
+
+
+-- ===PLAY SCREEN TRANSITION SOUND===
+-- Makes the arrow go whooshy whoosh
+function ScreenTransitionWhoosh(i)
+	local Path = THEME:GetPath( EC_SOUNDS, 'gnScreenTransition', 'whoosh '..i );
+	SOUND:PlayOnce(Path);
 end

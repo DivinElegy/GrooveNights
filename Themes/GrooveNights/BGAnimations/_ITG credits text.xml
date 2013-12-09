@@ -11,13 +11,11 @@
 		<Layer Type="BitmapText" Text="http://divinelegy.com/" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#FFFFFF;ztest,1" />
 		<Layer Type="BitmapText" Text="" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#FFFFFF;ztest,1" />
 		<Layer Type="BitmapText" Text="" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#FFFFFF;ztest,1" />
-		<Layer Type="BitmapText" Text="MUSIC BY PSYBOT & WATERFLAME" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#D57676;ztest,1;queuecommand,Diffuser;" DiffuserCommand="@'diffuse,'..LabelColor()..';'" />
+		<Layer Type="BitmapText" Text="MUSIC BY PSYBOT" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#D57676;ztest,1;queuecommand,Diffuser;" DiffuserCommand="@'diffuse,'..LabelColor()..';'" />
 		<Layer Type="BitmapText" Text="http://psybot.newgrounds.com/" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#FFFFFF;ztest,1" />
-		<Layer Type="BitmapText" Text="http://waterflame.newgrounds.com/" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#FFFFFF;ztest,1" />
 		<Layer Type="BitmapText" Text="" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#FFFFFF;ztest,1" />
 		<Layer Type="BitmapText" Text="THEME SOUNDS" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#D57676;ztest,1;queuecommand,Diffuser;" DiffuserCommand="@'diffuse,'..LabelColor()..';'" />
-		<Layer Type="BitmapText" Text="Super Mario RPG (SNES)" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#FFFFFF;ztest,1" />
-		<Layer Type="BitmapText" Text="Yoshi's Island (SNES)" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#FFFFFF;ztest,1" />
+		<Layer Type="BitmapText" Text="http://pond5.com/" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#FFFFFF;ztest,1" />
 		<Layer Type="BitmapText" Text="" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#FFFFFF;ztest,1" />
 		<Layer Type="BitmapText" Text="THEME GRAPHICS" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#D57676;ztest,1;queuecommand,Diffuser;" DiffuserCommand="@'diffuse,'..LabelColor()..';'" />
 		<Layer Type="BitmapText" Text="Jayce Newton" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#FFFFFF;ztest,1" />

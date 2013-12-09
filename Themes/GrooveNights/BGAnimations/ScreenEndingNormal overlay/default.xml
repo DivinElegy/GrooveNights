@@ -1,5 +1,5 @@
 <ActorFrame InitCommand="%function(self)
-SetVariablesFor('ScreenEnding');
+InitScreen('ScreenEnding');
 if GAMESTATE:GetEnv('Vibrate') == 'On' then
 	self:vibrate();
 	end
