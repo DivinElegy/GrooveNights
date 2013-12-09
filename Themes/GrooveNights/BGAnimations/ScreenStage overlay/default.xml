@@ -11,7 +11,7 @@
 					InitCommand="hibernate,0.199;"><children>
 			<Actor
 				File="@'../../Graphics/ScreenGameplay stage '..GetStageText()"
-				OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+SCREEN_HEIGHT;decelerate,0.3;y,SCREEN_CENTER_Y-40;accelerate,0.1;y,SCREEN_CENTER_Y;"
+				OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+SCREEN_HEIGHT;decelerate,0.3;y,SCREEN_CENTER_Y-80;accelerate,0.1;y,SCREEN_CENTER_Y-20;"
 			/>
 		</children></ActorFrame>
 		<ActorFrame Condition="GAMESTATE:IsCourseMode()" 

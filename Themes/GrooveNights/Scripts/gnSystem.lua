@@ -18,6 +18,7 @@
 -- SHIFT SCREEN EVALUATION ELEMENTS IN DOUBLE MODE
 -- SET SCREEN SPECIFIC VARIABLES
 -- DIFFERENTIATE PLAYERS USING SHARED RESOURCES
+-- 'RATE MOD HAS BEEN RESTORED' MESSAGE
 
 
 
@@ -155,6 +156,7 @@ if scn == 'ScreenSelectMusic' then
 	gnStatFrequency = gnStatFrequency + 1;
 	gnOptionMod = 0;
 	gnOptionModType = 0;
+	RateRestoreMessage(false)
 end
 
 
@@ -179,6 +181,7 @@ if scn == 'ScreenPlayerOptions' then
 		end
 	if gnScreenSelectMusicTimer == nil then gnScreenSelectMusicTimer = gnDefaultSSM; end
 	if gnScreenPlayerOptionsTimer == nil then gnScreenPlayerOptionsTimer = gnDefaultSPO; end
+	RateRestoreMessage(true);
 end
 
 
@@ -217,7 +220,6 @@ if scn == 'ScreenGameplay' then
 	gnP1Winning = false;
 	gnP2Winning = false;
 	gnLowHealth = false;
-	gnRateRestore = 0;
 	gnLowHealth = false;
 	gnVoiceTimer = 0;
 	gnStaminaTimer = 0;
@@ -250,6 +252,7 @@ end
 
 if scn == 'ScreenEvaluation' then
 gnSongCount = gnSongCount + 1;
+RateRestoreMessage(false);
 end
 
 
@@ -309,3 +312,15 @@ end
 
 
 
+
+
+-- ==='RATE MOD HAS BEEN RESTORED' MESSAGE===
+-- Call with false to display message, call with true to display the message AND reset the mod
+function RateRestoreMessage(i)
+	if GetRateMod() ~= '1.0x' then 
+		if i then
+		GAMESTATE:ApplyGameCommand('mod, 1.0xmusic',1);
+		end 
+	SCREENMAN:SystemMessage('Rate Modifier has been restored to 1.0x')
+	end
+end

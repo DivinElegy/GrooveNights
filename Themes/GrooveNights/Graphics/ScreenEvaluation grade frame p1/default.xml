@@ -60,9 +60,6 @@ gnRollsTotal = tonumber(gnRollsTotal);
 gnPath = getSystemSound('gnJudgeBar', '0');
 SOUND:PlayOnce(gnPath);
 end"> <children>
-<!--Rate Message-->
-	<Layer Type="Quad" InitCommand="%function(self) if GetRateMod() ~= '1.0x' then GAMESTATE:ApplyGameCommand('mod, 1.0xmusic',1); SCREENMAN:SystemMessage('Rate Modifier has been restored to 1.0x') end end" />
-
 	<Layer File="base frame B" InitCommand="@'diffuse,'..BackgroundColor()..';'"/>
 	<Layer File="base frame F" InitCommand="@'diffuse,'..FrameColor()..';'"/>
 	<!-- +7s are for 4:3, will need to make them +6s if using widescreen -->

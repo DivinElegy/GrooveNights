@@ -8,7 +8,7 @@ end
 -- Alternate (darker) player colours for diffuseshifting
 function PlayerAltColor( pn )
 	if pn == PLAYER_1 then return "#7F5400" end	-- default "#7F5400"
-	if pn == PLAYER_2 then return "#2A7F1F" end	-- default "#2A7F1F"
+	if pn == PLAYER_2 then return "#226919" end	-- default "#226919"
 	return "1,1,1,1"
 end
 

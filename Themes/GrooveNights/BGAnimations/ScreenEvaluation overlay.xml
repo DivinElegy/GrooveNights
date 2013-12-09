@@ -12,8 +12,6 @@ end">
 		Condition="GAMESTATE:IsEventMode() and MenuButtonGiveUp() and not GAMESTATE:IsCourseMode()"
 		InitCommand="%function(self)
 		if gnStaminaSongPercent > gnLowestRestartPercent and gnStaminaSongPercent < gnHighestRestartPercent then
-			local Path = THEME:GetPath( EC_SOUNDS, '', '_save');
-			SOUND:PlayOnce(Path);
 			SCREENMAN:SetNewScreen('ScreenStage');
 			end
 		end"

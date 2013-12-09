@@ -2964,6 +2964,11 @@ StepP2MessageCommand="%function(self)
 
 <!--Screen Transition-->
 	<Layer Type="Quad"
+	OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,1,1,1,0;"
+	QuadFlickerMessageCommand="@'x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoomx,SCREEN_WIDTH*2;zoomy,SCREEN_HEIGHT*2;diffuse,1,1,1,1;diffusealpha,0.1;linear,0.1;diffusealpha,0;'"
+	/>
+	
+	<Layer Type="Quad"
 	Condition="not GAMESTATE:IsCourseMode();"
 	OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;linear,0.3;diffusealpha,0;"
 	ScreenTransitionMessageCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,0;linear,0.3;diffusealpha,1;"
@@ -2989,6 +2994,9 @@ StepP2MessageCommand="%function(self)
 	OnCommand="diffusealpha,0;"
 	ScreenTransitionMessageCommand="%function(self) 
 	if gnStaminaSongPercent > gnLowestRestartPercent and gnStaminaSongPercent < gnHighestRestartPercent then
+		local Path = THEME:GetPath( EC_SOUNDS, '', '_save');
+		SOUND:PlayOnce(Path);
+		MESSAGEMAN:Broadcast('QuadFlicker');
 		self:queuecommand('Blink');
 		end
 	end" 
