@@ -476,9 +476,7 @@
 			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
 			File="_eurostile blue glow"
 			InitCommand="%function(self) self:stoptweening(); self:zoom(0.5); self:shadowlength(0); self:x(SCREEN_CENTER_X-200); self:y(SCREEN_CENTER_Y+118); self:maxwidth(140); end"
-			SpeedModChangedMessageCommand="queuecommand,Update"
-			RateModChangedMessageCommand="queuecommand,Update"
-			UpdateCommand="%function(self) self:settext(DisplayBPM(PLAYER_1)) end"
+			RateModChangedMessageCommand="%function(self) self:settext(DisplayBPM(PLAYER_1)) end"
 			OnCommand="horizalign,left;zoom,0.5;"			
 		/>
 		<BitmapText
@@ -497,49 +495,36 @@
 			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
 			File="_eurostile blue glow"
 			InitCommand="%function(self) self:zoom(0.5); self:shadowlength(0); self:x(SCREEN_CENTER_X-200); self:y(SCREEN_CENTER_Y+134); p1Distance=0; end"
-			OnCommand="horizalign,left;zoom,0.5;queuecommand,loop;"
+			OnCommand="horizalign,left;zoom,0.5;"
 			SpeedModChangedMessageCommand="queuecommand,Update"
 			RateModChangedMessageCommand="queuecommand,Update"
-			UpdateCommand="%function(self) self:settext(DisplayScrollSpeed(PLAYER_1)) end"			
-			
-			loopCommand="%function(self)
-			getModP1 = 0;
-			if setModP1 == nil then
-				setModP1 = 0;
-				end
-			if modStyleP1 == nil then
-				modStyleP1 = 0;
-				end
-			if addModP1 == nil then
-				addModP1 = 0;
-				end
-			if curRate == nil then
-				curRate = 1;
-				end
-			if modStyleP1 == 1 then
-				if addModP1 <= 1 then
-					self:settext(''..math.ceil((setModP1+addModP1)*highBPM*curRate)..'');
-					gnP1Speed = setModP1+addModP1..'X';
-					gnBlazeP1 = math.ceil((setModP1+addModP1)*highBPM*curRate)
-					else
-					self:settext(''..math.ceil((setModP1)*highBPM*curRate)..'');
-					gnP1Speed = setModP1..'X';
-					gnBlazeP1 = math.ceil((setModP1)*highBPM*curRate)
-					end
-				end
-			if modStyleP1 == 2 then
-				if addModP1 > 1 then
-					self:settext(''..math.ceil((setModP1+addModP1) * curRate)..'');
-					gnP1Speed = 'C'..setModP1+addModP1;
-					gnBlazeP1 = math.ceil((setModP1+addModP1) * curRate)
-					else
-					self:settext(''..math.ceil((setModP1) * curRate)..'');
-					gnP1Speed = 'C'..setModP1;
-					gnBlazeP1 = math.ceil((setModP1) * curRate)
-					end
-				end
-			end"
+			UpdateCommand="%function(self) self:settext(DisplayScrollSpeed(PLAYER_1)) end"
 		/>
+		
+<!--Blaze It P1 -->
+		<BitmapText
+			Text="Blaze It!"
+			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
+			File="_eurostile blue glow"
+			InitCommand="zoom,0.65; shadowlength,0; x,SCREEN_CENTER_X-303; y,SCREEN_CENTER_Y;diffusealpha,0"
+			OnCommand="horizalign,left;zoom,0.65;rainbow;"
+			SpeedModChangedMessageCommand="queuecommand,Update"
+			RateModChangedMessageCommand="queuecommand,Update"
+			UpdateCommand="%function(self) if IsBlazed(PLAYER_1) then self:diffusealpha(1) else self:diffusealpha(0) end end"
+		/>
+		
+<!--No Scope P1 -->		
+		<BitmapText
+			Text="No Scope!"
+			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
+			File="_eurostile blue glow"
+			InitCommand="zoom,0.65; shadowlength,0; x,SCREEN_CENTER_X-303; y,SCREEN_CENTER_Y+100;diffusealpha,0"
+			OnCommand="horizalign,left;zoom,0.65;rainbow;"
+			SpeedModChangedMessageCommand="queuecommand,Update"
+			RateModChangedMessageCommand="queuecommand,Update"
+			UpdateCommand="%function(self) if IsNoScoped(PLAYER_1) then self:diffusealpha(1) else self:diffusealpha(0) end end"
+		/>
+			
 <!--Step Artists P1-->
 		<BitmapText
 			Text="Steps:"
@@ -629,50 +614,36 @@
 			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
 			File="_eurostile blue glow"
 			InitCommand="%function(self)  self:zoom(0.5); self:shadowlength(0); self:x(SCREEN_CENTER_X+119); self:y(SCREEN_CENTER_Y+134); end"
-			OnCommand="horizalign,left;zoom,0.5;queuecommand,loop;"
+			OnCommand="horizalign,left;zoom,0.5;"
 			SpeedModChangedMessageCommand="queuecommand,Update"
 			RateModChangedMessageCommand="queuecommand,Update"
 			UpdateCommand="%function(self) self:settext(DisplayScrollSpeed(PLAYER_2)) end"			
-			
-			loopCommand="%function(self)
-			getModP2 = 0;
-			if setModP2 == nil then
-				setModP2 = 0;
-				end
-			if modStyleP2 == nil then
-				modStyleP2 = 0;
-				end
-			if addModP2 == nil then
-				addModP2 = 0;
-				end
-			if curRate == nil then
-				curRate = 1;
-				end
-			if modStyleP2 == 1 then
-				if addModP2 <= 1 then
-					self:settext(''..math.ceil((setModP2+addModP2)*highBPM*curRate)..'');
-					gnP2Speed = setModP2+addModP2..'X';
-					gnBlazeP2 = math.ceil((setModP2+addModP2)*highBPM*curRate)
-					else
-					self:settext(''..math.ceil((setModP2)*highBPM*curRate)..'');
-					gnP2Speed = setModP2..'X';
-					gnBlazeP2 = math.ceil((setModP2)*highBPM*curRate)
-					end
-				end
-			if modStyleP2 == 2 then
-				if addModP2 > 1 then
-					self:settext(''..math.ceil((setModP2+addModP2) * curRate)..'');
-					gnP2Speed = 'C'..setModP2+addModP2;
-					gnBlazeP2 = math.ceil((setModP2+addModP2) * curRate)
-					else
-					self:settext(''..math.ceil((setModP2) * curRate)..'');
-					gnP2Speed = 'C'..setModP2;
-					gnBlazeP2 = math.ceil((setModP2) * curRate)
-					end
-				end
-			end"
 		/>
 
+<!--Blaze It P2 -->
+		<BitmapText
+			Text="Blaze It!"
+			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
+			File="_eurostile blue glow"
+			InitCommand="zoom,0.65; shadowlength,0; x,SCREEN_CENTER_X+303; y,SCREEN_CENTER_Y;diffusealpha,0"
+			OnCommand="horizalign,left;zoom,0.65;rainbow;"
+			SpeedModChangedMessageCommand="queuecommand,Update"
+			RateModChangedMessageCommand="queuecommand,Update"
+			UpdateCommand="%function(self) if IsBlazed(PLAYER_2) then self:diffusealpha(1) else self:diffusealpha(0) end end"
+		/>
+		
+<!--No Scope P2 -->		
+		<BitmapText
+			Text="No Scope!"
+			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
+			File="_eurostile blue glow"
+			InitCommand="zoom,0.65; shadowlength,0; x,SCREEN_CENTER_X+303; y,SCREEN_CENTER_Y+100;diffusealpha,0"
+			OnCommand="horizalign,left;zoom,0.65;rainbow;"
+			SpeedModChangedMessageCommand="queuecommand,Update"
+			RateModChangedMessageCommand="queuecommand,Update"
+			UpdateCommand="%function(self) if IsNoScoped(PLAYER_2) then self:diffusealpha(1) else self:diffusealpha(0) end end"
+		/>
+		
 <!--Step Artists P2-->
 		<BitmapText
 			Text="Steps:"

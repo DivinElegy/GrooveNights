@@ -464,7 +464,7 @@ function DisplayBPM(pn)
 
     if highBPM ~= "" then highScrollBPM = math.floor(highBPM * rateMod) end
 
-    if highBPM == "" then return lowScrollBPM else return lowScrollBPM .. "-" .. highScrollBPM end
+    if highBPM == "" then return tostring(lowScrollBPM) else return lowScrollBPM .. "-" .. highScrollBPM end
 end
 
 function DisplayScrollSpeed(pn)
@@ -488,5 +488,5 @@ function DisplayScrollSpeed(pn)
 
     if highBPM ~= "" then highScrollBPM = math.floor(highBPM *speedMod * rateMod) end
 
-    if highBPM == "" then return lowScrollBPM else return lowScrollBPM .. "-" .. highScrollBPM end
+    if highBPM == "" then return tostring(lowScrollBPM) else return lowScrollBPM .. "-" .. highScrollBPM end
 end

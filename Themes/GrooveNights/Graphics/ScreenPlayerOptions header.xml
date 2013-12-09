@@ -98,7 +98,7 @@ end">
 		<Layer
 			File="arrow.png"
 			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1) and ShowArrowIndicators()"
-			InitCommand="hidden,1;x,SCREEN_CENTER_X-310+18;y,-500;zoom,0.9;rotationz,90;queuecommand,Update;"
+			InitCommand="hidden,1;x,SCREEN_CENTER_X-310+18;y,-500;zoom,0.9;rotationz,90;"
 			ResetCommand="%function(self)
 				self:stoptweening();
 				p1y = p1Target + 550;
@@ -112,84 +112,12 @@ end">
 				self:y(p1y);
 				self:queuecommand('Update');
 			end"
-			UpdateCommand="%function(self)
-			self:stoptweening();
-			if gnScreenEdit == false then
-				p1y = self:GetY();
-				p1Target = 112;
-				if p1y < p1Target then
-						self:queuecommand('Reset');
-					else
-						self:rotationz(90);
-						self:zoom(1);
-						self:diffusealpha(1);
-						for getModP1=0, 100, 5 do
-							if GAMESTATE:PlayerIsUsingModifier(PLAYER_1,''..getModP1..'% stealth') then 
-								self:diffusealpha(1-(getModP1/100));
-								end
-							if GAMESTATE:PlayerIsUsingModifier(PLAYER_1,''..getModP1..'% mini') then 
-								if getModP1 == 0 then
-									self:zoom(1);
-									else
-									self:zoom(1-0.5*(getModP1/100));
-									end							
-								end
-							if GAMESTATE:PlayerIsUsingModifier(PLAYER_1,''..-1*getModP1..'% mini') then 
-								if getModP1 == 0 then
-									self:zoom(1);
-									else
-									self:zoom(1-0.5*(-1*getModP1/100));
-									end							
-								end
-							if GAMESTATE:PlayerIsUsingModifier(PLAYER_1,'no stealth') then 
-								self:diffusealpha(1);
-								end
-							end
-						self:y(p1y);
-						p1Travelled = p1y - p1Target;
-						p1Travelled = (p1Travelled/p1Distance)-1;
-						self:linear(0.45/30);
-						stretchP1 = self:GetZoom();
-						stretchP1 = 2 - stretchP1;
-						if GAMESTATE:PlayerIsUsingModifier(PLAYER_1,'overhead') then 
-						stretchP1 = stretchP1 + 0.1;
-						end
-						if GAMESTATE:PlayerIsUsingModifier(PLAYER_1,'hallway') then 
-						stretchP1 = stretchP1 + 0.5;
-						end
-						if GAMESTATE:PlayerIsUsingModifier(PLAYER_1,'distant') then 
-						stretchP1 = stretchP1 + 0.3;
-						end
-						if GAMESTATE:PlayerIsUsingModifier(PLAYER_1,'incoming') then 
-						stretchP1 = stretchP1 + 0.4;
-						end
-						if GAMESTATE:PlayerIsUsingModifier(PLAYER_1,'space') then 
-						stretchP1 = stretchP1 + 0.4;
-						end
-						if setModP1 > 15 then
-								if addModP1 > 1 then
-								transition = math.floor(((setModP1+addModP1)*curRate)/(stretchP1));
-								else
-								transition = math.floor(((setModP1)*curRate)/(stretchP1));
-								end
-							else
-								if addModP1 <= 1 then
-								transition = math.floor(((setModP1+addModP1)*highBPM*curRate)/(stretchP1));
-								else
-								transition = math.floor(((setModP1)*highBPM*curRate)/(stretchP1));
-								end
-							end
-						self:addy((transition/60)*-1);
-					end
-					self:queuecommand('Update');
-				end
-			end"
 		/>
 		
 		<Layer
 			File="arrow.png"
 			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2) and ShowArrowIndicators()"
-			InitCommand="hidden,1;x,SCREEN_CENTER_X+238+18;y,-500;zoom,0.9;rotationz,-90;queuecommand,Update;"
+			InitCommand="hidden,1;x,SCREEN_CENTER_X+238+18;y,-500;zoom,0.9;rotationz,-90;"
 			ResetCommand="%function(self)
 				self:stoptweening();
 				p2y = p2Target + 550;
@@ -202,78 +130,6 @@ end">
 				self:diffuse(1,1,1,1);
 				self:y(p2y);
 				self:queuecommand('Update');
-			end"
-			UpdateCommand="%function(self)
-			self:stoptweening();
-			if gnScreenEdit == false then
-				p2y = self:GetY();
-				p2Target = 112;
-				if p2y < p2Target then
-						self:queuecommand('Reset');
-					else
-						self:rotationz(-90);
-						self:zoom(1);
-						self:diffusealpha(1);
-						for getModP2=0, 100, 5 do
-							if GAMESTATE:PlayerIsUsingModifier(PLAYER_2,''..getModP2..'% stealth') then 
-								self:diffusealpha(1-(getModP2/100));
-								end
-							if GAMESTATE:PlayerIsUsingModifier(PLAYER_2,''..getModP2..'% mini') then 
-								if getModP2 == 0 then
-									self:zoom(1);
-									else
-									self:zoom(1-0.5*(getModP2/100));
-									end							
-								end
-							if GAMESTATE:PlayerIsUsingModifier(PLAYER_2,''..-1*getModP2..'% mini') then 
-								if getModP2 == 0 then
-									self:zoom(1);
-									else
-									self:zoom(1-0.5*(-1*getModP2/100));
-									end							
-								end
-							if GAMESTATE:PlayerIsUsingModifier(PLAYER_2,'no stealth') then 
-								self:diffusealpha(1);
-								end
-							end
-						self:y(p2y);
-						p2Travelled = p2y - p2Target;
-						p2Travelled = (p2Travelled/p2Distance)-1;
-						self:linear(0.45/30);
-						stretchP2 = self:GetZoom();
-						stretchP2 = 2 - stretchP2;
-						if GAMESTATE:PlayerIsUsingModifier(PLAYER_2,'overhead') then 
-						stretchP2 = stretchP2 + 0.1;
-						end
-						if GAMESTATE:PlayerIsUsingModifier(PLAYER_2,'hallway') then 
-						stretchP2 = stretchP2 + 0.5;
-						end
-						if GAMESTATE:PlayerIsUsingModifier(PLAYER_2,'distant') then 
-						stretchP2 = stretchP2 + 0.3;
-						end
-						if GAMESTATE:PlayerIsUsingModifier(PLAYER_2,'incoming') then 
-						stretchP2 = stretchP2 + 0.4;
-						end
-						if GAMESTATE:PlayerIsUsingModifier(PLAYER_2,'space') then 
-						stretchP2 = stretchP2 + 0.4;
-						end
-						if setModP2 > 15 then
-								if addModP2 > 1 then
-								transition = math.floor(((setModP2+addModP2)*curRate)/(stretchP2));
-								else
-								transition = math.floor(((setModP2)*curRate)/(stretchP2));
-								end
-							else
-								if addModP2 <= 1 then
-								transition = math.floor(((setModP2+addModP2)*highBPM*curRate)/(stretchP2));
-								else
-								transition = math.floor(((setModP2)*highBPM*curRate)/(stretchP2));
-								end
-							end
-						self:addy((transition/60)*-1);
-					end
-				self:queuecommand('Update');
-				end
 			end"
 		/>
 		
