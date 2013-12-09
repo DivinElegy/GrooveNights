@@ -262,7 +262,7 @@ end">
                             
                             if GAMESTATE:IsPlayerEnabled(PLAYER_2) then pn = PLAYER_2 end
 
-                            local bpm = DisplayBPM(pn, true, false)
+                            local bpm = DisplayBPM(pn)
 
                             if GetRateMod() ~= '1.0x' then
                                 gnSongLengthDisplay = string.gsub(gnSongLength,'Patched','Length Patched');

@@ -478,7 +478,7 @@
 			InitCommand="%function(self) self:stoptweening(); self:zoom(0.5); self:shadowlength(0); self:x(SCREEN_CENTER_X-200); self:y(SCREEN_CENTER_Y+118); self:maxwidth(140); end"
 			SpeedModChangedMessageCommand="queuecommand,Update"
 			RateModChangedMessageCommand="queuecommand,Update"
-			UpdateCommand="%function(self) self:settext(DisplayBPM(PLAYER_1, true, false)) end"
+			UpdateCommand="%function(self) self:settext(DisplayBPM(PLAYER_1)) end"
 			OnCommand="horizalign,left;zoom,0.5;"			
 		/>
 		<BitmapText
@@ -500,7 +500,7 @@
 			OnCommand="horizalign,left;zoom,0.5;queuecommand,loop;"
 			SpeedModChangedMessageCommand="queuecommand,Update"
 			RateModChangedMessageCommand="queuecommand,Update"
-			UpdateCommand="%function(self) self:settext(DisplayBPM(PLAYER_1, true, true)) end"			
+			UpdateCommand="%function(self) self:settext(DisplayScrollSpeed(PLAYER_1)) end"			
 			
 			loopCommand="%function(self)
 			getModP1 = 0;
@@ -611,7 +611,7 @@
 			OnCommand="horizalign,left;zoom,0.5;"			
 			SpeedModChangedMessageCommand="queuecommand,Update"
 			RateModChangedMessageCommand="queuecommand,Update"
-			UpdateCommand="%function(self) self:settext(DisplayBPM(PLAYER_2, true, false)) end"
+			UpdateCommand="%function(self) self:settext(DisplayBPM(PLAYER_2)) end"
 		/>
 		<BitmapText
 			Text="Speed:"
@@ -632,7 +632,7 @@
 			OnCommand="horizalign,left;zoom,0.5;queuecommand,loop;"
 			SpeedModChangedMessageCommand="queuecommand,Update"
 			RateModChangedMessageCommand="queuecommand,Update"
-			UpdateCommand="%function(self) self:settext(DisplayBPM(PLAYER_2, true, true)) end"			
+			UpdateCommand="%function(self) self:settext(DisplayScrollSpeed(PLAYER_2)) end"			
 			
 			loopCommand="%function(self)
 			getModP2 = 0;

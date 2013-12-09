@@ -450,85 +450,43 @@ function SpeedLines()
     end
 end
 
-function DisplayBPM(pn, includeRate, includeSpeed) 
-        local lowBPM = bpm[1]
-        local highBPM = bpm[2]  
+function DisplayBPM(pn) 
+    local lowBPM = bpm[1]
+    local highBPM = bpm[2]  
 
-        local rateMod = string.gsub(GetRateMod(),'x','')
-        rateMod = tonumber(rateMod)
+    local rateMod = string.gsub(GetRateMod(),'x','')
 
-        local speedMod = GetSpeedMod(pn)
-        speedMod = string.gsub(speedMod,'x','')
-        speedMod = string.gsub(speedMod,'c','')
-        speedMod = string.gsub(speedMod,'m','')
+    if lowBPM == "Various" or lowBPM == "..." or lowBPM == nil then
+        return "???"
+    end
 
-        if not includeRate then rateMod = 1 end
-        if not includeSpeed then speedMod = 1 end
+    lowScrollBPM = math.floor(lowBPM * rateMod)
 
-        if lowBPM == "Various" or lowBPM == "..." or lowBPM == nil then
-            return "???"
-        end
+    if highBPM ~= "" then highScrollBPM = math.floor(highBPM * rateMod) end
 
-        lowScrollBPM = lowBPM * speedMod * rateMod
+    if highBPM == "" then return lowScrollBPM else return lowScrollBPM .. "-" .. highScrollBPM end
+end
 
-        if string.sub(lowScrollBPM, 2, 2) == "." then
-        lowScrollBPM = string.sub(lowScrollBPM, 1, 1)
-        end
+function DisplayScrollSpeed(pn)
+    local lowBPM = bpm[1]
+    local highBPM = bpm[2]  
 
-        if string.sub(lowScrollBPM, 3, 3) == "." then
-        lowScrollBPM = string.sub(lowScrollBPM, 1, 2)
-        end
+    local rateMod = string.gsub(GetRateMod(),'x','')
 
-        if string.sub(lowScrollBPM, 4, 4) == "." then
-        lowScrollBPM = string.sub(lowScrollBPM, 1, 3)
-        end
+    local speedMod = GetSpeedMod(pn)
+    speedMod = string.gsub(speedMod,'x','')
+    speedMod = string.gsub(speedMod,'c','')
+    speedMod = string.gsub(speedMod,'m','')
 
-        if string.sub(lowScrollBPM, 5, 5) == "." then
-        lowScrollBPM = string.sub(lowScrollBPM, 1, 4)
-        end
+    if GetSpeedModType(pn) == "c-mod" or GetSpeedModType(pn) == "m-mod" then return speedMod end
 
-        if string.sub(lowScrollBPM, 6, 6) == "." then
-        lowScrollBPM = string.sub(lowScrollBPM, 1, 5)
-        end
+    if lowBPM == "Various" or lowBPM == "..." or lowBPM == nil then
+        return "???"
+    end
 
-        if highBPM ~= "" then
+    lowScrollBPM = math.floor(lowBPM * speedMod * rateMod)
 
-                highScrollBPM = highBPM * speedMod * rateMod
+    if highBPM ~= "" then highScrollBPM = math.floor(highBPM *speedMod * rateMod) end
 
-                if string.sub(highScrollBPM, 2, 2) == "." then
-                highScrollBPM = string.sub(highScrollBPM, 1, 1)
-                end
-
-                if string.sub(highScrollBPM, 3, 3) == "." then
-                highScrollBPM = string.sub(highScrollBPM, 1, 2)
-                end
-
-                if string.sub(highScrollBPM, 4, 4) == "." then
-                highScrollBPM = string.sub(highScrollBPM, 1, 3)
-                end
-
-                if string.sub(highScrollBPM, 5, 5) == "." then
-                highScrollBPM = string.sub(highScrollBPM, 1, 4)
-                end
-
-                if string.sub(highScrollBPM, 6, 6) == "." then
-                highScrollBPM = string.sub(highScrollBPM, 1, 5)
-                end
-        end
-
-        --[[
-        If we want to include rate and speed but we also have a c or m mod, we
-        can just return the speedMod as that will be the scroll speed regardless
-        of the rate/speed mod chosen
-        ]]--
-        if includeRate and includeSpeed and (GetSpeedModType(pn) == "m-mod" or GetSpeedModType(pn) == "c-mod") then
-            return speedMod
-        end
-
-        -- In every other case we return the bpm range adjusted for the speed and rate.
-        if highBPM == "" then
-            return lowScrollBPM
-        else
-            return lowScrollBPM .. "-" .. highScrollBPM
-        end
+    if highBPM == "" then return lowScrollBPM else return lowScrollBPM .. "-" .. highScrollBPM end
 end
