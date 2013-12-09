@@ -490,3 +490,17 @@ function DisplayScrollSpeed(pn)
 
     if highBPM == "" then return tostring(lowScrollBPM) else return lowScrollBPM .. "-" .. highScrollBPM end
 end
+
+function DisplaySongLength()
+	local SongLength = GetGlobal("TotalTime")
+	local RateMod = string.gsub(GetRateMod(), "x" ,"");
+	local ratio = 1/RateMod
+	
+	local pos = string.find(SongLength, ':')
+	local minutes = string.sub(SongLength, 1, pos-1)
+	local seconds = string.sub(SongLength, pos+1)
+	
+	seconds = (seconds + (minutes*60))*ratio
+	
+	return string.format("%.2d:%.2d", math.mod(seconds/60,60), math.mod(seconds,60))
+end

@@ -568,13 +568,8 @@
 			Text=""
 			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
 			File="_eurostile blue glow"
-			InitCommand="%function(self)  self:horizalign('left'); self:shadowlength(0); self:zoom(0.5); self:x(SCREEN_CENTER_X-200); self:y(SCREEN_CENTER_Y+166); self:queuecommand('loop'); end"
-			loopCommand="%function(self)
-			self:stoptweening();
-			if curRate ~= 1 then self:settext(gnSongLength..' (x'..curRate..' Music Rate)'); else self:settext(gnSongLength); end
-			self:sleep(0.03);
-			self:queuecommand('loop');
-			end"
+			InitCommand="%function(self)  self:horizalign('left'); self:shadowlength(0); self:zoom(0.5); self:x(SCREEN_CENTER_X-200); self:y(SCREEN_CENTER_Y+166); end"
+			RateModChangedMessageCommand="%function(self) self:settext(DisplaySongLength()) end"
 		/>
 	<!--Player 2's BPM & Speed Display-->
 		<BitmapText
@@ -685,13 +680,8 @@
 			Text=""
 			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
 			File="_eurostile blue glow"
-			InitCommand="%function(self)  self:horizalign('left'); self:shadowlength(0); self:zoom(0.5); self:x(SCREEN_CENTER_X+119); self:y(SCREEN_CENTER_Y+166); self:queuecommand('loop'); end"
-			loopCommand="%function(self)
-			self:stoptweening();
-			if curRate ~= 1 then self:settext(gnSongLength..' (x'..curRate..' Music Rate)'); else self:settext(gnSongLength); end
-			self:sleep(0.03);
-			self:queuecommand('loop');
-			end"
+			InitCommand="%function(self)  self:horizalign('left'); self:shadowlength(0); self:zoom(0.5); self:x(SCREEN_CENTER_X+119); self:y(SCREEN_CENTER_Y+166); end"
+			RateModChangedMessageCommand="%function(self) self:settext(DisplaySongLength()) end"
 		/>
 		
 	<Layer
