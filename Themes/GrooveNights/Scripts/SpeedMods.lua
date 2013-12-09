@@ -1,3 +1,68 @@
+--[[
+Simple SpeedMods API for 3.95/OpenITG, version 1.0
+Licensed under Creative Commons Attribution-Share Alike 3.0 Unported
+(http://creativecommons.org/licenses/by-sa/3.0/)
+
+Globally callable functions to set up multi-line speed mods and access the
+currently applied speed modifier.
+
+Written by Cameron Ball for OpenITG (http://www.boxorroxors.net/)
+All I ask is that you keep this notice intact and don't redistribute in bytecode.
+--]]
+
+
+-- This is purely for convenience
+local ProfileTable
+
+-- Without this check, when StepMania starts it will report a lua runtime error as PROFILEMAN apparently doesn't exist yet.
+if PROFILEMAN ~= nil then
+    ProfileTable = PROFILEMAN:GetMachineProfile():GetSaved()
+end
+
+	-- Valid speed mod row type names.
+local Names = { "Basic", "Advanced", "Pro" }
+
+function SpeedModTypeRow()
+        local type = GetSpeedModRowType()
+
+        local function Load(self, list, pn)
+                -- what we're doing here is checking what we got from profileman against the valid names.
+                for i=1,3 do
+                        if type == string.lower(Names[i]) then list[i] = true return end
+                end
+
+                -- if nothing matched then just default to pro
+                list[3] = true
+        end
+
+        local function Save(self, list, pn)
+                -- go through each item in the list and save the first one that is set to true
+                for i=1,3 do
+                        if list[i] then
+                                ProfileTable.SpeedModType = string.lower(Names[i])
+                                PROFILEMAN:SaveMachineProfile()
+                                return
+                        end
+                end
+        end
+
+        local Params = { Name = "SpeedModType" }
+
+        return CreateOptionRow( Params, Names, Load, Save )
+end
+
+function GetSpeedModRowType()
+        local type = ProfileTable.SpeedModType
+
+        -- as soon as we find a valid name, return it.
+        for i=1,3 do
+            if type == string.lower(Names[i]) then return type end
+        end
+
+        -- no pref, default to the first name in the list.
+        return string.lower(Names[1])
+end
+
 function GetRateMods()
     return { "1.0x", "1.1x", "1.2x", "1.3x", "1.4x", "1.5x", "1.6x", "1.7x", "2.0x"}
 end
