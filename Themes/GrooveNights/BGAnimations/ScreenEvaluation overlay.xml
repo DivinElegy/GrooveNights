@@ -114,37 +114,7 @@ end">
 			/>
 			</children>
 		</ActorFrame>
-		
-	<!--[OBSOLETE BUT HAS CALCULATIONS] Display Song's Length-->
-	<BitmapText Font="_eurostile normal" Text=""
-	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
-	InitCommand="%function(self)
-	if gnSongLength == nil then gnSongLength = '' end
-	if gnSongLength == 'Patched' then gnSongLength = 'Length Patched' end
-	self:settext(gnSongLength);
-	self:x(SCREEN_CENTER_X+101);
-	self:y(SCREEN_CENTER_Y-89);
-	self:zoom(0.5);
-	self:shadowlength(0);
-	self:horizalign('right');
-	self:hidden(1);
-	end"
-	/>
-	<BitmapText Font="_eurostile normal" Text=""
-	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
-	InitCommand="%function(self)
-	if gnSongLength == nil then gnSongLength = '' end
-	if gnSongLength == 'Patched' then gnSongLength = 'Length Patched' end
-	self:settext(gnSongLength);
-	self:x(SCREEN_CENTER_X+101);
-	self:y(SCREEN_CENTER_Y-89);
-	self:zoom(0.5);
-	self:shadowlength(0);
-	self:horizalign('right');
-	self:hidden(1);
-	end"
-	/>
-	
+			
 	<!--Cull the Mods-->
 	<BitmapText Font="_eurostile normal" Text=""
 	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"

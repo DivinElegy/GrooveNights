@@ -240,6 +240,15 @@ end"
 					end"
 				/>
 				
+<!-- Determine Song Length-->
+		<BitmapText
+			Text=""
+			File="_eurostile blue glow"
+			InitCommand="%function(self)  self:horizalign('right'); self:maxwidth(67); self:shadowlength(0); self:zoom(0.55); self:x(93+97); self:y(-22); self:draworder(10000); self:queuecommand('Update'); end"
+			CurrentStepsP1ChangedMessageCommand="queuecommand,Update"
+			CurrentStepsP2ChangedMessageCommand="queuecommand,Update"
+			UpdateCommand="%function(self) self:settext(DisplaySongLength()) end"			
+		/>
 <!-- Determine Song Location-->
 		<BitmapText
 			Text=""

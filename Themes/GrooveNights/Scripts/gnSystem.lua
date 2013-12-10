@@ -383,5 +383,17 @@ local function HighBPM( BPMDisplay )
 	if pos ~= nil then return string.sub(BPMDisplay,pos+1) else return BPMDisplay end
 end
 
+local function TotalTimeMinutes( TimeDisplay ) 
+	local pos = string.find(TimeDisplay, ':')
+	return string.sub(TimeDisplay, 1, pos-1) 
+end
+
+local function TotalTimeSeconds( TimeDisplay )
+	local pos = string.find(TimeDisplay, ':')
+	return string.sub(TimeDisplay, pos+1)
+end
+
 RegisterGlobalCallback("HighBPM", HighBPM)
 RegisterGlobalCallback("LowBPM", LowBPM)
+RegisterGlobalCallback("TotalTimeMinutes", TotalTimeMinutes)
+RegisterGlobalCallback("TotalTimeSeconds", TotalTimeSeconds)
