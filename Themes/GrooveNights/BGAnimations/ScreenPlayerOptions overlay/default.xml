@@ -498,16 +498,22 @@
 			OnCommand="horizalign,left;zoom,0.5;"
 			SpeedModChangedMessageCommand="queuecommand,Update"
 			RateModChangedMessageCommand="queuecommand,Update"
-			UpdateCommand="%function(self) self:settext(DisplayScrollSpeed(PLAYER_1)) end"
+			UpdateCommand="%function(self) self:settext(DisplayScrollSpeed(PLAYER_1)) v = self:GetWidth(); end"
 		/>
-		
+
+<!--Easter Eggs P1 - ActorFrame positions all at once-->
+<ActorFrame Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
+			InitCommand="x,SCREEN_CENTER_X-200;y,SCREEN_CENTER_Y+134;zoom,0.5;"
+			SpeedModChangedMessageCommand="sleep,0.01;queuecommand,Update"
+			RateModChangedMessageCommand="sleep,0.01;queuecommand,Update"
+			UpdateCommand="%function(self) self:x(SCREEN_CENTER_X-200+v-10); end"
+><children>		
 <!--Blaze It P1 -->
 		<Layer
-                        Type="BitmapText"
-			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
+            Type="BitmapText"
 			File="_eurostile blue glow"
-			InitCommand="zoom,0.65; shadowlength,0; x,SCREEN_CENTER_X-303; y,SCREEN_CENTER_Y;diffusealpha,0"
-			OnCommand="horizalign,left;zoom,0.65;rainbow;"
+			InitCommand="shadowlength,0;diffusealpha,0"
+			OnCommand="horizalign,left;rainbow;"
 			SpeedModChangedMessageCommand="queuecommand,Update"
 			RateModChangedMessageCommand="queuecommand,Update"
 			UpdateCommand="%function(self) DoEasterEgg('BlazeIt', { pn = PLAYER_1, Actor = self }) end"
@@ -516,14 +522,14 @@
 <!--No Scope P1 -->		
 		<BitmapText
 			Text="No Scope!"
-			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
 			File="_eurostile blue glow"
-			InitCommand="zoom,0.65; shadowlength,0; x,SCREEN_CENTER_X-303; y,SCREEN_CENTER_Y+100;diffusealpha,0"
-			OnCommand="horizalign,left;zoom,0.65;rainbow;"
+			InitCommand="shadowlength,0;diffusealpha,0"
+			OnCommand="horizalign,left;rainbow;"
 			SpeedModChangedMessageCommand="queuecommand,Update"
 			RateModChangedMessageCommand="queuecommand,Update"
 			UpdateCommand="%function(self) DoEasterEgg('NoScope', { pn = PLAYER_1, Actor = self }) end"
 		/>
+</children></ActorFrame>
 			
 <!--Step Artists P1-->
 		<BitmapText
@@ -612,16 +618,22 @@
 			OnCommand="horizalign,left;zoom,0.5;"
 			SpeedModChangedMessageCommand="queuecommand,Update"
 			RateModChangedMessageCommand="queuecommand,Update"
-			UpdateCommand="%function(self) self:settext(DisplayScrollSpeed(PLAYER_2)) end"			
+			UpdateCommand="%function(self) self:settext(DisplayScrollSpeed(PLAYER_2)) u = self:GetWidth(); end"			
 		/>
-
+		
+<!--Easter Eggs P2 - ActorFrame positions all at once-->		
+<ActorFrame Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
+			InitCommand="x,SCREEN_CENTER_X+119;y,SCREEN_CENTER_Y+134;zoom,0.5;"
+			SpeedModChangedMessageCommand="sleep,0.01;queuecommand,Update"
+			RateModChangedMessageCommand="sleep,0.01;queuecommand,Update"
+			UpdateCommand="%function(self) self:x(SCREEN_CENTER_X+119+u-10); end"
+><children>	
 <!--Blaze It P2 -->
 		<BitmapText
 			Text="Blaze It!"
-			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
 			File="_eurostile blue glow"
-			InitCommand="zoom,0.65; shadowlength,0; x,SCREEN_CENTER_X+303; y,SCREEN_CENTER_Y;diffusealpha,0"
-			OnCommand="horizalign,left;zoom,0.65;rainbow;"
+			InitCommand="shadowlength,0;diffusealpha,0"
+			OnCommand="horizalign,left;rainbow;"
 			SpeedModChangedMessageCommand="queuecommand,Update"
 			RateModChangedMessageCommand="queuecommand,Update"
 			UpdateCommand="%function(self) DoEasterEgg('BlazeIt', { pn = PLAYER_2, Actor = self }) end"
@@ -630,14 +642,14 @@
 <!--No Scope P2 -->		
 		<BitmapText
 			Text="No Scope!"
-			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
 			File="_eurostile blue glow"
-			InitCommand="zoom,0.65; shadowlength,0; x,SCREEN_CENTER_X+303; y,SCREEN_CENTER_Y+100;diffusealpha,0"
-			OnCommand="horizalign,left;zoom,0.65;rainbow;"
+			InitCommand="shadowlength,0;diffusealpha,0"
+			OnCommand="horizalign,left;rainbow;"
 			SpeedModChangedMessageCommand="queuecommand,Update"
 			RateModChangedMessageCommand="queuecommand,Update"
 			UpdateCommand="%function(self) DoEasterEgg('NoScope', { pn = PLAYER_2, Actor = self }) end"
 		/>
+</children></ActorFrame>
 		
 <!--Step Artists P2-->
 		<BitmapText
