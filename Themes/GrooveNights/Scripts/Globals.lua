@@ -1,10 +1,52 @@
+--[[
+Simple API to save screen elements for later use for 3.95/OpenITG, version 1.0
+Licensed under Creative Commons Attribution-Share Alike 3.0 Unported
+(http://creativecommons.org/licenses/by-sa/3.0/)
+
+Globally callable functions to safely store an actor to be used on a later screen.
+
+Written by Cameron Ball for OpenITG (http://www.boxorroxors.net/)
+All I ask is that you keep this notice intact and don't redistribute in bytecode.
+--]]
+
+--[[
+Callable functions:
+
+RegisterGlobal( Actor, Name )
+[saves Actor for later use]
+        - Actor: the actor to save.
+        - Name: the name of the actor for later reference, must be unique.
+
+GetGlobal( Names )
+[returns a previously saved actor]
+        - Name: the name of the actor to retrieve.
+
+The intended way to use this API is by calling RegisterGlobal from your theme's
+metrics.ini. For example, to save away the song length to use later you would
+put this in metrics.ini under [ScreenSelectMusic]:
+
+TotalTimeOnCommand=%function(self) RegisterGlobal(self, "TotalTime") end
+
+Then if you wanted to use the song length actor on the options screen, you can
+access it like this:
+
+local SongLength = GetGlobal("TotalTime")
+
+After which you can do any sort of actor goodness on it as per usual. EG:
+
+SongLength:GetText()
+SongLength:rainbow()
+
+etc
+]]--
+
 local GlobalsTable = {}
 
-function RegisterGlobal(Actor, name)
-	-- Todo: check that this global isn't already registered	
-	GlobalsTable[name] = Actor:GetText()	
+function RegisterGlobal(Actor, Name)
+	assert(GlobalsTable[Name] == nil, "Cannot register actor ".. name .. ". It has already been registered")
+	GlobalsTable[Name] = Actor
 end
 
-function GetGlobal(name)
-	return GlobalsTable[name]
+function GetGlobal(Name)
+	return GlobalsTable[Name]
 end
