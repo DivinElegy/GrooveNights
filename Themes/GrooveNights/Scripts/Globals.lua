@@ -31,20 +31,13 @@ Then if you wanted to use the song length actor on the options screen, you can
 access it like this:
 
 local SongLength = GetGlobal("TotalTime")
-
-After which you can do any sort of actor goodness on it as per usual. EG:
-
-SongLength:GetText()
-SongLength:rainbow()
-
-etc
 ]]--
 
 local GlobalsTable = {}
 
 function RegisterGlobal(Actor, Name)
-	assert(GlobalsTable[Name] == nil, "Cannot register actor ".. name .. ". It has already been registered")
-	GlobalsTable[Name] = Actor
+	assert(GlobalsTable[Name] == nil, "Cannot register actor ".. Name .. ". It has already been registered")
+	GlobalsTable[Name] = Actor:GetText()
 end
 
 function GetGlobal(Name)

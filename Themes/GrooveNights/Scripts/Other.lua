@@ -430,9 +430,9 @@ end
 
 function oitgACoptions()
     -- Right now we return the same line names for both OITG and whatever else happens to be running. But in the future they might be different.
-    if OPENITG then return "1,2,3,4,5,6,7,8,9,10,11,12" end
+    if OPENITG then return "1,2,3,4,5,6,7,8,9,10,11" end
 
-    return "1,2,3,4,5,6,7,8,9,10,11,12"
+    return "1,2,3,4,5,6,7,8,9,10,11"
 end
 
 function SongModifiers()
@@ -492,7 +492,8 @@ function DisplayScrollSpeed(pn)
 end
 
 function DisplaySongLength()
-	local SongLength = GetGlobal("TotalTime"):GetText()
+	local SongLength = GetGlobal("TotalTime")
+
 	local RateMod = string.gsub(GetRateMod(), "x" ,"")
 	local ratio = 1/RateMod
 	
@@ -501,6 +502,6 @@ function DisplaySongLength()
 	local seconds = string.sub(SongLength, pos+1)
 	
 	seconds = (seconds + (minutes*60))*ratio
-	
+
 	return string.format("%.2d:%.2d", math.mod(seconds/60,60), math.mod(seconds,60))
 end
