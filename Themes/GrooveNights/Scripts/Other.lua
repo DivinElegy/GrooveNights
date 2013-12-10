@@ -430,9 +430,9 @@ end
 
 function oitgACoptions()
     -- Right now we return the same line names for both OITG and whatever else happens to be running. But in the future they might be different.
-    if OPENITG then return "1,2,3,4,5,6,7,8,9,10,11" end
+    if OPENITG then return "1,2,3,4,5,6,7,8,9,10,11,12" end
 
-    return "1,2,3,4,5,6,7,8,9,10,11"
+    return "1,2,3,4,5,6,7,8,9,10,11,12"
 end
 
 function SongModifiers()

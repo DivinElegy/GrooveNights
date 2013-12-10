@@ -510,7 +510,7 @@
 			OnCommand="horizalign,left;zoom,0.65;rainbow;"
 			SpeedModChangedMessageCommand="queuecommand,Update"
 			RateModChangedMessageCommand="queuecommand,Update"
-			UpdateCommand="%function(self) if IsBlazed(PLAYER_1) then self:diffusealpha(1) else self:diffusealpha(0) end end"
+			UpdateCommand="%function(self) if DoEasterEgg('BlazeIt', {pn = PLAYER_1}) then self:diffusealpha(1) else self:diffusealpha(0) end end"
 		/>
 		
 <!--No Scope P1 -->		
@@ -522,7 +522,7 @@
 			OnCommand="horizalign,left;zoom,0.65;rainbow;"
 			SpeedModChangedMessageCommand="queuecommand,Update"
 			RateModChangedMessageCommand="queuecommand,Update"
-			UpdateCommand="%function(self) if IsNoScoped(PLAYER_1) then self:diffusealpha(1) else self:diffusealpha(0) end end"
+			UpdateCommand="%function(self) if DoEasterEgg('NoScope', {pn = PLAYER_1}) then self:diffusealpha(1) else self:diffusealpha(0) end end"
 		/>
 			
 <!--Step Artists P1-->
@@ -624,7 +624,7 @@
 			OnCommand="horizalign,left;zoom,0.65;rainbow;"
 			SpeedModChangedMessageCommand="queuecommand,Update"
 			RateModChangedMessageCommand="queuecommand,Update"
-			UpdateCommand="%function(self) if IsBlazed(PLAYER_2) then self:diffusealpha(1) else self:diffusealpha(0) end end"
+			UpdateCommand="%function(self) if DoEasterEgg('BlazeIt', {pn = PLAYER_2}) then self:diffusealpha(1) else self:diffusealpha(0) end end"
 		/>
 		
 <!--No Scope P2 -->		
@@ -636,7 +636,7 @@
 			OnCommand="horizalign,left;zoom,0.65;rainbow;"
 			SpeedModChangedMessageCommand="queuecommand,Update"
 			RateModChangedMessageCommand="queuecommand,Update"
-			UpdateCommand="%function(self) if IsNoScoped(PLAYER_2) then self:diffusealpha(1) else self:diffusealpha(0) end end"
+			UpdateCommand="%function(self) if DoEasterEgg('NoScope', {pn = PLAYER_2}) then self:diffusealpha(1) else self:diffusealpha(0) end end"
 		/>
 		
 <!--Step Artists P2-->

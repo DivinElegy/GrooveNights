@@ -19,7 +19,7 @@ if PROFILEMAN ~= nil then
     ProfileTable = PROFILEMAN:GetMachineProfile():GetSaved()
 end
 
-	-- Valid speed mod row type names.
+-- Valid speed mod row type names.
 local Names = { "Basic", "Advanced", "Pro" }
 
 function SpeedModTypeRow()
