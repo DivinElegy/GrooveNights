@@ -36,7 +36,6 @@ local SongLength = GetGlobal("TotalTime")
 local GlobalsTable = {}
 
 function RegisterGlobal(Actor, Name)
-	assert(GlobalsTable[Name] == nil, "Cannot register actor ".. Name .. ". It has already been registered")
 	GlobalsTable[Name] = Actor:GetText()
 end
 
