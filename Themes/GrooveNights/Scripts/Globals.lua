@@ -1,5 +1,5 @@
 --[[
-Simple API to save screen elements for later use for 3.95/OpenITG, version 1.0
+Simple API to save screen elements for later use for StepMania 3.95/OpenITG, version 1.0
 Licensed under Creative Commons Attribution-Share Alike 3.0 Unported
 (http://creativecommons.org/licenses/by-sa/3.0/)
 
@@ -12,12 +12,12 @@ All I ask is that you keep this notice intact and don't redistribute in bytecode
 --[[
 Callable functions:
 
-RegisterGlobal( Actor, Name )
-[saves Actor for later use]
-        - Actor: the actor to save.
+RegisterGlobal( Name, Actor )
+[saves text from Actor for later use]
         - Name: the name of the actor for later reference, must be unique.
+        - Actor: the actor to save.
 
-GetGlobal( Names )
+GetGlobal( Name )
 [returns a previously saved actor]
         - Name: the name of the actor to retrieve.
 
@@ -35,7 +35,7 @@ local SongLength = GetGlobal("TotalTime")
 
 local GlobalsTable = {}
 
-function RegisterGlobal(Actor, Name)
+function RegisterGlobal( Name, Actor )
 	GlobalsTable[Name] = Actor:GetText()
 end
 

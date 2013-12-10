@@ -349,17 +349,25 @@ end
 
 
 --easter eggs
-local function IsBlazed(Params)
-	if DisplayScrollSpeed(Params.pn) == '420' then return true end
-		
-	return false
+local function BlazeIt(Params)
+    if DisplayScrollSpeed(Params.pn) == '420' then
+        Params.Actor:settext("Blaze It!")
+        Params.Actor:diffusealpha(1)
+        Params.Actor:rainbow()
+    else 
+        Params.Actor:diffusealpha(0)
+    end
 end
 
-local function IsNoScoped(Params)
-	if DisplayScrollSpeed(Params.pn) == '360' then return true end
-		
-	return false
+local function NoScope(Params)
+    if DisplayScrollSpeed(Params.pn) == '360' then
+        Params.Actor:settext("No Scope!")
+        Params.Actor:diffusealpha(1)
+        Params.Actor:rainbow()
+    else 
+        Params.Actor:diffusealpha(0)
+    end
 end
 
-RegisterEasterEgg("BlazeIt", IsBlazed)
-RegisterEasterEgg("NoScope", IsNoScoped)
+RegisterEasterEgg("BlazeIt", BlazeIt)
+RegisterEasterEgg("NoScope", NoScope)
