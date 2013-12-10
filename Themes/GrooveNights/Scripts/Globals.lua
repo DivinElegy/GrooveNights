@@ -20,25 +20,57 @@ RegisterGlobal( Name, Actor )
 GetGlobal( Name )
 [returns a previously saved actor]
         - Name: the name of the actor to retrieve.
+		
+RegisterGlobalCallback( Name, fn )
+[sets up a function to be called when a global is registered]
+		- Name: the name of the global to apply the callback to
+		- fn: the callback
 
 The intended way to use this API is by calling RegisterGlobal from your theme's
-metrics.ini. For example, to save away the song length to use later you would
+metrics.ini. For example, to save away the song bpm to use later you would
 put this in metrics.ini under [ScreenSelectMusic]:
 
-TotalTimeOnCommand=%function(self) RegisterGlobal(self, "TotalTime") end
+BPMDisplayOnCommand=%function(self) RegisterGlobal("HighBPM", self:GetChild('Text')); RegisterGlobal("LowBPM", self:GetChild('Text')); end
+BPMDisplayCurrentStepsP1ChangedMessageCommand=%function(self) RegisterGlobal("HighBPM", self:GetChild('Text')); RegisterGlobal("LowBPM", self:GetChild('Text')) end
+BPMDisplayCurrentStepsP2ChangedMessageCommand=%function(self) RegisterGlobal("HighBPM", self:GetChild('Text')); RegisterGlobal("LowBPM", self:GetChild('Text')) end
 
-Then if you wanted to use the song length actor on the options screen, you can
-access it like this:
+(NB: RegisterGlobal must be called on CurrentStepsP[1/2]Changed since that message is broadcast AFTER
+the bpm display has been updated, therefore when we call RegisterGlobal it gets the correct value)
 
-local SongLength = GetGlobal("TotalTime")
+Then we can set up callbacks to pull out the low and high BPMs like so:
+
+local function LowBPM( BPMDisplay )
+	local pos = string.find(BPMDisplay, "-")
+	if pos ~= nil then return string.sub(BPMDisplay,1,pos-1) else return BPMDisplay end
+end
+
+local function HighBPM( BPMDisplay )
+	local pos = string.find(BPMDisplay, "-")
+	if pos ~= nil then return string.sub(BPMDisplay,pos+1) else return BPMDisplay end
+end
+
+RegisterGlobalCallback("HighBPM", HighBPM)
+RegisterGlobalCallback("LowBPM", LowBPM)
+
+Then if you wanted to use the BPM on a different screen you could do it like this:
+
+local BPMDisplay = GetGlobal("LowBPM") .. "-" .. GetGlobal("HighBPM")
 ]]--
 
 local GlobalsTable = {}
+local CallbackTable = {}
 
 function RegisterGlobal( Name, Actor )
 	GlobalsTable[Name] = Actor:GetText()
+	
+	if CallbackTable[Name] ~= nil then GlobalsTable[Name] = CallbackTable[Name](GlobalsTable[Name]) end
 end
 
 function GetGlobal(Name)
 	return GlobalsTable[Name]
+end
+
+function RegisterGlobalCallback(Name, fn)
+    assert(CallbackTable[Name] == nil, "Cannot re-register global callback " .. Name)
+    CallbackTable[Name] = fn
 end

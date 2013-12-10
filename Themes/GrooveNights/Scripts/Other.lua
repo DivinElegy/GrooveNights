@@ -451,8 +451,10 @@ function SpeedLines()
 end
 
 function DisplayBPM(pn) 
-    local lowBPM = bpm[1]
-    local highBPM = bpm[2]  
+    local lowBPM = GetGlobal("LowBPM")
+    local highBPM = GetGlobal("HighBPM")
+	
+	if lowBPM == highBPM then highBPM = nil end
 
     local rateMod = string.gsub(GetRateMod(),'x','')
 
@@ -462,14 +464,16 @@ function DisplayBPM(pn)
 
     lowScrollBPM = math.floor(lowBPM * rateMod)
 
-    if highBPM ~= "" then highScrollBPM = math.floor(highBPM * rateMod) end
+    if highBPM then highScrollBPM = math.floor(highBPM * rateMod) end
 
-    if highBPM == "" then return tostring(lowScrollBPM) else return lowScrollBPM .. "-" .. highScrollBPM end
+    if not highBPM then return tostring(lowScrollBPM) else return lowScrollBPM .. "-" .. highScrollBPM end
 end
 
 function DisplayScrollSpeed(pn)
-    local lowBPM = bpm[1]
-    local highBPM = bpm[2]  
+    local lowBPM = GetGlobal("LowBPM")
+    local highBPM = GetGlobal("HighBPM")
+	
+	if lowBPM == highBPM then highBPM = nil end 
 
     local rateMod = string.gsub(GetRateMod(),'x','')
 
@@ -486,9 +490,9 @@ function DisplayScrollSpeed(pn)
 
     lowScrollBPM = math.floor(lowBPM * speedMod * rateMod)
 
-    if highBPM ~= "" then highScrollBPM = math.floor(highBPM *speedMod * rateMod) end
+    if highBPM then highScrollBPM = math.floor(highBPM *speedMod * rateMod) end
 
-    if highBPM == "" then return tostring(lowScrollBPM) else return lowScrollBPM .. "-" .. highScrollBPM end
+    if not highBPM then return tostring(lowScrollBPM) else return lowScrollBPM .. "-" .. highScrollBPM end
 end
 
 function DisplaySongLength()

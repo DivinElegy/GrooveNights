@@ -371,3 +371,17 @@ end
 
 RegisterEasterEgg("BlazeIt", BlazeIt)
 RegisterEasterEgg("NoScope", NoScope)
+
+--global variable callbacks
+local function LowBPM( BPMDisplay )
+	local pos = string.find(BPMDisplay, "-")
+	if pos ~= nil then return string.sub(BPMDisplay,1,pos-1) else return BPMDisplay end
+end
+
+local function HighBPM( BPMDisplay )
+	local pos = string.find(BPMDisplay, "-")
+	if pos ~= nil then return string.sub(BPMDisplay,pos+1) else return BPMDisplay end
+end
+
+RegisterGlobalCallback("HighBPM", HighBPM)
+RegisterGlobalCallback("LowBPM", LowBPM)
