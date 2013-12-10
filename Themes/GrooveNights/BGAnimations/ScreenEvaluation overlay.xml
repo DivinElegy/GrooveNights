@@ -263,13 +263,9 @@ end">
                             local bpm = DisplayBPM(pn)
 
                             if GetRateMod() ~= '1.0x' then
-                                gnSongLengthDisplay = string.gsub(gnSongLength,'Patched','Length Patched');
-                                gnSongLengthDisplay = string.gsub(gnSongLength,'Length Length Patched','Length Patched');
-                                self:settext(bpm .. ' BPM ('..GetRateMod()..' Music Rate) - '..gnSongLengthDisplay);
+								self:settext(bpm .. ' BPM ('..GetRateMod()..' Music Rate) - '..DisplaySongLength());
                             else
-                                gnSongLengthDisplay = string.gsub(gnSongLength,'Patched','Length Patched');
-                                gnSongLengthDisplay = string.gsub(gnSongLength,'Length Length Patched','Length Patched');
-                                self:settext(bpm .. ' BPM - '..gnSongLengthDisplay);
+                                self:settext(bpm .. ' BPM - '.. DisplaySongLength());
                             end
 			end"
 		/>

@@ -240,26 +240,6 @@ end"
 					end"
 				/>
 				
-<!-- Determine Song Length-->
-		<BitmapText
-			Text=""
-			File="_eurostile blue glow"
-			InitCommand="%function(self)  self:horizalign('right'); self:maxwidth(67); self:shadowlength(0); self:zoom(0.55); self:x(93+97); self:y(-22); self:draworder(10000); self:queuecommand('loop'); end"
-			loopCommand="%function(self)
-			self:stoptweening();
-			gnSongLength = SCREENMAN:GetTopScreen():GetChild('TotalTime'):GetText();
-			if gnSongLength == '01:45.00' then
-				gnSongLength = 'Patched'
-				self:diffuseblink();
-				else
-				self:stopeffect();
-				gnSongLength = string.sub(gnSongLength, 1, -4);
-				end
-			self:settext(gnSongLength);
-			self:sleep(0.05);
-			self:queuecommand('loop');
-			end"
-		/>
 <!-- Determine Song Location-->
 		<BitmapText
 			Text=""
