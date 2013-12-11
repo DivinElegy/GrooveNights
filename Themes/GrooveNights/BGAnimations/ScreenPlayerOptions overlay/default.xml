@@ -129,22 +129,7 @@
 			InitCommand="%function(self)  self:x(self:GetWidth()/2) self:shadowlength(0) self:addy(-300); self:queuecommand('loop'); end"
 			OnCommand="Zoom,1;DiffuseAlpha,0;"
 		/>
-<!--Find the Rate Mod-->
-		<BitmapText
-			Text="@GetRateMod()"
-			File="_eurostile blue glow"
-			InitCommand="%function(self)  self:x(self:GetWidth()/2) self:shadowlength(0) self:addy(-300); self:queuecommand('loop'); end"
-			OnCommand="Zoom,1;DiffuseAlpha,0;"
-			loopCommand="%function(self)
-			getRate = 0;
-			setRate = 0;
-			self:diffusealpha(0);
-			self:settext(GetRateMod());
-			self:stoptweening();
-			self:sleep(0.1);
-			self:queuecommand('loop');
-			end"
-		/>
+
 <!--Current Song-->
 		<BitmapText
 			Text=""
@@ -479,56 +464,60 @@
 			RateModChangedMessageCommand="%function(self) self:settext(DisplayBPM(PLAYER_1)) end"
 			OnCommand="horizalign,left;zoom,0.5;"			
 		/>
-		<BitmapText
-			Text="Speed:"
-			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
-			File="_eurostile blue glow"
-			OnCommand="@'horizalign,left;shadowlength,0;zoom,0.5;diffuse,'..LabelColor()..';'"
-
-			InitCommand="%function(self)
-			self:x(SCREEN_CENTER_X-240);
-			self:y(SCREEN_CENTER_Y+134);
-			end"
-		/>
-		<BitmapText
-			Text=""
-			Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
-			File="_eurostile blue glow"
-			InitCommand="%function(self) self:zoom(0.5); self:shadowlength(0); self:x(SCREEN_CENTER_X-200); self:y(SCREEN_CENTER_Y+134); p1Distance=0; end"
-			OnCommand="horizalign,left;zoom,0.5;"
-			SpeedModChangedMessageCommand="queuecommand,Update"
-			RateModChangedMessageCommand="queuecommand,Update"
-			UpdateCommand="%function(self) self:settext(DisplayScrollSpeed(PLAYER_1)) v = self:GetWidth(); end"
-		/>
+		<!-- Speed -->
+		<ActorFrame
+			InitCommand="x,SCREEN_CENTER_X-240; y,SCREEN_CENTER_Y+134"
+			OnCommand="zoom,0.5; ShadowLength,0"
+		><children>
+			<!-- Speed label -->
+			<BitmapText
+				Text="Speed:"
+				Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
+				InitCommand="horizalign,left"
+				OnCommand="@'diffuse,' .. LabelColor() .. ';'"
+				File="_eurostile blue glow"
+			/>
+			
+			<!-- Speed display -->
+			<BitmapText
+				Text=""
+				Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
+				File="_eurostile blue glow"
+				InitCommand="x,80;horizalign,left"
+				SpeedModChangedMessageCommand="queuecommand,Update"
+				RateModChangedMessageCommand="queuecommand,Update"
+				UpdateCommand="%function(self) self:settext(DisplayScrollSpeed(PLAYER_1)) end"
+			/>
+			
+			<!--Blaze It P1 -->
+			<BitmapText
+				File="_eurostile blue glow"
+				InitCommand="x,80"
+				OnCommand="horizalign,left;rainbow;"
+				SpeedModChangedMessageCommand="queuecommand,Update"
+				RateModChangedMessageCommand="queuecommand,Update"
+				UpdateCommand="%function(self) DoEasterEgg('BlazeIt', { pn = PLAYER_1, Actor = self }) end"
+			/>
+			
+			<!--No Scope P1 -->		
+			<BitmapText
+				File="_eurostile blue glow"
+				InitCommand="x,80"
+				OnCommand="horizalign,left;rainbow;"
+				SpeedModChangedMessageCommand="queuecommand,Update"
+				RateModChangedMessageCommand="queuecommand,Update"
+				UpdateCommand="%function(self) DoEasterEgg('NoScope', { pn = PLAYER_1, Actor = self }) end"
+			/>
+		</children></ActorFrame>
 
 <!--Easter Eggs P1 - ActorFrame positions all at once-->
 <ActorFrame Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
 			InitCommand="x,SCREEN_CENTER_X-200;y,SCREEN_CENTER_Y+134;zoom,0.5;"
 			SpeedModChangedMessageCommand="sleep,0.01;queuecommand,Update"
 			RateModChangedMessageCommand="sleep,0.01;queuecommand,Update"
-			UpdateCommand="%function(self) self:x(SCREEN_CENTER_X-200+v-10); end"
+			UpdateCommand="%function(self) self:x(SCREEN_CENTER_X-200+10); end"
 ><children>		
-<!--Blaze It P1 -->
-		<Layer
-            Type="BitmapText"
-			File="_eurostile blue glow"
-			InitCommand="shadowlength,0;diffusealpha,0"
-			OnCommand="horizalign,left;rainbow;"
-			SpeedModChangedMessageCommand="queuecommand,Update"
-			RateModChangedMessageCommand="queuecommand,Update"
-			UpdateCommand="%function(self) DoEasterEgg('BlazeIt', { pn = PLAYER_1, Actor = self }) end"
-		/>
-		
-<!--No Scope P1 -->		
-		<BitmapText
-			Text="No Scope!"
-			File="_eurostile blue glow"
-			InitCommand="shadowlength,0;diffusealpha,0"
-			OnCommand="horizalign,left;rainbow;"
-			SpeedModChangedMessageCommand="queuecommand,Update"
-			RateModChangedMessageCommand="queuecommand,Update"
-			UpdateCommand="%function(self) DoEasterEgg('NoScope', { pn = PLAYER_1, Actor = self }) end"
-		/>
+
 </children></ActorFrame>
 			
 <!--Step Artists P1-->
