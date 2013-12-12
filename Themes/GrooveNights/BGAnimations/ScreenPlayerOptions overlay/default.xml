@@ -9,29 +9,32 @@
         <!-- Options pane -->
 	<Layer File="../ScreenOptions overlay"/>
 
-        <!-- Current song pane -->
-        <ActorFrame
-            InitCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-172; horizalign,center"
-            OnCommand="shadowlength,0"
-        ><children>
-            <!-- Song title -->
-            <Layer
-                Type="BitmapText"
-                File="_eurostile blue glow"
-                InitCommand="maxwidth,450"
-                OnCommand="zoom,0.75;playcommand,Update"                
-                UpdateCommand="%SetFromSongTitleAndCourseTitle"
-            />
-            	
-            <!-- Song artist -->	
-            <Layer
-                Type="BitmapText"
-                File="_eurostile blue glow"
-                Condition="not GAMESTATE:IsCourseMode()"
-                InitCommand="y,15;maxwidth,350"
-                OnCommand="zoom,0.5;playcommand,Update"
-                UpdateCommand="%SetFromSongArtist"
-            />
-        </children></ActorFrame>
-        <!-- End current song pane -->
+	<!-- Current song pane -->
+	<ActorFrame
+		InitCommand="x,SCREEN_CENTER_X; y,65; horizalign,center"
+		OnCommand="shadowlength,0"
+	><children>
+		<!-- Song title -->
+		<Layer
+			Type="BitmapText"
+			File="_eurostile blue glow"
+			InitCommand="maxwidth,450"
+			OnCommand="zoom,0.75;playcommand,Update"                
+			UpdateCommand="%SetFromSongTitleAndCourseTitle"
+		/>
+			
+		<!-- Song artist -->	
+		<Layer
+			Type="BitmapText"
+			File="_eurostile blue glow"
+			Condition="not GAMESTATE:IsCourseMode()"
+			InitCommand="y,15;maxwidth,350"
+			OnCommand="zoom,0.5;playcommand,Update"
+			UpdateCommand="%SetFromSongArtist"
+		/>
+	</children></ActorFrame>
+	<!-- End current song pane -->
+	
+	<!-- Player pane -->
+	<Layer File="../_player pane"/>
 </children></ActorFrame>

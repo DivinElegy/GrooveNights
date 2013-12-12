@@ -1,0 +1,24 @@
+<ActorFrame
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
+	InitCommand="x,SCREEN_LEFT-7;y,SCREEN_BOTTOM-26"
+><children>
+
+	<!-- I don't know what this is for right now -->
+	<Layer
+		File="../Graphics/PaneDisplay under.png"
+		InitCommand="@'diffuse,'..FrameColor()..';horizalign,left;vertalign,bottom'"
+	/>
+
+	<!-- Pane BG -->
+	<Layer
+		File="../Graphics/PaneDisplay p1 B.png"
+		InitCommand="@'diffuse,'..BackgroundColor()..';horizalign,left;vertalign,bottom;'"
+	/>
+	
+	<Layer
+		File="../Graphics/PaneDisplay p1 F.png"
+		OnCommand="@'diffuse,'..FrameColor()..';horizalign,left;vertalign,bottom;'"
+	/>
+	
+
+</children></ActorFrame>
