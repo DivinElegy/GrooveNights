@@ -1,7 +1,4 @@
-<ActorFrame InitCommand="%function(self)
-self:sleep(0.01);
-InitScreen('ScreenGameplay');
-self:sleep(0.01);
+<ActorFrame OnCommand="%function(self) InitScreen('ScreenGameplay');
 self:queuecommand('KillBPM');
 if GAMESTATE:GetEnv('Vibrate') == 'On' then
 	self:vibrate();

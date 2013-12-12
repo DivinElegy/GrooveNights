@@ -1,4 +1,4 @@
-<ActorFrame InitCommand="">
+<ActorFrame OnCommand="%function(self) InitScreen('ScreenOptions') end">
 <children>
 
 	<Layer

@@ -1,8 +1,7 @@
-<ActorFrame InitCommand="%function(self)
+<ActorFrame OnCommand="%function(self) InitScreen('ScreenEvaluation');
 if GAMESTATE:GetEnv('Vibrate') == 'On' then
 	self:vibrate();
 	end
-InitScreen('ScreenEvaluation');
 end">
 	<children>
 	<!--Restart the song on event mode if you pressed the menu button-->

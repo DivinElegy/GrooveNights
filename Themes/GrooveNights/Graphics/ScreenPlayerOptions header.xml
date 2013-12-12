@@ -1,5 +1,4 @@
-<ActorFrame InitCommand="%function(self)
-InitScreen('ScreenPlayerOptions');
+<ActorFrame OnCommand="%function(self) InitScreen('ScreenPlayerOptions');
 if GAMESTATE:GetEnv('Vibrate') == 'On' then	self:vibrate(); end
 end">
 	<children>

@@ -1,8 +1,7 @@
-<ActorFrame InitCommand="%function(self) self:hibernate(0.02)
+<ActorFrame OnCommand="%function(self) InitScreen('ScreenSelectMusic'); self:hibernate(0.02); 
 if GAMESTATE:GetEnv('Vibrate') == 'On' then
 	self:vibrate();
 	end
-InitScreen('ScreenSelectMusic');
 end"
 >
 	<children>

@@ -1,4 +1,4 @@
-<ActorFrame InitCommand="%function(self) InitScreen('ScreenStage'); end">
+<ActorFrame OnCommand="%function(self) InitScreen('ScreenStage'); end">
 	<children>
 		<Actor
 			File="../ScreenWithMenuElements underlay"

@@ -1,6 +1,4 @@
-<ActorFrame InitCommand="%function(self)
-InitScreen('ScreenCompany');
-end">
+<ActorFrame OnCommand="%function(self) InitScreen('ScreenCompany'); end">
 <children>
 <Layer Type="Quad"
 InitCommand="@'x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoomx,SCREEN_WIDTH*2;zoomy,SCREEN_HEIGHT*2;diffuse,'..FrameColor()..';diffusealpha,0.2;'"

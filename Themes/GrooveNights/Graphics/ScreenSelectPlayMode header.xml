@@ -1,6 +1,4 @@
-<ActorFrame InitCommand="%function(self)
-InitScreen('ScreenSelectPlayMode');
-end">
+<ActorFrame OnCommand="%function(self) InitScreen('ScreenSelectPlayMode'); end">
 	<children>
 		<BitmapText
 			Text="@getTextPlayModeTitle()"

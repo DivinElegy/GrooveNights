@@ -1,4 +1,4 @@
-<ActorFrame InitCommand="%function(self)
+<ActorFrame OnCommand="%function(self)
 			InitScreen('ScreenPlayerOptions');
 			self:sleep(0.1);
 			if GAMESTATE:GetEnv('Vibrate') == 'On' then
@@ -613,8 +613,8 @@
 <!--Easter Eggs P2 - ActorFrame positions all at once-->		
 <ActorFrame Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
 			InitCommand="x,SCREEN_CENTER_X+119;y,SCREEN_CENTER_Y+134;zoom,0.5;"
-			SpeedModChangedMessageCommand="sleep,0.01;queuecommand,Update"
-			RateModChangedMessageCommand="sleep,0.01;queuecommand,Update"
+			SpeedModChangedMessageCommand="sleep,0.05;queuecommand,Update"
+			RateModChangedMessageCommand="sleep,0.05;queuecommand,Update"
 			UpdateCommand="%function(self) self:x(SCREEN_CENTER_X+119+u-10); end"
 ><children>	
 <!--Blaze It P2 -->

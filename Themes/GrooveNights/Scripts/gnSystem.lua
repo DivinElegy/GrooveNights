@@ -64,8 +64,13 @@ end
 
 -- ===SET SCREEN SPECIFIC VARIABLES===
 function InitScreen(scn)
+if scn == 'ScreenOptions' then
+ScreenTransitionWhoosh('short');
+end
+
+
 if scn == 'ScreenCompany' then
-return 0;
+
 end
 
 
@@ -378,30 +383,34 @@ RegisterEasterEgg("NoScope", NoScope)
 
 --global variable callbacks
 local function LowBPM( BPMDisplay )
-        BPMDisplay = BPMDisplay:GetText()
-
+	BPMDisplay = BPMDisplay:GetText()
+	
 	local pos = string.find(BPMDisplay, "-")
 	if pos ~= nil then return string.sub(BPMDisplay,1,pos-1) else return BPMDisplay end
 end
 
 local function HighBPM( BPMDisplay )
-        BPMDisplay = BPMDisplay:GetText()
+	BPMDisplay = BPMDisplay:GetText()
 
 	local pos = string.find(BPMDisplay, "-")
 	if pos ~= nil then return string.sub(BPMDisplay,pos+1) else return BPMDisplay end
 end
 
 local function TotalTimeMinutes( TimeDisplay ) 
-        TimeDisplay = TimeDisplay:GetText()
-
+	TimeDisplay = TimeDisplay:GetText()
+	
 	local pos = string.find(TimeDisplay, ':')
+	if not pos then return 0 end
+	
 	return string.sub(TimeDisplay, 1, pos-1) 
 end
 
 local function TotalTimeSeconds( TimeDisplay )
-        TimeDisplay = TimeDisplay:GetText()
-
+	TimeDisplay = TimeDisplay:GetText()
+	
 	local pos = string.find(TimeDisplay, ':')
+	if not pos then return 0 end
+	
 	return string.sub(TimeDisplay, pos+1)
 end
 

@@ -1,6 +1,4 @@
-<ActorFrame InitCommand="%function(self)
-InitScreen('ScreenNameEntry');
-end">
+<ActorFrame OnCommand="%function(self) InitScreen('ScreenNameEntry'); end">
 	<children>
 		<BitmapText
 			Text="@getTextNameEntryTitle()"
