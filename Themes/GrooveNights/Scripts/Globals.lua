@@ -21,10 +21,10 @@ GetGlobal( Name )
 [returns a previously saved actor]
         - Name: the name of the actor to retrieve.
 		
-RegisterGlobalCallback( Name, fn )
+RegisterGlobalCallback( Name, Actor )
 [sets up a function to be called when a global is registered]
 		- Name: the name of the global to apply the callback to
-		- fn: the callback
+		- Actor: the Actor that the callback will be applied to
 
 The intended way to use this API is by calling RegisterGlobal from your theme's
 metrics.ini. For example, to save away the song bpm to use later you would
@@ -40,12 +40,14 @@ the bpm display has been updated, therefore when we call RegisterGlobal it gets 
 Then we can set up callbacks to pull out the low and high BPMs like so:
 
 local function LowBPM( BPMDisplay )
-	local pos = string.find(BPMDisplay, "-")
+        local pos = BPMDisplay:GetText()
+	pos = string.find(BPMDisplay, "-")
 	if pos ~= nil then return string.sub(BPMDisplay,1,pos-1) else return BPMDisplay end
 end
 
 local function HighBPM( BPMDisplay )
-	local pos = string.find(BPMDisplay, "-")
+        local pos = BPMDisplay:GetText()
+	pos = string.find(BPMDisplay, "-")
 	if pos ~= nil then return string.sub(BPMDisplay,pos+1) else return BPMDisplay end
 end
 
@@ -61,9 +63,11 @@ local GlobalsTable = {}
 local CallbackTable = {}
 
 function RegisterGlobal( Name, Actor )
-	GlobalsTable[Name] = Actor:GetText()
-	
-	if CallbackTable[Name] ~= nil then GlobalsTable[Name] = CallbackTable[Name](GlobalsTable[Name]) end
+        if CallbackTable[Name] ~= nil
+            then GlobalsTable[Name] = CallbackTable[Name](Actor)
+        else
+            GlobalsTable[Name] = Actor:GetText()	
+        end
 end
 
 function GetGlobal(Name)

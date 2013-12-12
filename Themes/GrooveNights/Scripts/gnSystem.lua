@@ -350,7 +350,7 @@ end
 
 --easter eggs
 local function BlazeIt(Params)
-	local spaces = string.rep(" ", string.len(DisplayScrollSpeed(Params.pn)))
+    local spaces = string.rep(" ", string.len(DisplayScrollSpeed(Params.pn)))
 
     if DisplayScrollSpeed(Params.pn) == '420' then
         Params.Actor:settext(spaces .. " Blaze It!")
@@ -362,7 +362,7 @@ local function BlazeIt(Params)
 end
 
 local function NoScope(Params)
-	local spaces = string.rep(" ", string.len(DisplayScrollSpeed(Params.pn)))
+    local spaces = string.rep(" ", string.len(DisplayScrollSpeed(Params.pn)))
 
     if DisplayScrollSpeed(Params.pn) == '360' then
         Params.Actor:settext(spaces .. " No Scope!")
@@ -378,21 +378,29 @@ RegisterEasterEgg("NoScope", NoScope)
 
 --global variable callbacks
 local function LowBPM( BPMDisplay )
+        BPMDisplay = BPMDisplay:GetText()
+
 	local pos = string.find(BPMDisplay, "-")
 	if pos ~= nil then return string.sub(BPMDisplay,1,pos-1) else return BPMDisplay end
 end
 
 local function HighBPM( BPMDisplay )
+        BPMDisplay = BPMDisplay:GetText()
+
 	local pos = string.find(BPMDisplay, "-")
 	if pos ~= nil then return string.sub(BPMDisplay,pos+1) else return BPMDisplay end
 end
 
 local function TotalTimeMinutes( TimeDisplay ) 
+        TimeDisplay = TimeDisplay:GetText()
+
 	local pos = string.find(TimeDisplay, ':')
 	return string.sub(TimeDisplay, 1, pos-1) 
 end
 
 local function TotalTimeSeconds( TimeDisplay )
+        TimeDisplay = TimeDisplay:GetText()
+
 	local pos = string.find(TimeDisplay, ':')
 	return string.sub(TimeDisplay, pos+1)
 end
@@ -401,3 +409,19 @@ RegisterGlobalCallback("HighBPM", HighBPM)
 RegisterGlobalCallback("LowBPM", LowBPM)
 RegisterGlobalCallback("TotalTimeMinutes", TotalTimeMinutes)
 RegisterGlobalCallback("TotalTimeSeconds", TotalTimeSeconds)
+
+--actor setters
+
+function SetFromDisplayScrollSpeed( Actor, pn )
+    Actor:settext(DisplayScrollSpeed(pn))
+    
+    local function GetWidthCallback( ScrollSpeedDisplay ) 
+        return ScrollSpeedDisplay:GetWidth()
+    end
+
+    if not GetGlobal("ScrollSpeedDisplayWidth") then
+        RegisterGlobalCallback("ScrollSpeedDisplayWidth", GetWidthCallback)
+    end
+
+    RegisterGlobal("ScrollSpeedDisplayWidth", Actor)
+end

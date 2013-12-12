@@ -473,7 +473,7 @@ function DisplayScrollSpeed(pn)
     local lowBPM = GetGlobal("LowBPM")
     local highBPM = GetGlobal("HighBPM")
 	
-	if lowBPM == highBPM then highBPM = nil end 
+    if lowBPM == highBPM then highBPM = nil end 
 
     local rateMod = string.gsub(GetRateMod(),'x','')
 
@@ -498,6 +498,7 @@ end
 function DisplaySongLength()
 	local RateMod = string.gsub(GetRateMod(), "x" ,"")
 	local ratio = 1/RateMod
+
 	local seconds = (GetGlobal('TotalTimeSeconds') + (GetGlobal('TotalTimeMinutes')*60))*ratio
 
 	return string.format("%.2d:%.2d", math.mod(seconds/60,60), math.mod(seconds,60))
