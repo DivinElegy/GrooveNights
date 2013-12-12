@@ -484,7 +484,7 @@
 				Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
 				File="_eurostile blue glow"
 				InitCommand="x,80;horizalign,left"
-				SpeedModChangedMessageCommand="queuecommand,Update"
+				SpeedModChangedP1MessageCommand="queuecommand,Update"
 				RateModChangedMessageCommand="queuecommand,Update"
 				UpdateCommand="%function(self) self:settext(DisplayScrollSpeed(PLAYER_1)) end"
 			/>
@@ -494,7 +494,7 @@
 				File="_eurostile blue glow"
 				InitCommand="x,80"
 				OnCommand="horizalign,left;rainbow;"
-				SpeedModChangedMessageCommand="queuecommand,Update"
+				SpeedModChangedP1MessageCommand="queuecommand,Update"
 				RateModChangedMessageCommand="queuecommand,Update"
 				UpdateCommand="%function(self) DoEasterEgg('BlazeIt', { pn = PLAYER_1, Actor = self }) end"
 			/>
@@ -504,7 +504,7 @@
 				File="_eurostile blue glow"
 				InitCommand="x,80"
 				OnCommand="horizalign,left;rainbow;"
-				SpeedModChangedMessageCommand="queuecommand,Update"
+				SpeedModChangedP1MessageCommand="queuecommand,Update"
 				RateModChangedMessageCommand="queuecommand,Update"
 				UpdateCommand="%function(self) DoEasterEgg('NoScope', { pn = PLAYER_1, Actor = self }) end"
 			/>
@@ -513,7 +513,7 @@
 <!--Easter Eggs P1 - ActorFrame positions all at once-->
 <ActorFrame Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
 			InitCommand="x,SCREEN_CENTER_X-200;y,SCREEN_CENTER_Y+134;zoom,0.5;"
-			SpeedModChangedMessageCommand="sleep,0.01;queuecommand,Update"
+			SpeedModChangedP1MessageCommand="sleep,0.01;queuecommand,Update"
 			RateModChangedMessageCommand="sleep,0.01;queuecommand,Update"
 			UpdateCommand="%function(self) self:x(SCREEN_CENTER_X-200+10); end"
 ><children>		
@@ -584,7 +584,7 @@
 			File="_eurostile blue glow"
 			InitCommand="%function(self) self:stoptweening(); self:zoom(0.5); self:shadowlength(0); self:x(SCREEN_CENTER_X+119); self:y(SCREEN_CENTER_Y+118); self:maxwidth(140); end"
 			OnCommand="horizalign,left;zoom,0.5;"			
-			SpeedModChangedMessageCommand="queuecommand,Update"
+			SpeedModChangedP2MessageCommand="queuecommand,Update"
 			RateModChangedMessageCommand="queuecommand,Update"
 			UpdateCommand="%function(self) self:settext(DisplayBPM(PLAYER_2)) end"
 		/>
@@ -605,7 +605,7 @@
 			File="_eurostile blue glow"
 			InitCommand="%function(self)  self:zoom(0.5); self:shadowlength(0); self:x(SCREEN_CENTER_X+119); self:y(SCREEN_CENTER_Y+134); end"
 			OnCommand="horizalign,left;zoom,0.5;"
-			SpeedModChangedMessageCommand="queuecommand,Update"
+			SpeedModChangedP2MessageCommand="queuecommand,Update"
 			RateModChangedMessageCommand="queuecommand,Update"
 			UpdateCommand="%function(self) self:settext(DisplayScrollSpeed(PLAYER_2)) u = self:GetWidth(); end"			
 		/>
@@ -613,7 +613,7 @@
 <!--Easter Eggs P2 - ActorFrame positions all at once-->		
 <ActorFrame Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
 			InitCommand="x,SCREEN_CENTER_X+119;y,SCREEN_CENTER_Y+134;zoom,0.5;"
-			SpeedModChangedMessageCommand="sleep,0.05;queuecommand,Update"
+			SpeedModChangedP2MessageCommand="sleep,0.05;queuecommand,Update"
 			RateModChangedMessageCommand="sleep,0.05;queuecommand,Update"
 			UpdateCommand="%function(self) self:x(SCREEN_CENTER_X+119+u-10); end"
 ><children>	
@@ -623,7 +623,7 @@
 			File="_eurostile blue glow"
 			InitCommand="shadowlength,0;diffusealpha,0"
 			OnCommand="horizalign,left;rainbow;"
-			SpeedModChangedMessageCommand="queuecommand,Update"
+			SpeedModChangedP2MessageCommand="queuecommand,Update"
 			RateModChangedMessageCommand="queuecommand,Update"
 			UpdateCommand="%function(self) DoEasterEgg('BlazeIt', { pn = PLAYER_2, Actor = self }) end"
 		/>
@@ -634,7 +634,7 @@
 			File="_eurostile blue glow"
 			InitCommand="shadowlength,0;diffusealpha,0"
 			OnCommand="horizalign,left;rainbow;"
-			SpeedModChangedMessageCommand="queuecommand,Update"
+			SpeedModChangedP2MessageCommand="queuecommand,Update"
 			RateModChangedMessageCommand="queuecommand,Update"
 			UpdateCommand="%function(self) DoEasterEgg('NoScope', { pn = PLAYER_2, Actor = self }) end"
 		/>
