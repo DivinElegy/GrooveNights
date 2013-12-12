@@ -174,20 +174,7 @@ function SetDifficultyFrameFromGameState( Actor, pn )
 	end
 end
 
-function SetFromSongTitleAndCourseTitle( actor )
-	Trace( "SetFromSongTitleAndCourseTitle" )
-	local song = GAMESTATE:GetCurrentSong();
-	local course = GAMESTATE:GetCurrentCourse();
-	local text = ""
-	if song then
-		text = song:GetDisplayFullTitle()
-	end
-	if course then
-		text = course:GetDisplayFullTitle() .. " - " .. text;
-	end
 
-	actor:settext( text )
-end
 
 function SetRemovedText(self, port)
 	local CurrentSong = GAMESTATE:GetCurrentSong()

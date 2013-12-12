@@ -6,32 +6,32 @@
 				end
 			end"><children>
 	
-
         <!-- Options pane -->
 	<Layer File="../ScreenOptions overlay"/>
 
         <!-- Current song pane -->
-        <ActorFrame><children>
+        <ActorFrame
+            InitCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-172; horizalign,center"
+            OnCommand="shadowlength,0"
+        ><children>
+            <!-- Song title -->
             <Layer
                 Type="BitmapText"
                 File="_eurostile blue glow"
-                OnCommand="horizalign,center;maxwidth,450;shadowlength,0;zoom,0.75;playcommand,Update"
-                InitCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-172"
+                InitCommand="maxwidth,450"
+                OnCommand="zoom,0.75;playcommand,Update"                
                 UpdateCommand="%SetFromSongTitleAndCourseTitle"
             />
-            		
-            <BitmapText
-                Text=""
+            	
+            <!-- Song artist -->	
+            <Layer
+                Type="BitmapText"
                 File="_eurostile blue glow"
                 Condition="not GAMESTATE:IsCourseMode()"
-                OnCommand="horizalign,center;shadowlength,0;zoom,0.5;"
-
-                InitCommand="%function(self)
-                self:settext(GAMESTATE:GetCurrentSong():GetDisplayArtist());
-                self:x(SCREEN_CENTER_X);
-                self:y(SCREEN_CENTER_Y-150-8);
-                self:maxwidth(350);
-                end"
+                InitCommand="y,15;maxwidth,350"
+                OnCommand="zoom,0.5;playcommand,Update"
+                UpdateCommand="%SetFromSongArtist"
             />
-	
-</children> </ActorFrame>
+        </children></ActorFrame>
+        <!-- End current song pane -->
+</children></ActorFrame>

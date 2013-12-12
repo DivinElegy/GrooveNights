@@ -413,15 +413,31 @@ RegisterGlobalCallback("TotalTimeSeconds", TotalTimeSeconds)
 --actor setters
 
 function SetFromDisplayScrollSpeed( Actor, pn )
-    Actor:settext(DisplayScrollSpeed(pn))
-    
-    local function GetWidthCallback( ScrollSpeedDisplay ) 
-        return ScrollSpeedDisplay:GetWidth()
-    end
+    --TODO: Work the logic here like below to ensure that in the worst case
+    -- we simply set an empty string
+    Actor:settext(DisplayScrollSpeed(pn))   
+end
 
-    if not GetGlobal("ScrollSpeedDisplayWidth") then
-        RegisterGlobalCallback("ScrollSpeedDisplayWidth", GetWidthCallback)
-    end
+function SetFromSongTitleAndCourseTitle( actor )
+	local song = GAMESTATE:GetCurrentSong();
+	local course = GAMESTATE:GetCurrentCourse();
+	local text = ""
+	if song then
+		text = song:GetDisplayMainTitle()
+	end
+	if course then
+		text = course:GetDisplayFullTitle() .. " - " .. text;
+	end
 
-    RegisterGlobal("ScrollSpeedDisplayWidth", Actor)
+	actor:settext( text )
+end
+
+function SetFromSongArtist( actor )
+	local song = GAMESTATE:GetCurrentSong();
+	local text = ""
+	if song then
+		text = song:GetDisplayArtist()
+	end
+
+	actor:settext( text )
 end
