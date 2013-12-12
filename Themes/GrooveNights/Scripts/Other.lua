@@ -476,8 +476,8 @@ function DisplayScrollSpeed(pn)
     if lowBPM == highBPM then highBPM = nil end 
 
     local rateMod = string.gsub(GetRateMod(),'x','')
-
     local speedMod = GetSpeedMod(pn)
+	
     speedMod = string.gsub(speedMod,'x','')
     speedMod = string.gsub(speedMod,'c','')
     speedMod = string.gsub(speedMod,'m','')

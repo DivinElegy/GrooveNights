@@ -355,9 +355,10 @@ end
 
 --easter eggs
 local function BlazeIt(Params)
-    local spaces = string.rep(" ", string.len(DisplayScrollSpeed(Params.pn)))
+	local ScrollSpeed = DisplayScrollSpeed(Params.pn)
+    local spaces = string.rep(" ", string.len(ScrollSpeed))
 
-    if DisplayScrollSpeed(Params.pn) == '420' then
+    if ScrollSpeed == '420' then
         Params.Actor:settext(spaces .. " Blaze It!")
         Params.Actor:diffusealpha(1)
         Params.Actor:rainbow()
@@ -367,9 +368,10 @@ local function BlazeIt(Params)
 end
 
 local function NoScope(Params)
-    local spaces = string.rep(" ", string.len(DisplayScrollSpeed(Params.pn)))
+	local ScrollSpeed = DisplayScrollSpeed(Params.pn)
+    local spaces = string.rep(" ", string.len(ScrollSpeed))
 
-    if DisplayScrollSpeed(Params.pn) == '360' then
+    if ScrollSpeed == '360' then
         Params.Actor:settext(spaces .. " No Scope!")
         Params.Actor:diffusealpha(1)
         Params.Actor:rainbow()

@@ -141,42 +141,36 @@ function RateMods()
 end
 
 function GetSpeedMod(pn)
-    local BaseSpeeds = GetBaseSpeeds()
-    local ExtraSpeeds = GetExtraSpeeds()
-    for n = 1, table.getn(BaseSpeeds) do
-        if GetSpeedModRowType() == "basic" or GetSpeedModRowType() == "advanced" then
-            if GAMESTATE:PlayerIsUsingModifier(pn, BaseSpeeds[n]) then return BaseSpeeds[n] end
-        end
+	local BaseSpeeds = GetBaseSpeeds()
+	local ExtraSpeeds = GetExtraSpeeds()
+	for n = 1, table.getn(BaseSpeeds) do
+		if GetSpeedModRowType() == "basic" or GetSpeedModRowType() == "advanced" then
+			if GAMESTATE:PlayerIsUsingModifier(pn, BaseSpeeds[n]) then return BaseSpeeds[n] end
+		end
 
-        if GetSpeedModRowType() == "pro" then
-            for m = 1, table.getn(ExtraSpeeds) do
-                local CombinedSpeeds = BaseSpeeds[n] + string.gsub(ExtraSpeeds[m], 'x', '') --combines the speeds in to things like 4.50
+		if GetSpeedModRowType() == "pro" then
+			for m = 1, table.getn(ExtraSpeeds) do
+				local CombinedSpeeds = BaseSpeeds[n] + string.gsub(ExtraSpeeds[m], 'x', '') --combines the speeds in to things like 4.50
 
-                --check x-mods
-                if GAMESTATE:PlayerIsUsingModifier(pn, CombinedSpeeds .. 'x') then return CombinedSpeeds .. 'x' end
+				--check x-mods
+				if GAMESTATE:PlayerIsUsingModifier(pn, CombinedSpeeds .. 'x') then return CombinedSpeeds .. 'x' end
 	
-                --check c-mods
-                if GAMESTATE:PlayerIsUsingModifier(pn, 'c' .. CombinedSpeeds*100) then return 'c' .. CombinedSpeeds*100 end
-            end
+				--check c-mods
+				if GAMESTATE:PlayerIsUsingModifier(pn, 'c' .. CombinedSpeeds*100) then return 'c' .. CombinedSpeeds*100 end
+				
+				--check m-mods (for some reason m0 is always applied so it has to be skipped)
+				if GAMESTATE:PlayerIsUsingModifier(pn, 'm' .. CombinedSpeeds*100) and CombinedSpeeds ~= 0 then return 'm' .. CombinedSpeeds*100 end
+			end
+		end
 	end
-    end
-
-    -- M-Mods need to be checked last, as when the game starts m0 is always applied (even if a different default modifier has been chosen)
-    for n = 1, table.getn(BaseSpeeds) do
-        if GetSpeedModRowType() == "pro" then
-            for m = 1, table.getn(ExtraSpeeds) do
-                local CombinedSpeeds = BaseSpeeds[n] + string.gsub(ExtraSpeeds[m], 'x', '') --combines the speeds in to things like 4.50			
-
-                if GAMESTATE:PlayerIsUsingModifier(pn, 'm' .. CombinedSpeeds*100) then return 'm' .. CombinedSpeeds*100 end
-            end
-        end
-    end
 	
-    return nil
+	-- If we get here, chances are that m0 was applied.
+	return "m0"
 end
 
 function GetSpeedModBase(pn)
     local SpeedMod = GetSpeedMod(pn)
+	
     SpeedMod = string.gsub(SpeedMod, 'c', '')
     SpeedMod = string.gsub(SpeedMod, 'm', '')
     SpeedMod = string.gsub(SpeedMod, 'x', '')
@@ -250,7 +244,7 @@ function SpeedMods(name)
 			
         if GetSpeedModRowType() ~= "pro" then
             GAMESTATE:ApplyGameCommand('mod,' .. ModBase, pn+1)
-            MESSAGEMAN:Broadcast('SpeedModChanged')
+            MESSAGEMAN:Broadcast('SpeedModChangedP' .. pn+1)
         else
             SpeedMod = ModBase + ModExtra
 		
@@ -267,7 +261,7 @@ function SpeedMods(name)
             if ModType == 'm-mod' then GAMESTATE:ApplyGameCommand('mod,9999x',pn+1) end
             if ModType == 'x-mod' then GAMESTATE:ApplyGameCommand('mod,m9999',pn+1) end
             GAMESTATE:ApplyGameCommand('mod,'..SpeedMod,pn+1) --this is so annoying, the player number has to be 1 or 2 for ApplyGameCommand
-            MESSAGEMAN:Broadcast('SpeedModChanged')
+            MESSAGEMAN:Broadcast('SpeedModChangedP' .. pn+1)
         end
     end
 
