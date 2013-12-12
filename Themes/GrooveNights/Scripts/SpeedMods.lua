@@ -143,12 +143,13 @@ end
 function GetSpeedMod(pn)
 	local BaseSpeeds = GetBaseSpeeds()
 	local ExtraSpeeds = GetExtraSpeeds()
+	local SpeedModRowType = GetSpeedModRowType()
 	for n = 1, table.getn(BaseSpeeds) do
-		if GetSpeedModRowType() == "basic" or GetSpeedModRowType() == "advanced" then
+		if SpeedModRowType == "basic" or SpeedModRowType == "advanced" then
 			if GAMESTATE:PlayerIsUsingModifier(pn, BaseSpeeds[n]) then return BaseSpeeds[n] end
 		end
 
-		if GetSpeedModRowType() == "pro" then
+		if SpeedModRowType == "pro" then
 			for m = 1, table.getn(ExtraSpeeds) do
 				local CombinedSpeeds = BaseSpeeds[n] + string.gsub(ExtraSpeeds[m], 'x', '') --combines the speeds in to things like 4.50
 
