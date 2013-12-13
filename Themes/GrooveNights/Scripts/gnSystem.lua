@@ -354,12 +354,12 @@ end
 
 
 --easter eggs
-local function BlazeIt(Params)
-	local ScrollSpeed = DisplayScrollSpeed(Params.pn)
+local function BPMEasterEggs(Params)
+    local ScrollSpeed = DisplayScrollSpeed(Params.pn)
     local spaces = string.rep(" ", string.len(ScrollSpeed))
 
-    if ScrollSpeed == '420' then
-        Params.Actor:settext(spaces .. " Blaze It!")
+    if ScrollSpeed == '420' or ScrollSpeed == '360' then
+        if ScrollSpeed == '420' then Params.Actor:settext(spaces .. " Blaze It!") else Params.Actor:settext(spaces .. " No Scope!") end
         Params.Actor:diffusealpha(1)
         Params.Actor:rainbow()
     else
@@ -367,53 +367,36 @@ local function BlazeIt(Params)
     end
 end
 
-local function NoScope(Params)
-	local ScrollSpeed = DisplayScrollSpeed(Params.pn)
-    local spaces = string.rep(" ", string.len(ScrollSpeed))
-
-    if ScrollSpeed == '360' then
-        Params.Actor:settext(spaces .. " No Scope!")
-        Params.Actor:diffusealpha(1)
-        Params.Actor:rainbow()
-    else 
-        Params.Actor:diffusealpha(0)
-    end
-end
-
-RegisterEasterEgg("BlazeIt", BlazeIt)
-RegisterEasterEgg("NoScope", NoScope)
+RegisterEasterEgg("BlazeIt", BPMEasterEggs)
+RegisterEasterEgg("NoScope", BPMEasterEggs)
 
 --global variable callbacks
 local function LowBPM( BPMDisplay )
 	BPMDisplay = BPMDisplay:GetText()
 	
 	local pos = string.find(BPMDisplay, "-")
-	if pos ~= nil then return string.sub(BPMDisplay,1,pos-1) else return BPMDisplay end
+	if pos then return string.sub(BPMDisplay,1,pos-1) else return BPMDisplay end
 end
 
 local function HighBPM( BPMDisplay )
 	BPMDisplay = BPMDisplay:GetText()
 
 	local pos = string.find(BPMDisplay, "-")
-	if pos ~= nil then return string.sub(BPMDisplay,pos+1) else return BPMDisplay end
+	if pos then return string.sub(BPMDisplay,pos+1) else return BPMDisplay end
 end
 
 local function TotalTimeMinutes( TimeDisplay ) 
 	TimeDisplay = TimeDisplay:GetText()
-	
 	local pos = string.find(TimeDisplay, ':')
-	if not pos then return 0 end
-	
-	return string.sub(TimeDisplay, 1, pos-1) 
+		
+	if pos then return string.sub(TimeDisplay, 1, pos-1) end
 end
 
 local function TotalTimeSeconds( TimeDisplay )
 	TimeDisplay = TimeDisplay:GetText()
-	
 	local pos = string.find(TimeDisplay, ':')
-	if not pos then return 0 end
-	
-	return string.sub(TimeDisplay, pos+1)
+
+	if pos then return string.sub(TimeDisplay, pos+1) end
 end
 
 RegisterGlobalCallback("HighBPM", HighBPM)

@@ -470,19 +470,19 @@ function DisplayBPM(pn)
 end
 
 function DisplayScrollSpeed(pn)
-    local lowBPM = GetGlobal("LowBPM")
-    local highBPM = GetGlobal("HighBPM")
-	
-    if lowBPM == highBPM then highBPM = nil end 
-
     local rateMod = string.gsub(GetRateMod(),'x','')
     local speedMod = GetSpeedMod(pn)
+    local lowBPM = GetGlobal("LowBPM")
+    local highBPM = GetGlobal("HighBPM")
+    local SpeedModType = GetSpeedModType(speedMod)
+	
+    if lowBPM == highBPM then highBPM = nil end 
 	
     speedMod = string.gsub(speedMod,'x','')
     speedMod = string.gsub(speedMod,'c','')
     speedMod = string.gsub(speedMod,'m','')
 
-    if GetSpeedModType(pn) == "c-mod" or GetSpeedModType(pn) == "m-mod" then return speedMod end
+    if SpeedModType == "c-mod" or SpeedModType == "m-mod" then return speedMod end
 
     if lowBPM == "Various" or lowBPM == "..." or lowBPM == nil then
         return "???"
@@ -498,8 +498,12 @@ end
 function DisplaySongLength()
 	local RateMod = string.gsub(GetRateMod(), "x" ,"")
 	local ratio = 1/RateMod
+        local seconds = GetGlobal('TotalTimeSeconds')
+        local minutes = GetGlobal('TotalTimeMinutes')
 
-	local seconds = (GetGlobal('TotalTimeSeconds') + (GetGlobal('TotalTimeMinutes')*60))*ratio
+        if not seconds and not minutes then return "" end
+
+	seconds = (seconds + (minutes*60))*ratio
 
 	return string.format("%.2d:%.2d", math.mod(seconds/60,60), math.mod(seconds,60))
 end

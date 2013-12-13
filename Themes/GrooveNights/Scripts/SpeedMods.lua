@@ -169,32 +169,31 @@ function GetSpeedMod(pn)
 	return "m0"
 end
 
-function GetSpeedModBase(pn)
-    local SpeedMod = GetSpeedMod(pn)
-	
+function GetSpeedModBase(SpeedMod)	
+    local SpeedModType = GetSpeedModType(SpeedMod)
+
     SpeedMod = string.gsub(SpeedMod, 'c', '')
     SpeedMod = string.gsub(SpeedMod, 'm', '')
     SpeedMod = string.gsub(SpeedMod, 'x', '')
 	
-    if GetSpeedModType(pn) == 'c-mod' or GetSpeedModType(pn) == 'm-mod' then SpeedMod = SpeedMod/100 end
+    if SpeedModType == 'c-mod' or SpeedModType == 'm-mod' then SpeedMod = SpeedMod/100 end
 	
     return tostring(math.floor(SpeedMod)) -- Consistency: all the others return a string due to concatenation or w/e
 end
 
-function GetSpeedModExtra(pn)
-    local SpeedMod = GetSpeedMod(pn)
+function GetSpeedModExtra(SpeedMod)
+    local SpeedModType = GetSpeedModType(SpeedMod)
+
     SpeedMod = string.gsub(SpeedMod, 'c', '')
     SpeedMod = string.gsub(SpeedMod, 'm', '')
     SpeedMod = string.gsub(SpeedMod, 'x', '')
 	
-    if GetSpeedModType(pn) == 'c-mod' or GetSpeedModType(pn) == 'm-mod' then SpeedMod = SpeedMod/100 end
+    if SpeedModType == 'c-mod' or SpeedModType == 'm-mod' then SpeedMod = SpeedMod/100 end
 
     return '+' .. SpeedMod - math.floor(SpeedMod)
 end
 
-function GetSpeedModType(pn)
-    local SpeedMod = GetSpeedMod(pn)
-
+function GetSpeedModType(SpeedMod)
     if string.find(SpeedMod, "x") ~= nil then return 'x-mod' end
     if string.find(SpeedMod, "c") ~= nil then return 'c-mod' end
     if string.find(SpeedMod, "m") ~= nil then return 'm-mod' end
@@ -212,28 +211,32 @@ function SpeedMods(name)
     local function Load(self, list, pn)
         -- default to the first item in the list
         list[1] = true
+        local SpeedMod = GetSpeedMod(pn)
+        local ModBase = GetSpeedModBase(SpeedMod)
+        local ModExtra = GetSpeedModExtra(SpeedMod)
+        local ModType = GetSpeedModType(SpeedMod)
 
         -- now loop through everything else in the list and see if it is set to true
         for i=2, table.getn(modList) do
             if name == "Base" then
-                if modList[i] == GetSpeedModBase(pn) then list[i] = true; list[1] = false else list[i] = false end
+                if modList[i] == ModBase then list[i] = true; list[1] = false else list[i] = false end
             end
 
             if name == "Extra" then
-                if string.gsub(modList[i], 'x', '') == GetSpeedModExtra(pn) then list[i] = true; list[1] = false else list[i] = false end
+                if string.gsub(modList[i], 'x', '') == ModExtra then list[i] = true; list[1] = false else list[i] = false end
             end
 
             if name == "Type" then				
-                if modList[i] == GetSpeedModType(pn) then list[i] = true; list[1] = false else list[i] = false end
+                if modList[i] == ModType then list[i] = true; list[1] = false else list[i] = false end
             end
         end
     end
 
     local function Save(self, list, pn)
         local SpeedMod = GetSpeedMod(pn)
-        local ModBase = GetSpeedModBase(pn)
-        local ModExtra = GetSpeedModExtra(pn)
-        local ModType = GetSpeedModType(pn)
+        local ModBase = GetSpeedModBase(SpeedMod)
+        local ModExtra = GetSpeedModExtra(SpeedMod)
+        local ModType = GetSpeedModType(SpeedMod)
 
         for i = 1, table.getn(modList) do
             if list[i] then
@@ -247,7 +250,7 @@ function SpeedMods(name)
             GAMESTATE:ApplyGameCommand('mod,' .. ModBase, pn+1)
             MESSAGEMAN:Broadcast('SpeedModChangedP' .. pn+1)
         else
-            SpeedMod = ModBase + ModExtra
+            local SpeedMod = ModBase + ModExtra
 		
             if ModType == 'c-mod' then SpeedMod = 'c' .. SpeedMod*100 end
             if ModType == 'm-mod' then SpeedMod = 'm' .. SpeedMod*100 end
