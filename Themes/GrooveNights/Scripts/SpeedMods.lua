@@ -140,6 +140,11 @@ function RateMods()
     return CreateOptionRow( Params, modList, Load, Save )
 end
 
+
+--[[
+THIS IS AN EXPENSIVE FUNCTION TO CALL. If you need to use it more than once you
+should absolutely put it in a variable.
+]]--
 function GetSpeedMod(pn)
 	local BaseSpeeds = GetBaseSpeeds()
 	local ExtraSpeeds = GetExtraSpeeds()
