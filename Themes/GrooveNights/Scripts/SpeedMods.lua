@@ -154,49 +154,19 @@ function GetSpeedMod(pn)
 				local CombinedSpeeds = BaseSpeeds[n] + string.gsub(ExtraSpeeds[m], 'x', '') --combines the speeds in to things like 4.50
 
 				--check x-mods
-				if GAMESTATE:PlayerIsUsingModifier(pn, CombinedSpeeds .. 'x') then return CombinedSpeeds .. 'x' end
+				if GAMESTATE:PlayerIsUsingModifier(pn, CombinedSpeeds .. 'x') then return { Name = CombinedSpeeds .. 'x', Base = BaseSpeeds[n], Extra = ExtraSpeeds[m], Type = 'x-mod' } end
 	
 				--check c-mods
-				if GAMESTATE:PlayerIsUsingModifier(pn, 'c' .. CombinedSpeeds*100) then return 'c' .. CombinedSpeeds*100 end
+				if GAMESTATE:PlayerIsUsingModifier(pn, 'c' .. CombinedSpeeds*100) then return { Name = 'c' .. CombinedSpeeds*100 , Base = BaseSpeeds[n], Extra = ExtraSpeeds[m], Type = 'c-mod' }end
 				
 				--check m-mods (for some reason m0 is always applied so it has to be skipped)
-				if GAMESTATE:PlayerIsUsingModifier(pn, 'm' .. CombinedSpeeds*100) and CombinedSpeeds ~= 0 then return 'm' .. CombinedSpeeds*100 end
+				if GAMESTATE:PlayerIsUsingModifier(pn, 'm' .. CombinedSpeeds*100) and CombinedSpeeds ~= 0 then return { Name = 'm' .. CombinedSpeeds*100, Base = BaseSpeeds[n], Extra = ExtraSpeeds[m], Type = 'm-mod' } end
 			end
 		end
 	end
 	
-	-- If we get here, chances are that m0 was applied.
-	return "m0"
-end
-
-function GetSpeedModBase(SpeedMod)	
-    local SpeedModType = GetSpeedModType(SpeedMod)
-
-    SpeedMod = string.gsub(SpeedMod, 'c', '')
-    SpeedMod = string.gsub(SpeedMod, 'm', '')
-    SpeedMod = string.gsub(SpeedMod, 'x', '')
-	
-    if SpeedModType == 'c-mod' or SpeedModType == 'm-mod' then SpeedMod = SpeedMod/100 end
-	
-    return tostring(math.floor(SpeedMod)) -- Consistency: all the others return a string due to concatenation or w/e
-end
-
-function GetSpeedModExtra(SpeedMod)
-    local SpeedModType = GetSpeedModType(SpeedMod)
-
-    SpeedMod = string.gsub(SpeedMod, 'c', '')
-    SpeedMod = string.gsub(SpeedMod, 'm', '')
-    SpeedMod = string.gsub(SpeedMod, 'x', '')
-	
-    if SpeedModType == 'c-mod' or SpeedModType == 'm-mod' then SpeedMod = SpeedMod/100 end
-
-    return '+' .. SpeedMod - math.floor(SpeedMod)
-end
-
-function GetSpeedModType(SpeedMod)
-    if string.find(SpeedMod, "x") ~= nil then return 'x-mod' end
-    if string.find(SpeedMod, "c") ~= nil then return 'c-mod' end
-    if string.find(SpeedMod, "m") ~= nil then return 'm-mod' end
+	-- If we get here, chances are that m0 was applied. TODO: Maybe put a check in to see that it was?
+	return { Name = 'm0', Base = "0", Extra = "0", Type = "m-mod" }
 end
 
 function SpeedMods(name)
@@ -212,49 +182,44 @@ function SpeedMods(name)
         -- default to the first item in the list
         list[1] = true
         local SpeedMod = GetSpeedMod(pn)
-        local ModBase = GetSpeedModBase(SpeedMod)
-        local ModExtra = GetSpeedModExtra(SpeedMod)
-        local ModType = GetSpeedModType(SpeedMod)
 
         -- now loop through everything else in the list and see if it is set to true
         for i=2, table.getn(modList) do
             if name == "Base" then
-                if modList[i] == ModBase then list[i] = true; list[1] = false else list[i] = false end
+                if modList[i] == SpeedMod.Base then list[i] = true; list[1] = false else list[i] = false end
             end
 
             if name == "Extra" then
-                if string.gsub(modList[i], 'x', '') == ModExtra then list[i] = true; list[1] = false else list[i] = false end
+                if string.gsub(modList[i], 'x', '') == SpeedMod.Extra then list[i] = true; list[1] = false else list[i] = false end
             end
 
             if name == "Type" then				
-                if modList[i] == ModType then list[i] = true; list[1] = false else list[i] = false end
+                if modList[i] == SpeedMod.Type then list[i] = true; list[1] = false else list[i] = false end
             end
         end
     end
 
     local function Save(self, list, pn)
         local SpeedMod = GetSpeedMod(pn)
-        local ModBase = GetSpeedModBase(SpeedMod)
-        local ModExtra = GetSpeedModExtra(SpeedMod)
-        local ModType = GetSpeedModType(SpeedMod)
 
         for i = 1, table.getn(modList) do
             if list[i] then
-                if name == "Base" then ModBase = modList[i] end
-                if name == "Extra" then ModExtra = modList[i] end
-                if name == "Type" then ModType = modList[i] end
+                if name == "Base" then SpeedMod.Base = modList[i] end
+                if name == "Extra" then SpeedMod.Extra = modList[i] end
+                if name == "Type" then SpeedMod.Type = modList[i] end
             end
         end
 			
         if GetSpeedModRowType() ~= "pro" then
-            GAMESTATE:ApplyGameCommand('mod,' .. ModBase, pn+1)
+            GAMESTATE:ApplyGameCommand('mod,' .. SpeedMod.Base, pn+1)
             MESSAGEMAN:Broadcast('SpeedModChangedP' .. pn+1)
         else
-            local SpeedMod = ModBase + ModExtra
-		
-            if ModType == 'c-mod' then SpeedMod = 'c' .. SpeedMod*100 end
-            if ModType == 'm-mod' then SpeedMod = 'm' .. SpeedMod*100 end
-            if ModType == 'x-mod' then SpeedMod = SpeedMod .. 'x' end      
+            local SpeedModNumber = SpeedMod.Base + SpeedMod.Extra
+            local SpeedModToApply = "1x"
+
+            if SpeedMod.Type == 'c-mod' then SpeedModToApply = 'c' .. SpeedModNumber*100 end
+            if SpeedMod.Type == 'm-mod' then SpeedModToApply = 'm' .. SpeedModNumber*100 end
+            if SpeedMod.Type == 'x-mod' then SpeedModToApply = SpeedModNumber .. 'x' end      
 
             --[[ This is the most retarded thing. For some reason when you apply an M-Mod or an X-Mod you can
             get these weird situations where GAMESTATE:PlayerIsUsingModifier will tell you that there is an M and
@@ -264,7 +229,7 @@ function SpeedMods(name)
             will ever look ]]--
             if ModType == 'm-mod' then GAMESTATE:ApplyGameCommand('mod,9999x',pn+1) end
             if ModType == 'x-mod' then GAMESTATE:ApplyGameCommand('mod,m9999',pn+1) end
-            GAMESTATE:ApplyGameCommand('mod,'..SpeedMod,pn+1) --this is so annoying, the player number has to be 1 or 2 for ApplyGameCommand
+            GAMESTATE:ApplyGameCommand('mod,'..SpeedModToApply,pn+1) --this is so annoying, the player number has to be 1 or 2 for ApplyGameCommand
             MESSAGEMAN:Broadcast('SpeedModChangedP' .. pn+1)
         end
     end

@@ -454,7 +454,7 @@ function DisplayBPM(pn)
     local lowBPM = GetGlobal("LowBPM")
     local highBPM = GetGlobal("HighBPM")
 	
-	if lowBPM == highBPM then highBPM = nil end
+    if lowBPM == highBPM then highBPM = nil end
 
     local rateMod = string.gsub(GetRateMod(),'x','')
 
@@ -473,20 +473,16 @@ function DisplayScrollSpeed(pn)
     local rateMod = string.gsub(GetRateMod(),'x','')
     local speedMod = GetSpeedMod(pn)
     local lowBPM = GetGlobal("LowBPM")
-    local highBPM = GetGlobal("HighBPM")
-    local SpeedModType = GetSpeedModType(speedMod)
-	
+    local highBPM = GetGlobal("HighBPM")	
     if lowBPM == highBPM then highBPM = nil end 
 	
-    speedMod = string.gsub(speedMod,'x','')
-    speedMod = string.gsub(speedMod,'c','')
-    speedMod = string.gsub(speedMod,'m','')
-
-    if SpeedModType == "c-mod" or SpeedModType == "m-mod" then return speedMod end
+    if speedMod.Type == "c-mod" or speedMod.Type == "m-mod" then return tostring((speedMod.Base + speedMod.Extra)*100) end
 
     if lowBPM == "Various" or lowBPM == "..." or lowBPM == nil then
         return "???"
     end
+
+    speedMod = speedMod.Base + speedMod.Extra;
 
     lowScrollBPM = math.floor(lowBPM * speedMod * rateMod)
 
