@@ -25,7 +25,7 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenSelectStyle2'
 		
 	<Layer
 		Type="ActorFrame"
-		OnCommand="x,SCREEN_CENTER_X-206;y,SCREEN_CENTER_Y+15;zoom,1;queuecommand,Update;"
+		OnCommand="x,SCREEN_CENTER_X-206;y,SCREEN_CENTER_Y+15;zoom,0.4;sleep,0.3;queuecommand,Update;"
 		UpdateCommand="%function(self) 
 		self:stoptweening();
 		if GAMESTATE:GetEnv('Vibrate') == 'On' then
@@ -74,7 +74,7 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenSelectStyle2'
 		
 	<Layer
 		Type="ActorFrame"
-		OnCommand="x,SCREEN_CENTER_X+174;y,SCREEN_CENTER_Y+15;zoom,1;queuecommand,Update;"
+		OnCommand="x,SCREEN_CENTER_X+174;y,SCREEN_CENTER_Y+15;zoom,0.4;sleep,0.3;queuecommand,Update;"
 		UpdateCommand="%function(self) 
 		self:stoptweening();
 		if GAMESTATE:GetEnv('Vibrate') == 'On' then
@@ -107,6 +107,7 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenSelectStyle2'
 		if GAMESTATE:GetEnv('Vibrate') == 'On' then
 			self:vibrate();
 			end
+		self:zoom(gnZoom1);
 		if gnChoice == 2 then
 			gnZoom1 = gnZoom1 + gnChoiceTween;
 			if gnZoom1 >= gnMaxZoom then gnZoom1 = gnMaxZoom; end
@@ -116,19 +117,20 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenSelectStyle2'
 			if gnZoom1 <= gnMinZoom then gnZoom1 = gnMinZoom; end
 			self:diffusealpha(gnZoom1+0.1);
 			end
-		self:zoom(gnZoom1);
 		self:sleep(0.032);
 		self:queuecommand('Update');
 		end"
 		/>
 		
 		<Layer File="ScreenSelectStyle2 scroll choice2/title"
-		InitCommand="x,SCREEN_CENTER_X+207;y,SCREEN_CENTER_Y+62;queuecommand,Update;"
+		InitCommand="x,SCREEN_CENTER_X+207;y,SCREEN_CENTER_Y+62;queuecommand,Go;"
+		GoCommand="%function(self) self:queuecommand('Update') end"
 		UpdateCommand="%function(self)
 		self:stoptweening();
 		if GAMESTATE:GetEnv('Vibrate') == 'On' then
 			self:vibrate();
 			end
+		self:zoom(gnZoom3);
 		if gnChoice == 1 then
 			gnZoom3 = gnZoom3 + gnChoiceTween;
 			if gnZoom3 >= gnMaxZoom then gnZoom3 = gnMaxZoom; end
@@ -138,18 +140,19 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenSelectStyle2'
 			if gnZoom3 <= gnMinZoom then gnZoom3 = gnMinZoom; end
 			self:diffusealpha(gnZoom3+0.1);
 			end
-		self:zoom(gnZoom3);
 		self:sleep(0.032);
 		self:queuecommand('Update');
 		end"
 		/>
 		<Layer File="ScreenSelectStyle2 scroll choice3/title"
-		InitCommand="x,SCREEN_CENTER_X-206;y,SCREEN_CENTER_Y+62;zoom,0.5;queuecommand,Update;"
+		InitCommand="x,SCREEN_CENTER_X-206;y,SCREEN_CENTER_Y+62;queuecommand,Go;"
+		GoCommand="%function(self) self:queuecommand('Update') end"
 		UpdateCommand="%function(self)
 		self:stoptweening();
 		if GAMESTATE:GetEnv('Vibrate') == 'On' then
 			self:vibrate();
 			end
+		self:zoom(gnZoom4);
 		if gnChoice == 0 then
 			gnZoom4 = gnZoom4 + gnChoiceTween;
 			if gnZoom4 >= gnMaxZoom then gnZoom4 = gnMaxZoom; end
@@ -159,7 +162,6 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenSelectStyle2'
 			if gnZoom4 <= gnMinZoom then gnZoom4 = gnMinZoom; end
 			self:diffusealpha(gnZoom4+0.1);
 			end
-		self:zoom(gnZoom4);
 		self:sleep(0.032);
 		self:queuecommand('Update');
 		end"

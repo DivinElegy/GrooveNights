@@ -153,7 +153,6 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenEvaluation');
 	self:settext(gnModTrim);
 		gnModHeight = self:GetHeight();
 	end"
-	OffCommand="accelerate,0.3;addx,-EvalTweenDistance()"
 	/>
 	
 	<BitmapText Font="_eurostile normal" Text=""
@@ -190,7 +189,6 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenEvaluation');
 	self:settext(gnModTrim);
 		gnModHeight = self:GetHeight();
 	end"
-	OffCommand="accelerate,0.3;addx,EvalTweenDistance()"
 	/>	
 	
 <!--Current Song-->

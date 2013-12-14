@@ -143,8 +143,8 @@ ScreenTransitionWhoosh('short');
 	gnChoice = 2;
 	gnChoiceTween = 0.05;
 	gnZoom1 = 0.7;
-	gnZoom3 = 0.7;
-	gnZoom4 = 0.7;
+	gnZoom3 = 0.4;
+	gnZoom4 = 0.4;
 	gnMaxZoom = 0.6;
 	gnMinZoom = 0.4;
 end
