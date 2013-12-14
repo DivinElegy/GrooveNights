@@ -165,6 +165,7 @@ RateRestoreMessage(false);
 	gnStatFrequency = gnStatFrequency + 1;
 	gnOptionMod = 0;
 	gnOptionModType = 0;
+	gnStaminaSongPercent = 0;
 end
 
 
@@ -262,6 +263,7 @@ if scn == 'ScreenGameplay' then
 	gnSoundCheck = true;
 	gnAward = 0;
 end
+
 
 
 if scn == 'ScreenEvaluation' then

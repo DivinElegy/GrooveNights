@@ -1,5 +1,4 @@
-<ActorFrame
-> <children>
+<ActorFrame StartTransitioningCommand="%function(self) MESSAGEMAN:Broadcast('MenuBack'); end"> <children>
 	<Actor
 		Type="Quad"
 		StartTransitioningCommand="%function(self) SCREENMAN:GetTopScreen():playcommand('Off') self:sleep(0.6); end"

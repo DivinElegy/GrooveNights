@@ -4,7 +4,7 @@
 	NumItemsToDraw="21" 
 	ItemPaddingStart="10"
 	ItemPaddingEnd="0"
-	TransformFunction="function(self,offset,itemIndex,numItems) self:y(offset*24); end"
+	TransformFunction="function(self,offset,itemIndex,numItems) self:y(offset*24+12); end"
 >
 	<children>
 		<Layer Type="BitmapText" Text="CREATED BY JAYCE NEWTON" File="_eurostile normal" OnCommand="shadowlength,0;zoom,0.7;diffuse,#D57676;ztest,1;queuecommand,Diffuser;" DiffuserCommand="@'diffuse,'..LabelColor()..';'" />

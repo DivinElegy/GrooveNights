@@ -1,10 +1,13 @@
-<ActorFrame OnCommand="%function(self) InitScreen('ScreenSelectMusic'); self:hibernate(0.02); 
+<ActorFrame InitCommand="%function(self)  
 if GAMESTATE:GetEnv('Vibrate') == 'On' then
 	self:vibrate();
 	end
 end"
 >
 	<children>
+<Layer Type="Quad"
+OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenSelectMusic'); end"
+/>
 		<ActorFrame InitCommand="x,-35;y,0;">
 			<children>
 	<!--Total PlayTime-->

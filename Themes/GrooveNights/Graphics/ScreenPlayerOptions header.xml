@@ -1,7 +1,10 @@
-<ActorFrame OnCommand="%function(self) InitScreen('ScreenPlayerOptions');
+<ActorFrame InitCommand="%function(self) 
 if GAMESTATE:GetEnv('Vibrate') == 'On' then	self:vibrate(); end
 end">
 	<children>
+<Layer Type="Quad"
+OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenPlayerOptions'); end"
+/>
 		<BitmapText
 			Text="@getTextPlayerOptionsTitle()"
 			File="_eurostile blue glow"

@@ -1,4 +1,4 @@
-<ActorFrame OnCommand="%function(self) InitScreen('ScreenGameplay');
+<ActorFrame InitCommand="%function(self) 
 self:queuecommand('KillBPM');
 if GAMESTATE:GetEnv('Vibrate') == 'On' then
 	self:vibrate();
@@ -19,6 +19,10 @@ SCREENMAN:GetTopScreen():GetChild('BPMDisplay'):addy(-10000);
 					end
 				end
 end"> <children>
+<Layer Type="Quad"
+OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenGameplay'); end"
+/>
+
 
 		
 		<ActorFrame InitCommand="x,409+CourseHorizontal();y,222;">
@@ -2999,7 +3003,8 @@ StepP2MessageCommand="%function(self)
 		self:queuecommand('Blink');
 		end
 	end" 
-	BlinkCommand="draworder,10000;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+65;diffusealpha,1;sleep,0.195;diffusealpha,0;sleep,0.195;diffusealpha,1;sleep,0.195;diffusealpha,0;sleep,0.195;diffusealpha,1;sleep,0.195;diffusealpha,0;sleep,0.195;diffusealpha,1;sleep,0.195;diffusealpha,0;sleep,0.195;diffusealpha,1;"
+	BlinkCommand="sleep,0.2;diffusealpha,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+SCREEN_HEIGHT+65;draworder,10000;accelerate,0.2;y,SCREEN_CENTER_Y+65;diffusealpha,1;sleep,0.195;diffusealpha,0;sleep,0.195;diffusealpha,1;sleep,0.195;diffusealpha,0;sleep,0.195;diffusealpha,1;sleep,0.195;diffusealpha,0;sleep,0.195;diffusealpha,1;sleep,0.195;diffusealpha,0;sleep,0.195;diffusealpha,1;"
+	MenuBackMessageCommand="hidden,1;"
 	/>
 	
 </children> </ActorFrame>

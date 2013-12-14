@@ -1,7 +1,8 @@
-<ActorFrame InitCommand="%function(self)
-InitScreen('ScreenSelectStyle2');
-end">
+<ActorFrame>
 	<children>
+<Layer Type="Quad"
+OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenSelectStyle2'); end"
+/>
 		<BitmapText
 			Text="@getTextPlayersTitle()"
 			File="_eurostile blue glow"
@@ -199,10 +200,18 @@ end">
 	/>
 	
 	<Layer File="TransitionArrow"
-	OnCommand="vibrate;EffectMagnitude,0.5,0.5,0.1;x,SCREEN_CENTER_X-18;y,SCREEN_CENTER_Y-41;draworder,10000;decelerate,0.2;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT/2)-50-41"
+	OnCommand="hidden,0;vibrate;EffectMagnitude,0.5,0.5,0.1;x,SCREEN_CENTER_X-18;y,SCREEN_CENTER_Y-41;draworder,10000;decelerate,0.2;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT/2)-50-41"
 	MadeChoiceP1MessageCommand="playcommand,GoOff"
 	MadeChoiceP2MessageCommand="playcommand,GoOff"
 	GoOffCommand="x,SCREEN_CENTER_X-18;y,SCREEN_CENTER_Y+SCREEN_HEIGHT+50-41;draworder,10000;accelerate,0.2;y,SCREEN_CENTER_Y-41"
+	/>
+	
+	<Layer File="Loading" 
+	OnCommand="diffusealpha,0;draworder,10000;x,SCREEN_CENTER_X-19;y,SCREEN_CENTER_Y-41+65+SCREEN_HEIGHT;"
+	MadeChoiceP1MessageCommand="playcommand,GoOff"
+	MadeChoiceP2MessageCommand="playcommand,GoOff"
+	GoOffCommand="sleep,0.2;accelerate,0.2;diffusealpha,1;y,SCREEN_CENTER_Y-41+65;"
+	MenuBackMessageCommand="hidden,1;"
 	/>
 	</children>
 </ActorFrame>

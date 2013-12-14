@@ -1,9 +1,13 @@
-<ActorFrame OnCommand="%function(self) InitScreen('ScreenEvaluation');
+<ActorFrame InitCommand="%function(self) 
 if GAMESTATE:GetEnv('Vibrate') == 'On' then
 	self:vibrate();
 	end
 end">
 	<children>
+<Layer Type="Quad"
+OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenEvaluation'); end"
+/>
+
 	<!--Restart the song on event mode if you pressed the menu button-->
 		<BitmapText
 		Text=""
@@ -1518,8 +1522,15 @@ end"><children>
 	/>
 	
 	<Layer File="../Graphics/TransitionArrow"
-	OnCommand="vibrate;EffectMagnitude,0.5,0.5,0.1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;draworder,10000;accelerate,0.2;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT/2)-50"
+	OnCommand="hidden,0;vibrate;EffectMagnitude,0.5,0.5,0.1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;draworder,10000;accelerate,0.2;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT/2)-50"
 	ScreenTransitionMessageCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+SCREEN_HEIGHT+50;draworder,10000;accelerate,0.2;y,SCREEN_CENTER_Y"
+	MenuBackMessageCommand="hidden,1;"
+	/>
+	
+	<Layer File="../Graphics/Loading" Condition="not (AllFailed() or IsFinalStage())"
+	OnCommand="hidden,0;diffusealpha,0;draworder,10000;x,SCREEN_CENTER_X-1;y,SCREEN_CENTER_Y+65+SCREEN_HEIGHT;"
+	ScreenTransitionMessageCommand="accelerate,0.2;diffusealpha,1;y,SCREEN_CENTER_Y+65;"
+	MenuBackMessageCommand="hidden,1;"
 	/>
 	
 	</children>
