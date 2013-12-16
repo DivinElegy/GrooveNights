@@ -170,8 +170,18 @@ function GetSpeedMod(pn)
 		end
 	end
 	
-	-- If we get here, chances are that m0 was applied. TODO: Maybe put a check in to see that it was?
-	return { Name = 'm0', Base = "0", Extra = "0", Type = "m-mod" }
+	return { Name = 'm0', Base = '0', Extra = '0', Type = 'm-mod' }
+	
+	--[[ M-Mods need to be checked last, as when the game starts m0 is always applied (even if a different default modifier has been chosen)
+    for n = 1, table.getn(BaseSpeeds) do
+        if SpeedModRowType == "pro" then
+           for m = 1, table.getn(ExtraSpeeds) do
+               local CombinedSpeeds = BaseSpeeds[n] + string.gsub(ExtraSpeeds[m], 'x', '') --combines the speeds in to things like 4.50                        
+				if GAMESTATE:PlayerIsUsingModifier(pn, 'm' .. CombinedSpeeds*100) then return { Name = 'm' .. CombinedSpeeds*100, Base = BaseSpeeds[n], Extra = ExtraSpeeds[m], Type = 'm-mod' } end
+            end
+        end
+    end]]--
+
 end
 
 function SpeedMods(name)
@@ -205,6 +215,7 @@ function SpeedMods(name)
     end
 
     local function Save(self, list, pn)
+
         local SpeedMod = GetSpeedMod(pn)
 
         for i = 1, table.getn(modList) do
@@ -219,8 +230,8 @@ function SpeedMods(name)
             GAMESTATE:ApplyGameCommand('mod,' .. SpeedMod.Base, pn+1)
             MESSAGEMAN:Broadcast('SpeedModChangedP' .. pn+1)
         else
-            local SpeedModNumber = SpeedMod.Base + SpeedMod.Extra
-            local SpeedModToApply = "1x"
+		
+            local SpeedModNumber = SpeedMod.Base + SpeedMod.Extra          
 
             if SpeedMod.Type == 'c-mod' then SpeedModToApply = 'c' .. SpeedModNumber*100 end
             if SpeedMod.Type == 'm-mod' then SpeedModToApply = 'm' .. SpeedModNumber*100 end
@@ -232,10 +243,24 @@ function SpeedMods(name)
             you choose 0x or m0 and then try change the mod type). This is a silly fix that checks what the mod being
             set is, then set the other one (IE if we're setting X, then change M) to a value outside of where GetSpeedMod
             will ever look ]]--
-            if ModType == 'm-mod' then GAMESTATE:ApplyGameCommand('mod,9999x',pn+1) end
-            if ModType == 'x-mod' then GAMESTATE:ApplyGameCommand('mod,m9999',pn+1) end
-            GAMESTATE:ApplyGameCommand('mod,'..SpeedModToApply,pn+1) --this is so annoying, the player number has to be 1 or 2 for ApplyGameCommand
-            MESSAGEMAN:Broadcast('SpeedModChangedP' .. pn+1)
+            if SpeedMod.Type == 'm-mod' then GAMESTATE:ApplyGameCommand('mod,9999x',pn+1) end
+            if SpeedMod.Type == 'x-mod' then GAMESTATE:ApplyGameCommand('mod,m9999',pn+1) end
+			
+			if SpeedModToApply == "m0" then
+				--This message comes up more than once (I guess Save is called multiple times?) Not sure if this is a problem.
+				SCREENMAN:SystemMessage("Invalid mod, M0. Applying 1x instead.")
+				
+				--[[
+				This is an awful hack. Basically the getspeedmod thing will never look for 1.0001x.
+				If I use 1.0x then things go wrong because getspeedmod starts returning that the current
+				mod is 1.0x instead of m0, and that throws out the bpm calculations. Doing this simply
+				results in x1 showing up on screenevaluation.
+				]]--
+				GAMESTATE:ApplyGameCommand('mod,1.0001x')
+			end
+			
+			GAMESTATE:ApplyGameCommand('mod,'..SpeedModToApply,pn+1) --this is so annoying, the player number has to be 1 or 2 for ApplyGameCommand
+			MESSAGEMAN:Broadcast('SpeedModChangedP' .. pn+1)
         end
     end
 
