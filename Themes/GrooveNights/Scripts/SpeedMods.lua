@@ -171,17 +171,6 @@ function GetSpeedMod(pn)
 	end
 	
 	return { Name = 'm0', Base = '0', Extra = '0', Type = 'm-mod' }
-	
-	--[[ M-Mods need to be checked last, as when the game starts m0 is always applied (even if a different default modifier has been chosen)
-    for n = 1, table.getn(BaseSpeeds) do
-        if SpeedModRowType == "pro" then
-           for m = 1, table.getn(ExtraSpeeds) do
-               local CombinedSpeeds = BaseSpeeds[n] + string.gsub(ExtraSpeeds[m], 'x', '') --combines the speeds in to things like 4.50                        
-				if GAMESTATE:PlayerIsUsingModifier(pn, 'm' .. CombinedSpeeds*100) then return { Name = 'm' .. CombinedSpeeds*100, Base = BaseSpeeds[n], Extra = ExtraSpeeds[m], Type = 'm-mod' } end
-            end
-        end
-    end]]--
-
 end
 
 function SpeedMods(name)
