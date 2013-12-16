@@ -499,6 +499,8 @@ function DisplaySongLength()
 
         if not seconds and not minutes then return "" end
 
+        if minutes == "01" and seconds == "45.00" then return "Patched" end
+
 	seconds = (seconds + (minutes*60))*ratio
 
 	return string.format("%.2d:%.2d", math.mod(seconds/60,60), math.mod(seconds,60))

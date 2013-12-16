@@ -410,14 +410,8 @@ RegisterGlobalCallback("TotalTimeSeconds", TotalTimeSeconds)
 
 function SetFromDisplayScrollSpeed( Actor, pn )
     Actor:settext(DisplayScrollSpeed(pn))
-    
-    local function GetWidthCallback( ScrollSpeedDisplay ) 
-        return ScrollSpeedDisplay:GetWidth()
-    end
+end
 
-    if not GetGlobal("ScrollSpeedDisplayWidth") then
-        RegisterGlobalCallback("ScrollSpeedDisplayWidth", GetWidthCallback)
-    end
-
-    RegisterGlobal("ScrollSpeedDisplayWidth", Actor)
+function SetFromDisplaySongLength( Actor )
+    Actor:settext(DisplaySongLength())
 end
