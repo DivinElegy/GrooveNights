@@ -376,7 +376,12 @@ RegisterEasterEgg("NoScope", BPMEasterEggs)
 local function LowBPM( BPMDisplay )
 	BPMDisplay = BPMDisplay:GetText()
 	
+        Trace("YOLOSWEGGER " .. BPMDisplay)
+
 	local pos = string.find(BPMDisplay, "-")
+
+        if pos == 1 then pos = string.find(BPMDisplay, "-", 2) end -- if we have a negative bpm at the start then look for another occurence after
+
 	if pos then return string.sub(BPMDisplay,1,pos-1) else return BPMDisplay end
 end
 
@@ -384,6 +389,9 @@ local function HighBPM( BPMDisplay )
 	BPMDisplay = BPMDisplay:GetText()
 
 	local pos = string.find(BPMDisplay, "-")
+        
+        if pos == 1 then pos = string.find(BPMDisplay, "-", 2) end -- if we have a negative bpm at the start then look for another occurence after
+
 	if pos then return string.sub(BPMDisplay,pos+1) else return BPMDisplay end
 end
 

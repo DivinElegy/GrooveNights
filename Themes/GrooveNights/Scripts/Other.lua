@@ -458,7 +458,7 @@ function DisplayBPM(pn)
 
     local rateMod = string.gsub(GetRateMod(),'x','')
 
-    if lowBPM == "Various" or lowBPM == "..." or lowBPM == nil then
+    if lowBPM == "Various" or lowBPM == "..." or lowBPM == nil or tonumber(lowBPM) == nil then
         return "???"
     end
 
@@ -478,7 +478,7 @@ function DisplayScrollSpeed(pn)
 	
     if speedMod.Type == "c-mod" or speedMod.Type == "m-mod" then return tostring((speedMod.Base + speedMod.Extra)*100) end
 
-    if lowBPM == "Various" or lowBPM == "..." or lowBPM == nil then
+    if lowBPM == "Various" or lowBPM == "..." or lowBPM == nil or tonumber(lowBPM) == nil then
         return "???"
     end
 
