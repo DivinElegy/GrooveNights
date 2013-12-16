@@ -70,7 +70,17 @@ end
 
 
 if scn == 'ScreenCompany' then
+gnStatsTotalSongCount = nil
+gnStatsTotalExpCount = nil
+gnStatsTotalDeathCount = nil
+gnStatsTotalStarCount = nil;
 
+gnStats1StarCount = nil
+gnStats2StarCount = nil
+gnStats3StarCount = nil
+gnStats4StarCount = nil
+
+gnStatsLevel = nil
 end
 
 
@@ -452,3 +462,261 @@ function GoodLuckCameronOptionsRow()
     local Params = { Name = "GoodLuckCameron" }
     return CreateProfileRowBool( Params )
 end
+
+
+
+
+function getStats(pn,mode,stat)
+
+-- Add modes and grade tiers into a table for quick reference
+gnStatsMode = {
+STEPS_TYPE_DANCE_SINGLE, 
+STEPS_TYPE_DANCE_DOUBLE
+}
+
+gnStatsGradeTier = {
+DIFFICULTY_BEGINNER,GRADE_TIER01,
+DIFFICULTY_BEGINNER,GRADE_TIER02,
+DIFFICULTY_BEGINNER,GRADE_TIER03,
+DIFFICULTY_BEGINNER,GRADE_TIER04,
+DIFFICULTY_BEGINNER,GRADE_TIER05,
+DIFFICULTY_BEGINNER,GRADE_TIER06,
+DIFFICULTY_BEGINNER,GRADE_TIER07,
+DIFFICULTY_BEGINNER,GRADE_TIER08,
+DIFFICULTY_BEGINNER,GRADE_TIER09,
+DIFFICULTY_BEGINNER,GRADE_TIER10,
+DIFFICULTY_BEGINNER,GRADE_TIER11,
+DIFFICULTY_BEGINNER,GRADE_TIER12,
+DIFFICULTY_BEGINNER,GRADE_TIER13,
+DIFFICULTY_BEGINNER,GRADE_TIER14,
+DIFFICULTY_BEGINNER,GRADE_TIER15,
+DIFFICULTY_BEGINNER,GRADE_TIER16,
+DIFFICULTY_BEGINNER,GRADE_TIER17,
+DIFFICULTY_EASY,GRADE_TIER01,
+DIFFICULTY_EASY,GRADE_TIER02,
+DIFFICULTY_EASY,GRADE_TIER03,
+DIFFICULTY_EASY,GRADE_TIER04,
+DIFFICULTY_EASY,GRADE_TIER05,
+DIFFICULTY_EASY,GRADE_TIER06,
+DIFFICULTY_EASY,GRADE_TIER07,
+DIFFICULTY_EASY,GRADE_TIER08,
+DIFFICULTY_EASY,GRADE_TIER09,
+DIFFICULTY_EASY,GRADE_TIER10,
+DIFFICULTY_EASY,GRADE_TIER11,
+DIFFICULTY_EASY,GRADE_TIER12,
+DIFFICULTY_EASY,GRADE_TIER13,
+DIFFICULTY_EASY,GRADE_TIER14,
+DIFFICULTY_EASY,GRADE_TIER15,
+DIFFICULTY_EASY,GRADE_TIER16,
+DIFFICULTY_EASY,GRADE_TIER17,
+DIFFICULTY_MEDIUM,GRADE_TIER01,
+DIFFICULTY_MEDIUM,GRADE_TIER02,
+DIFFICULTY_MEDIUM,GRADE_TIER03,
+DIFFICULTY_MEDIUM,GRADE_TIER04,
+DIFFICULTY_MEDIUM,GRADE_TIER05,
+DIFFICULTY_MEDIUM,GRADE_TIER06,
+DIFFICULTY_MEDIUM,GRADE_TIER07,
+DIFFICULTY_MEDIUM,GRADE_TIER08,
+DIFFICULTY_MEDIUM,GRADE_TIER09,
+DIFFICULTY_MEDIUM,GRADE_TIER10,
+DIFFICULTY_MEDIUM,GRADE_TIER11,
+DIFFICULTY_MEDIUM,GRADE_TIER12,
+DIFFICULTY_MEDIUM,GRADE_TIER13,
+DIFFICULTY_MEDIUM,GRADE_TIER14,
+DIFFICULTY_MEDIUM,GRADE_TIER15,
+DIFFICULTY_MEDIUM,GRADE_TIER16,
+DIFFICULTY_MEDIUM,GRADE_TIER17,
+DIFFICULTY_HARD,GRADE_TIER01,
+DIFFICULTY_HARD,GRADE_TIER02,
+DIFFICULTY_HARD,GRADE_TIER03,
+DIFFICULTY_HARD,GRADE_TIER04,
+DIFFICULTY_HARD,GRADE_TIER05,
+DIFFICULTY_HARD,GRADE_TIER06,
+DIFFICULTY_HARD,GRADE_TIER07,
+DIFFICULTY_HARD,GRADE_TIER08,
+DIFFICULTY_HARD,GRADE_TIER09,
+DIFFICULTY_HARD,GRADE_TIER10,
+DIFFICULTY_HARD,GRADE_TIER11,
+DIFFICULTY_HARD,GRADE_TIER12,
+DIFFICULTY_HARD,GRADE_TIER13,
+DIFFICULTY_HARD,GRADE_TIER14,
+DIFFICULTY_HARD,GRADE_TIER15,
+DIFFICULTY_HARD,GRADE_TIER16,
+DIFFICULTY_HARD,GRADE_TIER17,
+DIFFICULTY_CHALLENGE,GRADE_TIER01,
+DIFFICULTY_CHALLENGE,GRADE_TIER02,
+DIFFICULTY_CHALLENGE,GRADE_TIER03,
+DIFFICULTY_CHALLENGE,GRADE_TIER04,
+DIFFICULTY_CHALLENGE,GRADE_TIER05,
+DIFFICULTY_CHALLENGE,GRADE_TIER06,
+DIFFICULTY_CHALLENGE,GRADE_TIER07,
+DIFFICULTY_CHALLENGE,GRADE_TIER08,
+DIFFICULTY_CHALLENGE,GRADE_TIER09,
+DIFFICULTY_CHALLENGE,GRADE_TIER10,
+DIFFICULTY_CHALLENGE,GRADE_TIER11,
+DIFFICULTY_CHALLENGE,GRADE_TIER12,
+DIFFICULTY_CHALLENGE,GRADE_TIER13,
+DIFFICULTY_CHALLENGE,GRADE_TIER14,
+DIFFICULTY_CHALLENGE,GRADE_TIER15,
+DIFFICULTY_CHALLENGE,GRADE_TIER16,
+DIFFICULTY_CHALLENGE,GRADE_TIER17,
+DIFFICULTY_EDIT,GRADE_TIER01,
+DIFFICULTY_EDIT,GRADE_TIER02,
+DIFFICULTY_EDIT,GRADE_TIER03,
+DIFFICULTY_EDIT,GRADE_TIER04,
+DIFFICULTY_EDIT,GRADE_TIER05,
+DIFFICULTY_EDIT,GRADE_TIER06,
+DIFFICULTY_EDIT,GRADE_TIER07,
+DIFFICULTY_EDIT,GRADE_TIER08,
+DIFFICULTY_EDIT,GRADE_TIER09,
+DIFFICULTY_EDIT,GRADE_TIER10,
+DIFFICULTY_EDIT,GRADE_TIER11,
+DIFFICULTY_EDIT,GRADE_TIER12,
+DIFFICULTY_EDIT,GRADE_TIER13,
+DIFFICULTY_EDIT,GRADE_TIER14,
+DIFFICULTY_EDIT,GRADE_TIER15,
+DIFFICULTY_EDIT,GRADE_TIER16,
+DIFFICULTY_EDIT,GRADE_TIER17
+}
+
+-- Define the tables if nil, otherwise reset based on the selected player
+if gnStatsTotalSongCount == nil then
+gnStatsTotalSongCount = {0,0};
+gnStatsTotalExpCount = {0,0};
+gnStatsTotalDeathCount = {0,0};
+gnStatsTotalStarCount = {0,0};
+
+gnStats1StarCount = {0,0};
+gnStats2StarCount = {0,0};
+gnStats3StarCount = {0,0};
+gnStats4StarCount = {0,0};
+
+gnStatsLevel = {0,0};
+gnStatsExpRemaining = {0,0};
+else
+
+gnStatsTotalSongCount[pn] = 0
+gnStatsTotalExpCount[pn] = 0
+gnStatsTotalDeathCount[pn] = 0
+gnStatsTotalStarCount[pn] = 0
+
+gnStats1StarCount[pn] = 0
+gnStats2StarCount[pn] = 0
+gnStats3StarCount[pn] = 0
+gnStats4StarCount[pn] = 0
+
+gnStatsLevel[pn] = 1
+gnStatsExpRemaining[pn] = 0
+
+end
+
+
+
+
+--------------------------
+-------STAR DISPLAY-------
+--------------------------
+-- Count the number of 1Stars (Tier 4 (-1 for the table value), increasing by 17 for each difficulty level)
+if stat == 1 then
+	for s = 6, 34, 176 do
+	gnStats1StarCount[pn] = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeTier[s],gnStatsGradeTier[s+1]);
+	end
+	return gnStats1StarCount[pn];
+end
+
+-- Count the number of 2Stars (Tier 3 (-1 for the table value), increasing by 17 for each difficulty level)
+if stat == 2 then
+	for s = 4, 34, 174 do
+	gnStats2StarCount[pn] = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeTier[s],gnStatsGradeTier[s+1]);
+	end
+	return gnStats2StarCount[pn];
+end
+
+-- Count the number of 3Stars (Tier 2 (-1 for the table value), increasing by 17 for each difficulty level)
+if stat == 3 then
+	for s = 2, 34, 172 do
+	gnStats3StarCount[pn] = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeTier[s],gnStatsGradeTier[s+1]);
+	end
+	return gnStats3StarCount[pn];
+end
+
+-- Count the number of 4Stars (Tier 1 (-1 for the table value), increasing by 17 for each difficulty level)
+if stat == 4 then
+	for s = 0, 34, 170 do
+	gnStats4StarCount[pn] = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeTier[s],gnStatsGradeTier[s+1]);
+	end
+	return gnStats4StarCount[pn];
+end
+
+
+
+
+-------------------------
+---ACHIEVEMENT DISPLAY---
+-------------------------
+-- Count the total number of songs played
+if stat == 5 then
+	for s = 0, 2, 202 do
+	gnStatsTotalSongCount[pn] = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeTier[s],gnStatsGradeTier[s+1]);
+	end
+	return gnStatsTotalSongCount[pn];
+end
+
+-- Count the total number of EXP earned
+if stat == 6 then
+	if gnStatsTotalSongCount[pn] == 0 then
+		for s = 0, 2, 202 do
+		gnStatsTotalExpCount[pn] = gnStatsTotalExpCount[pn] + (PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeTier[s],gnStatsGradeTier[s+1]) * ((s+17)/17) );
+		end
+	end
+	return gnStatsTotalExpCount[pn];
+end
+
+-- Count the total number of player deaths (Tier 17 (-1 for the table value), increasing by 17 for each difficulty level)
+if stat == 7 then
+	for s = 32, 34, 202 do
+	gnStatsTotalDeathCount[pn] = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeTier[s],gnStatsGradeTier[s+1]);
+	end
+	return gnStatsTotalDeathCount[pn];
+end
+
+-- Count the total number of stars earned *** MUST NOT RUN UNTIL AFTER STAT 1, 2 ,3 & 4 HAVE BEEN RUN ***
+if stat == 8 then
+	gnStatsTotalStarCount[pn] = gnStats1StarCount[pn] + gnStats2StarCount[pn] + gnStats3StarCount[pn] + gnStats4StarCount[pn];
+	return gnStatsTotalStarCount[pn];
+end
+
+
+-------------------------
+------LEVEL DISPLAY------
+-------------------------
+-- Determine the player's current level *** MUST NOT RUN UNTIL AFTER STAT 6 HAS BEEN RUN ***
+if stat == 9 then
+	gnStatsLevel[pn] = gnStatsTotalExpCount[pn]
+	e = 10 -- EXP Curve starts at 10
+	for s = 0, 1, 100 do -- Max Level is 100
+		gnStatsTotalExpCount[pn] = gnStatsTotalExpCount[pn] - e; -- subtract curve and level up on every 0
+		gnStatsLevel[pn] = gnStatsLevel[pn] + 1;
+		if gnStatsTotalExpCount[pn] < 1 then
+			gnStatsLevel[pn] = gnStatsLevel[pn] - 1; -- didn't level up on this run
+			gnStatsExpRemaining[pn] = gnStatsTotalExpCount[pn] + e; -- get remaining EXP amount
+			gnStatsExpRemaining[pn] = gnStatsExpRemaining[pn] / e; -- make it into a percentage of the current curve
+			return gnStatsLevel[pn];
+		end
+		e = e * 1.2
+	end
+	gnStatsExpRemaining[pn] = 100;  -- if the loop completes on its own, you've hit level 100!
+	gnStatsLevel[pn] = 100;
+	return gnStatsLevel[pn];
+end
+
+-- Fetch the remaining EXP *** MUST NOT RUN UNTIL AFTER STAT 9 HAS BEEN RUN ***
+if stat == 10 then
+	return gnStatsExpRemaining[pn]
+end
+
+
+
+
+end
+
