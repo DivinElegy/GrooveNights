@@ -232,8 +232,6 @@ if scn == 'ScreenGameplay' then
 	if FinalBPM == nil then FinalBPM = 0; end
 	if curRate == nil then curRate = 1; end
 	
-	gnP1Winning = false;
-	gnP2Winning = false;
 	gnLowHealth = false;
 	gnLowHealth = false;
 	gnVoiceTimer = 0;
@@ -354,7 +352,6 @@ function ScreenTransitionWhoosh(i)
 	SOUND:PlayOnce(Path);
 end
 
-
 --easter eggs
 local function BPMEasterEggs(Params)
     local ScrollSpeed = DisplayScrollSpeed(Params.pn)
@@ -369,8 +366,15 @@ local function BPMEasterEggs(Params)
     end
 end
 
+local function GoodLuckCameronEasterEgg(Params)
+    if GoodLuckCameronEnabled() then
+        Params.Actor:Load(THEME:GetPath(EC_BGANIMATIONS, '', 'ScreenGameplay overlay/winning2.png'))
+    end
+end
+ 
 RegisterEasterEgg("BlazeIt", BPMEasterEggs)
 RegisterEasterEgg("NoScope", BPMEasterEggs)
+RegisterEasterEgg("GoodLuckCameron", GoodLuckCameronEasterEgg)
 
 --global variable callbacks
 local function LowBPM( BPMDisplay )
@@ -422,4 +426,42 @@ end
 
 function SetFromDisplaySongLength( Actor )
     Actor:settext(DisplaySongLength())
+end
+
+
+
+--throwing this down here until all this code is refactored and neatened
+local ProfileTable
+
+-- Without this check, when StepMania starts it will report a lua runtime error as PROFILEMAN apparently doesn't exist yet.
+if PROFILEMAN ~= nil then
+    ProfileTable = PROFILEMAN:GetMachineProfile():GetSaved()
+end
+
+local choices = { "OFF", "ON" }
+
+function GoodLuckCameronEnabled()
+    --Default to off
+    if ProfileTable.GoodLuckCameron == nil then return false end
+
+    return ProfileTable.GoodLuckCameron
+end
+
+function ToggleGoodLuckCameron()
+    ProfileTable.GoodLuckCameron = not ProfileTable.GoodLuckCameron
+end
+
+function GoodLuckCameronOptionsRow()
+    local function Load(self, list, pn)
+        if GoodLuckCameronEnabled() then list[2] = true else list[1] = true end
+    end
+
+    local function Save(self, list, pn)
+        if list[1] then ProfileTable.GoodLuckCameron = false else ProfileTable.GoodLuckCameron = true end
+        PROFILEMAN:SaveMachineProfile()
+        return
+    end
+
+    local Params = { Name = "GoodLuckCameron" }
+    return CreateOptionRow( Params, choices, Load, Save )
 end

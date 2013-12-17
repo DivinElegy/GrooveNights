@@ -1,3 +1,5 @@
+
+
 <ActorFrame InitCommand="%function(self) 
 self:queuecommand('KillBPM');
 if GAMESTATE:GetEnv('Vibrate') == 'On' then
@@ -19,6 +21,7 @@ SCREENMAN:GetTopScreen():GetChild('BPMDisplay'):addy(-10000);
 					end
 				end
 end"> <children>
+    
 <Layer Type="Quad"
 OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenGameplay'); end"
 />
@@ -106,55 +109,23 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenGameplay'); e
 			</children>
 		</ActorFrame>
 		
-<!--Determine Who is Winning-->
+<!-- Crowns -->
 <ActorFrame Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and GAMESTATE:IsHumanPlayer(PLAYER_2)"
-InitCommand="%function(self) 
-gnCrownOn = TournamentCrownEnabled();
-if gnCrownOn == true then
-	self:sleep(0.05); 
-	self:queuecommand('Loop');
-	end
-end"
-LoopCommand="%function(self)
-self:stoptweening();
-if gnP1Winning then
-	if gnLastWinP1 ~= 1 then
-		MESSAGEMAN:Broadcast('P1Winning');
-		gnLastWinP1 = 1;
-		end
-	else
-	if gnLastWinP1 == 1 then
-		MESSAGEMAN:Broadcast('P1Losing');
-		gnLastWinP1 = 0;
-		end
-	end
-	
-if gnP2Winning then
-	if gnLastWinP2 ~= 1 then
-		MESSAGEMAN:Broadcast('P2Winning');
-		gnLastWinP2 = 1;
-		end
-	else
-	if gnLastWinP2 == 1 then
-		MESSAGEMAN:Broadcast('P2Losing');
-		gnLastWinP2 = 0;
-		end
-	end
-self:sleep(0.1);
-self:queuecommand('Loop');
-end">
+>
 <children>
 <Layer File="winning"
 InitCommand="diffusealpha,0;"
-OnCommand="x,SCREEN_LEFT+23-9+(13*HorizontalRecovery());y,SCREEN_TOP+55+76;zoom,0.5;rotationz,-30;"
-P1WinningMessageCommand="queuecommand,On;stoptweening;sleep,0.2;linear,0.2;diffusealpha,1;"
-P1LosingMessageCommand="queuecommand,On;stoptweening;sleep,0.2;linear,0.2;diffusealpha,0;"
+OnCommand="x,SCREEN_LEFT+23-9+(13*HorizontalRecovery());y,SCREEN_TOP+55+76;zoom,0.5;rotationz,-30;queuecommand,Go"
+GoCommand="%function(self) DoEasterEgg('GoodLuckCameron', { Actor = self }) end"
+P1AheadMessageCommand="linear,0.2;diffusealpha,1;"
+P1BehindMessageCommand="linear,0.2;diffusealpha,0;"
 />
 <Layer File="winning"
 InitCommand="diffusealpha,0;"
-OnCommand="x,SCREEN_RIGHT-23+9-(13*HorizontalRecovery());y,SCREEN_TOP+55+76;zoom,0.5;rotationz,30;"
-P2WinningMessageCommand="queuecommand,On;stoptweening;sleep,0.2;linear,0.2;diffusealpha,1;"
-P2LosingMessageCommand="queuecommand,On;stoptweening;sleep,0.2;linear,0.2;diffusealpha,0;"
+OnCommand="x,SCREEN_RIGHT-23+9-(13*HorizontalRecovery());y,SCREEN_TOP+55+76;zoom,0.5;rotationz,30;queuecommand,Go"
+GoCommand="%function(self) DoEasterEgg('GoodLuckCameron', { Actor = self }) end"
+P2AheadMessageCommand="linear,0.2;diffusealpha,1;"
+P2BehindMessageCommand="linear,0.2;diffusealpha,0;"
 />
 </children>
 </ActorFrame>

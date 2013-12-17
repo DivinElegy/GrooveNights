@@ -62,7 +62,6 @@ if PROFILEMAN ~= nil then
 end
 
 local choices = { "OFF", "ON" }
-local FunctionTable = {}
 
 function EasterEggsEnabled()
     --Default to off
