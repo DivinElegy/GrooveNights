@@ -469,117 +469,15 @@ end
 function getStats(pn,mode,stat)
 
 -- Add modes and grade tiers into a table for quick reference
-gnStatsMode = {
-STEPS_TYPE_DANCE_SINGLE, 
-STEPS_TYPE_DANCE_DOUBLE
-}
-
-gnStatsGradeTier = {
-DIFFICULTY_BEGINNER,GRADE_TIER01,
-DIFFICULTY_BEGINNER,GRADE_TIER02,
-DIFFICULTY_BEGINNER,GRADE_TIER03,
-DIFFICULTY_BEGINNER,GRADE_TIER04,
-DIFFICULTY_BEGINNER,GRADE_TIER05,
-DIFFICULTY_BEGINNER,GRADE_TIER06,
-DIFFICULTY_BEGINNER,GRADE_TIER07,
-DIFFICULTY_BEGINNER,GRADE_TIER08,
-DIFFICULTY_BEGINNER,GRADE_TIER09,
-DIFFICULTY_BEGINNER,GRADE_TIER10,
-DIFFICULTY_BEGINNER,GRADE_TIER11,
-DIFFICULTY_BEGINNER,GRADE_TIER12,
-DIFFICULTY_BEGINNER,GRADE_TIER13,
-DIFFICULTY_BEGINNER,GRADE_TIER14,
-DIFFICULTY_BEGINNER,GRADE_TIER15,
-DIFFICULTY_BEGINNER,GRADE_TIER16,
-DIFFICULTY_BEGINNER,GRADE_TIER17,
-DIFFICULTY_EASY,GRADE_TIER01,
-DIFFICULTY_EASY,GRADE_TIER02,
-DIFFICULTY_EASY,GRADE_TIER03,
-DIFFICULTY_EASY,GRADE_TIER04,
-DIFFICULTY_EASY,GRADE_TIER05,
-DIFFICULTY_EASY,GRADE_TIER06,
-DIFFICULTY_EASY,GRADE_TIER07,
-DIFFICULTY_EASY,GRADE_TIER08,
-DIFFICULTY_EASY,GRADE_TIER09,
-DIFFICULTY_EASY,GRADE_TIER10,
-DIFFICULTY_EASY,GRADE_TIER11,
-DIFFICULTY_EASY,GRADE_TIER12,
-DIFFICULTY_EASY,GRADE_TIER13,
-DIFFICULTY_EASY,GRADE_TIER14,
-DIFFICULTY_EASY,GRADE_TIER15,
-DIFFICULTY_EASY,GRADE_TIER16,
-DIFFICULTY_EASY,GRADE_TIER17,
-DIFFICULTY_MEDIUM,GRADE_TIER01,
-DIFFICULTY_MEDIUM,GRADE_TIER02,
-DIFFICULTY_MEDIUM,GRADE_TIER03,
-DIFFICULTY_MEDIUM,GRADE_TIER04,
-DIFFICULTY_MEDIUM,GRADE_TIER05,
-DIFFICULTY_MEDIUM,GRADE_TIER06,
-DIFFICULTY_MEDIUM,GRADE_TIER07,
-DIFFICULTY_MEDIUM,GRADE_TIER08,
-DIFFICULTY_MEDIUM,GRADE_TIER09,
-DIFFICULTY_MEDIUM,GRADE_TIER10,
-DIFFICULTY_MEDIUM,GRADE_TIER11,
-DIFFICULTY_MEDIUM,GRADE_TIER12,
-DIFFICULTY_MEDIUM,GRADE_TIER13,
-DIFFICULTY_MEDIUM,GRADE_TIER14,
-DIFFICULTY_MEDIUM,GRADE_TIER15,
-DIFFICULTY_MEDIUM,GRADE_TIER16,
-DIFFICULTY_MEDIUM,GRADE_TIER17,
-DIFFICULTY_HARD,GRADE_TIER01,
-DIFFICULTY_HARD,GRADE_TIER02,
-DIFFICULTY_HARD,GRADE_TIER03,
-DIFFICULTY_HARD,GRADE_TIER04,
-DIFFICULTY_HARD,GRADE_TIER05,
-DIFFICULTY_HARD,GRADE_TIER06,
-DIFFICULTY_HARD,GRADE_TIER07,
-DIFFICULTY_HARD,GRADE_TIER08,
-DIFFICULTY_HARD,GRADE_TIER09,
-DIFFICULTY_HARD,GRADE_TIER10,
-DIFFICULTY_HARD,GRADE_TIER11,
-DIFFICULTY_HARD,GRADE_TIER12,
-DIFFICULTY_HARD,GRADE_TIER13,
-DIFFICULTY_HARD,GRADE_TIER14,
-DIFFICULTY_HARD,GRADE_TIER15,
-DIFFICULTY_HARD,GRADE_TIER16,
-DIFFICULTY_HARD,GRADE_TIER17,
-DIFFICULTY_CHALLENGE,GRADE_TIER01,
-DIFFICULTY_CHALLENGE,GRADE_TIER02,
-DIFFICULTY_CHALLENGE,GRADE_TIER03,
-DIFFICULTY_CHALLENGE,GRADE_TIER04,
-DIFFICULTY_CHALLENGE,GRADE_TIER05,
-DIFFICULTY_CHALLENGE,GRADE_TIER06,
-DIFFICULTY_CHALLENGE,GRADE_TIER07,
-DIFFICULTY_CHALLENGE,GRADE_TIER08,
-DIFFICULTY_CHALLENGE,GRADE_TIER09,
-DIFFICULTY_CHALLENGE,GRADE_TIER10,
-DIFFICULTY_CHALLENGE,GRADE_TIER11,
-DIFFICULTY_CHALLENGE,GRADE_TIER12,
-DIFFICULTY_CHALLENGE,GRADE_TIER13,
-DIFFICULTY_CHALLENGE,GRADE_TIER14,
-DIFFICULTY_CHALLENGE,GRADE_TIER15,
-DIFFICULTY_CHALLENGE,GRADE_TIER16,
-DIFFICULTY_CHALLENGE,GRADE_TIER17,
-DIFFICULTY_EDIT,GRADE_TIER01,
-DIFFICULTY_EDIT,GRADE_TIER02,
-DIFFICULTY_EDIT,GRADE_TIER03,
-DIFFICULTY_EDIT,GRADE_TIER04,
-DIFFICULTY_EDIT,GRADE_TIER05,
-DIFFICULTY_EDIT,GRADE_TIER06,
-DIFFICULTY_EDIT,GRADE_TIER07,
-DIFFICULTY_EDIT,GRADE_TIER08,
-DIFFICULTY_EDIT,GRADE_TIER09,
-DIFFICULTY_EDIT,GRADE_TIER10,
-DIFFICULTY_EDIT,GRADE_TIER11,
-DIFFICULTY_EDIT,GRADE_TIER12,
-DIFFICULTY_EDIT,GRADE_TIER13,
-DIFFICULTY_EDIT,GRADE_TIER14,
-DIFFICULTY_EDIT,GRADE_TIER15,
-DIFFICULTY_EDIT,GRADE_TIER16,
-DIFFICULTY_EDIT,GRADE_TIER17
-}
+local gnStatsMode = {STEPS_TYPE_DANCE_SINGLE, STEPS_TYPE_DANCE_DOUBLE}
+local gnStatsGradeDifficulties = {DIFFICULTY_BEGINNER, DIFFICULTY_EASY, DIFFICULTY_MEDIUM, DIFFICULTY_HARD, DIFFICULTY_CHALLENGE, DIFFICULTY_EDIT}
 
 -- Define the tables if nil, otherwise reset based on the selected player
+--[[
+TODO: I'll leave this here for now, but down the track I would like to move these
+outside the function definition as local variables so that they are accessible
+only by this script.
+]]-- 
 if gnStatsTotalSongCount == nil then
 gnStatsTotalSongCount = {0,0};
 gnStatsTotalExpCount = {0,0};
@@ -607,48 +505,44 @@ gnStats4StarCount[pn] = 0
 
 gnStatsLevel[pn] = 1
 gnStatsExpRemaining[pn] = 0
-
 end
-
-
 
 
 --------------------------
 -------STAR DISPLAY-------
 --------------------------
--- Count the number of 1Stars (Tier 4 (-1 for the table value), increasing by 17 for each difficulty level)
+-- Count the number of 1Stars (Tier 4)
 if stat == 1 then
-	for s = 6, 34, 176 do
-	gnStats1StarCount[pn] = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeTier[s],gnStatsGradeTier[s+1]);
+	for s=1, table.getn(gnStatsGradeDifficulties) do
+        --mode, diff, tier
+	gnStats1StarCount[pn] = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER04);
 	end
 	return gnStats1StarCount[pn];
 end
 
--- Count the number of 2Stars (Tier 3 (-1 for the table value), increasing by 17 for each difficulty level)
+-- Count the number of 2Stars (Tier 3)
 if stat == 2 then
-	for s = 4, 34, 174 do
-	gnStats2StarCount[pn] = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeTier[s],gnStatsGradeTier[s+1]);
+	for s=1, table.getn(gnStatsGradeDifficulties) do
+	gnStats2StarCount[pn] = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER03);
 	end
 	return gnStats2StarCount[pn];
 end
 
--- Count the number of 3Stars (Tier 2 (-1 for the table value), increasing by 17 for each difficulty level)
+-- Count the number of 3Stars (Tier 2)
 if stat == 3 then
-	for s = 2, 34, 172 do
-	gnStats3StarCount[pn] = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeTier[s],gnStatsGradeTier[s+1]);
+	for s=1, table.getn(gnStatsGradeDifficulties) do
+	gnStats3StarCount[pn] = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER02);
 	end
 	return gnStats3StarCount[pn];
 end
 
--- Count the number of 4Stars (Tier 1 (-1 for the table value), increasing by 17 for each difficulty level)
+-- Count the number of 4Stars (Tier 1)
 if stat == 4 then
-	for s = 0, 34, 170 do
-	gnStats4StarCount[pn] = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeTier[s],gnStatsGradeTier[s+1]);
+	for s=1, table.getn(gnStatsGradeDifficulties) do
+	gnStats4StarCount[pn] = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER01);
 	end
 	return gnStats4StarCount[pn];
 end
-
-
 
 
 -------------------------
@@ -656,26 +550,22 @@ end
 -------------------------
 -- Count the total number of songs played
 if stat == 5 then
-	for s = 0, 2, 202 do
-	gnStatsTotalSongCount[pn] = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeTier[s],gnStatsGradeTier[s+1]);
-	end
+	gnStatsTotalSongCount[pn] = PROFILEMAN:GetProfile(pn):GetTotalNumSongsPlayed()
 	return gnStatsTotalSongCount[pn];
 end
 
 -- Count the total number of EXP earned
 if stat == 6 then
 	if gnStatsTotalSongCount[pn] == 0 then
-		for s = 0, 2, 202 do
-		gnStatsTotalExpCount[pn] = gnStatsTotalExpCount[pn] + (PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeTier[s],gnStatsGradeTier[s+1]) * ((s+17)/17) );
-		end
+            gnStatsTotalExpCount[pn] = gnStatsTotalExpCount[pn] + (PROFILEMAN:GetProfile(pn):GetTotalNumSongsPlayed()) -- there used to be ((s+17)/17) here, I don't really get what it was doing because s was from the for loop ... some sort of weighting?
 	end
 	return gnStatsTotalExpCount[pn];
 end
 
--- Count the total number of player deaths (Tier 17 (-1 for the table value), increasing by 17 for each difficulty level)
+-- Count the total number of player deaths (Tier 17)
 if stat == 7 then
-	for s = 32, 34, 202 do
-	gnStatsTotalDeathCount[pn] = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeTier[s],gnStatsGradeTier[s+1]);
+	for s=1, table.getn(gnStatsGradeDifficulties) do
+	gnStatsTotalDeathCount[pn] = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER17);
 	end
 	return gnStatsTotalDeathCount[pn];
 end
@@ -714,9 +604,5 @@ end
 if stat == 10 then
 	return gnStatsExpRemaining[pn]
 end
-
-
-
-
 end
 
