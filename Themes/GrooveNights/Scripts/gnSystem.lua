@@ -491,20 +491,6 @@ gnStats4StarCount = {0,0};
 
 gnStatsLevel = {0,0};
 gnStatsExpRemaining = {0,0};
-else
-
-gnStatsTotalSongCount[pn] = 0
-gnStatsTotalExpCount[pn] = 0
-gnStatsTotalDeathCount[pn] = 0
-gnStatsTotalStarCount[pn] = 0
-
-gnStats1StarCount[pn] = 0
-gnStats2StarCount[pn] = 0
-gnStats3StarCount[pn] = 0
-gnStats4StarCount[pn] = 0
-
-gnStatsLevel[pn] = 1
-gnStatsExpRemaining[pn] = 0
 end
 
 
@@ -515,33 +501,33 @@ end
 if stat == 1 then
 	for s=1, table.getn(gnStatsGradeDifficulties) do
         --mode, diff, tier
-	gnStats1StarCount[pn] = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER04);
+	gnStats1StarCount[pn+1] = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER04);
 	end
-	return gnStats1StarCount[pn];
+	return gnStats1StarCount[pn+1];
 end
 
 -- Count the number of 2Stars (Tier 3)
 if stat == 2 then
 	for s=1, table.getn(gnStatsGradeDifficulties) do
-	gnStats2StarCount[pn] = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER03);
+	gnStats2StarCount[pn+1] = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER03);
 	end
-	return gnStats2StarCount[pn];
+	return gnStats2StarCount[pn+1];
 end
 
 -- Count the number of 3Stars (Tier 2)
 if stat == 3 then
 	for s=1, table.getn(gnStatsGradeDifficulties) do
-	gnStats3StarCount[pn] = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER02);
+	gnStats3StarCount[pn+1] = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER02);
 	end
-	return gnStats3StarCount[pn];
+	return gnStats3StarCount[pn+1];
 end
 
 -- Count the number of 4Stars (Tier 1)
 if stat == 4 then
 	for s=1, table.getn(gnStatsGradeDifficulties) do
-	gnStats4StarCount[pn] = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER01);
+	gnStats4StarCount[pn+1] = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER01);
 	end
-	return gnStats4StarCount[pn];
+	return gnStats4StarCount[pn+1];
 end
 
 
@@ -550,30 +536,95 @@ end
 -------------------------
 -- Count the total number of songs played
 if stat == 5 then
-	gnStatsTotalSongCount[pn] = PROFILEMAN:GetProfile(pn):GetTotalNumSongsPlayed()
-	return gnStatsTotalSongCount[pn];
+	gnStatsTotalSongCount[pn+1] = PROFILEMAN:GetProfile(pn):GetTotalNumSongsPlayed()
+	return gnStatsTotalSongCount[pn+1];
 end
 
 -- Count the total number of EXP earned
 if stat == 6 then
-	if gnStatsTotalSongCount[pn] == 0 then
-            gnStatsTotalExpCount[pn] = gnStatsTotalExpCount[pn] + (PROFILEMAN:GetProfile(pn):GetTotalNumSongsPlayed()) -- there used to be ((s+17)/17) here, I don't really get what it was doing because s was from the for loop ... some sort of weighting?
+	for s=1, table.getn(gnStatsGradeDifficulties) do
+	t = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER01)
+	gnStatsTotalDeathCount[pn+1] = gnStatsTotalDeathCount[pn+1] + t
+	gnStatsTotalExpCount[pn+1] = gnStatsTotalExpCount[pn+1] + (17 * t);
+
+	t = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER02)
+	gnStatsTotalDeathCount[pn+1] = gnStatsTotalDeathCount[pn+1] + t
+	gnStatsTotalExpCount[pn+1] = gnStatsTotalExpCount[pn+1] + (16 * t);
+	
+	t = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER03)
+	gnStatsTotalDeathCount[pn+1] = gnStatsTotalDeathCount[pn+1] + t
+	gnStatsTotalExpCount[pn+1] = gnStatsTotalExpCount[pn+1] + (15 * t);
+	
+	t = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER04)
+	gnStatsTotalDeathCount[pn+1] = gnStatsTotalDeathCount[pn+1] + t
+	gnStatsTotalExpCount[pn+1] = gnStatsTotalExpCount[pn+1] + (14 * t);
+	
+	t = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER05)
+	gnStatsTotalDeathCount[pn+1] = gnStatsTotalDeathCount[pn+1] + t
+	gnStatsTotalExpCount[pn+1] = gnStatsTotalExpCount[pn+1] + (13 * t);
+	
+	t = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER06)
+	gnStatsTotalDeathCount[pn+1] = gnStatsTotalDeathCount[pn+1] + t
+	gnStatsTotalExpCount[pn+1] = gnStatsTotalExpCount[pn+1] + (12 * t);
+	
+	t = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER07)
+	gnStatsTotalDeathCount[pn+1] = gnStatsTotalDeathCount[pn+1] + t
+	gnStatsTotalExpCount[pn+1] = gnStatsTotalExpCount[pn+1] + (11 * t);
+	
+	t = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER08)
+	gnStatsTotalDeathCount[pn+1] = gnStatsTotalDeathCount[pn+1] + t
+	gnStatsTotalExpCount[pn+1] = gnStatsTotalExpCount[pn+1] + (10 * t);
+	
+	t = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER09)
+	gnStatsTotalDeathCount[pn+1] = gnStatsTotalDeathCount[pn+1] + t
+	gnStatsTotalExpCount[pn+1] = gnStatsTotalExpCount[pn+1] + (9 * t);
+	
+	t = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER10)
+	gnStatsTotalDeathCount[pn+1] = gnStatsTotalDeathCount[pn+1] + t
+	gnStatsTotalExpCount[pn+1] = gnStatsTotalExpCount[pn+1] + (8 * t);
+	
+	t = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER11)
+	gnStatsTotalDeathCount[pn+1] = gnStatsTotalDeathCount[pn+1] + t
+	gnStatsTotalExpCount[pn+1] = gnStatsTotalExpCount[pn+1] + (7 * t);
+	
+	t = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER12)
+	gnStatsTotalDeathCount[pn+1] = gnStatsTotalDeathCount[pn+1] + t
+	gnStatsTotalExpCount[pn+1] = gnStatsTotalExpCount[pn+1] + (6 * t);
+	
+	t = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER13)
+	gnStatsTotalDeathCount[pn+1] = gnStatsTotalDeathCount[pn+1] + t
+	gnStatsTotalExpCount[pn+1] = gnStatsTotalExpCount[pn+1] + (5 * t);
+	
+	t = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER14)
+	gnStatsTotalDeathCount[pn+1] = gnStatsTotalDeathCount[pn+1] + t
+	gnStatsTotalExpCount[pn+1] = gnStatsTotalExpCount[pn+1] + (4 * t);
+	
+	t = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER15)
+	gnStatsTotalDeathCount[pn+1] = gnStatsTotalDeathCount[pn+1] + t
+	gnStatsTotalExpCount[pn+1] = gnStatsTotalExpCount[pn+1] + (3 * t);
+	
+	t = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER16)
+	gnStatsTotalDeathCount[pn+1] = gnStatsTotalDeathCount[pn+1] + t
+	gnStatsTotalExpCount[pn+1] = gnStatsTotalExpCount[pn+1] + (2 * t);
+	
+	t = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER17)
+	gnStatsTotalDeathCount[pn+1] = gnStatsTotalDeathCount[pn+1] + t
+	gnStatsTotalExpCount[pn+1] = gnStatsTotalExpCount[pn+1] + (1 * t);
+
 	end
-	return gnStatsTotalExpCount[pn];
+	return gnStatsTotalExpCount[pn+1];
 end
 
--- Count the total number of player deaths (Tier 17)
+-- Count the total number of player deaths
 if stat == 7 then
-	for s=1, table.getn(gnStatsGradeDifficulties) do
-	gnStatsTotalDeathCount[pn] = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER17);
-	end
-	return gnStatsTotalDeathCount[pn];
+	gnStatsTotalDeathCount[pn+1] = gnStatsTotalSongCount[pn+1] - gnStatsTotalDeathCount[pn+1]
+	return gnStatsTotalDeathCount[pn+1];
 end
 
 -- Count the total number of stars earned *** MUST NOT RUN UNTIL AFTER STAT 1, 2 ,3 & 4 HAVE BEEN RUN ***
 if stat == 8 then
-	gnStatsTotalStarCount[pn] = gnStats1StarCount[pn] + gnStats2StarCount[pn] + gnStats3StarCount[pn] + gnStats4StarCount[pn];
-	return gnStatsTotalStarCount[pn];
+	gnStatsTotalStarCount[pn+1] = gnStats1StarCount[pn+1] + (gnStats2StarCount[pn+1]*2) + (gnStats3StarCount[pn+1]*3) + (gnStats4StarCount[pn+1]*4);
+	return gnStatsTotalStarCount[pn+1];
 end
 
 
@@ -582,27 +633,27 @@ end
 -------------------------
 -- Determine the player's current level *** MUST NOT RUN UNTIL AFTER STAT 6 HAS BEEN RUN ***
 if stat == 9 then
-	gnStatsLevel[pn] = gnStatsTotalExpCount[pn]
+	gnStatsLevel[pn+1] = gnStatsTotalExpCount[pn+1]
 	e = 10 -- EXP Curve starts at 10
 	for s = 0, 1, 100 do -- Max Level is 100
-		gnStatsTotalExpCount[pn] = gnStatsTotalExpCount[pn] - e; -- subtract curve and level up on every 0
-		gnStatsLevel[pn] = gnStatsLevel[pn] + 1;
-		if gnStatsTotalExpCount[pn] < 1 then
-			gnStatsLevel[pn] = gnStatsLevel[pn] - 1; -- didn't level up on this run
-			gnStatsExpRemaining[pn] = gnStatsTotalExpCount[pn] + e; -- get remaining EXP amount
-			gnStatsExpRemaining[pn] = gnStatsExpRemaining[pn] / e; -- make it into a percentage of the current curve
-			return gnStatsLevel[pn];
+		gnStatsTotalExpCount[pn+1] = gnStatsTotalExpCount[pn+1] - e; -- subtract curve and level up on every 0
+		gnStatsLevel[pn+1] = gnStatsLevel[pn+1] + 1;
+		if gnStatsTotalExpCount[pn+1] < 1 then
+			gnStatsLevel[pn+1] = gnStatsLevel[pn+1] - 1; -- didn't level up on this run
+			gnStatsExpRemaining[pn+1] = gnStatsTotalExpCount[pn+1] + e; -- get remaining EXP amount
+			gnStatsExpRemaining[pn+1] = gnStatsExpRemaining[pn+1] / e; -- make it into a percentage of the current curve
+			return gnStatsLevel[pn+1];
 		end
 		e = e * 1.2
 	end
-	gnStatsExpRemaining[pn] = 100;  -- if the loop completes on its own, you've hit level 100!
-	gnStatsLevel[pn] = 100;
-	return gnStatsLevel[pn];
+	gnStatsExpRemaining[pn+1] = 100;  -- if the loop completes on its own, you've hit level 100!
+	gnStatsLevel[pn+1] = 100;
+	return gnStatsLevel[pn+1];
 end
 
 -- Fetch the remaining EXP *** MUST NOT RUN UNTIL AFTER STAT 9 HAS BEEN RUN ***
 if stat == 10 then
-	return gnStatsExpRemaining[pn]
+	return gnStatsExpRemaining[pn+1]
 end
 end
 
