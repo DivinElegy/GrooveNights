@@ -367,7 +367,7 @@ local function BPMEasterEggs(Params)
 end
 
 local function GoodLuckCameronEasterEgg(Params)
-    if GoodLuckCameronEnabled() then
+    if GetProfilePref("GoodLuckCameron") then
         Params.Actor:Load(THEME:GetPath(EC_BGANIMATIONS, '', 'ScreenGameplay overlay/winning2.png'))
     end
 end
@@ -380,8 +380,6 @@ RegisterEasterEgg("GoodLuckCameron", GoodLuckCameronEasterEgg)
 local function LowBPM( BPMDisplay )
 	BPMDisplay = BPMDisplay:GetText()
 	
-        Trace("YOLOSWEGGER " .. BPMDisplay)
-
 	local pos = string.find(BPMDisplay, "-")
 
         if pos == 1 then pos = string.find(BPMDisplay, "-", 2) end -- if we have a negative bpm at the start then look for another occurence after
@@ -429,39 +427,8 @@ function SetFromDisplaySongLength( Actor )
 end
 
 
-
 --throwing this down here until all this code is refactored and neatened
-local ProfileTable
-
--- Without this check, when StepMania starts it will report a lua runtime error as PROFILEMAN apparently doesn't exist yet.
-if PROFILEMAN ~= nil then
-    ProfileTable = PROFILEMAN:GetMachineProfile():GetSaved()
-end
-
-local choices = { "OFF", "ON" }
-
-function GoodLuckCameronEnabled()
-    --Default to off
-    if ProfileTable.GoodLuckCameron == nil then return false end
-
-    return ProfileTable.GoodLuckCameron
-end
-
-function ToggleGoodLuckCameron()
-    ProfileTable.GoodLuckCameron = not ProfileTable.GoodLuckCameron
-end
-
 function GoodLuckCameronOptionsRow()
-    local function Load(self, list, pn)
-        if GoodLuckCameronEnabled() then list[2] = true else list[1] = true end
-    end
-
-    local function Save(self, list, pn)
-        if list[1] then ProfileTable.GoodLuckCameron = false else ProfileTable.GoodLuckCameron = true end
-        PROFILEMAN:SaveMachineProfile()
-        return
-    end
-
     local Params = { Name = "GoodLuckCameron" }
-    return CreateOptionRow( Params, choices, Load, Save )
+    return CreateProfileRowBool( Params )
 end

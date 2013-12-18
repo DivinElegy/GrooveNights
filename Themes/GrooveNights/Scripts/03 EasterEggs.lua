@@ -10,14 +10,9 @@ Written by Cameron Ball for OpenITG (http://www.boxorroxors.net/)
 All I ask is that you keep this notice intact and don't redistribute in bytecode.
 --]]
 
+
 --[[
 Callable functions:
-
-EasterEggsEnabled()
-[returns a boolean value depending on whether easter eggs have been enabled]
-
-ToggleEasterEggs()
-[turns easter eggs on/off]
 
 RegisterEasterEgg( Name, fn )
 [saves an easter egg function to be called later]
@@ -42,7 +37,7 @@ local function MyEasterEgg(Params)
     end
 end
 
-RegisterEasterEgg(MyEasterEgg)
+RegisterEasterEgg("MyEasterEgg", MyEasterEgg)
 
 Then on an Actor you could apply something like:
 
@@ -52,41 +47,16 @@ Then whenever UpdateCommand is triggered, MyEasterEgg will be run and the corres
 logic will be applied.
 ]]--
 
--- This is purely for convenience
-local ProfileTable
 local FunctionTable = {}
 
--- Without this check, when StepMania starts it will report a lua runtime error as PROFILEMAN apparently doesn't exist yet.
-if PROFILEMAN ~= nil then
-    ProfileTable = PROFILEMAN:GetMachineProfile():GetSaved()
-end
-
-local choices = { "OFF", "ON" }
-
 function EasterEggsEnabled()
-    --Default to off
-    if ProfileTable.EasterEggs == nil then return false end
-
-    return ProfileTable.EasterEggs
-end
-
-function ToggleEasterEggs()
-    ProfileTable.EasterEggs = not ProfileTable.EasterEggs
+    local pref = GetProfilePref("EasterEggs")
+    if pref == nil then return false else return pref end
 end
 
 function EasterEggsOptionsRow()
-    local function Load(self, list, pn)
-        if EasterEggsEnabled() then list[2] = true else list[1] = true end
-    end
-
-    local function Save(self, list, pn)
-        if list[1] then ProfileTable.EasterEggs = false else ProfileTable.EasterEggs = true end
-        PROFILEMAN:SaveMachineProfile()
-        return
-    end
-
     local Params = { Name = "EasterEggs" }
-    return CreateOptionRow( Params, choices, Load, Save )
+    return CreateProfileRowBool( Params )
 end
 
 function RegisterEasterEgg(Name, fn)
