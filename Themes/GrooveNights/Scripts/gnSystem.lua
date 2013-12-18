@@ -432,3 +432,8 @@ function GoodLuckCameronOptionsRow()
     local Params = { Name = "GoodLuckCameron" }
     return CreateProfileRowBool( Params )
 end
+
+function gnJudgementSkinsOptionRow()
+    local Names = { "GrooveNights", "Love", "Tactics", "Chromatic", "Deco", "FP", "ITG2" }
+    return JudgeSkinOptionsRow(Names, "GrooveNights")
+end
