@@ -15,7 +15,7 @@ All I ask is that you keep this notice intact and don't redistribute in bytecode
 local Names = { "Basic", "Advanced", "Pro" }
 
 function SpeedModTypeRow()
-        return CreateProfileRow( { Name = "SpeedModType", Default = 3 }, Names )
+        return CreateProfileRow( { Name = "SpeedModType", Default = 3 }, Names, Names )
 end
 
 function GetSpeedModRowType()

@@ -44,7 +44,7 @@ if PROFILEMAN ~= nil then
     ProfileTable = PROFILEMAN:GetMachineProfile():GetSaved()
 end
 
--- This function originally written by Marc Cannon ("Vyhd")
+-- This function written by Marc Cannon ("Vyhd")
 function CreateOptionRow( Params, Names, LoadFctn, SaveFctn )
         if not Params.Name then return nil end
 
@@ -77,46 +77,47 @@ function CreateOptionRow( Params, Names, LoadFctn, SaveFctn )
         return t
 end
 
--- creates a row list given a list of names and values
-function CreateProfileRow( Params, Values )
-        local pref = ProfileTable[Params.Name]
+function CreateGenericOptionRow( Params, Choices, Values )
+        local function Load(self, list, pn)                
+            for i=1,table.getn(Choices) do
+                list[i] = Params.LoadCallback(list[i], Values[i], pn)
 
-        local function Load(self, list, pn)
-                -- what we're doing here is checking what we got from profileman against the valid names.
-                for i=1,table.getn(Values) do
-                        if pref == Values[i] then list[i] = true return end
-                end
+                if Params.SelectType ~= "SelectMultiple" and list[i] then return end
+            end
 
-                if Params.Default then list[Params.Default] = true else list[1] = true end
+            if Params.Default then list[Params.Default] = true else list[1] = true SCREENMAN:SystemMessage("here") end
         end
 
         local function Save(self, list, pn)
-                -- go through each item in the list and save the first one that is set to true
-                for i=1,table.getn(Values) do
-                        if list[i] then
-                                ProfileTable[Params.Name] = Values[i]
-                                PROFILEMAN:SaveMachineProfile()
-                                return
-                        end
+                for i=1,table.getn(Choices) do
+                    Params.SaveCallback(list[i], Values[i], pn)
                 end
         end
 
-        return CreateOptionRow( Params, Values, Load, Save )
+        return CreateOptionRow( Params, Choices, Load, Save )
+end
+
+-- creates a row list given a list of names and values
+function CreateProfileRow( Params, Choices, Values )
+        local pref = ProfileTable[Params.Name]
+        
+        Params.LoadCallback = function(List, Value) if Params.SekectType ~= "SelectMultiple" then return Value == pref else return pref[Value] end end
+        Params.SaveCallback = function(List, Value)
+                                if Params.SelectType ~= "SelectMultiple" and List then ProfileTable[Params.Name] = Value PROFILEMAN:SaveMachineProfile() return end
+                                if Params.SelectType == "SelectMultiple" then
+                                    if type(ProfileTable[Params.Name]) ~= "table" then ProfileTable[Params.Name] = {} end
+                                    ProfileTable[Params.Name][Value] = List
+                                    PROFILEMAN:SaveMachineProfile()
+                                end
+                              end
+
+        return CreateGenericOptionRow( Params, Choices, Values )
 end
 
 function CreateProfileRowBool( Params )
-    local choices = {"OFF", "ON"}
-
-    local function Load(self, list, pn)
-        if ProfileTable[Params.Name] then list[2] = true else list[1] = true end
-    end
-
-    local function Save(self, list, pn)
-        if list[1] then ProfileTable[Params.Name] = false else ProfileTable[Params.Name] = true end
-        PROFILEMAN:SaveMachineProfile()
-        return
-    end
-    return CreateOptionRow( Params, choices, Load, Save )
+    local Choices = {"OFF", "ON"}
+    local Values = {false, true}
+    return CreateProfileRow( Params, Choices, Values )
 end
 
 function GetProfilePref(Name)

@@ -416,6 +416,18 @@ RegisterGlobalCallback("LowBPM", LowBPM)
 RegisterGlobalCallback("TotalTimeMinutes", TotalTimeMinutes)
 RegisterGlobalCallback("TotalTimeSeconds", TotalTimeSeconds)
 
+-- custom mods
+local function LoadJudgeSkin(Params)
+    Params.Actor:Load( THEME:GetPath( EC_GRAPHICS, '', '_Judgements/' .. Params.Value ))
+end
+
+local function DummyCallback(Params)
+    return true
+end
+
+RegisterCustomMod( "JudgeSkin", LoadJudgeSkin, { OneChoiceForAllPlayers = false, LineNumber = 25 }, { "GrooveNights", "Love", "Tactics", "Chromatic", "Deco", "FP", "ITG2" } )
+RegisterCustomMod( "DummyMod", DummyCallback, { OneChoiceForAllPlayers = false, LineNumber = 26 }, { "Yolo", "Swag", "Young", "Money", "Cash", "Money" } )
+
 --actor setters
 
 function SetFromDisplayScrollSpeed( Actor, pn )
@@ -431,9 +443,4 @@ end
 function GoodLuckCameronOptionsRow()
     local Params = { Name = "GoodLuckCameron" }
     return CreateProfileRowBool( Params )
-end
-
-function gnJudgementSkinsOptionRow()
-    local Names = { "GrooveNights", "Love", "Tactics", "Chromatic", "Deco", "FP", "ITG2" }
-    return JudgeSkinOptionsRow(Names, "GrooveNights")
 end
