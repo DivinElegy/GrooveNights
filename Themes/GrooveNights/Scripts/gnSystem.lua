@@ -418,15 +418,17 @@ RegisterGlobalCallback("TotalTimeSeconds", TotalTimeSeconds)
 
 -- custom mods
 local function LoadJudgeSkin(Params)
-    Params.Actor:Load( THEME:GetPath( EC_GRAPHICS, '', '_Judgements/' .. Params.Value ))
+    if Params.Value ~= nil and Params.Value ~= "GrooveNights" then
+        Params.Actor:Load( THEME:GetPath( EC_GRAPHICS, '', '_Judgements/' .. Params.Value ))
+    end
 end
 
-local function DummyCallback(Params)
-    return true
+local function PlayfieldMods(Params)
+   -- if type(Params.Value) == "table" then SCREENMAN:SystemMessage('got a table!') end
 end
 
 RegisterCustomMod( "JudgeSkin", LoadJudgeSkin, { OneChoiceForAllPlayers = false, LineNumber = 25 }, { "GrooveNights", "Love", "Tactics", "Chromatic", "Deco", "FP", "ITG2" } )
-RegisterCustomMod( "DummyMod", DummyCallback, { OneChoiceForAllPlayers = false, LineNumber = 26 }, { "Yolo", "Swag", "Young", "Money", "Cash", "Money" } )
+RegisterCustomMod( "Playfield", PlayfieldMods, { OneChoiceForAllPlayers = false, LineNumber = 26, SelectType = "SelectMultiple" }, { "Vibrate", "Wag", "Bob", "Pulse" } )
 
 --actor setters
 
