@@ -635,7 +635,7 @@ end
 if stat == 9 then
 	gnStatsLevel[pn+1] = gnStatsTotalExpCount[pn+1]
 	e = 10 -- EXP Curve starts at 10
-	for s = 0, 1, 100 do -- Max Level is 100
+	for s = 1, 100 do -- Max Level is 100
 		gnStatsTotalExpCount[pn+1] = gnStatsTotalExpCount[pn+1] - e; -- subtract curve and level up on every 0
 		gnStatsLevel[pn+1] = gnStatsLevel[pn+1] + 1;
 		if gnStatsTotalExpCount[pn+1] < 1 then
