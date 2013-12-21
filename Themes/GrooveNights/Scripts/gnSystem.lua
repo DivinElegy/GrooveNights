@@ -418,17 +418,23 @@ RegisterGlobalCallback("TotalTimeSeconds", TotalTimeSeconds)
 
 -- custom mods
 local function LoadJudgeSkin(Params)
-    if Params.Value ~= nil and Params.Value ~= "GrooveNights" then
+    if Params.Value and Params.Value ~= "GrooveNights" then
         Params.Actor:Load( THEME:GetPath( EC_GRAPHICS, '', '_Judgements/' .. Params.Value ))
     end
 end
 
 local function PlayfieldMods(Params)
-   -- if type(Params.Value) == "table" then SCREENMAN:SystemMessage('got a table!') end
+	local a = Params.Actor
+
+	if Params.Value == "Bob" then a:bob() a:effectclock('beat') a:effectmagnitude(0,-30,0) end
+	if Params.Value == "Vibrate" then a:vibrate() a:effectmagnitude(20,20,20) end
+	if Params.Value == "Pulse" then a:pulse() a:effectclock('beat') end
+	if Params.Value == "Wag" then a:wag() a:effectclock('beat') end
+	if Params.Value == "Spin" then a:spin() a:effectclock('beat') a:effectmagnitude(0,0,45) end
 end
 
 RegisterCustomMod( "JudgeSkin", LoadJudgeSkin, { OneChoiceForAllPlayers = false, LineNumber = 25 }, { "GrooveNights", "Love", "Tactics", "Chromatic", "Deco", "FP", "ITG2" } )
-RegisterCustomMod( "Playfield", PlayfieldMods, { OneChoiceForAllPlayers = false, LineNumber = 26, SelectType = "SelectMultiple" }, { "Vibrate", "Wag", "Bob", "Pulse" } )
+RegisterCustomMod( "Playfield", PlayfieldMods, { OneChoiceForAllPlayers = false, LineNumber = 26 }, { "Off", "Vibrate", "Wag", "Bob", "Pulse", "Spin" } )
 
 --actor setters
 

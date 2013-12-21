@@ -2,7 +2,7 @@
 local AppliedModsTable = {}
 
 -- For resetting mods
-local WasInOptions = {PLAYER_1 = false, PLAYER_2 = false}
+local WasInOptions = {}
 
 -- Holds the mods
 local ModsTable = {}
@@ -15,15 +15,12 @@ function RegisterCustomMod(Name, fn, Params, Choices)
     if not AppliedModsTable[PLAYER_1] then AppliedModsTable[PLAYER_1] = {} end
     if not AppliedModsTable[PLAYER_2] then AppliedModsTable[PLAYER_2] = {} end
     
-    AppliedModsTable[PLAYER_1][Name] = false
-    AppliedModsTable[PLAYER_2][Name] = false
-
+	WasInOptions[Name] = false
+	
     NullMod(Name)
 end
 
 function NullMod( Name )
-    SCREENMAN:SystemMessage('nulling ' .. Name)
-
     local Choices = ModsTable[Name].Choices 
     local Params = ModsTable[Name].Params
 
@@ -46,7 +43,7 @@ function CustomModOptionRow(Name)
     local Params = ModsTable[Name].Params
 
     Params.LoadCallback = function(List, Value, pn)
-                            WasInOptions[pn] = true
+                           WasInOptions[Name] = true
 
                            -- If this is the first round, reset the skin as it may still be set from earlier
                            if GAMESTATE:StageIndex() == 0 then NullMod(Name) end
@@ -64,8 +61,8 @@ end
 
 function DoCustomMod(Name, pn, Params)
     --if this is the first stage and the user was NOT in the options, reset the mod to default
-    if GAMESTATE:StageIndex() == 0 and not WasInOptions[pn] then NullMod(Name) end
-    WasInOptions[pn] = false
+    if GAMESTATE:StageIndex() == 0 and not WasInOptions[Name] then NullMod(Name) end
+    WasInOptions[Name] = false
 
     Params.Value = AppliedModsTable[pn][Name]
     ModsTable[Name].Callback(Params)
@@ -83,7 +80,18 @@ function CustomModsServiceOptionRow()
 end
 
 function CustomModLines()
-
+	local PrefTable = GetProfilePref("CustomMods")
+	local lines = ''
+	
+	if type(PrefTable) ~= "table" then return nil end
+	
+	for ModName,Enabled in pairs(PrefTable) do
+		if Enabled then
+			if ModsTable[ModName].Params.LineNumber then lines = lines .. ',' .. ModsTable[ModName].Params.LineNumber end
+		end
+	end
+	
+	if lines ~= '' then return lines else return nil end
 end
 
 

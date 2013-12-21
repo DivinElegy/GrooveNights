@@ -437,8 +437,14 @@ function oitgACoptions()
 end
 
 function SongModifiers()
+	local CustomModLines = CustomModLines()
+	
     -- this is very basic right now, but it can be modified to take in to account OITG specific stuff
-    return SpeedLines() .. "4,5,25,26,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24"
+	if CustomModLines then 
+		return SpeedLines() .. "4,5" .. CustomModLines .. ",6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24"
+	else
+		return SpeedLines() .. "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24"
+	end
 end
 
 function SpeedLines()

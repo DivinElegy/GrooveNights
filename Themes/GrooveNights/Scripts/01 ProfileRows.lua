@@ -85,7 +85,7 @@ function CreateGenericOptionRow( Params, Choices, Values )
                 if Params.SelectType ~= "SelectMultiple" and list[i] then return end
             end
 
-            if Params.Default then list[Params.Default] = true else if Params.SelectType ~= "SelectMultiple" then list[1] = true end end
+            if Params.Default then list[Params.Default] = true else if (Params.SelectType ~= "SelectMultiple" and Params.SelectType ~= "SelectNone") then list[1] = true end end
         end
 
         local function Save(self, list, pn)
@@ -100,7 +100,7 @@ end
 -- creates a row list given a list of names and values
 function CreateProfileRow( Params, Choices, Values )
         local pref = ProfileTable[Params.Name]
-        if type(pref) ~= "table" and Params.SelectType == "SelectMultiple" then pref = {} end
+        if type(pref) ~= "table" and Params.SelectType == "SelectMultiple" then pref = {} ProfileTable[Params.Name] = {} end
         
         Params.LoadCallback = function(List, Value) if Params.SelectType ~= "SelectMultiple" then return Value == pref else return pref[Value] end end
         Params.SaveCallback = function(List, Value)
