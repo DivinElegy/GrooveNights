@@ -16,6 +16,7 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenSelectMusic')
 			<BitmapText
 				Text="TEST"
 				File="_eurostile normal"
+				Condition="PROFILEMAN:IsPersistentProfile(PLAYER_1)"
 				OnCommand="%function(self)
 				self:horizalign('left');
 				self:zoom(0.55);
@@ -30,6 +31,7 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenSelectMusic')
 			<BitmapText
 				Text="TEST"
 				File="_eurostile normal"
+				Condition="PROFILEMAN:IsPersistentProfile(PLAYER_1)"
 				OnCommand="%function(self)
 				self:horizalign('left');
 				self:zoom(0.55);
@@ -44,6 +46,7 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenSelectMusic')
 			<BitmapText
 				Text="TEST"
 				File="_eurostile normal"
+				Condition="PROFILEMAN:IsPersistentProfile(PLAYER_1)"
 				OnCommand="%function(self)
 				self:horizalign('left');
 				self:zoom(0.55);
@@ -58,6 +61,7 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenSelectMusic')
 			<BitmapText
 				Text="TEST"
 				File="_eurostile normal"
+				Condition="PROFILEMAN:IsPersistentProfile(PLAYER_1)"
 				OnCommand="%function(self)
 				self:horizalign('left');
 				self:zoom(0.55);
@@ -72,6 +76,7 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenSelectMusic')
 			<BitmapText
 				Text="TEST"
 				File="_eurostile normal"
+				Condition="PROFILEMAN:IsPersistentProfile(PLAYER_1)"
 				OnCommand="%function(self)
 				self:horizalign('left');
 				self:zoom(0.55);
@@ -86,6 +91,7 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenSelectMusic')
 			<BitmapText
 				Text="TEST"
 				File="_eurostile normal"
+				Condition="PROFILEMAN:IsPersistentProfile(PLAYER_1)"
 				OnCommand="%function(self)
 				self:horizalign('left');
 				self:zoom(0.55);
@@ -100,6 +106,7 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenSelectMusic')
 			<BitmapText
 				Text="TEST"
 				File="_eurostile normal"
+				Condition="PROFILEMAN:IsPersistentProfile(PLAYER_1)"
 				OnCommand="%function(self)
 				self:horizalign('left');
 				self:zoom(0.55);
@@ -114,6 +121,7 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenSelectMusic')
 			<BitmapText
 				Text="TEST"
 				File="_eurostile normal"
+				Condition="PROFILEMAN:IsPersistentProfile(PLAYER_1)"
 				OnCommand="%function(self)
 				self:horizalign('left');
 				self:zoom(0.55);
@@ -128,6 +136,7 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenSelectMusic')
 			<BitmapText
 				Text="TEST"
 				File="_eurostile normal"
+				Condition="PROFILEMAN:IsPersistentProfile(PLAYER_1)"
 				OnCommand="%function(self)
 				self:horizalign('left');
 				self:zoom(0.55);
@@ -142,6 +151,7 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenSelectMusic')
 			<BitmapText
 				Text="TEST"
 				File="_eurostile normal"
+				Condition="PROFILEMAN:IsPersistentProfile(PLAYER_1)"
 				OnCommand="%function(self)
 				self:horizalign('left');
 				self:zoom(0.55);
