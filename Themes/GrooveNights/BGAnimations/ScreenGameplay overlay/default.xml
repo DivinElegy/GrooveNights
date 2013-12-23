@@ -2960,13 +2960,19 @@ StepP2MessageCommand="%function(self)
 	
 	<Layer File="../../Graphics/TransitionArrow"
 	OnCommand="diffusealpha,0;"
+	NoRestartMessageCommand="diffusealpha,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+SCREEN_HEIGHT+50;draworder,10000;accelerate,0.2;y,SCREEN_CENTER_Y;decelerate,0.1;zoomx,1.1;zoomy,0.9;addy,5;accelerate,0.1;zoomx,0.95;zoomy,1.05;addy,-6;linear,0.1;zoomx,1;zoomy,1;addy,1;sleep,0.7;decelerate,0.1;zoomx,1.1;zoomy,0.9;addy,5;accelerate,0.1;zoomx,0.95;zoomy,1.05;addy,-6;linear,0.1;zoomx,1;zoomy,1;addy,1;"
 	ScreenTransitionMessageCommand="diffusealpha,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+SCREEN_HEIGHT+50;draworder,10000;accelerate,0.2;y,SCREEN_CENTER_Y"
 	/>
 	
 	<Layer File="Restarting" 
 	Condition="GAMESTATE:IsEventMode() and MenuButtonGiveUp() and not GAMESTATE:IsCourseMode()"
 	OnCommand="diffusealpha,0;"
-	ScreenTransitionMessageCommand="%function(self) 
+	NoRestartMessageCommand="hibernate,100;"
+	ScreenTransitionMessageCommand="%function(self)
+	self:sleep(0.1);
+	self:queuecommand('PlaySound');
+	end"
+	PlaySoundCommand="%function(self)
 	if gnStaminaSongPercent > gnLowestRestartPercent and gnStaminaSongPercent < gnHighestRestartPercent then
 		local Path = THEME:GetPath( EC_SOUNDS, '', '_save');
 		SOUND:PlayOnce(Path);
@@ -2974,7 +2980,7 @@ StepP2MessageCommand="%function(self)
 		self:queuecommand('Blink');
 		end
 	end" 
-	BlinkCommand="sleep,0.2;diffusealpha,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+SCREEN_HEIGHT+65;draworder,10000;accelerate,0.2;y,SCREEN_CENTER_Y+65;diffusealpha,1;sleep,0.195;diffusealpha,0;sleep,0.195;diffusealpha,1;sleep,0.195;diffusealpha,0;sleep,0.195;diffusealpha,1;sleep,0.195;diffusealpha,0;sleep,0.195;diffusealpha,1;sleep,0.195;diffusealpha,0;sleep,0.195;diffusealpha,1;"
+	BlinkCommand="diffusealpha,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+SCREEN_HEIGHT+65;draworder,10000;accelerate,0.1;y,SCREEN_CENTER_Y+65;diffusealpha,1;sleep,0.195;diffusealpha,0;sleep,0.195;diffusealpha,1;sleep,0.195;diffusealpha,0;sleep,0.195;diffusealpha,1;sleep,0.195;diffusealpha,0;sleep,0.195;diffusealpha,1;sleep,0.195;diffusealpha,0;sleep,0.195;diffusealpha,1;"
 	MenuBackMessageCommand="hidden,1;"
 	/>
 	

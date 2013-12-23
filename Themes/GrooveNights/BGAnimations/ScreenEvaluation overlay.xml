@@ -12,7 +12,7 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenEvaluation');
 		<BitmapText
 		Text=""
 		File="_eurostile blue glow"
-		Condition="GAMESTATE:IsEventMode() and MenuButtonGiveUp() and not GAMESTATE:IsCourseMode()"
+		Condition="GAMESTATE:IsEventMode() and MenuButtonGiveUp() and not gnNoRestart and not GAMESTATE:IsCourseMode()"
 		InitCommand="%function(self)
 		if gnStaminaSongPercent > gnLowestRestartPercent and gnStaminaSongPercent < gnHighestRestartPercent then
 			SCREENMAN:SetNewScreen('ScreenStage');

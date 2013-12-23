@@ -176,6 +176,7 @@ RateRestoreMessage(false);
 	gnOptionMod = 0;
 	gnOptionModType = 0;
 	gnStaminaSongPercent = 0;
+	gnNoRestart = false;
 end
 
 
@@ -270,6 +271,13 @@ if scn == 'ScreenGameplay' then
 	gnSameGrade = 0;
 	gnSoundCheck = true;
 	gnAward = 0;
+end
+
+
+
+if scn == 'ScreenGameplayFailed' then
+MESSAGEMAN:Broadcast('NoRestart');
+gnNoRestart = true
 end
 
 
