@@ -429,9 +429,9 @@ function GetModifierNames( num )
 end
 
 function oitgACoptions()
-    local OptionLines = "1,2,3,4,5,6,7,8,9,10,11,12,13"
+    local OptionLines = "1,2,3,4,5,6,7,8,9,10,11,12"
     
-    if EasterEggsEnabled() then OptionLines = OptionLines .. ",14" end
+    if EasterEggsEnabled() then OptionLines = OptionLines .. ",13" end
 
     return OptionLines
 end

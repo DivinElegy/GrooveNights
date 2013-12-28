@@ -6,6 +6,7 @@ local WasInOptions = {}
 
 -- Holds the mods
 local ModsTable = {}
+local ModGroups = {}
 
 function RegisterCustomMod(Name, fn, Params, Choices)
     assert(ModsTable[Name] == nil, "Cannot re-register custom mod" .. Name)
@@ -18,6 +19,15 @@ function RegisterCustomMod(Name, fn, Params, Choices)
 	WasInOptions[Name] = false
 	
     NullMod(Name)
+end
+
+function RegisterSystemMod(Name, LineNumber, GroupID)
+	local Params = { ["LineNumber"] = LineNumber, ["GroupID"] = GroupID }
+	ModsTable[Name] = { ["Params"] = Params }
+end
+
+function RegisterModGroup( GroupID, Name )
+	ModGroups[GroupID] = Name
 end
 
 function NullMod( Name )
@@ -68,31 +78,33 @@ function DoCustomMod(Name, pn, Params)
     ModsTable[Name].Callback(Params)
 end
 
-function CustomModsServiceOptionRow()
+function CustomModsServiceOptionRow( GroupID )
     local Choices = { }
-    local Params = { Name = "CustomMods", SelectType = "SelectMultiple"  }
+    local Params = { ["Name"] = ModGroups[GroupID], SelectType = "SelectMultiple", EnabledByDefault = true  }
 
     for ModName,ModValue in pairs(ModsTable) do
-        table.insert(Choices, ModName)
+		if ModsTable[ModName].Params.GroupID == GroupID then table.insert(Choices, ModName) end
     end
-
+	
     return CreateProfileRow(Params, Choices, Choices)
 end
 
-function CustomModLines()
-	local PrefTable = GetProfilePref("CustomMods")
-	local lines = ''
-	
-	if type(PrefTable) ~= "table" then return nil end
-	
-	for ModName,Enabled in pairs(PrefTable) do
-		if Enabled then
-			if ModsTable[ModName].Params.LineNumber then lines = lines .. ',' .. ModsTable[ModName].Params.LineNumber end
+function ModLines()
+	local PrefTable
+	local lines = {}
+	for GroupID,GroupName in pairs(ModGroups) do 
+		PrefTable = GetProfilePref(GroupName)
+		Trace("YOLO " .. GroupName)		
+		for ModName,ModValue in pairs(ModsTable) do
+			Trace("SWAG " .. ModName)
+			if ModValue.Params.GroupID == GroupID then
+				if PrefTable == nil or PrefTable[ModName] then -- if the mod is enabled, (also default to enabled if there's nothing in the profile)
+					if ModValue.Params.LineNumber then table.insert(lines, ModValue.Params.LineNumber) end
+				end
+			end
 		end
 	end
-	
-	if lines ~= '' then return lines else return nil end
+
+	-- TODO the 101,102,103 is a quick hack to get us the speed mods, it really needs to be worked in with this system better
+	if lines then return "101,102,103," .. table.concat(lines, ",") else return nil end
 end
-
-
-

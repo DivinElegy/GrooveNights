@@ -51,11 +51,11 @@ local FunctionTable = {}
 
 function EasterEggsEnabled()
     local pref = GetProfilePref("EasterEggs")
-    if pref == nil then return false else return pref end
+    if pref == nil then return true else return pref end
 end
 
 function EasterEggsOptionsRow()
-    local Params = { Name = "EasterEggs" }
+    local Params = { Name = "EasterEggs", Default = 2 } --2 is on
     return CreateProfileRowBool( Params )
 end
 
