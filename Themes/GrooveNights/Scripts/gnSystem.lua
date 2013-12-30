@@ -162,7 +162,7 @@ end
 
 if scn == 'ScreenSelectMusic' then
 ScreenTransitionWhoosh('short');
-RateRestoreMessage(false);
+RateRestoreMessage(true);
 	if curRate == nil then curRate = 1 end
 	gnBlazedP1 = 0;
 	gnBlazedP2 = 0;
@@ -175,7 +175,7 @@ RateRestoreMessage(false);
 	gnStatFrequency = gnStatFrequency + 1;
 	gnOptionMod = 0;
 	gnOptionModType = 0;
-	gnStaminaSongPercent = 0;
+	gnSongElapsedPercent = 0;
 	gnNoRestart = false;
 end
 
@@ -246,12 +246,11 @@ if scn == 'ScreenGameplay' then
 	gnLowHealth = false;
 	gnLowHealth = false;
 	gnVoiceTimer = 0;
-	gnStaminaTimer = 0;
 	gnRandomVoice = math.random(1,5); 
 	gnRandomMark1 = math.random(5,92);
 	gnRandomMark2 = math.random(5,92);
 	gnRandomMark3 = math.random(5,92);
-	gnStaminaSongPercent = 0;
+	gnSongElapsedPercent = 0;
 	gnStamina25Window = 0;
 	gnStamina50Window = 0;
 	gnStamina75Window = 0;
@@ -271,6 +270,22 @@ if scn == 'ScreenGameplay' then
 	gnSameGrade = 0;
 	gnSoundCheck = true;
 	gnAward = 0;
+	gnOptionCheck = false;
+	
+	-- Each 0 represents 1% of the song (0% inclusive), there are 202 in total, 101 per player.
+	gnSongTimeline = { 
+	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+	
+	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+	}
 end
 
 
@@ -285,7 +300,9 @@ end
 if scn == 'ScreenEvaluation' then
 ScreenTransitionWhoosh('short');
 gnSongCount = gnSongCount + 1;
-RateRestoreMessage(false);
+if not (GAMESTATE:IsEventMode() and MenuButtonGiveUp() and not gnNoRestart and not GAMESTATE:IsCourseMode()) then
+	RateRestoreMessage(false);
+	end
 end
 
 
@@ -351,11 +368,17 @@ end
 -- ==='RATE MOD HAS BEEN RESTORED' MESSAGE===
 -- Call with false to display message, call with true to display the message AND reset the mod
 function RateRestoreMessage(i)
-	if GetRateMod() ~= '1.0x' then 
+	if GetRateMod() ~= '1.0x' then
 		if i then
 		GAMESTATE:ApplyGameCommand('mod, 1.0xmusic',1);
+		gnOptionCheck = true;
 		end 
-	SCREENMAN:SystemMessage('Rate Modifier has been restored to 1.0x')
+	SCREENMAN:SystemMessage('Rate Modifier has been restored to 1.0x');
+	else
+	if gnOptionCheck then
+		gnOptionCheck = false;
+		SCREENMAN:SystemMessage('Rate Modifier has been restored to 1.0x');
+		end
 	end
 end
 

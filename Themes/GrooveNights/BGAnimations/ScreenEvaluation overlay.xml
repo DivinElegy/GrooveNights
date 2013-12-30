@@ -8,13 +8,40 @@ end">
 OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenEvaluation'); end"
 />
 
+	<!--Scrape the Player's Score and show something cool-->
+		<BitmapText
+		Text="hello"
+		File="_eurostile blue glow"
+		InitCommand="%function(self)
+		self:x(SCREEN_CENTER_X);
+		self:y(SCREEN_CENTER_Y);
+		self:hibernate(0.1);
+		self:queuecommand('Go');
+		end"
+		GoCommand="%function(self)
+		self:diffusealpha(0);
+			if GAMESTATE:IsPlayerEnabled(PLAYER_1) then
+			gnScoreP1 = SCREENMAN:GetTopScreen():GetChild('PercentP1'):GetChild('PercentP1'):GetText();
+			gnScoreP1 = string.gsub(gnScoreP1,'%%','');
+			gnScoreP1 = tonumber(gnScoreP1);
+			end
+
+			if GAMESTATE:IsPlayerEnabled(PLAYER_2) then
+			gnScoreP2 = SCREENMAN:GetTopScreen():GetChild('PercentP2'):GetChild('PercentP21'):GetText();
+			gnScoreP2 = string.gsub(gnScoreP1,'%%','');
+			gnScoreP2 = tonumber(gnScoreP2);
+			end
+		self:settext(gnScoreP1);
+		end"
+		/>
+		
 	<!--Restart the song on event mode if you pressed the menu button-->
 		<BitmapText
 		Text=""
 		File="_eurostile blue glow"
 		Condition="GAMESTATE:IsEventMode() and MenuButtonGiveUp() and not gnNoRestart and not GAMESTATE:IsCourseMode()"
 		InitCommand="%function(self)
-		if gnStaminaSongPercent > gnLowestRestartPercent and gnStaminaSongPercent < gnHighestRestartPercent then
+		if gnSongElapsedPercent > gnLowestRestartPercent and gnSongElapsedPercent < gnHighestRestartPercent then
 			SCREENMAN:SetNewScreen('ScreenStage');
 			end
 		end"
@@ -200,7 +227,7 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenEvaluation');
 			InitCommand="%function(self)
 			self:settext(GAMESTATE:GetCurrentSong():GetDisplayMainTitle());
 			self:x(SCREEN_CENTER_X);
-			self:y(SCREEN_CENTER_Y-173);
+			self:y(SCREEN_CENTER_Y-172);
 			end"
 		/>	
 		<!-- <BitmapText

@@ -11,8 +11,9 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenSelectMusic')
 		<ActorFrame InitCommand="x,-35;y,0;">
 			<children>
 			
-				
-			
+		<!-- Remove the Addx to test the star count thing -->		
+		<ActorFrame InitCommand="addx,2000;">
+		<children>
 			<BitmapText
 				Text="TEST"
 				File="_eurostile normal"
@@ -162,6 +163,8 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenSelectMusic')
 				self:settext(txt);
 				end"
 			/>
+		</children>
+		</ActorFrame>
 			
 			
 			

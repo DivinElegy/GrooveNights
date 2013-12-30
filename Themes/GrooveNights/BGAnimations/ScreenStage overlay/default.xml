@@ -56,7 +56,7 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenStage'); end"
 	Condition="GAMESTATE:IsEventMode() and MenuButtonGiveUp() and not GAMESTATE:IsCourseMode()"
 	OnCommand="%function(self) 
 	self:diffusealpha(0);
-	if gnStaminaSongPercent > gnLowestRestartPercent and gnStaminaSongPercent < gnHighestRestartPercent then
+	if gnSongElapsedPercent > gnLowestRestartPercent and gnSongElapsedPercent < gnHighestRestartPercent then
 		self:queuecommand('Blink');
 		end
 	end" 

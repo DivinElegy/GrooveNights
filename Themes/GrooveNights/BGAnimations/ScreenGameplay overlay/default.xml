@@ -209,7 +209,9 @@ P2BehindMessageCommand="linear,0.2;diffusealpha,0;"
 			<Tip
 				File="tip"
 				OnCommand="@'diffuse,'..SongMeterColor()..';'"
-				TipXMessageCommand="%function(self) gnStaminaTimer = self:GetX(); gnStaminaSongPercent = math.floor((1-((195-gnStaminaTimer)/389))*100) end"
+				TipXMessageCommand="%function(self) gnSongElapsedPercent = self:GetX(); gnSongElapsedPercent = math.floor((1-((195-gnSongElapsedPercent)/389))*100)
+				gnSongTimeline[gnSongElapsedPercent+1] = 1;
+				end"
 			/>
 		</Layer>
 
@@ -2973,7 +2975,7 @@ StepP2MessageCommand="%function(self)
 	self:queuecommand('PlaySound');
 	end"
 	PlaySoundCommand="%function(self)
-	if gnStaminaSongPercent > gnLowestRestartPercent and gnStaminaSongPercent < gnHighestRestartPercent then
+	if gnSongElapsedPercent > gnLowestRestartPercent and gnSongElapsedPercent < gnHighestRestartPercent then
 		local Path = THEME:GetPath( EC_SOUNDS, '', '_save');
 		SOUND:PlayOnce(Path);
 		MESSAGEMAN:Broadcast('QuadFlicker');

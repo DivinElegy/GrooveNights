@@ -203,6 +203,7 @@ end"> <children>
 		self:accelerate(0.5);
 		gnJudgeText = math.ceil(tonumber(SCREENMAN:GetTopScreen():GetChild('MarvelousNumberP'..gnPlayerCount):GetText()) / gnJudgeTotal * 121);
 		if gnJudgeText >= 121 then gnJudgeText = 121; end
+		if math.floor(tonumber(SCREENMAN:GetTopScreen():GetChild('MarvelousNumberP'..gnPlayerCount):GetText())) == 0 then gnJudgeText = 0 end
 		self:zoomx(gnJudgeText);
 		self:queuecommand('SFX');
 		end"
@@ -219,6 +220,7 @@ end"> <children>
 		self:accelerate(0.5);
 		gnJudgeText = math.ceil(tonumber(SCREENMAN:GetTopScreen():GetChild('PerfectNumberP'..gnPlayerCount):GetText()) / gnJudgeTotal * 121);
 		if gnJudgeText >= 121 then gnJudgeText = 121; end
+		if math.floor(tonumber(SCREENMAN:GetTopScreen():GetChild('PerfectNumberP'..gnPlayerCount):GetText())) == 0 then gnJudgeText = 0 end
 		self:zoomx(gnJudgeText);
 		self:queuecommand('SFX');
 		end"
@@ -235,6 +237,7 @@ end"> <children>
 		self:accelerate(0.5);
 		gnJudgeText = math.ceil(tonumber(SCREENMAN:GetTopScreen():GetChild('GreatNumberP'..gnPlayerCount):GetText()) / gnJudgeTotal * 121);
 		if gnJudgeText >= 121 then gnJudgeText = 121; end
+		if math.floor(tonumber(SCREENMAN:GetTopScreen():GetChild('GreatNumberP'..gnPlayerCount):GetText())) == 0 then gnJudgeText = 0 end
 		self:zoomx(gnJudgeText);
 		self:queuecommand('SFX');
 		end"
@@ -251,6 +254,7 @@ end"> <children>
 		self:accelerate(0.5);
 		gnJudgeText = math.ceil(tonumber(SCREENMAN:GetTopScreen():GetChild('GoodNumberP'..gnPlayerCount):GetText()) / gnJudgeTotal * 121);
 		if gnJudgeText >= 121 then gnJudgeText = 121; end
+		if math.floor(tonumber(SCREENMAN:GetTopScreen():GetChild('GoodNumberP'..gnPlayerCount):GetText())) == 0 then gnJudgeText = 0 end
 		self:zoomx(gnJudgeText);
 		self:queuecommand('SFX');
 		end"
@@ -267,6 +271,7 @@ end"> <children>
 		self:accelerate(0.5);
 		gnJudgeText = math.ceil(tonumber(SCREENMAN:GetTopScreen():GetChild('BooNumberP'..gnPlayerCount):GetText()) / gnJudgeTotal * 121);
 		if gnJudgeText >= 121 then gnJudgeText = 121; end
+		if math.floor(tonumber(SCREENMAN:GetTopScreen():GetChild('BooNumberP'..gnPlayerCount):GetText())) == 0 then gnJudgeText = 0 end
 		self:zoomx(gnJudgeText);
 		self:queuecommand('SFX');
 		end"
@@ -283,6 +288,7 @@ end"> <children>
 		self:sleep(0.6/2);
 		gnJudgeText = math.ceil(tonumber(SCREENMAN:GetTopScreen():GetChild('MissNumberP'..gnPlayerCount):GetText()) / gnJudgeTotal * 121);
 		if gnJudgeText >= 121 then gnJudgeText = 121; end
+		if math.floor(tonumber(SCREENMAN:GetTopScreen():GetChild('MissNumberP'..gnPlayerCount):GetText())) == 0 then gnJudgeText = 0 end
 		self:zoomx(gnJudgeText);
 		self:queuecommand('SFX');
 		end"
@@ -301,6 +307,7 @@ end"> <children>
 		self:accelerate(0.5);
 		gnJudgeText = math.ceil(gnJumpsNumber / gnJumpsTotal * 121);
 		if gnJudgeText >= 121 then gnJudgeText = 121; end
+		if math.floor(gnJumpsNumber / gnJumpsTotal) == 0 then gnJudgeText = 0 end
 		self:zoomx(gnJudgeText);
 		self:queuecommand('SFX');
 		end"
@@ -317,6 +324,7 @@ end"> <children>
 		self:accelerate(0.5);
 		gnJudgeText = math.ceil(gnHoldsNumber / gnHoldsTotal * 121);
 		if gnJudgeText >= 121 then gnJudgeText = 121; end
+		if math.floor(gnHoldsNumber / gnHoldsTotal) == 0 then gnJudgeText = 0 end
 		self:zoomx(gnJudgeText);
 		self:queuecommand('SFX');
 		end"
@@ -333,6 +341,7 @@ end"> <children>
 		self:accelerate(0.5);
 		gnJudgeText = math.ceil(gnMinesNumber / gnMinesTotal * 121);
 		if gnJudgeText >= 121 then gnJudgeText = 121; end
+		if math.floor(gnMinesNumber / gnMinesTotal) == 0 then gnJudgeText = 0 end
 		self:zoomx(gnJudgeText);
 		self:queuecommand('SFX');
 		end"
@@ -349,6 +358,7 @@ end"> <children>
 		self:accelerate(0.5);
 		gnJudgeText = math.ceil(gnHandsNumber / gnHandsTotal * 121);
 		if gnJudgeText >= 121 then gnJudgeText = 121; end
+		if math.floor(gnHandsNumber / gnHandsTotal) == 0 then gnJudgeText = 0 end
 		self:zoomx(gnJudgeText);
 		self:queuecommand('SFX');
 		end"
@@ -365,6 +375,7 @@ end"> <children>
 		self:accelerate(0.5);
 		gnJudgeText = math.ceil(gnRollsNumber / gnRollsTotal * 121);
 		if gnJudgeText >= 121 then gnJudgeText = 121; end
+		if math.floor(gnRollsNumber / gnRollsTotal) == 0 then gnJudgeText = 0 end
 		self:zoomx(gnJudgeText);
 		end"
 		self:queuecommand('SFX');
@@ -381,6 +392,7 @@ end"> <children>
 		self:accelerate(0.5);
 		gnJudgeText = math.ceil(tonumber(SCREENMAN:GetTopScreen():GetChild('MaxComboNumberP'..gnPlayerCount):GetText()) / 10000 * 121);
 		if gnJudgeText >= 121 then gnJudgeText = 121; self:rainbow(); end
+		if math.floor(tonumber(SCREENMAN:GetTopScreen():GetChild('MaxComboNumberP'..gnPlayerCount):GetText())) == 0 then gnJudgeText = 0 end
 		self:zoomx(gnJudgeText);
 		self:queuecommand('SFX');
 		end"
