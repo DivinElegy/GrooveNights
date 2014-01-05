@@ -13,7 +13,7 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenNameEntry'); 
 		/>
 		
 		<Layer File="ScreenNameEntryTraditional banner frame p1"
-		InitCommand="@'draworder,-1000;x,SCREEN_CENTER_X-18;y,SCREEN_CENTER_Y-134-41;diffuse,'..FrameColor()..';'"
+		InitCommand="@'draworder,-1000;x,SCREEN_CENTER_X-18;y,SCREEN_CENTER_Y-134-39;diffuse,'..FrameColor()..';'"
 		OffCommand="linear,0.2;diffuse,0,0,0,1;"
 		/>
 		

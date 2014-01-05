@@ -31,7 +31,7 @@ function GetSpeedModRowType()
 end
 
 function GetRateMods()
-    return { "1.0x", "1.1x", "1.2x", "1.3x", "1.4x", "1.5x", "1.6x", "1.7x", "2.0x"}
+    return { "0.5x", "0.6x", "0.7x", "0.8x", "0.9x", "1.0x", "1.1x", "1.2x", "1.3x", "1.4x", "1.5x", "2.0x"}
 end
 
 function GetBaseSpeeds()

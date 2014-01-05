@@ -281,7 +281,6 @@ if scn == 'ScreenGameplay' then
 	gnP1Restarter = 0;
 	gnP2Restarter = 0;
 	gnSameGrade = 0;
-	gnAward = 0;
 	gnOptionCheck = false;
 	
 	-- Each 0 represents 1% of the song (0% inclusive), there are 202 in total, 101 per player.
@@ -305,7 +304,7 @@ if scn == 'ScreenGameplay' then
 	gnOnScreenSeconds = 0
 	gnDisplayedFileOpacity = 0
 	gnBackgroundDarkness = 0
-	
+	gnAwardWidthP2 = 0;
 end
 
 

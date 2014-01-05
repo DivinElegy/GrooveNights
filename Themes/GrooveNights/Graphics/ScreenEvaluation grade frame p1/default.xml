@@ -59,8 +59,8 @@ i = string.find(gnRollsTotal,'/');
 gnRollsTotal = string.gsub(string.sub(gnRollsTotal,i+1),'%s','');
 gnRollsTotal = tonumber(gnRollsTotal);
 
-gnPath = getSystemSound('gnJudgeBar', '0');
-SOUND:PlayOnce(gnPath);
+local Path = getSystemSound('gnJudgeBar', '0');
+SOUND:PlayOnce(Path);
 end"> <children>
 	<Layer File="base frame B" InitCommand="@'diffuse,'..BackgroundColor()..';'"/>
 	<Layer File="base frame F" InitCommand="@'diffuse,'..FrameColor()..';'"/>
@@ -210,8 +210,8 @@ end"> <children>
 		self:queuecommand('SFX');
 		end"
 		SFXCommand="%function(self)
-		gnPath = getSystemSound('gnJudgeBar', '1');
-		SOUND:PlayOnce(gnPath);
+		local Path = getSystemSound('gnJudgeBar', '1');
+		SOUND:PlayOnce(Path);
 		end"/>
 		
 		<Layer File="Judgment0002"	OnCommand="y,16*1;zoom,0.65;horizalign,left;shadowlength,0;" />
@@ -227,8 +227,8 @@ end"> <children>
 		self:queuecommand('SFX');
 		end"
 		SFXCommand="%function(self)
-		gnPath = getSystemSound('gnJudgeBar', '2');
-		SOUND:PlayOnce(gnPath);
+		local Path = getSystemSound('gnJudgeBar', '2');
+		SOUND:PlayOnce(Path);
 		end"/>
 		
 		<Layer File="Judgment0003"		OnCommand="y,16*2;zoom,0.65;horizalign,left;shadowlength,0;" />
@@ -244,8 +244,8 @@ end"> <children>
 		self:queuecommand('SFX');
 		end"
 		SFXCommand="%function(self)
-		gnPath = getSystemSound('gnJudgeBar', '3');
-		SOUND:PlayOnce(gnPath);
+		local Path = getSystemSound('gnJudgeBar', '3');
+		SOUND:PlayOnce(Path);
 		end"/>
 		
 		<Layer File="Judgment0004"		OnCommand="y,16*3;zoom,0.65;horizalign,left;shadowlength,0;" />
@@ -261,8 +261,8 @@ end"> <children>
 		self:queuecommand('SFX');
 		end"
 		SFXCommand="%function(self)
-		gnPath = getSystemSound('gnJudgeBar', '4');
-		SOUND:PlayOnce(gnPath);
+		local Path = getSystemSound('gnJudgeBar', '4');
+		SOUND:PlayOnce(Path);
 		end"/>
 		
 		<Layer File="Judgment0005"	OnCommand="y,16*4;zoom,0.65;horizalign,left;shadowlength,0;" />
@@ -278,8 +278,8 @@ end"> <children>
 		self:queuecommand('SFX');
 		end"
 		SFXCommand="%function(self)
-		gnPath = getSystemSound('gnJudgeBar', '5');
-		SOUND:PlayOnce(gnPath);
+		local Path = getSystemSound('gnJudgeBar', '5');
+		SOUND:PlayOnce(Path);
 		end"/>
 		
 		<Layer File="Judgment0006"		OnCommand="y,16*5;zoom,0.65;horizalign,left;shadowlength,0;" />
@@ -295,8 +295,8 @@ end"> <children>
 		self:queuecommand('SFX');
 		end"
 		SFXCommand="%function(self)
-		gnPath = getSystemSound('gnJudgeBar', '6');
-		SOUND:PlayOnce(gnPath);
+		local Path = getSystemSound('gnJudgeBar', '6');
+		SOUND:PlayOnce(Path);
 		end"/>
 		
 	</children> </Layer>
@@ -314,8 +314,8 @@ end"> <children>
 		self:queuecommand('SFX');
 		end"
 		SFXCommand="%function(self)
-		gnPath = getSystemSound('gnJudgeBar', '7');
-		SOUND:PlayOnce(gnPath);
+		local Path = getSystemSound('gnJudgeBar', '7');
+		SOUND:PlayOnce(Path);
 		end"/>
 
 		<Layer File="Judgment0008"		OnCommand="y,16*1;zoom,0.65;horizalign,left;shadowlength,0;" />
@@ -331,8 +331,8 @@ end"> <children>
 		self:queuecommand('SFX');
 		end"
 		SFXCommand="%function(self)
-		gnPath = getSystemSound('gnJudgeBar', '8');
-		SOUND:PlayOnce(gnPath);
+		local Path = getSystemSound('gnJudgeBar', '8');
+		SOUND:PlayOnce(Path);
 		end"/>
 
 		<Layer File="Judgment0009"		OnCommand="y,16*2;zoom,0.65;horizalign,left;shadowlength,0;" />
@@ -348,8 +348,8 @@ end"> <children>
 		self:queuecommand('SFX');
 		end"
 		SFXCommand="%function(self)
-		gnPath = getSystemSound('gnJudgeBar', '9');
-		SOUND:PlayOnce(gnPath);
+		local Path = getSystemSound('gnJudgeBar', '9');
+		SOUND:PlayOnce(Path);
 		end"/>
 
 		<Layer File="Judgment0010"		OnCommand="y,16*3;zoom,0.65;horizalign,left;shadowlength,0;" />
@@ -365,8 +365,8 @@ end"> <children>
 		self:queuecommand('SFX');
 		end"
 		SFXCommand="%function(self)
-		gnPath = getSystemSound('gnJudgeBar', '10');
-		SOUND:PlayOnce(gnPath);
+		local Path = getSystemSound('gnJudgeBar', '10');
+		SOUND:PlayOnce(Path);
 		end"/>
 
 		<Layer File="Judgment0011"		OnCommand="y,16*4;zoom,0.65;horizalign,left;shadowlength,0;" />
@@ -379,11 +379,11 @@ end"> <children>
 		if gnJudgeText >= 121 then gnJudgeText = 121; end
 		if math.floor(gnRollsNumber / gnRollsTotal) == 0 then gnJudgeText = 0 end
 		self:zoomx(gnJudgeText);
-		end"
 		self:queuecommand('SFX');
+		end"
 		SFXCommand="%function(self)
-		gnPath = getSystemSound('gnJudgeBar', '11');
-		SOUND:PlayOnce(gnPath);
+		local Path = getSystemSound('gnJudgeBar', '11');
+		SOUND:PlayOnce(Path);
 		end"/>
 
 		<Layer File="Judgment0012"		OnCommand="y,16*5;zoom,0.65;horizalign,left;shadowlength,0;" />
@@ -399,8 +399,8 @@ end"> <children>
 		self:queuecommand('SFX');
 		end"
 		SFXCommand="%function(self)
-		gnPath = getSystemSound('gnJudgeBar', '12');
-		SOUND:PlayOnce(gnPath);
+		local Path = getSystemSound('gnJudgeBar', '12');
+		SOUND:PlayOnce(Path);
 		end"/>
 
 	</children> </Layer>

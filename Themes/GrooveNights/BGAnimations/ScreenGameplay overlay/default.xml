@@ -23,15 +23,28 @@ end"> <children>
 <Layer Type="Quad"
 OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenGameplay'); end"
 />
-
+		
 	<!--Scrape the Player's Score-->
 		<BitmapText
 		Text=""
 		File="_eurostile blue glow"
 		InitCommand="%function(self)
-		self:x(SCREEN_CENTER_X);
-		self:y(SCREEN_CENTER_Y);
+		self:x(SCREEN_CENTER_X-2000);
+		self:y(SCREEN_CENTER_Y-2000);
 		end"
+		StepP1MessageCommand="%function(self)
+		self:diffusealpha(1);
+		gnScoreP1 = SCREENMAN:GetTopScreen():GetChild('ScoreP1'):GetChild('ScoreDisplayPercentage Percent'):GetChild('PercentP1'):GetText();
+		gnScoreP1 = string.gsub(gnScoreP1,'%%','');
+		gnScoreP1 = tonumber(gnScoreP1);
+		end"
+		StepP2MessageCommand="%function(self)
+		self:diffusealpha(1);
+		gnScoreP2 = SCREENMAN:GetTopScreen():GetChild('ScoreP2'):GetChild('ScoreDisplayPercentage Percent'):GetChild('PercentP2'):GetText();
+		gnScoreP2 = string.gsub(gnScoreP2,'%%','');
+		gnScoreP2 = tonumber(gnScoreP2);
+		end"
+		
 		ScreenTransitionMessageCommand="%function(self)
 		self:diffusealpha(1);
 			if GAMESTATE:IsPlayerEnabled(PLAYER_1) then
@@ -137,17 +150,20 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenGameplay'); e
 <children>
 <Layer File="winning"
 InitCommand="diffusealpha,0;"
-OnCommand="x,SCREEN_LEFT+23-9+(13*HorizontalRecovery());y,SCREEN_TOP+55+76;zoom,0.5;rotationz,-30;queuecommand,Go"
-GoCommand="%function(self) DoEasterEgg('GoodLuckCameron', { Actor = self }) end"
-P1AheadMessageCommand="linear,0.2;diffusealpha,1;"
-P1BehindMessageCommand="linear,0.2;diffusealpha,0;"
+OnCommand="x,SCREEN_LEFT+23-9+(13*HorizontalRecovery());y,SCREEN_TOP+55+74;zoom,0.5;rotationz,-30;queuecommand,Go"
+GoCommand="%function(self) DoEasterEgg('GoodLuckCameron', { Actor = self }) self:queuecommand('Update'); end"
+StepP1MessageCommand="%function(self) self:stoptweening(); self:queuecommand('Update'); end"
+StepP2MessageCommand="%function(self) self:stoptweening(); self:queuecommand('Update'); end"
+UpdateCommand="%function(self) if gnScoreP1 >= gnScoreP2 then self:linear(0.2); self:diffusealpha(1); else self:linear(0.2); self:diffusealpha(0); end end"
+
 />
 <Layer File="winning"
 InitCommand="diffusealpha,0;"
-OnCommand="x,SCREEN_RIGHT-23+9-(13*HorizontalRecovery());y,SCREEN_TOP+55+76;zoom,0.5;rotationz,30;queuecommand,Go"
-GoCommand="%function(self) DoEasterEgg('GoodLuckCameron', { Actor = self }) end"
-P2AheadMessageCommand="linear,0.2;diffusealpha,1;"
-P2BehindMessageCommand="linear,0.2;diffusealpha,0;"
+OnCommand="x,SCREEN_RIGHT-23+9-(13*HorizontalRecovery());y,SCREEN_TOP+55+74;zoom,0.5;rotationz,30;queuecommand,Go"
+GoCommand="%function(self) DoEasterEgg('GoodLuckCameron', { Actor = self }) self:queuecommand('Update'); end"
+StepP1MessageCommand="%function(self) self:stoptweening(); self:queuecommand('Update'); end"
+StepP2MessageCommand="%function(self) self:stoptweening(); self:queuecommand('Update'); end"
+UpdateCommand="%function(self) if gnScoreP2 >= gnScoreP1 then self:linear(0.2); self:diffusealpha(1); else self:linear(0.2); self:diffusealpha(0); end end"
 />
 </children>
 </ActorFrame>

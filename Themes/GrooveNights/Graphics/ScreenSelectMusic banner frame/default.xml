@@ -318,12 +318,14 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenSelectMusic')
 			InitCommand="@'diffuse,'..BackgroundColor()..';diffusealpha,0.7;x,SCREEN_CENTER_X-542-CourseHorizontal();y,SCREEN_CENTER_Y-407;zoomx,312;zoomy,109;draworder,1000;horizalign,left;vertalign,top;'"
 			/>
 		<Layer Type="Quad"
-			Condition="GAMESTATE:IsCourseMode() and GAMESTATE:IsPlayerEnabled(PLAYER_1)"
-			InitCommand="@'diffuse,'..FrameColor()..';diffusealpha,0.6;x,SCREEN_CENTER_X-541-CourseHorizontal();y,SCREEN_CENTER_Y-407;zoomx,20;zoomy,109;draworder,1000;horizalign,left;vertalign,top;'"
+			Condition="GAMESTATE:IsCourseMode()"
+			InitCommand="@'diffuse,'..FrameColor()..';diffusealpha,0.6;x,SCREEN_CENTER_X-541-CourseHorizontal();y,SCREEN_CENTER_Y-407;zoomx,20;zoomy,109;draworder,1000;horizalign,left;vertalign,top;queuecommand,Go;'"
+			GoCommand="%function(self) if GAMESTATE:IsPlayerEnabled(PLAYER_1) then self:diffusealpha(0.6); else self:diffusealpha(0.2); end end"
 			/>
 		<Layer Type="Quad"
-			Condition="GAMESTATE:IsCourseMode() and GAMESTATE:IsPlayerEnabled(PLAYER_2)"
-			InitCommand="@'diffuse,'..FrameColor()..';diffusealpha,0.6;x,SCREEN_CENTER_X-249-CourseHorizontal();y,SCREEN_CENTER_Y-407;zoomx,20;zoomy,109;draworder,1000;horizalign,left;vertalign,top;'"
+			Condition="GAMESTATE:IsCourseMode()"
+			InitCommand="@'diffuse,'..FrameColor()..';diffusealpha,0.6;x,SCREEN_CENTER_X-249-CourseHorizontal();y,SCREEN_CENTER_Y-407;zoomx,20;zoomy,109;draworder,1000;horizalign,left;vertalign,top;queuecommand,Go;'"
+			GoCommand="%function(self) if GAMESTATE:IsPlayerEnabled(PLAYER_2) then self:diffusealpha(0.6); else self:diffusealpha(0.2); end end"
 			/>
 		</children></ActorFrame>	
 
