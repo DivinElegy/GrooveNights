@@ -1,8 +1,10 @@
 <ActorFrame InitCommand="%function(self)
-self:hibernate(0.1);
+self:hibernate(0.01);
 gnDummy = SameThingDifferentPlayer();
-self:queuecommand('Calculate');
+self:queuecommand('Delay');
 end"
+
+DelayCommand="%function(self) self:hibernate(gnOnScreenSeconds); self:queuecommand('Calculate'); end"
 
 CalculateCommand="%function(self)
 gnJudgeTotal = tonumber(SCREENMAN:GetTopScreen():GetChild('MarvelousNumberP'..gnPlayerCount):GetText()) + tonumber(SCREENMAN:GetTopScreen():GetChild('PerfectNumberP'..gnPlayerCount):GetText()) + tonumber(SCREENMAN:GetTopScreen():GetChild('GreatNumberP'..gnPlayerCount):GetText()) + tonumber(SCREENMAN:GetTopScreen():GetChild('GoodNumberP'..gnPlayerCount):GetText()) + tonumber(SCREENMAN:GetTopScreen():GetChild('BooNumberP'..gnPlayerCount):GetText()) + tonumber(SCREENMAN:GetTopScreen():GetChild('MissNumberP'..gnPlayerCount):GetText());

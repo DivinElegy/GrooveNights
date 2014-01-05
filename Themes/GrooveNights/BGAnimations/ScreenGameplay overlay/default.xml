@@ -1,5 +1,3 @@
-
-
 <ActorFrame InitCommand="%function(self) 
 self:queuecommand('KillBPM');
 if GAMESTATE:GetEnv('Vibrate') == 'On' then
@@ -25,6 +23,30 @@ end"> <children>
 <Layer Type="Quad"
 OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenGameplay'); end"
 />
+
+	<!--Scrape the Player's Score-->
+		<BitmapText
+		Text=""
+		File="_eurostile blue glow"
+		InitCommand="%function(self)
+		self:x(SCREEN_CENTER_X);
+		self:y(SCREEN_CENTER_Y);
+		end"
+		ScreenTransitionMessageCommand="%function(self)
+		self:diffusealpha(1);
+			if GAMESTATE:IsPlayerEnabled(PLAYER_1) then
+			gnScoreP1 = SCREENMAN:GetTopScreen():GetChild('ScoreP1'):GetChild('ScoreDisplayPercentage Percent'):GetChild('PercentP1'):GetText();
+			gnScoreP1 = string.gsub(gnScoreP1,'%%','');
+			gnScoreP1 = tonumber(gnScoreP1);
+			end
+
+			if GAMESTATE:IsPlayerEnabled(PLAYER_2) then
+			gnScoreP2 = SCREENMAN:GetTopScreen():GetChild('ScoreP2'):GetChild('ScoreDisplayPercentage Percent'):GetChild('PercentP2'):GetText();
+			gnScoreP2 = string.gsub(gnScoreP2,'%%','');
+			gnScoreP2 = tonumber(gnScoreP2);
+			end
+		end"
+		/>
 
 
 		

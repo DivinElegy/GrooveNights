@@ -46,6 +46,17 @@ end
 
 
 
+-- ===GRADE SOUNDS===
+-- These sounds play when your grade appears
+function GradeSound( snd )
+local Path = THEME:GetPath( EC_SOUNDS, 'gnGradeUp', ''..snd..'')
+return Path
+end
+
+
+
+
+
 -- ===SHIFT SCREEN EVALUATION ELEMENTS IN DOUBLE MODE===
 function ScreenEvaluationDoubleShift(pn)
 	if GAMESTATE:PlayerUsingBothSides(pn) then
@@ -81,6 +92,8 @@ gnStats3StarCount = nil
 gnStats4StarCount = nil
 
 gnStatsLevel = nil
+
+gnPlayerNames = {'',''}
 end
 
 
@@ -268,7 +281,6 @@ if scn == 'ScreenGameplay' then
 	gnP1Restarter = 0;
 	gnP2Restarter = 0;
 	gnSameGrade = 0;
-	gnSoundCheck = true;
 	gnAward = 0;
 	gnOptionCheck = false;
 	
@@ -286,6 +298,14 @@ if scn == 'ScreenGameplay' then
 	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 	}
+	
+	gnScoreP1 = 0
+	gnScoreP2 = 0
+	gnDimBGMSeconds = 0.1
+	gnOnScreenSeconds = 0
+	gnDisplayedFileOpacity = 0
+	gnBackgroundDarkness = 0
+	
 end
 
 
@@ -308,22 +328,13 @@ end
 
 
 if scn == 'GradeModels' then
-if getSpecialUSB() then
-	if gnDimBGMSeconds == nil then
-		gnDimBGMSeconds = 0.1;
-		end
-	if gnDimBGMSeconds == 0 then
-		gnDimBGMSeconds = 0.1;
-		end
-	SOUND:DimMusic( 0, gnDimBGMSeconds )
-	end
+-- Nothing to add yet
 end
 
 
 
 if scn == 'ScreenNameEntry' then
 ScreenTransitionWhoosh('short');
--- nothing to add yet
 end
 
 
@@ -393,7 +404,7 @@ function ScreenTransitionWhoosh(i)
 	SOUND:PlayOnce(Path);
 end
 
---easter eggs
+-- Easter eggs
 local function BPMEasterEggs(Params)
     local ScrollSpeed = DisplayScrollSpeed(Params.pn)
     local spaces = string.rep(" ", string.len(ScrollSpeed))
@@ -497,6 +508,9 @@ end
 
 
 
+
+-- ===GET THE CARD STATS FOR THE PLAYER===
+-- Stars, songs played, deaths, etc
 function getStats(pn,mode,stat)
 
 -- Add modes and grade tiers into a table for quick reference
@@ -635,5 +649,149 @@ end
 if stat == 10 then
 	return gnStatsExpRemaining[pn]
 end
+end
+
+
+
+
+-- ===GET PLAYER NAME===
+-- Retrieves the profile name of each player
+function GetSinglePlayerName( pl )
+	if GAMESTATE:IsPlayerEnabled(pl) and PROFILEMAN:IsPersistentProfile(pl) then
+		return GAMESTATE:GetPlayerDisplayName(pl)
+	end
+return ''
+end
+
+
+
+
+
+-- ===PLAYER NAME CHECK===
+-- Returns true if it finds a player you're looking for
+function CheckSinglePlayerName( nm, pl )
+	if GAMESTATE:IsPlayerEnabled(pl) and PROFILEMAN:IsPersistentProfile(pl) then
+		if GAMESTATE:GetPlayerDisplayName(pl) == nm then -- If the selected player has the desired name
+			gnPlayerNames[pl+1] = nm
+			return true
+		end
+	end
+return false
+end
+
+
+
+
+
+-- ===GLOBAL CHECK IF ANY PLAYER HAS A CERTAIN MEMORY CARD NAME===
+-- Check to see if any player has a memory card of the specified name
+function CheckPlayerName( nm )
+	if GAMESTATE:IsPlayerEnabled(PLAYER_1) then
+		if GAMESTATE:IsPlayerEnabled(PLAYER_2) then
+			if GAMESTATE:GetPlayerDisplayName(PLAYER_1) == nm or GAMESTATE:GetPlayerDisplayName(PLAYER_2) == nm then -- Both have USB Enabled
+				return true
+			end
+		else
+			if GAMESTATE:IsPlayerEnabled(PLAYER_1) then
+				if GAMESTATE:GetPlayerDisplayName(PLAYER_1) == nm then -- P1 has USB
+					return true
+				end
+			end
+		end
+	else
+		if GAMESTATE:IsPlayerEnabled(PLAYER_2) then
+			if GAMESTATE:GetPlayerDisplayName(PLAYER_2) == nm then -- P2 has USB
+				return true
+			end
+		end
+	end
+return false
+end
+
+
+
+
+
+-- ===DISPLAY CUSTOM AWARDS FOR QUADS===
+-- The key difference with this compared to the Old GrooveNights theme is that it only works for Quads now.
+-- There is little to no point in having custom awards for any of the other grades so I've simplified it.
+function getQuadAward()
+if gnScoreP1 == nil then gnScoreP1 = 0 end
+if gnScoreP2 == nil then gnScoreP2 = 0 end
+
+-- Retrieve an image/sprite/video file based on a player's name.
+for pn = 0, 1 do
+	gnPlayerNames[pn+1] = GetSinglePlayerName(pn)
+	-- Plays P1's award if P1 & P2 quad
+	if gnScoreP1 == 100 and gnScoreP2 == 100 and pn == 0 then
+		local i = math.random(1,2)
+		return getQuadAwardFile(gnPlayerNames[pn+i])
+		end
+	-- Only plays P1's award if P1 quads and P2 doesn't
+	if gnScoreP1 == 100 and pn == 0 and gnScoreP2 ~= 100 then
+		return getQuadAwardFile(gnPlayerNames[pn+1])
+		end
+	-- Only plays P2's award if P2 quads and P1 doesn't
+	if gnScoreP2 == 100 and pn == 1 and gnScoreP1 ~= 100 then
+		return getQuadAwardFile(gnPlayerNames[pn+1])
+		end
+	end
+
+-- If the function finds nothing
+return '_blank'
+
+end
+
+
+
+
+-- ===FILENAME RETRIEVAL===
+function getQuadAwardFile( name )
+
+-- Example of how to do this:
+-- if name == 'PLAYER NAME' then
+-- getQuadAwardEffects(DimBGMSeconds,OnScreenSeconds,DisplayedFileOpacity,BackgroundDarkness);
+-- local path = THEME:GetPath(EC_SOUNDS, 'gnCustomAward', 'SOUND TO PLAY'); SOUND:PlayOnce(path); return 'VIDEO TO PLAY.avi'
+-- end
+
+
+if name == '(-[Jayce]-)' then
+local i = math.random(1,2)
+	if i == 1 then
+	getQuadAwardEffects(18,18,100,90); local path = THEME:GetPath(EC_SOUNDS, 'gnCustomAward', 'JonTron'); SOUND:PlayOnce(path); return 'JonTron.avi'
+	else 
+	getQuadAwardEffects(10,10,100,90); local path = THEME:GetPath(EC_SOUNDS, 'gnCustomAward', 'YES'); SOUND:PlayOnce(path); return 'YES.avi'
+	end 
+end
+
+if name == 'Cameron' then
+local i = math.random(1,2)
+	if i == 1 then
+	getQuadAwardEffects(23,23,100,90); local path = THEME:GetPath(EC_SOUNDS, 'gnCustomAward', 'LOTR'); SOUND:PlayOnce(path); return 'LOTR.avi'
+	else 
+	getQuadAwardEffects(10,10,100,90); local path = THEME:GetPath(EC_SOUNDS, 'gnCustomAward', 'YES'); SOUND:PlayOnce(path); return 'YES.avi'
+	end 
+end
+
+-- If the function finds nothing
+return '_blank'
+end
+
+-- ===SCREEN EFFECTS===
+-- Apply different effects and delays while the award appears
+function getQuadAwardEffects ( a, b, c, d )
+	gnDimBGMSeconds = a; -- Number of seconds to keep music dimmed
+	gnOnScreenSeconds = b; -- Number of seconds to keep file onscreen (set to 9999 to keep it on permanently)
+	gnDisplayedFileOpacity = c/100; -- where 100 is 100% opaque and 0 is completely invisible
+	gnBackgroundDarkness = d/100; -- where 100 is 100% black
+end
+
+
+
+
+-- ===SET METRIC VALUE====
+-- For instances where you want to set a metric value running through @'' and therefore can't make it a %function()
+function setMetricValue( val )
+return val;
 end
 

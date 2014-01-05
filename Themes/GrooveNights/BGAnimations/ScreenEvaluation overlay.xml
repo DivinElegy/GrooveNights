@@ -8,32 +8,33 @@ end">
 OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenEvaluation'); end"
 />
 
-	<!--Scrape the Player's Score and show something cool-->
-		<BitmapText
-		Text="hello"
-		File="_eurostile blue glow"
-		InitCommand="%function(self)
-		self:x(SCREEN_CENTER_X);
-		self:y(SCREEN_CENTER_Y);
-		self:hibernate(0.1);
-		self:queuecommand('Go');
-		end"
-		GoCommand="%function(self)
-		self:diffusealpha(0);
-			if GAMESTATE:IsPlayerEnabled(PLAYER_1) then
-			gnScoreP1 = SCREENMAN:GetTopScreen():GetChild('PercentP1'):GetChild('PercentP1'):GetText();
-			gnScoreP1 = string.gsub(gnScoreP1,'%%','');
-			gnScoreP1 = tonumber(gnScoreP1);
-			end
+<!--Show a special THING if either player quads a song with a certain name as their card profile-->
+<Layer Type="Quad"
+	InitCommand="zoom,SCREEN_WIDTH;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffuse,0,0,0,1;sleep,0.01;queuecommand,Go;"
+	GoCommand="%function(self)
+	if gnDimBGMSeconds == nil then gnDimBGMSeconds = 0.1 end
+	SOUND:DimMusic( 0, gnDimBGMSeconds )
+	self:diffusealpha(gnBackgroundDarkness);
+	self:sleep(gnOnScreenSeconds);
+	self:linear(0.3);
+	self:diffusealpha(0);
+	end"
+/>
 
-			if GAMESTATE:IsPlayerEnabled(PLAYER_2) then
-			gnScoreP2 = SCREENMAN:GetTopScreen():GetChild('PercentP2'):GetChild('PercentP21'):GetText();
-			gnScoreP2 = string.gsub(gnScoreP1,'%%','');
-			gnScoreP2 = tonumber(gnScoreP2);
-			end
-		self:settext(gnScoreP1);
-		end"
-		/>
+<Layer File="@'../Sounds/gnCustomAward Graphics/'..getQuadAward()"
+	InitCommand="%function(self)
+	self:x(SCREEN_CENTER_X);
+	self:y(SCREEN_CENTER_Y);
+	self:sleep(0.01);
+	self:queuecommand('Go');
+	end"
+	GoCommand="%function(self)
+	self:diffusealpha(gnDisplayedFileOpacity);
+	self:sleep(gnOnScreenSeconds);
+	self:linear(0.3);
+	self:diffusealpha(0);
+	end"
+/>
 		
 	<!--Restart the song on event mode if you pressed the menu button-->
 		<BitmapText

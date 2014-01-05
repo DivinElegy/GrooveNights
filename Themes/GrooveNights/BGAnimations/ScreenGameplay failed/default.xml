@@ -4,17 +4,6 @@ if GAMESTATE:GetEnv('Vibrate') == 'On' then
 	end
 end"> <children>
 	
-	<Layer Condition="not GAMESTATE:IsEventMode()" Type="Quad" OnCommand="%function(self)
-	self:diffusealpha(0);
-	self:queuecommand('PlaySound');
-	end"
-	PlaySoundCommand="%function(self)
-	gnPath = getSystemSound('gnLifeDepleted3sFadeIn', 'sound');
-	SOUND:PlayOnce(gnPath);
-	end"
-	/>
-
-	
 	<ActorFrame OnCommand="sleep,0.4;linear,0.2;addx,-75;linear,0.2;addx,-75;">
 	<children>
 	<Layer
