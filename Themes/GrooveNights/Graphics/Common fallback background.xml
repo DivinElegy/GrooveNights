@@ -1,1 +1,0 @@
-<layer File="_blank" InitCommand="%function(self) MESSAGEMAN:Broadcast('NoBackground'); end" />

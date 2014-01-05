@@ -94,6 +94,8 @@ gnStats4StarCount = nil
 gnStatsLevel = nil
 
 gnPlayerNames = {'',''}
+
+gnScreenSelectMusic = false;
 end
 
 
@@ -126,6 +128,7 @@ if GAMESTATE:GetEnv('Konami') == 'Turn' then
 	SCREENMAN:SystemMessage('Konami Code Activated');
 	GAMESTATE:SetEnv('Konami','On');
 	end	
+	gnScreenSelectMusic = false;
 end
 
 
@@ -190,6 +193,7 @@ RateRestoreMessage(true);
 	gnOptionModType = 0;
 	gnSongElapsedPercent = 0;
 	gnNoRestart = false;
+	gnScreenSelectMusic = true;
 end
 
 
@@ -216,11 +220,13 @@ ScreenTransitionWhoosh('short');
 	if gnScreenSelectMusicTimer == nil then gnScreenSelectMusicTimer = gnDefaultSSM; end
 	if gnScreenPlayerOptionsTimer == nil then gnScreenPlayerOptionsTimer = gnDefaultSPO; end
 	RateRestoreMessage(true);
+	gnScreenSelectMusic = false;
 end
 
 
 if scn == 'ScreenStage' then
 ScreenTransitionWhoosh('short');
+gnScreenSelectMusic = false;
 end
 
 
@@ -305,6 +311,7 @@ if scn == 'ScreenGameplay' then
 	gnDisplayedFileOpacity = 0
 	gnBackgroundDarkness = 0
 	gnAwardWidthP2 = 0;
+	gnSound = nil
 end
 
 
@@ -757,18 +764,18 @@ function getQuadAwardFile( name )
 if name == '(-[Jayce]-)' then
 local i = math.random(1,2)
 	if i == 1 then
-	getQuadAwardEffects(18,18,100,90); local path = THEME:GetPath(EC_SOUNDS, 'gnCustomAward', 'JonTron'); SOUND:PlayOnce(path); return 'JonTron.avi'
+	getQuadAwardEffects(17.6,17.6,100,90); gnSound = THEME:GetPath(EC_SOUNDS, 'gnCustomAward', 'JonTron'); return 'JonTron.avi'
 	else 
-	getQuadAwardEffects(10,10,100,90); local path = THEME:GetPath(EC_SOUNDS, 'gnCustomAward', 'YES'); SOUND:PlayOnce(path); return 'YES.avi'
+	getQuadAwardEffects(10,10,100,90); gnSound = THEME:GetPath(EC_SOUNDS, 'gnCustomAward', 'YES'); return 'YES.avi'
 	end 
 end
 
 if name == 'Cameron' then
 local i = math.random(1,2)
 	if i == 1 then
-	getQuadAwardEffects(23,23,100,90); local path = THEME:GetPath(EC_SOUNDS, 'gnCustomAward', 'LOTR'); SOUND:PlayOnce(path); return 'LOTR.avi'
+	getQuadAwardEffects(22.7,22.7,100,90); gnSound = THEME:GetPath(EC_SOUNDS, 'gnCustomAward', 'LOTR'); return 'LOTR.avi'
 	else 
-	getQuadAwardEffects(10,10,100,90); local path = THEME:GetPath(EC_SOUNDS, 'gnCustomAward', 'YES'); SOUND:PlayOnce(path); return 'YES.avi'
+	getQuadAwardEffects(10,10,100,90); gnSound = THEME:GetPath(EC_SOUNDS, 'gnCustomAward', 'YES'); return 'YES.avi'
 	end 
 end
 

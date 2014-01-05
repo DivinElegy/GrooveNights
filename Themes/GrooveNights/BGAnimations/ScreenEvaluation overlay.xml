@@ -30,7 +30,7 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenEvaluation');
 		
 <!--Show a special THING if either player quads a song with a certain name as their card profile-->
 <Layer Type="Quad"
-	InitCommand="zoom,SCREEN_WIDTH;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffuse,0,0,0,1;sleep,0.01;queuecommand,Go;"
+	OnCommand="zoom,SCREEN_WIDTH;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffuse,0,0,0,1;sleep,0.01;queuecommand,Go;"
 	GoCommand="%function(self)
 	if gnDimBGMSeconds == nil then gnDimBGMSeconds = 0.1 end
 	SOUND:DimMusic( 0, gnDimBGMSeconds )
@@ -43,7 +43,7 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenEvaluation');
 />
 
 <Layer File="@'../Sounds/gnCustomAward Graphics/'..getQuadAward()"
-	InitCommand="%function(self)
+	OnCommand="%function(self)
 	self:x(SCREEN_CENTER_X);
 	self:y(SCREEN_CENTER_Y);
 	self:draworder(0);
@@ -51,6 +51,7 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenEvaluation');
 	self:queuecommand('Go');
 	end"
 	GoCommand="%function(self)
+	if gnSound then	SOUND:PlayOnce(gnSound); end
 	self:diffusealpha(gnDisplayedFileOpacity);
 	self:sleep(gnOnScreenSeconds);
 	self:linear(0.3);

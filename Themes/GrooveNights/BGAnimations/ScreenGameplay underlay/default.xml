@@ -3,19 +3,6 @@ if GAMESTATE:GetEnv('Vibrate') == 'On' then
 	self:vibrate();
 	end
 end"> <children>
-
-<!--Common Fallback Background-->
-	<Layer File="../ScreenLogo background/BGVid.avi"
-	InitCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;hidden,1"
-	NoBackgroundMessageCommand="@'hidden,0;diffuse,'..FrameColor()..';diffusealpha,1;'"
-	/>
-	
-	<Layer File="../ScreenLogo background/TitleScreen0002.png"
-	InitCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+16;diffuse,0.15,0.15,0.15,0.5;zoom,0.8;hidden,1"
-	NoBackgroundMessageCommand="hidden,0;vibrate;EffectMagnitude,0.5,0.5,0.1;"
-	/>
-
-
 	
 
 <!--Background Easter Eggs-->
