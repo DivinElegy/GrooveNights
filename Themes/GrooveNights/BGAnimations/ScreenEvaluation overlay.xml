@@ -8,6 +8,43 @@ end">
 OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenEvaluation'); end"
 />
 
+<!--Mask the LifeGraph so you can change its colour-->
+<Layer
+	Type="Quad"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
+	OnCommand="@'x,SCREEN_CENTER_X-155;y,SCREEN_CENTER_Y+151;zoomx,272.5;zoomy,40;diffuse,'..PlayerColor(PLAYER_1)..';'"
+/>
+<Layer
+	Type="Quad"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
+	OnCommand="x,SCREEN_CENTER_X-155;y,SCREEN_CENTER_Y+151;zoomx,272.5;zoomy,41;ztest,1;diffuse,0,0,0,1;"
+/>
+
+<Layer
+	Type="Quad"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
+	OnCommand="@'x,SCREEN_CENTER_X+155;y,SCREEN_CENTER_Y+151;zoomx,272.5;zoomy,40;diffuse,'..PlayerColor(PLAYER_2)..';'"
+/>
+<Layer
+	Type="Quad"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
+	OnCommand="x,SCREEN_CENTER_X+155;y,SCREEN_CENTER_Y+151;zoomx,272.5;zoomy,41;ztest,1;diffuse,0,0,0,1;"
+/>
+
+<!--Overlay the lifegraph with a dark quad for text messages-->
+<Layer Type="Quad" OnCommand="x,SCREEN_CENTER_X-156;y,SCREEN_CENTER_Y+161;diffuse,0,0,0,0;zoomx,274;zoomy,15;"
+GraphAwardP1MessageCommand="%function(self) self:diffusealpha(0.75); self:draworder(0); if GAMESTATE:PlayerUsingBothSides(PLAYER_1) then self:addx(-12); end end"
+/>
+<Layer Type="Quad" OnCommand="x,SCREEN_CENTER_X-156;y,SCREEN_CENTER_Y+168;diffuse,0,0,0,1;zoomx,274;zoomy,2;"/>
+<Layer Type="Quad" OnCommand="x,SCREEN_CENTER_X-156;y,SCREEN_CENTER_Y+172;diffuse,0,0,0,1;zoomx,274;zoomy,2;"/>
+
+<Layer Type="Quad" OnCommand="x,SCREEN_CENTER_X+154;y,SCREEN_CENTER_Y+161;diffuse,0,0,0,0;zoomx,274;zoomy,15;"
+GraphAwardP2MessageCommand="%function(self) self:diffusealpha(0.75); self:draworder(0); if GAMESTATE:PlayerUsingBothSides(PLAYER_2) then self:addx(8); end end"
+/>
+<Layer Type="Quad" OnCommand="x,SCREEN_CENTER_X+154;y,SCREEN_CENTER_Y+168;diffuse,0,0,0,1;zoomx,274;zoomy,2;"/>
+<Layer Type="Quad" OnCommand="x,SCREEN_CENTER_X+154;y,SCREEN_CENTER_Y+172;diffuse,0,0,0,1;zoomx,274;zoomy,2;"
+
+
 <!--Move P2's PerDifficulty Award since it's shared between players and aligns left for both-->
 	<BitmapText
 	Text=""

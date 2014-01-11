@@ -12,7 +12,7 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenSelectMusic')
 			<children>
 			
 		<!-- Remove the Addx to test the star count thing -->		
-		<ActorFrame InitCommand="addx,2000;">
+		<ActorFrame InitCommand="addx,20000;">
 		<children>
 			<BitmapText
 				Text="TEST"
@@ -21,7 +21,7 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenSelectMusic')
 				OnCommand="%function(self)
 				self:horizalign('left');
 				self:zoom(0.55);
-				self:x(-150);
+				self:x(-200);
 				self:y(-147);
 				self:shadowlength(0);
 				local txt = getStats(0,1,1)
@@ -36,7 +36,7 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenSelectMusic')
 				OnCommand="%function(self)
 				self:horizalign('left');
 				self:zoom(0.55);
-				self:x(-150);
+				self:x(-180);
 				self:y(-147);
 				self:shadowlength(0);
 				local txt = getStats(0,1,2)
@@ -51,7 +51,7 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenSelectMusic')
 				OnCommand="%function(self)
 				self:horizalign('left');
 				self:zoom(0.55);
-				self:x(-140);
+				self:x(-160);
 				self:y(-147);
 				self:shadowlength(0);
 				local txt = getStats(0,1,3)
@@ -66,7 +66,7 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenSelectMusic')
 				OnCommand="%function(self)
 				self:horizalign('left');
 				self:zoom(0.55);
-				self:x(-130);
+				self:x(-140);
 				self:y(-147);
 				self:shadowlength(0);
 				local txt = getStats(0,1,4)
@@ -96,8 +96,8 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenSelectMusic')
 				OnCommand="%function(self)
 				self:horizalign('left');
 				self:zoom(0.55);
-				self:x(-110);
-				self:y(-147);
+				self:x(-100);
+				self:y(-127);
 				self:shadowlength(0);
 				local txt = getStats(0,1,6)
 				self:settext(txt);
@@ -111,8 +111,8 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenSelectMusic')
 				OnCommand="%function(self)
 				self:horizalign('left');
 				self:zoom(0.55);
-				self:x(-100);
-				self:y(-147);
+				self:x(-80);
+				self:y(-107);
 				self:shadowlength(0);
 				local txt = getStats(0,1,7)
 				self:settext(txt);
@@ -126,8 +126,8 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenSelectMusic')
 				OnCommand="%function(self)
 				self:horizalign('left');
 				self:zoom(0.55);
-				self:x(-90);
-				self:y(-147);
+				self:x(-60);
+				self:y(-107);
 				self:shadowlength(0);
 				local txt = getStats(0,1,8)
 				self:settext(txt);
@@ -141,8 +141,8 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenSelectMusic')
 				OnCommand="%function(self)
 				self:horizalign('left');
 				self:zoom(0.55);
-				self:x(-80);
-				self:y(-147);
+				self:x(-40);
+				self:y(-107);
 				self:shadowlength(0);
 				local txt = getStats(0,1,9)
 				self:settext(txt);
@@ -156,8 +156,8 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenSelectMusic')
 				OnCommand="%function(self)
 				self:horizalign('left');
 				self:zoom(0.55);
-				self:x(-70);
-				self:y(-147);
+				self:x(-20);
+				self:y(-107);
 				self:shadowlength(0);
 				local txt = getStats(0,1,10)
 				self:settext(txt);

@@ -2862,6 +2862,10 @@ if CheckSinglePlayerName('(-[Jayce]-)',pn) or CheckSinglePlayerName('JCE',pn) th
 	gnCustomBG = 'No';
 	return 'JayceAvatar.png'
 	end
+if CheckSinglePlayerName('ROFLSTOMPZ',pn) or CheckSinglePlayerName('ROFL',pn) then
+	gnCustomBG = 'No';
+	return 'ROFLAvatar.png'
+	end
 if CheckSinglePlayerName('Cameron',pn) or CheckSinglePlayerName('CAM',pn) then
 	gnCustomBG = 'No';
 	return 'CameronAvatar.png'

@@ -26,27 +26,25 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenGameplay'); e
 		
 	<!--Scrape the Player's Score-->
 		<BitmapText
+		Condition="GAMESTATE:GetPlayMode() ~= PLAY_MODE_ONI"
 		Text=""
 		File="_eurostile blue glow"
 		InitCommand="%function(self)
-		self:x(SCREEN_CENTER_X-2000);
-		self:y(SCREEN_CENTER_Y-2000);
+		self:x(SCREEN_CENTER_X);
+		self:y(SCREEN_CENTER_Y);
 		end"
 		StepP1MessageCommand="%function(self)
-		self:diffusealpha(1);
 		gnScoreP1 = SCREENMAN:GetTopScreen():GetChild('ScoreP1'):GetChild('ScoreDisplayPercentage Percent'):GetChild('PercentP1'):GetText();
 		gnScoreP1 = string.gsub(gnScoreP1,'%%','');
 		gnScoreP1 = tonumber(gnScoreP1);
 		end"
 		StepP2MessageCommand="%function(self)
-		self:diffusealpha(1);
 		gnScoreP2 = SCREENMAN:GetTopScreen():GetChild('ScoreP2'):GetChild('ScoreDisplayPercentage Percent'):GetChild('PercentP2'):GetText();
 		gnScoreP2 = string.gsub(gnScoreP2,'%%','');
 		gnScoreP2 = tonumber(gnScoreP2);
 		end"
 		
 		ScreenTransitionMessageCommand="%function(self)
-		self:diffusealpha(1);
 			if GAMESTATE:IsPlayerEnabled(PLAYER_1) then
 			gnScoreP1 = SCREENMAN:GetTopScreen():GetChild('ScoreP1'):GetChild('ScoreDisplayPercentage Percent'):GetChild('PercentP1'):GetText();
 			gnScoreP1 = string.gsub(gnScoreP1,'%%','');

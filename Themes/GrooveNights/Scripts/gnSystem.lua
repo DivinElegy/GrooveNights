@@ -727,7 +727,9 @@ if gnScoreP2 == nil then gnScoreP2 = 0 end
 
 -- Retrieve an image/sprite/video file based on a player's name.
 for pn = 0, 1 do
-	gnPlayerNames[pn+1] = GetSinglePlayerName(pn)
+	if PROFILEMAN:IsPersistentProfile(pn) then
+		gnPlayerNames[pn+1] = GetSinglePlayerName(pn)
+		end
 	-- Plays P1's award if P1 & P2 quad
 	if gnScoreP1 == 100 and gnScoreP2 == 100 and pn == 0 then
 		local i = math.random(1,2)
@@ -757,7 +759,7 @@ function getQuadAwardFile( name )
 -- Example of how to do this:
 -- if name == 'PLAYER NAME' then
 -- getQuadAwardEffects(DimBGMSeconds,OnScreenSeconds,DisplayedFileOpacity,BackgroundDarkness);
--- local path = THEME:GetPath(EC_SOUNDS, 'gnCustomAward', 'SOUND TO PLAY'); SOUND:PlayOnce(path); return 'VIDEO TO PLAY.avi'
+-- gnSound = THEME:GetPath(EC_SOUNDS, 'gnCustomAward', 'SOUND TO PLAY'); return 'VIDEO TO PLAY.avi'
 -- end
 
 
@@ -790,14 +792,5 @@ function getQuadAwardEffects ( a, b, c, d )
 	gnOnScreenSeconds = b; -- Number of seconds to keep file onscreen (set to 9999 to keep it on permanently)
 	gnDisplayedFileOpacity = c/100; -- where 100 is 100% opaque and 0 is completely invisible
 	gnBackgroundDarkness = d/100; -- where 100 is 100% black
-end
-
-
-
-
--- ===SET METRIC VALUE====
--- For instances where you want to set a metric value running through @'' and therefore can't make it a %function()
-function setMetricValue( val )
-return val;
 end
 

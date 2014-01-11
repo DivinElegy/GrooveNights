@@ -20,14 +20,5 @@
 					InitCommand="x,SCREEN_CENTER_X-13;y,SCREEN_CENTER_Y-41;"
 				/>
 
-<Layer Type="Quad" OnCommand="x,SCREEN_CENTER_X-173;y,SCREEN_CENTER_Y+120;diffuse,0,0,0,0;zoomx,274;zoomy,15;"
-GraphAwardP1MessageCommand="%function(self) self:diffusealpha(0.75); self:draworder(0); if GAMESTATE:PlayerUsingBothSides(PLAYER_1) then self:addx(-12); end end"
-/>
-
-<Layer Type="Quad" OnCommand="x,SCREEN_CENTER_X+137;y,SCREEN_CENTER_Y+120;diffuse,0,0,0,0;zoomx,274;zoomy,15;"
-GraphAwardP2MessageCommand="%function(self) self:diffusealpha(0.75); self:draworder(0); if GAMESTATE:PlayerUsingBothSides(PLAYER_2) then self:addx(8); end end"
-/>
-
-
 	</children>
 </ActorFrame>

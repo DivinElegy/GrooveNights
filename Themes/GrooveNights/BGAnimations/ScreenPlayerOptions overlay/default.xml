@@ -469,13 +469,13 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenPlayerOptions
 		<!-- Speed -->
 		<ActorFrame
 			InitCommand="x,SCREEN_CENTER_X-240; y,SCREEN_CENTER_Y+134"
-			OnCommand="zoom,0.5; ShadowLength,0"
+			OnCommand="zoom,0.5;"
 		><children>
 			<!-- Speed label -->
 			<BitmapText
 				Text="Speed:"
 				Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
-				InitCommand="horizalign,left"
+				InitCommand="horizalign,left;shadowlength,0;"
 				OnCommand="@'diffuse,' .. LabelColor() .. ';'"
 				File="_eurostile blue glow"
 			/>
@@ -485,7 +485,7 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenPlayerOptions
 				Text=""
 				Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
 				File="_eurostile blue glow"
-				InitCommand="x,80;horizalign,left"
+				InitCommand="x,80;horizalign,left;shadowlength,0;"
 				SpeedModChangedP1MessageCommand="queuecommand,Update"
 				RateModChangedMessageCommand="queuecommand,Update"
 				UpdateCommand="%function(self) self:settext(DisplayScrollSpeed(PLAYER_1)) end"
@@ -495,7 +495,7 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenPlayerOptions
 			<BitmapText
 				File="_eurostile blue glow"
 				InitCommand="x,80"
-				OnCommand="horizalign,left;rainbow;"
+				OnCommand="horizalign,left;rainbow;shadowlength,0;"
 				SpeedModChangedP1MessageCommand="queuecommand,Update"
 				RateModChangedMessageCommand="queuecommand,Update"
 				UpdateCommand="%function(self) DoEasterEgg('BlazeIt', { pn = PLAYER_1, Actor = self }) end"
@@ -505,7 +505,7 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenPlayerOptions
 			<BitmapText
 				File="_eurostile blue glow"
 				InitCommand="x,80"
-				OnCommand="horizalign,left;rainbow;"
+				OnCommand="horizalign,left;rainbow;shadowlength,0;"
 				SpeedModChangedP1MessageCommand="queuecommand,Update"
 				RateModChangedMessageCommand="queuecommand,Update"
 				UpdateCommand="%function(self) DoEasterEgg('NoScope', { pn = PLAYER_1, Actor = self }) end"
