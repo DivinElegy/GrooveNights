@@ -491,8 +491,42 @@ local function PlayfieldMods(Params)
 	if Params.Value == "Spin" then a:spin() a:effectclock('beat') a:effectmagnitude(0,0,45) end
 end
 
-RegisterCustomMod( "JudgeSkin", LoadJudgeSkin, { OneChoiceForAllPlayers = false, LineNumber = 25 }, { "GrooveNights", "Love", "Tactics", "Chromatic", "Deco", "FP", "ITG2" } )
-RegisterCustomMod( "Playfield", PlayfieldMods, { OneChoiceForAllPlayers = false, LineNumber = 26 }, { "Off", "Vibrate", "Wag", "Bob", "Pulse", "Spin" } )
+RegisterCustomMod( "JudgeSkin", LoadJudgeSkin, { OneChoiceForAllPlayers = false, LineNumber = 201, GroupID = 2 }, { "GrooveNights", "Love", "Tactics", "Chromatic", "Deco", "FP", "ITG2" } )
+RegisterCustomMod( "Playfield", PlayfieldMods, { OneChoiceForAllPlayers = false, LineNumber = 301, GroupID = 3 }, { "Off", "Vibrate", "Wag", "Bob", "Pulse", "Spin" } )
+
+-- register regular system mods
+
+RegisterSystemMod( "Perspective", 104, 1 )
+RegisterSystemMod( "Rate", 105, 1 )
+--Judgskin goes in here
+RegisterSystemMod( "NoteSkins", 202, 2 )
+RegisterSystemMod( "Mini", 203, 2 )
+--Playfield mods in here
+RegisterSystemMod( "Accel", 302, 3 )
+RegisterSystemMod( "Beat", 303, 3 )
+RegisterSystemMod( "Dizzy", 304, 3 )
+RegisterSystemMod( "Flip", 305, 3 )
+RegisterSystemMod( "Drift", 306, 3 )
+RegisterSystemMod( "Float", 307, 3 )
+RegisterSystemMod( "Invisible", 308, 3 )
+RegisterSystemMod( "Appearance", 309, 3 )
+RegisterSystemMod( "Turn", 401, 4 )
+RegisterSystemMod( "InsertOther", 402, 4 )
+RegisterSystemMod( "InsertTaps", 403, 4 )
+RegisterSystemMod( "Remove", 501, 5 )
+RegisterSystemMod( "Foreground", 502, 5 )
+RegisterSystemMod( "Hide", 503, 5 )
+RegisterSystemMod( "HideBG", 504, 5 )
+RegisterSystemMod( "BackButton", 505, 5 ) -- TODO this is a lua mod so maybe can implement with RegisterCustomMod?
+RegisterSystemMod( "Steps", 506, 5 )
+
+-- set up names for group ids
+
+RegisterModGroup(1, "Scroll Mods")
+RegisterModGroup(2, "Appearance Mods")
+RegisterModGroup(3, "Playfield Mods")
+RegisterModGroup(4, "Insert Mods")
+RegisterModGroup(5, "Other Mods")
 
 --actor setters
 
@@ -507,7 +541,7 @@ end
 
 --throwing this down here until all this code is refactored and neatened
 function GoodLuckCameronOptionsRow()
-    local Params = { Name = "GoodLuckCameron" }
+    local Params = { Name = "GoodLuckCameron", Default = 1} -- 1 is OFF, 2 is ON
     return CreateProfileRowBool( Params )
 end
 

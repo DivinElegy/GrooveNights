@@ -82,10 +82,14 @@ function CreateGenericOptionRow( Params, Choices, Values )
             for i=1,table.getn(Choices) do
                 list[i] = Params.LoadCallback(list[i], Values[i], pn)
 
+				if list[i] == nil and Params.EnabledByDefault and Params.SelectType == "SelectMultiple" then list[i] = true end
+				
                 if Params.SelectType ~= "SelectMultiple" and list[i] then return end
             end
 
-            if Params.Default then list[Params.Default] = true else if (Params.SelectType ~= "SelectMultiple" and Params.SelectType ~= "SelectNone") then list[1] = true end end
+            if Params.SelectType ~= "SelectMultiple" then
+				if Params.Default then list[Params.Default] = true else list[1] = true end
+			end
         end
 
         local function Save(self, list, pn)
@@ -100,12 +104,13 @@ end
 -- creates a row list given a list of names and values
 function CreateProfileRow( Params, Choices, Values )
         local pref = ProfileTable[Params.Name]
-        if type(pref) ~= "table" and Params.SelectType == "SelectMultiple" then pref = {} ProfileTable[Params.Name] = {} end
-        
+        if type(pref) ~= "table" and Params.SelectType == "SelectMultiple" then pref = {} pref[Params.Name] = {} end
+							
         Params.LoadCallback = function(List, Value) if Params.SelectType ~= "SelectMultiple" then return Value == pref else return pref[Value] end end
         Params.SaveCallback = function(List, Value)
                                 if Params.SelectType ~= "SelectMultiple" and List then ProfileTable[Params.Name] = Value PROFILEMAN:SaveMachineProfile() return end
-                                if Params.SelectType == "SelectMultiple" then ProfileTable[Params.Name][Value] = List PROFILEMAN:SaveMachineProfile() end
+								-- TODO this is pretty inefficient, it saves the profile once for every item in the list, instead it should be clever and wait till the end or something. Edit: I think I made it a bit better lol
+                                if Params.SelectType == "SelectMultiple" then if type(ProfileTable[Params.Name]) ~= "table" then ProfileTable[Params.Name] = {} ProfileTable[Params.Name][Value] = {} end ProfileTable[Params.Name][Value] = List PROFILEMAN:SaveMachineProfile() end
                               end
 
         return CreateGenericOptionRow( Params, Choices, Values )
