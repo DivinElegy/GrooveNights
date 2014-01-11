@@ -15,4 +15,11 @@
 	<Layer File="../../Graphics/TransitionArrow"
 	StartTransitioningCommand="rotationz,-90;x,SCREEN_CENTER_X+SCREEN_WIDTH+50;y,SCREEN_CENTER_Y;draworder,10000;linear,0.2;x,SCREEN_CENTER_X;linear,0.1;zoomx,0.9;linear,0.1;zoomx,1;linear,0.2;rotationz,0;"
 	/>
+	
+	<Layer File="../_saving"
+InitCommand="@'diffuse,'..LabelColor()..';'"
+OnCommand="%function(self) self:x(SCREEN_CENTER_X); self:y(SCREEN_CENTER_Y+65); self:diffusealpha(0); end"
+StartTransitioningCommand="%function(self) if gnScreenSelectMusic then self:linear(0.3); self:diffusealpha(1); else self:diffusealpha(0); end end"
+Condition="IsAnyPlayerUsingMemoryCard() and GAMESTATE:IsEventMode()"
+	/>
 </children> </ActorFrame>

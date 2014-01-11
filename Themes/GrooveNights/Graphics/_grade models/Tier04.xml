@@ -1,115 +1,18 @@
-<ActorFrame><children>
-			
-<ActorFrame	InitCommand="queuecommand,Start;"
-			StartCommand="%function(self)
-			InitScreen('GradeModels');
-			gnSameGrade = gnSameGrade + 1;
-			self:queuecommand('SameGradeCheck');
-			end"
-			SameGradeCheckCommand="%function(self)
-			if gnSameGrade == 2 then
-				self:hibernate(20000);
-				end
-			end">
-	<children>
+<ActorFrame>
+<children>
 
+<ActorFrame 
+OnCommand="zoom,0.45;x,-2;y,6;wag;EffectMagnitude,0,0,2;" 
+InitCommand="%function(self) self:hibernate(0.01); self:queuecommand('PlaySound') end"
+PlaySoundCommand="%function(self) self:hibernate(gnOnScreenSeconds); end">
+<children>
 
-				
-				
-				
-				
-<!--Quad Layer to dim the screen while the special result plays-->
-		<ActorFrame
-		InitCommand="queuecommand,Start;"
-		StartCommand="%function(self)
-		if not getSpecialUSB() then
-			self:hibernate(200000);
-			end
-		end"><children>
-			
-			<Layer Type="Quad"
-			InitCommand="%function(self)
-			self:diffusealpha(0);
-			if GAMESTATE:IsHumanPlayer(PLAYER_1) then
-				self:x(245+AddFromCenter('x','Normal',PLAYER_1));
-				else
-				self:x(-64+AddFromCenter('x','Normal',PLAYER_2));
-				end
-			if GAMESTATE:IsHumanPlayer(PLAYER_1) then self:y(40+AddFromCenter('y','Normal',PLAYER_1)); else  self:y(40+AddFromCenter('y','Normal',PLAYER_2)); end
-			self:queuecommand('ColourIt');
-			end"
-			ColourItCommand="diffuse,0,0,0,1;zoom,2;decelerate,0.5;zoom,1;diffuse,0,0,0,0.8;zoom,5000;queuecommand,Duration;"
-			DurationCommand="%function(self)
-				if gnDimBackgroundSeconds == nil then
-					gnDimBackgroundSeconds = 0.1;
-					end
-				if gnDimBackgroundSeconds == 0 then
-					gnDimBackgroundSeconds = 0.1;
-					end
-			self:sleep(gnDimBackgroundSeconds);
-			self:linear(1);
-			self:diffusealpha(0);
-			end"
-			OffCommand="accelerate,0.3;zoom,0;"
-			/>
-			
-		</children></ActorFrame>
-		
-<!--Special Video to Play-->
-		<Layer File="@'../../Sounds/'..getCustomSingleImageOrVideo()"
-		InitCommand="%function(self)
-		
-		if GAMESTATE:IsPlayerEnabled(PLAYER_1) then
-				self:x(244+AddFromCenter('x','Single',PLAYER_1)-42);
-				self:y(40+AddFromCenter('y','Single',PLAYER_1)+108);
-				if GAMESTATE:PlayerUsingBothSides(PLAYER_1) then
-					self:addx(29);
-					end
-				else
-				self:x(-66+AddFromCenter('x','Single',PLAYER_2)-130);
-				self:y(40+AddFromCenter('y','Single',PLAYER_2)+108);
-				if GAMESTATE:PlayerUsingBothSides(PLAYER_2) then
-					self:addx(-38);
-					end
-				end
-		self:diffusealpha(0);
-		self:zoom(2);
-		self:decelerate(0.5);
-		self:diffusealpha(gnDiffusealpha);
-		self:zoom(gnZoom);
-		if gnSoundCheck == true then
-			gnPath = getCustomSingleSound();
-			SOUND:PlayOnce(gnPath);
-			gnSoundCheck = false;
-			end
-				if gnOnScreenSeconds == nil then
-					gnOnScreenSeconds = 0.1;
-					end
-				if gnOnScreenSeconds == 0 then
-					gnOnScreenSeconds = 0.1;
-					end
-		self:sleep(gnOnScreenSeconds);
-		self:linear(1);
-		self:diffusealpha(0)
-		end;"
-		/>
-		
-		
-	</children>
-</ActorFrame>
-
-
-
-
-<ActorFrame OnCommand="zoom,0.45;x,-2;y,6;wag;EffectMagnitude,0,0,2;" InitCommand="%function(self) self:hibernate(gnOnScreenSeconds); end"><children>
-<ActorFrame InitCommand="zoom,0.75;y,-16;"><children>
+<ActorFrame OnCommand="%function(self) self:zoom(0.75); self:y(-16); InitScreen('GradeModels'); end"><children>
 <!-- Grade Sound-->
 <Layer Type="Quad" InitCommand="diffusealpha,0;zoom,SCREEN_WIDTH*20;sleep,0.25;queuecommand,PlaySound1"
 PlaySound1Command="%function(self)
-	if not getSpecialUSB() then
-		gnSound = GradeSound(1);
-		SOUND:PlayOnce( gnSound )
-		end
+	local Path = GradeSound(1);
+	SOUND:PlayOnce( Path )
 	self:diffusealpha(0.1);
 	self:accelerate(0.35);
 	self:diffusealpha(0);

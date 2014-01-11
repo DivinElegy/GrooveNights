@@ -8,13 +8,101 @@ end">
 OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenEvaluation'); end"
 />
 
+<!--Mask the LifeGraph so you can change its colour-->
+<Layer
+	Type="Quad"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
+	OnCommand="@'x,SCREEN_CENTER_X-155;y,SCREEN_CENTER_Y+151;zoomx,272.5;zoomy,40;diffuse,'..PlayerColor(PLAYER_1)..';'"
+/>
+<Layer
+	Type="Quad"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"
+	OnCommand="x,SCREEN_CENTER_X-155;y,SCREEN_CENTER_Y+151;zoomx,272.5;zoomy,41;ztest,1;diffuse,0,0,0,1;"
+/>
+
+<Layer
+	Type="Quad"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
+	OnCommand="@'x,SCREEN_CENTER_X+155;y,SCREEN_CENTER_Y+151;zoomx,272.5;zoomy,40;diffuse,'..PlayerColor(PLAYER_2)..';'"
+/>
+<Layer
+	Type="Quad"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
+	OnCommand="x,SCREEN_CENTER_X+155;y,SCREEN_CENTER_Y+151;zoomx,272.5;zoomy,41;ztest,1;diffuse,0,0,0,1;"
+/>
+
+<!--Overlay the lifegraph with a dark quad for text messages-->
+<Layer Type="Quad" OnCommand="x,SCREEN_CENTER_X-156;y,SCREEN_CENTER_Y+161;diffuse,0,0,0,0;zoomx,274;zoomy,15;"
+GraphAwardP1MessageCommand="%function(self) self:diffusealpha(0.75); self:draworder(0); if GAMESTATE:PlayerUsingBothSides(PLAYER_1) then self:addx(-12); end end"
+/>
+<Layer Type="Quad" OnCommand="x,SCREEN_CENTER_X-156;y,SCREEN_CENTER_Y+168;diffuse,0,0,0,1;zoomx,274;zoomy,2;"/>
+<Layer Type="Quad" OnCommand="x,SCREEN_CENTER_X-156;y,SCREEN_CENTER_Y+172;diffuse,0,0,0,1;zoomx,274;zoomy,2;"/>
+
+<Layer Type="Quad" OnCommand="x,SCREEN_CENTER_X+154;y,SCREEN_CENTER_Y+161;diffuse,0,0,0,0;zoomx,274;zoomy,15;"
+GraphAwardP2MessageCommand="%function(self) self:diffusealpha(0.75); self:draworder(0); if GAMESTATE:PlayerUsingBothSides(PLAYER_2) then self:addx(8); end end"
+/>
+<Layer Type="Quad" OnCommand="x,SCREEN_CENTER_X+154;y,SCREEN_CENTER_Y+168;diffuse,0,0,0,1;zoomx,274;zoomy,2;"/>
+<Layer Type="Quad" OnCommand="x,SCREEN_CENTER_X+154;y,SCREEN_CENTER_Y+172;diffuse,0,0,0,1;zoomx,274;zoomy,2;"
+
+
+<!--Move P2's PerDifficulty Award since it's shared between players and aligns left for both-->
+	<BitmapText
+	Text=""
+	File="_eurostile blue glow"
+	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_2)"
+	InitCommand="%function(self)
+	self:x(SCREEN_CENTER_X);
+	self:y(SCREEN_CENTER_Y);
+	end"
+	PerDifficultyAwardMessageCommand="%function(self)
+	self:hibernate(0.01);
+	self:queuecommand('Go');
+	end"
+	GoCommand="%function(self)
+	SCREENMAN:GetTopScreen():GetChild('PerDifficultyAwardP2'):addx(-12-gnAwardWidthP2/2);
+	SCREENMAN:GetTopScreen():GetChild('PerDifficultyAwardP2'):addy(1);
+	end"
+	/>
+		
+		
+<!--Show a special THING if either player quads a song with a certain name as their card profile-->
+<Layer Type="Quad"
+	OnCommand="zoom,SCREEN_WIDTH;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffuse,0,0,0,1;sleep,0.01;queuecommand,Go;"
+	GoCommand="%function(self)
+	if gnDimBGMSeconds == nil then gnDimBGMSeconds = 0.1 end
+	SOUND:DimMusic( 0, gnDimBGMSeconds )
+	self:diffusealpha(gnBackgroundDarkness);
+	self:sleep(gnOnScreenSeconds);
+	self:draworder(0);
+	self:linear(0.3);
+	self:diffusealpha(0);
+	end"
+/>
+
+<Layer File="@'../Sounds/gnCustomAward Graphics/'..getQuadAward()"
+	OnCommand="%function(self)
+	self:x(SCREEN_CENTER_X);
+	self:y(SCREEN_CENTER_Y);
+	self:draworder(0);
+	self:sleep(0.01);
+	self:queuecommand('Go');
+	end"
+	GoCommand="%function(self)
+	if gnSound then	SOUND:PlayOnce(gnSound); end
+	self:diffusealpha(gnDisplayedFileOpacity);
+	self:sleep(gnOnScreenSeconds);
+	self:linear(0.3);
+	self:diffusealpha(0);
+	end"
+/>
+		
 	<!--Restart the song on event mode if you pressed the menu button-->
 		<BitmapText
 		Text=""
 		File="_eurostile blue glow"
-		Condition="GAMESTATE:IsEventMode() and MenuButtonGiveUp() and not GAMESTATE:IsCourseMode()"
+		Condition="GAMESTATE:IsEventMode() and MenuButtonGiveUp() and not gnNoRestart and not GAMESTATE:IsCourseMode()"
 		InitCommand="%function(self)
-		if gnStaminaSongPercent > gnLowestRestartPercent and gnStaminaSongPercent < gnHighestRestartPercent then
+		if gnSongElapsedPercent > gnLowestRestartPercent and gnSongElapsedPercent < gnHighestRestartPercent then
 			SCREENMAN:SetNewScreen('ScreenStage');
 			end
 		end"
@@ -124,7 +212,7 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenEvaluation');
 	InitCommand="hibernate,0.1;vertalign,top;horizalign,center;WrapWidthPixels,254;shadowlength,0;x,SCREEN_CENTER_X-210+92-170+64;y,SCREEN_CENTER_Y-68+20;zoom,0.5;diffusealpha,0.7;queuecommand,Cull;"
 	CullCommand="%function(self)
 	if GAMESTATE:PlayerUsingBothSides(PLAYER_1) then
-		self:addx(SCREEN_WIDTH/4-10);
+		self:addx(SCREEN_WIDTH/4-10+ScreenEvaluationDoubleShift(PLAYER_1));
 	end
 	gnModTrim = SCREENMAN:GetTopScreen():GetChild('PlayerOptionsP1'):GetText();
 	gnModTrim = string.gsub(gnModTrim,'-0%% , ','');
@@ -160,7 +248,7 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenEvaluation');
 	InitCommand="hibernate,0.1;vertalign,top;horizalign,center;WrapWidthPixels,254;shadowlength,0;x,SCREEN_CENTER_X+100+92-170+64;y,SCREEN_CENTER_Y-68+20;zoom,0.5;diffusealpha,0.7;queuecommand,Cull;"
 	CullCommand="%function(self)
 	if GAMESTATE:PlayerUsingBothSides(PLAYER_2) then
-		self:addx(-SCREEN_WIDTH/4+10);
+		self:addx(-SCREEN_WIDTH/4+10+ScreenEvaluationDoubleShift(PLAYER_2));
 	end
 	gnModTrim = SCREENMAN:GetTopScreen():GetChild('PlayerOptionsP2'):GetText();
 	gnModTrim = string.gsub(gnModTrim,'0%% , ','');
@@ -200,7 +288,7 @@ OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenEvaluation');
 			InitCommand="%function(self)
 			self:settext(GAMESTATE:GetCurrentSong():GetDisplayMainTitle());
 			self:x(SCREEN_CENTER_X);
-			self:y(SCREEN_CENTER_Y-173);
+			self:y(SCREEN_CENTER_Y-172);
 			end"
 		/>	
 		<!-- <BitmapText
@@ -262,7 +350,7 @@ end"><children>
 	Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and not PROFILEMAN:IsPersistentProfile(PLAYER_1)"
 	OnCommand="@'diffuse,'..FrameColor()..';diffusealpha,1;'"
 	InitCommand="%function(self)
-			self:x(SCREEN_CENTER_X-225); self:y(SCREEN_CENTER_Y+68);
+			self:x(SCREEN_CENTER_X-225+ScreenEvaluationDoubleShift(PLAYER_1)); self:y(SCREEN_CENTER_Y+68);
 			end"	
 	/>
 	
@@ -270,7 +358,7 @@ end"><children>
 	Condition="GAMESTATE:IsHumanPlayer(PLAYER_2) and not PROFILEMAN:IsPersistentProfile(PLAYER_2)"
 	OnCommand="@'diffuse,'..FrameColor()..';diffusealpha,1;'"
 	InitCommand="%function(self)
-			self:x(SCREEN_CENTER_X+85); self:y(SCREEN_CENTER_Y+68);
+			self:x(SCREEN_CENTER_X+85+ScreenEvaluationDoubleShift(PLAYER_2)); self:y(SCREEN_CENTER_Y+68);
 			end"	
 	/>
 <!--Avatar-->
@@ -280,7 +368,7 @@ end"><children>
 	GlobalOff = 2;
 	end"
 	InitCommand="%function(self)
-			self:x(SCREEN_CENTER_X-255); self:y(SCREEN_CENTER_Y+50); self:diffusealpha(0); self:zoom(0);
+			self:x(SCREEN_CENTER_X-255+ScreenEvaluationDoubleShift(PLAYER_1)); self:y(SCREEN_CENTER_Y+50); self:diffusealpha(0); self:zoom(0);
 			a1Width = self:GetWidth(); 
 			a1Height = self:GetHeight(); 
 			if a1Width >= a1Height then 
@@ -301,7 +389,7 @@ end"><children>
 	end"
 	NoAvatarCommand="@'diffuse,'..PlayerColor(PLAYER_1)..';'"
 	InitCommand="%function(self)
-			self:x(SCREEN_CENTER_X-255); self:y(SCREEN_CENTER_Y+50); self:diffusealpha(0); self:zoom(0);
+			self:x(SCREEN_CENTER_X-255+ScreenEvaluationDoubleShift(PLAYER_1)); self:y(SCREEN_CENTER_Y+50); self:diffusealpha(0); self:zoom(0);
 			self:decelerate(0.3);
 			self:diffusealpha(1);  
 			a1Width = self:GetWidth(); 
@@ -322,7 +410,7 @@ end"><children>
 	Condition="GAMESTATE:IsHumanPlayer(PLAYER_2) and PROFILEMAN:IsPersistentProfile(PLAYER_2)"
 	
 	InitCommand="%function(self)
-			self:x(SCREEN_CENTER_X+55); self:y(SCREEN_CENTER_Y+50); self:diffusealpha(0); self:zoom(0);
+			self:x(SCREEN_CENTER_X+55+ScreenEvaluationDoubleShift(PLAYER_2)); self:y(SCREEN_CENTER_Y+50); self:diffusealpha(0); self:zoom(0);
 			a2Width = self:GetWidth(); 
 			a2Height = self:GetHeight();
 			if a2Width >= a2Height then 
@@ -341,7 +429,7 @@ end"><children>
 	Condition="GAMESTATE:IsHumanPlayer(PLAYER_2) and PROFILEMAN:IsPersistentProfile(PLAYER_2)"
 	NoAvatarCommand="@'diffuse,'..PlayerColor(PLAYER_2)..';'"
 	InitCommand="%function(self)
-			self:x(SCREEN_CENTER_X+55); self:y(SCREEN_CENTER_Y+50); self:diffusealpha(0); self:zoom(0);
+			self:x(SCREEN_CENTER_X+55+ScreenEvaluationDoubleShift(PLAYER_2)); self:y(SCREEN_CENTER_Y+50); self:diffusealpha(0); self:zoom(0);
 			self:decelerate(0.3);
 			self:diffusealpha(1);  
 			a2Width = self:GetWidth(); 
@@ -361,11 +449,11 @@ end"><children>
 	
 	<Layer File="AvatarFrame.png"
 	Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and PROFILEMAN:IsPersistentProfile(PLAYER_1)"
-	InitCommand="@'draworder,3;diffuse,'..FrameColor()..';x,SCREEN_CENTER_X-255;y,SCREEN_CENTER_Y+50;zoomx,1.01;'"
+	InitCommand="@'draworder,3;diffuse,'..FrameColor()..';x,SCREEN_CENTER_X-255+'..ScreenEvaluationDoubleShift(PLAYER_1)..';y,SCREEN_CENTER_Y+50;zoomx,1.01;'"
 	/>
 	<Layer File="AvatarFrame.png"
 	Condition="GAMESTATE:IsHumanPlayer(PLAYER_2) and PROFILEMAN:IsPersistentProfile(PLAYER_2)"
-	InitCommand="@'draworder,3;diffuse,'..FrameColor()..';x,SCREEN_CENTER_X+55;y,SCREEN_CENTER_Y+50;zoomx,1.01;'"
+	InitCommand="@'draworder,3;diffuse,'..FrameColor()..';x,SCREEN_CENTER_X+55+'..ScreenEvaluationDoubleShift(PLAYER_2)..';y,SCREEN_CENTER_Y+50;zoomx,1.01;'"
 	/>
 <!--Step Artists P1-->
 		<BitmapText
@@ -375,7 +463,7 @@ end"><children>
 			OnCommand="horizalign,center;maxwidth,200;shadowlength,0;zoom,0.5;queuecommand,Update;"
 			
 			InitCommand="%function(self)
-			self:x(SCREEN_CENTER_X-259-2+49);
+			self:x(SCREEN_CENTER_X-259-2+49+ScreenEvaluationDoubleShift(PLAYER_1));
 			self:y(SCREEN_CENTER_Y-118+53);
 			end"
 			UpdateCommand="%GetStepsDescriptionText1"
@@ -389,7 +477,7 @@ end"><children>
 			OnCommand="horizalign,center;maxwidth,200;shadowlength,0;zoom,0.5;queuecommand,Update;"
 			
 			InitCommand="%function(self)
-			self:x(SCREEN_CENTER_X+259-111-49);
+			self:x(SCREEN_CENTER_X+259-111-49+ScreenEvaluationDoubleShift(PLAYER_2));
 			self:y(SCREEN_CENTER_Y-118+53);
 			end"
 			UpdateCommand="%GetStepsDescriptionText2"
@@ -400,7 +488,7 @@ end"><children>
 			OnCommand="x,SCREEN_CENTER_X-250-64;y,SCREEN_CENTER_Y-95+32;difficultyoffset;queuecommand,Go"
 			GoCommand="%function(self)
 			if GAMESTATE:PlayerUsingBothSides(PLAYER_1) then
-				self:addx(-75);
+				self:addx(-75+ScreenEvaluationDoubleShift(PLAYER_1));
 				self:addy(56);
 				end
 			end"
@@ -445,7 +533,7 @@ end"><children>
 			OnCommand="x,SCREEN_CENTER_X-250-4;y,SCREEN_CENTER_Y-95+32;difficultyoffset;queuecommand,Go"
 			GoCommand="%function(self)
 			if GAMESTATE:PlayerUsingBothSides(PLAYER_1) then
-				self:addx(-75);
+				self:addx(-75+ScreenEvaluationDoubleShift(PLAYER_1));
 				self:addy(56);
 				end
 			end"
@@ -479,7 +567,7 @@ end"><children>
 			OnCommand="x,SCREEN_CENTER_X+248-252;y,SCREEN_CENTER_Y-95+32;difficultyoffset;queuecommand,Go"
 			GoCommand="%function(self)
 			if GAMESTATE:PlayerUsingBothSides(PLAYER_2) then
-				self:addx(75);
+				self:addx(75+ScreenEvaluationDoubleShift(PLAYER_2));
 				self:addy(56);
 				end
 			end"
@@ -524,7 +612,7 @@ end"><children>
 			OnCommand="x,SCREEN_CENTER_X+248-192;y,SCREEN_CENTER_Y-95+32;difficultyoffset;queuecommand,Go"
 			GoCommand="%function(self)
 			if GAMESTATE:PlayerUsingBothSides(PLAYER_2) then
-				self:addx(75);
+				self:addx(75+ScreenEvaluationDoubleShift(PLAYER_2));
 				self:addy(56);
 				end
 			end"
@@ -575,7 +663,7 @@ end"><children>
 
 <!-- Achievements for Player 1-->	
 <ActorFrame InitCommand="%function(self)
-			self:x(-75);
+			self:x(-75+ScreenEvaluationDoubleShift(PLAYER_1));
 			self:y(47);
 			gnSingleKillP1 = 'no'
 			gnDoubleKillP1 = 'no'
@@ -1041,7 +1129,7 @@ end"><children>
 
 <!-- Achievements for Player 2-->	
 <ActorFrame InitCommand="%function(self)
-			self:x(236);
+			self:x(236+ScreenEvaluationDoubleShift(PLAYER_2));
 			self:y(47);
 			gnSingleKillP2 = 'no'
 			gnDoubleKillP2 = 'no'
@@ -1510,23 +1598,23 @@ end"><children>
 	/>
 	
 	<Layer Type="Quad"
-	OnCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+(SCREEN_HEIGHT/2)-50;draworder,10000;decelerate,0.3;diffuse,0,0,0,1;y,SCREEN_CENTER_Y+SCREEN_HEIGHT"
-	ScreenTransitionMessageCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+SCREEN_HEIGHT;draworder,10000;accelerate,0.2;diffuse,0,0,0,1;y,SCREEN_CENTER_Y+(SCREEN_HEIGHT/2)"
+	OnCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+(SCREEN_HEIGHT/2)-50;draworder,30000;decelerate,0.3;diffuse,0,0,0,1;y,SCREEN_CENTER_Y+SCREEN_HEIGHT"
+	ScreenTransitionMessageCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+SCREEN_HEIGHT;draworder,30000;accelerate,0.2;diffuse,0,0,0,1;y,SCREEN_CENTER_Y+(SCREEN_HEIGHT/2)"
 	/>
 	
 	<Layer Type="Quad"
-	OnCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT/2);draworder,10000;accelerate,0.2;diffuse,0,0,0,1;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT)"
-	ScreenTransitionMessageCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-SCREEN_HEIGHT;draworder,10000;decelerate,0.2;diffuse,0,0,0,1;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT/2)"
+	OnCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT/2);draworder,30000;accelerate,0.2;diffuse,0,0,0,1;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT)"
+	ScreenTransitionMessageCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-SCREEN_HEIGHT;draworder,30000;decelerate,0.2;diffuse,0,0,0,1;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT/2)"
 	/>
 	
 	<Layer File="../Graphics/TransitionArrow"
-	OnCommand="hidden,0;vibrate;EffectMagnitude,0.5,0.5,0.1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;draworder,10000;accelerate,0.2;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT/2)-50"
-	ScreenTransitionMessageCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+SCREEN_HEIGHT+50;draworder,10000;accelerate,0.2;y,SCREEN_CENTER_Y"
+	OnCommand="hidden,0;vibrate;EffectMagnitude,0.5,0.5,0.1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;draworder,30000;accelerate,0.2;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT/2)-50"
+	ScreenTransitionMessageCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+SCREEN_HEIGHT+50;draworder,30000;accelerate,0.2;y,SCREEN_CENTER_Y"
 	MenuBackMessageCommand="hidden,1;"
 	/>
 	
 	<Layer File="../Graphics/Loading" Condition="not (AllFailed() or IsFinalStage())"
-	OnCommand="hidden,0;diffusealpha,0;draworder,10000;x,SCREEN_CENTER_X-1;y,SCREEN_CENTER_Y+65+SCREEN_HEIGHT;"
+	OnCommand="hidden,0;diffusealpha,0;draworder,30000;x,SCREEN_CENTER_X-1;y,SCREEN_CENTER_Y+65+SCREEN_HEIGHT;"
 	ScreenTransitionMessageCommand="accelerate,0.2;diffusealpha,1;y,SCREEN_CENTER_Y+65;"
 	MenuBackMessageCommand="hidden,1;"
 	/>

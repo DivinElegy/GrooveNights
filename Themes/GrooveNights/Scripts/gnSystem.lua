@@ -46,6 +46,17 @@ end
 
 
 
+-- ===GRADE SOUNDS===
+-- These sounds play when your grade appears
+function GradeSound( snd )
+local Path = THEME:GetPath( EC_SOUNDS, 'gnGradeUp', ''..snd..'')
+return Path
+end
+
+
+
+
+
 -- ===SHIFT SCREEN EVALUATION ELEMENTS IN DOUBLE MODE===
 function ScreenEvaluationDoubleShift(pn)
 	if GAMESTATE:PlayerUsingBothSides(pn) then
@@ -81,6 +92,10 @@ gnStats3StarCount = nil
 gnStats4StarCount = nil
 
 gnStatsLevel = nil
+
+gnPlayerNames = {'',''}
+
+gnScreenSelectMusic = false;
 end
 
 
@@ -113,6 +128,7 @@ if GAMESTATE:GetEnv('Konami') == 'Turn' then
 	SCREENMAN:SystemMessage('Konami Code Activated');
 	GAMESTATE:SetEnv('Konami','On');
 	end	
+	gnScreenSelectMusic = false;
 end
 
 
@@ -162,7 +178,7 @@ end
 
 if scn == 'ScreenSelectMusic' then
 ScreenTransitionWhoosh('short');
-RateRestoreMessage(false);
+RateRestoreMessage(true);
 	if curRate == nil then curRate = 1 end
 	gnBlazedP1 = 0;
 	gnBlazedP2 = 0;
@@ -175,7 +191,9 @@ RateRestoreMessage(false);
 	gnStatFrequency = gnStatFrequency + 1;
 	gnOptionMod = 0;
 	gnOptionModType = 0;
-	gnStaminaSongPercent = 0;
+	gnSongElapsedPercent = 0;
+	gnNoRestart = false;
+	gnScreenSelectMusic = true;
 end
 
 
@@ -202,11 +220,13 @@ ScreenTransitionWhoosh('short');
 	if gnScreenSelectMusicTimer == nil then gnScreenSelectMusicTimer = gnDefaultSSM; end
 	if gnScreenPlayerOptionsTimer == nil then gnScreenPlayerOptionsTimer = gnDefaultSPO; end
 	RateRestoreMessage(true);
+	gnScreenSelectMusic = false;
 end
 
 
 if scn == 'ScreenStage' then
 ScreenTransitionWhoosh('short');
+gnScreenSelectMusic = false;
 end
 
 
@@ -245,12 +265,11 @@ if scn == 'ScreenGameplay' then
 	gnLowHealth = false;
 	gnLowHealth = false;
 	gnVoiceTimer = 0;
-	gnStaminaTimer = 0;
 	gnRandomVoice = math.random(1,5); 
 	gnRandomMark1 = math.random(5,92);
 	gnRandomMark2 = math.random(5,92);
 	gnRandomMark3 = math.random(5,92);
-	gnStaminaSongPercent = 0;
+	gnSongElapsedPercent = 0;
 	gnStamina25Window = 0;
 	gnStamina50Window = 0;
 	gnStamina75Window = 0;
@@ -268,8 +287,38 @@ if scn == 'ScreenGameplay' then
 	gnP1Restarter = 0;
 	gnP2Restarter = 0;
 	gnSameGrade = 0;
-	gnSoundCheck = true;
-	gnAward = 0;
+	gnOptionCheck = false;
+	
+	-- Each 0 represents 1% of the song (0% inclusive), there are 202 in total, 101 per player.
+	gnSongTimeline = { 
+	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+	
+	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+	}
+	
+	gnScoreP1 = 0
+	gnScoreP2 = 0
+	gnDimBGMSeconds = 0.1
+	gnOnScreenSeconds = 0
+	gnDisplayedFileOpacity = 0
+	gnBackgroundDarkness = 0
+	gnAwardWidthP2 = 0;
+	gnSound = nil
+end
+
+
+
+if scn == 'ScreenGameplayFailed' then
+MESSAGEMAN:Broadcast('NoRestart');
+gnNoRestart = true
 end
 
 
@@ -277,28 +326,21 @@ end
 if scn == 'ScreenEvaluation' then
 ScreenTransitionWhoosh('short');
 gnSongCount = gnSongCount + 1;
-RateRestoreMessage(false);
+if not (GAMESTATE:IsEventMode() and MenuButtonGiveUp() and not gnNoRestart and not GAMESTATE:IsCourseMode()) then
+	RateRestoreMessage(false);
+	end
 end
 
 
 
 if scn == 'GradeModels' then
-if getSpecialUSB() then
-	if gnDimBGMSeconds == nil then
-		gnDimBGMSeconds = 0.1;
-		end
-	if gnDimBGMSeconds == 0 then
-		gnDimBGMSeconds = 0.1;
-		end
-	SOUND:DimMusic( 0, gnDimBGMSeconds )
-	end
+-- Nothing to add yet
 end
 
 
 
 if scn == 'ScreenNameEntry' then
 ScreenTransitionWhoosh('short');
--- nothing to add yet
 end
 
 
@@ -343,11 +385,17 @@ end
 -- ==='RATE MOD HAS BEEN RESTORED' MESSAGE===
 -- Call with false to display message, call with true to display the message AND reset the mod
 function RateRestoreMessage(i)
-	if GetRateMod() ~= '1.0x' then 
+	if GetRateMod() ~= '1.0x' then
 		if i then
 		GAMESTATE:ApplyGameCommand('mod, 1.0xmusic',1);
+		gnOptionCheck = true;
 		end 
-	SCREENMAN:SystemMessage('Rate Modifier has been restored to 1.0x')
+	SCREENMAN:SystemMessage('Rate Modifier has been restored to 1.0x');
+	else
+	if gnOptionCheck then
+		gnOptionCheck = false;
+		SCREENMAN:SystemMessage('Rate Modifier has been restored to 1.0x');
+		end
 	end
 end
 
@@ -362,7 +410,7 @@ function ScreenTransitionWhoosh(i)
 	SOUND:PlayOnce(Path);
 end
 
---easter eggs
+-- Easter eggs
 local function BPMEasterEggs(Params)
     local ScrollSpeed = DisplayScrollSpeed(Params.pn)
     local spaces = string.rep(" ", string.len(ScrollSpeed))
@@ -463,9 +511,8 @@ function GoodLuckCameronOptionsRow()
     return CreateProfileRowBool( Params )
 end
 
-
-
-
+-- ===GET THE CARD STATS FOR THE PLAYER===
+-- Stars, songs played, deaths, etc
 function getStats(pn,mode,stat)
 
 -- Add modes and grade tiers into a table for quick reference
@@ -491,6 +538,20 @@ gnStats4StarCount = {0,0};
 
 gnStatsLevel = {0,0};
 gnStatsExpRemaining = {0,0};
+else
+
+gnStatsTotalSongCount[pn] = 0
+gnStatsTotalExpCount[pn] = 0
+gnStatsTotalDeathCount[pn] = 0
+gnStatsTotalStarCount[pn] = 0
+
+gnStats1StarCount[pn] = 0
+gnStats2StarCount[pn] = 0
+gnStats3StarCount[pn] = 0
+gnStats4StarCount[pn] = 0
+
+gnStatsLevel[pn] = 1
+gnStatsExpRemaining[pn] = 0
 end
 
 
@@ -500,34 +561,34 @@ end
 -- Count the number of 1Stars (Tier 4)
 if stat == 1 then
 	for s=1, table.getn(gnStatsGradeDifficulties) do
-        --mode, diff, tier
-	gnStats1StarCount[pn+1] = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER04);
+    --mode, diff, tier
+	gnStats1StarCount[pn] = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER04);
 	end
-	return gnStats1StarCount[pn+1];
+	return gnStats1StarCount[pn];
 end
 
 -- Count the number of 2Stars (Tier 3)
 if stat == 2 then
 	for s=1, table.getn(gnStatsGradeDifficulties) do
-	gnStats2StarCount[pn+1] = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER03);
+	gnStats2StarCount[pn] = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER03);
 	end
-	return gnStats2StarCount[pn+1];
+	return gnStats2StarCount[pn];
 end
 
 -- Count the number of 3Stars (Tier 2)
 if stat == 3 then
 	for s=1, table.getn(gnStatsGradeDifficulties) do
-	gnStats3StarCount[pn+1] = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER02);
+	gnStats3StarCount[pn] = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER02);
 	end
-	return gnStats3StarCount[pn+1];
+	return gnStats3StarCount[pn];
 end
 
 -- Count the number of 4Stars (Tier 1)
 if stat == 4 then
 	for s=1, table.getn(gnStatsGradeDifficulties) do
-	gnStats4StarCount[pn+1] = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER01);
+	gnStats4StarCount[pn] = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER01);
 	end
-	return gnStats4StarCount[pn+1];
+	return gnStats4StarCount[pn];
 end
 
 
@@ -536,95 +597,30 @@ end
 -------------------------
 -- Count the total number of songs played
 if stat == 5 then
-	gnStatsTotalSongCount[pn+1] = PROFILEMAN:GetProfile(pn):GetTotalNumSongsPlayed()
-	return gnStatsTotalSongCount[pn+1];
+	gnStatsTotalSongCount[pn] = PROFILEMAN:GetProfile(pn):GetTotalNumSongsPlayed()
+	return gnStatsTotalSongCount[pn];
 end
 
 -- Count the total number of EXP earned
 if stat == 6 then
-	for s=1, table.getn(gnStatsGradeDifficulties) do
-	t = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER01)
-	gnStatsTotalDeathCount[pn+1] = gnStatsTotalDeathCount[pn+1] + t
-	gnStatsTotalExpCount[pn+1] = gnStatsTotalExpCount[pn+1] + (17 * t);
-
-	t = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER02)
-	gnStatsTotalDeathCount[pn+1] = gnStatsTotalDeathCount[pn+1] + t
-	gnStatsTotalExpCount[pn+1] = gnStatsTotalExpCount[pn+1] + (16 * t);
-	
-	t = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER03)
-	gnStatsTotalDeathCount[pn+1] = gnStatsTotalDeathCount[pn+1] + t
-	gnStatsTotalExpCount[pn+1] = gnStatsTotalExpCount[pn+1] + (15 * t);
-	
-	t = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER04)
-	gnStatsTotalDeathCount[pn+1] = gnStatsTotalDeathCount[pn+1] + t
-	gnStatsTotalExpCount[pn+1] = gnStatsTotalExpCount[pn+1] + (14 * t);
-	
-	t = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER05)
-	gnStatsTotalDeathCount[pn+1] = gnStatsTotalDeathCount[pn+1] + t
-	gnStatsTotalExpCount[pn+1] = gnStatsTotalExpCount[pn+1] + (13 * t);
-	
-	t = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER06)
-	gnStatsTotalDeathCount[pn+1] = gnStatsTotalDeathCount[pn+1] + t
-	gnStatsTotalExpCount[pn+1] = gnStatsTotalExpCount[pn+1] + (12 * t);
-	
-	t = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER07)
-	gnStatsTotalDeathCount[pn+1] = gnStatsTotalDeathCount[pn+1] + t
-	gnStatsTotalExpCount[pn+1] = gnStatsTotalExpCount[pn+1] + (11 * t);
-	
-	t = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER08)
-	gnStatsTotalDeathCount[pn+1] = gnStatsTotalDeathCount[pn+1] + t
-	gnStatsTotalExpCount[pn+1] = gnStatsTotalExpCount[pn+1] + (10 * t);
-	
-	t = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER09)
-	gnStatsTotalDeathCount[pn+1] = gnStatsTotalDeathCount[pn+1] + t
-	gnStatsTotalExpCount[pn+1] = gnStatsTotalExpCount[pn+1] + (9 * t);
-	
-	t = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER10)
-	gnStatsTotalDeathCount[pn+1] = gnStatsTotalDeathCount[pn+1] + t
-	gnStatsTotalExpCount[pn+1] = gnStatsTotalExpCount[pn+1] + (8 * t);
-	
-	t = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER11)
-	gnStatsTotalDeathCount[pn+1] = gnStatsTotalDeathCount[pn+1] + t
-	gnStatsTotalExpCount[pn+1] = gnStatsTotalExpCount[pn+1] + (7 * t);
-	
-	t = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER12)
-	gnStatsTotalDeathCount[pn+1] = gnStatsTotalDeathCount[pn+1] + t
-	gnStatsTotalExpCount[pn+1] = gnStatsTotalExpCount[pn+1] + (6 * t);
-	
-	t = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER13)
-	gnStatsTotalDeathCount[pn+1] = gnStatsTotalDeathCount[pn+1] + t
-	gnStatsTotalExpCount[pn+1] = gnStatsTotalExpCount[pn+1] + (5 * t);
-	
-	t = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER14)
-	gnStatsTotalDeathCount[pn+1] = gnStatsTotalDeathCount[pn+1] + t
-	gnStatsTotalExpCount[pn+1] = gnStatsTotalExpCount[pn+1] + (4 * t);
-	
-	t = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER15)
-	gnStatsTotalDeathCount[pn+1] = gnStatsTotalDeathCount[pn+1] + t
-	gnStatsTotalExpCount[pn+1] = gnStatsTotalExpCount[pn+1] + (3 * t);
-	
-	t = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER16)
-	gnStatsTotalDeathCount[pn+1] = gnStatsTotalDeathCount[pn+1] + t
-	gnStatsTotalExpCount[pn+1] = gnStatsTotalExpCount[pn+1] + (2 * t);
-	
-	t = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER17)
-	gnStatsTotalDeathCount[pn+1] = gnStatsTotalDeathCount[pn+1] + t
-	gnStatsTotalExpCount[pn+1] = gnStatsTotalExpCount[pn+1] + (1 * t);
-
+	if gnStatsTotalSongCount[pn] == 0 then
+            gnStatsTotalExpCount[pn] = gnStatsTotalExpCount[pn] + (PROFILEMAN:GetProfile(pn):GetTotalNumSongsPlayed()) -- there used to be ((s+17)/17) here, I don't really get what it was doing because s was from the for loop ... some sort of weighting?
 	end
-	return gnStatsTotalExpCount[pn+1];
+	return gnStatsTotalExpCount[pn];
 end
 
--- Count the total number of player deaths
+-- Count the total number of player deaths (Tier 17)
 if stat == 7 then
-	gnStatsTotalDeathCount[pn+1] = gnStatsTotalSongCount[pn+1] - gnStatsTotalDeathCount[pn+1]
-	return gnStatsTotalDeathCount[pn+1];
+	for s=1, table.getn(gnStatsGradeDifficulties) do
+	gnStatsTotalDeathCount[pn] = PROFILEMAN:GetProfile(pn):GetTotalStepsWithTopGrade(gnStatsMode[mode],gnStatsGradeDifficulties[s],GRADE_TIER17);
+	end
+	return gnStatsTotalDeathCount[pn];
 end
 
 -- Count the total number of stars earned *** MUST NOT RUN UNTIL AFTER STAT 1, 2 ,3 & 4 HAVE BEEN RUN ***
 if stat == 8 then
-	gnStatsTotalStarCount[pn+1] = gnStats1StarCount[pn+1] + (gnStats2StarCount[pn+1]*2) + (gnStats3StarCount[pn+1]*3) + (gnStats4StarCount[pn+1]*4);
-	return gnStatsTotalStarCount[pn+1];
+	gnStatsTotalStarCount[pn] = gnStats1StarCount[pn] + gnStats2StarCount[pn] + gnStats3StarCount[pn] + gnStats4StarCount[pn];
+	return gnStatsTotalStarCount[pn];
 end
 
 
@@ -633,27 +629,164 @@ end
 -------------------------
 -- Determine the player's current level *** MUST NOT RUN UNTIL AFTER STAT 6 HAS BEEN RUN ***
 if stat == 9 then
-	gnStatsLevel[pn+1] = gnStatsTotalExpCount[pn+1]
+	gnStatsLevel[pn] = gnStatsTotalExpCount[pn]
 	e = 10 -- EXP Curve starts at 10
-	for s = 1, 100 do -- Max Level is 100
-		gnStatsTotalExpCount[pn+1] = gnStatsTotalExpCount[pn+1] - e; -- subtract curve and level up on every 0
-		gnStatsLevel[pn+1] = gnStatsLevel[pn+1] + 1;
-		if gnStatsTotalExpCount[pn+1] < 1 then
-			gnStatsLevel[pn+1] = gnStatsLevel[pn+1] - 1; -- didn't level up on this run
-			gnStatsExpRemaining[pn+1] = gnStatsTotalExpCount[pn+1] + e; -- get remaining EXP amount
-			gnStatsExpRemaining[pn+1] = gnStatsExpRemaining[pn+1] / e; -- make it into a percentage of the current curve
-			return gnStatsLevel[pn+1];
+	for s = 0, 1, 100 do -- Max Level is 100
+		gnStatsTotalExpCount[pn] = gnStatsTotalExpCount[pn] - e; -- subtract curve and level up on every 0
+		gnStatsLevel[pn] = gnStatsLevel[pn] + 1;
+		if gnStatsTotalExpCount[pn] < 1 then
+			gnStatsLevel[pn] = gnStatsLevel[pn] - 1; -- didn't level up on this run
+			gnStatsExpRemaining[pn] = gnStatsTotalExpCount[pn] + e; -- get remaining EXP amount
+			gnStatsExpRemaining[pn] = gnStatsExpRemaining[pn] / e; -- make it into a percentage of the current curve
+			return gnStatsLevel[pn];
 		end
 		e = e * 1.2
 	end
-	gnStatsExpRemaining[pn+1] = 100;  -- if the loop completes on its own, you've hit level 100!
-	gnStatsLevel[pn+1] = 100;
-	return gnStatsLevel[pn+1];
+	gnStatsExpRemaining[pn] = 100;  -- if the loop completes on its own, you've hit level 100!
+	gnStatsLevel[pn] = 100;
+	return gnStatsLevel[pn];
 end
 
 -- Fetch the remaining EXP *** MUST NOT RUN UNTIL AFTER STAT 9 HAS BEEN RUN ***
 if stat == 10 then
-	return gnStatsExpRemaining[pn+1]
+	return gnStatsExpRemaining[pn]
 end
+end
+
+
+
+
+-- ===GET PLAYER NAME===
+-- Retrieves the profile name of each player
+function GetSinglePlayerName( pl )
+	if GAMESTATE:IsPlayerEnabled(pl) and PROFILEMAN:IsPersistentProfile(pl) then
+		return GAMESTATE:GetPlayerDisplayName(pl)
+	end
+return ''
+end
+
+
+
+
+
+-- ===PLAYER NAME CHECK===
+-- Returns true if it finds a player you're looking for
+function CheckSinglePlayerName( nm, pl )
+	if GAMESTATE:IsPlayerEnabled(pl) and PROFILEMAN:IsPersistentProfile(pl) then
+		if GAMESTATE:GetPlayerDisplayName(pl) == nm then -- If the selected player has the desired name
+			gnPlayerNames[pl+1] = nm
+			return true
+		end
+	end
+return false
+end
+
+
+
+
+
+-- ===GLOBAL CHECK IF ANY PLAYER HAS A CERTAIN MEMORY CARD NAME===
+-- Check to see if any player has a memory card of the specified name
+function CheckPlayerName( nm )
+	if GAMESTATE:IsPlayerEnabled(PLAYER_1) then
+		if GAMESTATE:IsPlayerEnabled(PLAYER_2) then
+			if GAMESTATE:GetPlayerDisplayName(PLAYER_1) == nm or GAMESTATE:GetPlayerDisplayName(PLAYER_2) == nm then -- Both have USB Enabled
+				return true
+			end
+		else
+			if GAMESTATE:IsPlayerEnabled(PLAYER_1) then
+				if GAMESTATE:GetPlayerDisplayName(PLAYER_1) == nm then -- P1 has USB
+					return true
+				end
+			end
+		end
+	else
+		if GAMESTATE:IsPlayerEnabled(PLAYER_2) then
+			if GAMESTATE:GetPlayerDisplayName(PLAYER_2) == nm then -- P2 has USB
+				return true
+			end
+		end
+	end
+return false
+end
+
+
+
+
+
+-- ===DISPLAY CUSTOM AWARDS FOR QUADS===
+-- The key difference with this compared to the Old GrooveNights theme is that it only works for Quads now.
+-- There is little to no point in having custom awards for any of the other grades so I've simplified it.
+function getQuadAward()
+if gnScoreP1 == nil then gnScoreP1 = 0 end
+if gnScoreP2 == nil then gnScoreP2 = 0 end
+
+-- Retrieve an image/sprite/video file based on a player's name.
+for pn = 0, 1 do
+	if PROFILEMAN:IsPersistentProfile(pn) then
+		gnPlayerNames[pn+1] = GetSinglePlayerName(pn)
+		end
+	-- Plays P1's award if P1 & P2 quad
+	if gnScoreP1 == 100 and gnScoreP2 == 100 and pn == 0 then
+		local i = math.random(1,2)
+		return getQuadAwardFile(gnPlayerNames[pn+i])
+		end
+	-- Only plays P1's award if P1 quads and P2 doesn't
+	if gnScoreP1 == 100 and pn == 0 and gnScoreP2 ~= 100 then
+		return getQuadAwardFile(gnPlayerNames[pn+1])
+		end
+	-- Only plays P2's award if P2 quads and P1 doesn't
+	if gnScoreP2 == 100 and pn == 1 and gnScoreP1 ~= 100 then
+		return getQuadAwardFile(gnPlayerNames[pn+1])
+		end
+	end
+
+-- If the function finds nothing
+return '_blank'
+
+end
+
+
+
+
+-- ===FILENAME RETRIEVAL===
+function getQuadAwardFile( name )
+
+-- Example of how to do this:
+-- if name == 'PLAYER NAME' then
+-- getQuadAwardEffects(DimBGMSeconds,OnScreenSeconds,DisplayedFileOpacity,BackgroundDarkness);
+-- gnSound = THEME:GetPath(EC_SOUNDS, 'gnCustomAward', 'SOUND TO PLAY'); return 'VIDEO TO PLAY.avi'
+-- end
+
+
+if name == '(-[Jayce]-)' then
+local i = math.random(1,2)
+	if i == 1 then
+	getQuadAwardEffects(17.6,17.6,100,90); gnSound = THEME:GetPath(EC_SOUNDS, 'gnCustomAward', 'JonTron'); return 'JonTron.avi'
+	else 
+	getQuadAwardEffects(10,10,100,90); gnSound = THEME:GetPath(EC_SOUNDS, 'gnCustomAward', 'YES'); return 'YES.avi'
+	end 
+end
+
+if name == 'Cameron' then
+local i = math.random(1,2)
+	if i == 1 then
+	getQuadAwardEffects(22.7,22.7,100,90); gnSound = THEME:GetPath(EC_SOUNDS, 'gnCustomAward', 'LOTR'); return 'LOTR.avi'
+	else 
+	getQuadAwardEffects(10,10,100,90); gnSound = THEME:GetPath(EC_SOUNDS, 'gnCustomAward', 'YES'); return 'YES.avi'
+	end 
+end
+
+-- If the function finds nothing
+return '_blank'
+end
+
+-- ===SCREEN EFFECTS===
+-- Apply different effects and delays while the award appears
+function getQuadAwardEffects ( a, b, c, d )
+	gnDimBGMSeconds = a; -- Number of seconds to keep music dimmed
+	gnOnScreenSeconds = b; -- Number of seconds to keep file onscreen (set to 9999 to keep it on permanently)
+	gnDisplayedFileOpacity = c/100; -- where 100 is 100% opaque and 0 is completely invisible
+	gnBackgroundDarkness = d/100; -- where 100 is 100% black
 end
 
