@@ -430,11 +430,6 @@ local function GoodLuckCameronEasterEgg(Params)
     end
 end
 
--- I don't like this very much, but since the QuadAwardEasterEgg function is called
--- several times by different actors, we need to ensure that GetQuadAwardFile
--- returns the same information to each actor so everything syncs up.
-local EasterEggVideoPlaying
-
 local function GetQuadAwardFile(pn)
     local name = GAMESTATE:GetPlayerDisplayName(pn)
 
@@ -482,17 +477,32 @@ local function QuadAwardEasterEgg(Params)
     local ScoreP2
     local AwardFile
 
-    if GAMESTATE:IsPlayerEnabled(PLAYER_1) then ScoreP1 = SCREENMAN:GetTopScreen():GetChild('ScoreP1'):GetChild('ScoreDisplayPercentage Percent'):GetChild('PercentP1'):GetText(); end
-    if GAMESTATE:IsPlayerEnabled(PLAYER_2) then ScoreP2 = SCREENMAN:GetTopScreen():GetChild('ScoreP2'):GetChild('ScoreDisplayPercentage Percent'):GetChild('PercentP2'):GetText(); end
+	--[[
+	I don't even understand this. When this function is called from a queued command you have to get the score like this:
+		SCREENMAN:GetTopScreen():GetChild('PercentP1'):GetChild('PercentP1'):GetText() end
+		
+	But if it's in an initcommand or oncommand you have to do it like this:
+		SCREENMAN:GetTopScreen():GetChild('ScoreP1'):GetChild('ScoreDisplayPercentage Percent'):GetChild('PercentP1'):GetText()
+		
+	I think some children must get renamed/added between the commands or something, I don't know.
+	]]--
+	if Params.Layer == 'Silence' then
+		if GAMESTATE:IsPlayerEnabled(PLAYER_1) then ScoreP1 = SCREENMAN:GetTopScreen():GetChild('PercentP1'):GetChild('PercentP1'):GetText() end
+		if GAMESTATE:IsPlayerEnabled(PLAYER_2) then ScoreP2 = SCREENMAN:GetTopScreen():GetChild('PercentP2'):GetChild('PercentP2'):GetText() end
+	else
+		if GAMESTATE:IsPlayerEnabled(PLAYER_1) then ScoreP1 = SCREENMAN:GetTopScreen():GetChild('ScoreP1'):GetChild('ScoreDisplayPercentage Percent'):GetChild('PercentP1'):GetText() end
+		if GAMESTATE:IsPlayerEnabled(PLAYER_2) then ScoreP2 = SCREENMAN:GetTopScreen():GetChild('ScoreP2'):GetChild('ScoreDisplayPercentage Percent'):GetChild('PercentP2'):GetText() end
+			SCREENMAN:SystemMessage(ScoreP1)
+	end
     
-    if ScoreP1 == 100 and ScoreP2 == 100 then
+    if ScoreP1 == "100.00%" and ScoreP2 == "100.00%" then
         --choose p1 or p2 randomly
         -- TODO this might cause problems as this function is called all over the place
         local pn = math.random(PLAYER_1,PLAYER_2)
         AwardFile = GetQuadAwardFile(pn)
-    elseif ScoreP1 == 100 then
+    elseif ScoreP1 == "100.00%" then
         AwardFile = GetQuadAwardFile(PLAYER_1)
-    elseif ScoreP2 == 100 then
+    elseif ScoreP2 == "100.00%" then
         AwardFile = GetQuadAwardFile(PLAYER_2)
     end
 
@@ -501,7 +511,6 @@ local function QuadAwardEasterEgg(Params)
 
     if AwardFile then
         if Params.Layer == "Dimmer" then
-            SOUND:DimMusic( 0, AwardFile.Params.DimBGMSeconds )
             Params.Actor:diffusealpha(AwardFile.Params.BGDarkness)
             Params.Actor:sleep(AwardFile.Params.OnScreenSeconds)
             Params.Actor:linear(0.3)
@@ -515,6 +524,8 @@ local function QuadAwardEasterEgg(Params)
             Params.Actor:sleep(AwardFile.Params.OnScreenSeconds)
             Params.Actor:linear(0.3)
             Params.Actor:diffusealpha(0)
+		elseif Params.Layer == "Silence" then
+			SOUND:DimMusic( 0, AwardFile.Params.DimBGMSeconds )
         elseif Params.Layer == "Grade" then
             Params.Actor:sleep(AwardFile.Params.OnScreenSeconds)
         elseif Params.Layer == "EverythingElse" then
@@ -838,4 +849,11 @@ function CheckPlayerName( nm )
 return false
 end
 
+function HexToRageColor( Actor, color ) 
+   local f = { 1, 1, 1, 1 } 
+   local num = (string.len(color)-1) / 2 
+   local results = { string.find(color, "^#(%x%x)(%x%x)(%x%x)$") } 
 
+   for i = 1, num do f[i] = tonumber(results[i+2], 16) / 255 end 
+   Actor:diffuse( f[1], f[2], f[3], f[4] ) 
+end 

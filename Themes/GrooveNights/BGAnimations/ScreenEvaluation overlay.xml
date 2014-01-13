@@ -66,9 +66,11 @@ GraphAwardP2MessageCommand="%function(self) self:diffusealpha(0.75); self:drawor
 		
 		
 <!--Show a special THING if either player quads a song with a certain name as their card profile-->
+<!-- Stupid: SOUND:DimMusic will not work when called from an init or oncommand so we must queue our own -->
 <Layer Type="Quad"
-    InitCommand="zoom,SCREEN_WIDTH;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffuse,0,0,0,1;diffusealpha,0;"
-    OnCommand="%function(self) DoEasterEgg('QuadAward', { Actor = self, Layer = 'Dimmer' }) end"
+		InitCommand="zoom,SCREEN_WIDTH;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffuse,0,0,0,0;queuecommand,Silence;"        
+        OnCommand="%function(self) DoEasterEgg('QuadAward', { Actor = self, Layer = 'Dimmer' }) end"
+		SilenceCommand="%function(self) DoEasterEgg('QuadAward', { Layer = 'Silence' } ) end"
 />
 
 <Layer Type="Quad"
