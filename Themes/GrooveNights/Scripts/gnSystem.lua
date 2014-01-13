@@ -429,10 +429,104 @@ local function GoodLuckCameronEasterEgg(Params)
         Params.Actor:Load(THEME:GetPath(EC_BGANIMATIONS, '', 'ScreenGameplay overlay/winning2.png'))
     end
 end
+
+-- I don't like this very much, but since the QuadAwardEasterEgg function is called
+-- several times by different actors, we need to ensure that GetQuadAwardFile
+-- returns the same information to each actor so everything syncs up.
+local EasterEggVideoPlaying
+
+local function GetQuadAwardFile(pn)
+    local name = GAMESTATE:GetPlayerDisplayName(pn)
+
+    -- XXX: Temporary for testing at work as I can't use a memory card
+    name = "Cameron"
+
+    local Files = { 
+                    JonTron = {Name = 'JonTron', Params = {DimBGMSeconds = 17.6, OnScreenSeconds = 17.6, FileOpacity = 1, BGDarkness = 0.9}},
+                    YES     = {Name = 'YES',     Params = {DimBGMSeconds = 10,   OnScreenSeconds = 10,   FileOpacity = 1, BGDarkness = 0.9}},
+                    LOTR    = {Name = 'LOTR',    Params = {DimBGMSeconds = 22.7, OnScreenSeconds = 22.7, FileOpacity = 1, BGDarkness = 0.9}}
+                  }
+
+    local UserMap = {
+                        ["Cameron"] = {'LOTR', 'YES'},
+                        ["(-[Jayce]-)"] = {'JonTron', 'YES'}
+                    }
+
+    --[[
+    This sems complicated, but it's not. Basicaly it looks at how many videos
+    the user has, then decides which one to play base on the seconds of gametime
+    EG: If the user has 3 videos then it will do this:
+        Second 0: First video
+        Second 1: Second video
+        Second 2: Third video
+        Second 3: First video
+        Second 4: Second video
+
+    etc.
+
+    I did this instead of using math.random because this function is called from
+    multiple actors, and we need to make sure it returns the same file every time
+    using math.rand results in different actors getting different files, so things
+    don't sync up.
+    ]]--
+    if UserMap[name] then
+        local seconds = gnPlaySec -- TODO: This is temporary until the time tracker is reimplemented
+        return Files[ UserMap[name][math.mod(seconds, table.getn(UserMap[name])) + 1] ]
+    end
+
+    return nil
+end
+
+local function QuadAwardEasterEgg(Params)
+    local ScoreP1
+    local ScoreP2
+    local AwardFile
+
+    if GAMESTATE:IsPlayerEnabled(PLAYER_1) then ScoreP1 = SCREENMAN:GetTopScreen():GetChild('ScoreP1'):GetChild('ScoreDisplayPercentage Percent'):GetChild('PercentP1'):GetText(); end
+    if GAMESTATE:IsPlayerEnabled(PLAYER_2) then ScoreP2 = SCREENMAN:GetTopScreen():GetChild('ScoreP2'):GetChild('ScoreDisplayPercentage Percent'):GetChild('PercentP2'):GetText(); end
+    
+    if ScoreP1 == 100 and ScoreP2 == 100 then
+        --choose p1 or p2 randomly
+        -- TODO this might cause problems as this function is called all over the place
+        local pn = math.random(PLAYER_1,PLAYER_2)
+        AwardFile = GetQuadAwardFile(pn)
+    elseif ScoreP1 == 100 then
+        AwardFile = GetQuadAwardFile(PLAYER_1)
+    elseif ScoreP2 == 100 then
+        AwardFile = GetQuadAwardFile(PLAYER_2)
+    end
+
+    -- XXX: Temporary for testing at work as I can't use a memory card
+    AwardFile = GetQuadAwardFile(PLAYER_1)
+
+    if AwardFile then
+        if Params.Layer == "Dimmer" then
+            SOUND:DimMusic( 0, AwardFile.Params.DimBGMSeconds )
+            Params.Actor:diffusealpha(AwardFile.Params.BGDarkness)
+            Params.Actor:sleep(AwardFile.Params.OnScreenSeconds)
+            Params.Actor:linear(0.3)
+            Params.Actor:diffusealpha(0)
+        elseif Params.Layer == "Video" then
+            SOUND:PlayOnce( THEME:GetPath( EC_SOUNDS, 'gnCustomAward', AwardFile.Name ))
+            Params.Actor:Load( THEME:GetPath( EC_SOUNDS, 'gnCustomAward',  'Graphics/' .. AwardFile.Name .. '.avi'))
+            Params.Actor:x(SCREEN_CENTER_X)
+            Params.Actor:y(SCREEN_CENTER_Y)
+            Params.Actor:diffusealpha(AwardFile.Params.FileOpacity)
+            Params.Actor:sleep(AwardFile.Params.OnScreenSeconds)
+            Params.Actor:linear(0.3)
+            Params.Actor:diffusealpha(0)
+        elseif Params.Layer == "Grade" then
+            Params.Actor:sleep(AwardFile.Params.OnScreenSeconds)
+        elseif Params.Layer == "EverythingElse" then
+            Params.Actor:sleep(AwardFile.Params.OnScreenSeconds+0.05)
+        end
+    end
+end
  
 RegisterEasterEgg("BlazeIt", BPMEasterEggs)
 RegisterEasterEgg("NoScope", BPMEasterEggs)
 RegisterEasterEgg("GoodLuckCameron", GoodLuckCameronEasterEgg)
+RegisterEasterEgg("QuadAward", QuadAwardEasterEgg)
 
 --global variable callbacks
 local function LowBPM( BPMDisplay )
@@ -744,83 +838,4 @@ function CheckPlayerName( nm )
 return false
 end
 
-
-
-
-
--- ===DISPLAY CUSTOM AWARDS FOR QUADS===
--- The key difference with this compared to the Old GrooveNights theme is that it only works for Quads now.
--- There is little to no point in having custom awards for any of the other grades so I've simplified it.
-function getQuadAward()
-if gnScoreP1 == nil then gnScoreP1 = 0 end
-if gnScoreP2 == nil then gnScoreP2 = 0 end
-
--- Retrieve an image/sprite/video file based on a player's name.
-for pn = 0, 1 do
-	if PROFILEMAN:IsPersistentProfile(pn) then
-		gnPlayerNames[pn+1] = GetSinglePlayerName(pn)
-		end
-	-- Plays P1's award if P1 & P2 quad
-	if gnScoreP1 == 100 and gnScoreP2 == 100 and pn == 0 then
-		local i = math.random(1,2)
-		return getQuadAwardFile(gnPlayerNames[pn+i])
-		end
-	-- Only plays P1's award if P1 quads and P2 doesn't
-	if gnScoreP1 == 100 and pn == 0 and gnScoreP2 ~= 100 then
-		return getQuadAwardFile(gnPlayerNames[pn+1])
-		end
-	-- Only plays P2's award if P2 quads and P1 doesn't
-	if gnScoreP2 == 100 and pn == 1 and gnScoreP1 ~= 100 then
-		return getQuadAwardFile(gnPlayerNames[pn+1])
-		end
-	end
-
--- If the function finds nothing
-return '_blank'
-
-end
-
-
-
-
--- ===FILENAME RETRIEVAL===
-function getQuadAwardFile( name )
-
--- Example of how to do this:
--- if name == 'PLAYER NAME' then
--- getQuadAwardEffects(DimBGMSeconds,OnScreenSeconds,DisplayedFileOpacity,BackgroundDarkness);
--- gnSound = THEME:GetPath(EC_SOUNDS, 'gnCustomAward', 'SOUND TO PLAY'); return 'VIDEO TO PLAY.avi'
--- end
-
-
-if name == '(-[Jayce]-)' then
-local i = math.random(1,2)
-	if i == 1 then
-	getQuadAwardEffects(17.6,17.6,100,90); gnSound = THEME:GetPath(EC_SOUNDS, 'gnCustomAward', 'JonTron'); return 'JonTron.avi'
-	else 
-	getQuadAwardEffects(10,10,100,90); gnSound = THEME:GetPath(EC_SOUNDS, 'gnCustomAward', 'YES'); return 'YES.avi'
-	end 
-end
-
-if name == 'Cameron' then
-local i = math.random(1,2)
-	if i == 1 then
-	getQuadAwardEffects(22.7,22.7,100,90); gnSound = THEME:GetPath(EC_SOUNDS, 'gnCustomAward', 'LOTR'); return 'LOTR.avi'
-	else 
-	getQuadAwardEffects(10,10,100,90); gnSound = THEME:GetPath(EC_SOUNDS, 'gnCustomAward', 'YES'); return 'YES.avi'
-	end 
-end
-
--- If the function finds nothing
-return '_blank'
-end
-
--- ===SCREEN EFFECTS===
--- Apply different effects and delays while the award appears
-function getQuadAwardEffects ( a, b, c, d )
-	gnDimBGMSeconds = a; -- Number of seconds to keep music dimmed
-	gnOnScreenSeconds = b; -- Number of seconds to keep file onscreen (set to 9999 to keep it on permanently)
-	gnDisplayedFileOpacity = c/100; -- where 100 is 100% opaque and 0 is completely invisible
-	gnBackgroundDarkness = d/100; -- where 100 is 100% black
-end
 
