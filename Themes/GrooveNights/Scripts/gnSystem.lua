@@ -449,7 +449,7 @@ local function GetQuadAwardFile(pn)
 
     --[[
     This sems complicated, but it's not. Basicaly it looks at how many videos
-    the user has, then decides which one to play base on the seconds of gametime
+    the user has, then decides which one to play based on the seconds of gametime
     EG: If the user has 3 videos then it will do this:
         Second 0: First video
         Second 1: Second video
@@ -492,12 +492,11 @@ local function QuadAwardEasterEgg(Params)
 	else
 		if GAMESTATE:IsPlayerEnabled(PLAYER_1) then ScoreP1 = SCREENMAN:GetTopScreen():GetChild('ScoreP1'):GetChild('ScoreDisplayPercentage Percent'):GetChild('PercentP1'):GetText() end
 		if GAMESTATE:IsPlayerEnabled(PLAYER_2) then ScoreP2 = SCREENMAN:GetTopScreen():GetChild('ScoreP2'):GetChild('ScoreDisplayPercentage Percent'):GetChild('PercentP2'):GetText() end
-			SCREENMAN:SystemMessage(ScoreP1)
 	end
     
     if ScoreP1 == "100.00%" and ScoreP2 == "100.00%" then
         --choose p1 or p2 randomly
-        -- TODO this might cause problems as this function is called all over the place
+        -- TODO this might cause problems as this function is called all over the place should probably do it based on the time
         local pn = math.random(PLAYER_1,PLAYER_2)
         AwardFile = GetQuadAwardFile(pn)
     elseif ScoreP1 == "100.00%" then
@@ -507,7 +506,7 @@ local function QuadAwardEasterEgg(Params)
     end
 
     -- XXX: Temporary for testing at work as I can't use a memory card
-    AwardFile = GetQuadAwardFile(PLAYER_1)
+    --AwardFile = GetQuadAwardFile(PLAYER_1)
 
     if AwardFile then
         if Params.Layer == "Dimmer" then
@@ -524,12 +523,17 @@ local function QuadAwardEasterEgg(Params)
             Params.Actor:sleep(AwardFile.Params.OnScreenSeconds)
             Params.Actor:linear(0.3)
             Params.Actor:diffusealpha(0)
-		elseif Params.Layer == "Silence" then
-			SOUND:DimMusic( 0, AwardFile.Params.DimBGMSeconds )
+        elseif Params.Layer == "Silence" then
+            SOUND:DimMusic( 0, AwardFile.Params.DimBGMSeconds )
         elseif Params.Layer == "Grade" then
-            Params.Actor:sleep(AwardFile.Params.OnScreenSeconds)
-        elseif Params.Layer == "EverythingElse" then
-            Params.Actor:sleep(AwardFile.Params.OnScreenSeconds+0.05)
+            --[[
+            Use hibernate here because it makes the whole actor and all its
+            children do nothing. This way we can just put DoEasterEgg in the
+            metrics and not in xml files. Sweet.
+            ]]--
+            Params.Actor:hibernate(AwardFile.Params.OnScreenSeconds)
+        elseif Params.Layer == "Percent" then
+            Params.Actor:hibernate(AwardFile.Params.OnScreenSeconds+0.05)
         end
     end
 end
@@ -848,12 +852,3 @@ function CheckPlayerName( nm )
 	end
 return false
 end
-
-function HexToRageColor( Actor, color ) 
-   local f = { 1, 1, 1, 1 } 
-   local num = (string.len(color)-1) / 2 
-   local results = { string.find(color, "^#(%x%x)(%x%x)(%x%x)$") } 
-
-   for i = 1, num do f[i] = tonumber(results[i+2], 16) / 255 end 
-   Actor:diffuse( f[1], f[2], f[3], f[4] ) 
-end 
