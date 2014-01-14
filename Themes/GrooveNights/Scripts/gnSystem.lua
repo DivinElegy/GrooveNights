@@ -506,7 +506,7 @@ local function QuadAwardEasterEgg(Params)
     end
 
     -- XXX: Temporary for testing at work as I can't use a memory card
-    --AwardFile = GetQuadAwardFile(PLAYER_1)
+    AwardFile = GetQuadAwardFile(PLAYER_1)
 
     if AwardFile then
         if Params.Layer == "Dimmer" then
