@@ -1,14 +1,6 @@
 <ActorFrame InitCommand="zoom,0.40;wag;EffectMagnitude,0,0,2"><children>
     <!-- Grade Sound-->
-    <Layer Type="Quad" OnCommand="diffusealpha,0;zoom,SCREEN_WIDTH*20;sleep,0.2;queuecommand,PlaySound1"
-    PlaySound1Command="%function(self)
-                            local Path = GradeSound(0);
-                            SOUND:PlayOnce( Path )
-                            self:diffusealpha(0.075);
-                            self:accelerate(0.25);
-                            self:diffusealpha(0);
-                       end"
-    />
+<Layer Type="Quad" OnCommand="diffusealpha,0;zoom,SCREEN_WIDTH*20;sleep,0.2;queuecommand,Effects" EffectsCommand="%function(self) DoGradeEffects( self, 17 ) end"/>
     
     <!--Extra Effects-->
     <!--Grade Explosion-->

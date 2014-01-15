@@ -48,6 +48,7 @@ end
 
 -- ===GRADE SOUNDS===
 -- These sounds play when your grade appears
+-- 
 function GradeSound( snd )
 local Path = THEME:GetPath( EC_SOUNDS, 'gnGradeUp', ''..snd..'')
 return Path
@@ -851,4 +852,29 @@ function CheckPlayerName( nm )
 		end
 	end
 return false
+end
+
+-- XXX: Find a better place for this
+function DoGradeEffects( Actor, Tier )
+    -- Star grades
+    if Tier <= 4 then
+        for i=i,5-Tier do
+            SOUND:PlayOnce( GradeSound(Tier) )
+
+            if i==Tier then
+                Actor:diffusealpha(0.275);
+                Actor:accelerate(0.35);
+            else
+                Actor:diffusealpha(0.075);
+                Actor:accelerate(0.25);
+            end
+
+            Actor:diffusealpha(0);
+        end
+    else
+        SOUND:PlayOnce( GradeSound(0) )
+        Actor:diffusealpha(0.075);
+        Actor:accelerate(0.25);
+        Actor:diffusealpha(0);
+    end
 end
