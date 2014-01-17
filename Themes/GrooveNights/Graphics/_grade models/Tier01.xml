@@ -1,7 +1,10 @@
-<ActorFrame InitCommand="zoom,0.21;wag;EffectMagnitude,0,0,2"><children>  
-    <!-- Grade Sound-->
-    <Layer Type="Quad" InitCommand="diffusealpha,0;zoom,SCREEN_WIDTH*20;sleep,0.25;queuecommand,Effects" EffectsCommand="%function(self) DoGradeEffects( self, 4 ) end"/>
-
+<!-- TODO the life graph and some other elements come up above the flash effect
+     if this isn't pushed up to at least 100. Need to find that element and fix
+     the draworder
+-->
+<ActorFrame InitCommand="zoom,0.21;wag;EffectMagnitude,0,0,2;draworder,100;">
+    <children>  
+        
     <!--Extra Effects-->
     <!--Grade Explosion-->
     <Layer File="_GradeExplosion"/>
@@ -28,5 +31,13 @@
             File="@getResultStars('0001')"
             InitCommand="hibernate,0.75;diffusealpha,0;zoom,0;x,85;y,30;sleep,0.2;decelerate,0.2;zoom,1.5;diffusealpha,1;accelerate,0.3;zoom,1;decelerate,0.1;zoom,0.9;diffusealpha,0.8;accelerate,0.1;zoom,1;diffusealpha,1;queuecommand,Update;"
             UpdateCommand="decelerate,0.3;zoom,1.1;accelerate,0.3;zoom,1;decelerate,0.3;zoom,0.9;diffusealpha,0.9;accelerate,0.3;zoom,1;diffusealpha,1;queuecommand,Update;"
+    />
+    
+    <!-- Grade Sound-->
+    <Layer Type="Quad" InitCommand="diffusealpha,0;zoom,SCREEN_WIDTH*20;sleep,0.25;queuecommand,Effects" EffectsCommand="%function(self) DoGradeEffects( self, 1 ) end" 
+            PlaySound1Command="%function(self) SOUND:PlayOnce( GradeSound(1) ) end"
+            PlaySound2Command="%function(self) SOUND:PlayOnce( GradeSound(2) ) end"
+            PlaySound3Command="%function(self) SOUND:PlayOnce( GradeSound(3) ) end"
+            PlaySound4Command="%function(self) SOUND:PlayOnce( GradeSound(4) ) end"
     />
 </children></ActorFrame>

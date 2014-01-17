@@ -858,18 +858,19 @@ end
 function DoGradeEffects( Actor, Tier )
     -- Star grades
     if Tier <= 4 then
-        for i=i,5-Tier do
-            SOUND:PlayOnce( GradeSound(Tier) )
-
-            if i==Tier then
-                Actor:diffusealpha(0.275);
-                Actor:accelerate(0.35);
-            else
-                Actor:diffusealpha(0.075);
-                Actor:accelerate(0.25);
-            end
-
-            Actor:diffusealpha(0);
+        for i=1,5-Tier do
+            --if i == 4 then
+            --    Actor:queuecommand('PlaySound'..i)
+            --    Actor:diffusealpha(0.25*i)
+            --    Actor:accelerate(0.35)
+            --    Actor:diffusealpha(0);
+            --else
+                Actor:queuecommand('PlaySound'..i)
+                Actor:diffusealpha(0.25*i)
+                Actor:accelerate(0.25)
+                Actor:diffusealpha(0);
+                Actor:sleep(0.05)
+            --end
         end
     else
         SOUND:PlayOnce( GradeSound(0) )
