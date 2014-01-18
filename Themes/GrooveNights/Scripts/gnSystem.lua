@@ -494,8 +494,8 @@ local function QuadAwardEasterEgg(Params)
     
     if ScoreP1 == "100.00%" and ScoreP2 == "100.00%" then
         --choose p1 or p2 randomly
-        -- TODO this might cause problems as this function is called all over the place should probably do it based on the time
-        local pn = math.random(PLAYER_1,PLAYER_2)
+		local seconds = gnPlaySec -- TODO: This is temporary until the time tracker is reimplemented
+        local pn = math.mod(seconds, 2) + 1
         AwardFile = GetQuadAwardFile(pn)
     elseif ScoreP1 == "100.00%" then
         AwardFile = GetQuadAwardFile(PLAYER_1)
