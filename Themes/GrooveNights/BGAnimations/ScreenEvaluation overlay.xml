@@ -66,34 +66,16 @@ GraphAwardP2MessageCommand="%function(self) self:diffusealpha(0.75); self:drawor
 		
 		
 <!--Show a special THING if either player quads a song with a certain name as their card profile-->
+<!-- Stupid: SOUND:DimMusic will not work when called from an init or oncommand so we must queue our own -->
 <Layer Type="Quad"
-	OnCommand="zoom,SCREEN_WIDTH;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffuse,0,0,0,1;sleep,0.01;queuecommand,Go;"
-	GoCommand="%function(self)
-	if gnDimBGMSeconds == nil then gnDimBGMSeconds = 0.1 end
-	SOUND:DimMusic( 0, gnDimBGMSeconds )
-	self:diffusealpha(gnBackgroundDarkness);
-	self:sleep(gnOnScreenSeconds);
-	self:draworder(0);
-	self:linear(0.3);
-	self:diffusealpha(0);
-	end"
+		InitCommand="zoom,SCREEN_WIDTH;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;diffuse,0,0,0,0;queuecommand,Silence;"        
+        OnCommand="%function(self) DoEasterEgg('QuadAward', { Actor = self, Layer = 'Dimmer' }) end"
+		SilenceCommand="%function(self) DoEasterEgg('QuadAward', { Layer = 'Silence' } ) end"
 />
 
-<Layer File="@'../Sounds/gnCustomAward Graphics/'..getQuadAward()"
-	OnCommand="%function(self)
-	self:x(SCREEN_CENTER_X);
-	self:y(SCREEN_CENTER_Y);
-	self:draworder(0);
-	self:sleep(0.01);
-	self:queuecommand('Go');
-	end"
-	GoCommand="%function(self)
-	if gnSound then	SOUND:PlayOnce(gnSound); end
-	self:diffusealpha(gnDisplayedFileOpacity);
-	self:sleep(gnOnScreenSeconds);
-	self:linear(0.3);
-	self:diffusealpha(0);
-	end"
+<Layer Type="Quad"
+    InitCommand="draworder,0;diffusealpha,0;"
+    OnCommand="%function(self) DoEasterEgg('QuadAward', { Actor = self, Layer = 'Video' }) end"
 />
 		
 	<!--Restart the song on event mode if you pressed the menu button-->
