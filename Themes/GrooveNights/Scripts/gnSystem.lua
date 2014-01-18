@@ -434,9 +434,6 @@ end
 local function GetQuadAwardFile(pn)
     local name = GAMESTATE:GetPlayerDisplayName(pn)
 
-    -- XXX: Temporary for testing at work as I can't use a memory card
-    name = "Cameron"
-
     local Files = { 
                     JonTron = {Name = 'JonTron', Params = {DimBGMSeconds = 17.6, OnScreenSeconds = 17.6, FileOpacity = 1, BGDarkness = 0.9}},
                     YES     = {Name = 'YES',     Params = {DimBGMSeconds = 10,   OnScreenSeconds = 10,   FileOpacity = 1, BGDarkness = 0.9}},
@@ -507,8 +504,7 @@ local function QuadAwardEasterEgg(Params)
     end
 
     -- XXX: Temporary for testing at work as I can't use a memory card
-    AwardFile = GetQuadAwardFile(PLAYER_1)
-
+    --AwardFile = GetQuadAwardFile(PLAYER_1)
     if AwardFile then
         if Params.Layer == "Dimmer" then
             Params.Actor:diffusealpha(AwardFile.Params.BGDarkness)
@@ -859,18 +855,11 @@ function DoGradeEffects( Actor, Tier )
     -- Star grades
     if Tier <= 4 then
         for i=1,5-Tier do
-            --if i == 4 then
-            --    Actor:queuecommand('PlaySound'..i)
-            --    Actor:diffusealpha(0.25*i)
-            --    Actor:accelerate(0.35)
-            --    Actor:diffusealpha(0);
-            --else
-                Actor:queuecommand('PlaySound'..i)
-                Actor:diffusealpha(0.25*i)
-                Actor:accelerate(0.25)
-                Actor:diffusealpha(0);
-                Actor:sleep(0.05)
-            --end
+			Actor:queuecommand('PlaySound'..i)
+			Actor:diffusealpha(0.25*i)
+			Actor:accelerate(0.25)
+			Actor:diffusealpha(0);
+			Actor:sleep(0.05)
         end
     else
         SOUND:PlayOnce( GradeSound(0) )
