@@ -416,15 +416,22 @@ function GetModifierNames( num )
 end
 
 function oitgACoptions()
-    -- Right now we return the same line names for both OITG and whatever else happens to be running. But in the future they might be different.
-    if OPENITG then return "1,2,3,4,5,6,7,8,9,10,11,12" end
+    local OptionLines = "1,2,3,4,5,6,7,8,9,10,11,12"
+    
+    if EasterEggsEnabled() then OptionLines = OptionLines .. ",13" end
 
-    return "1,2,3,4,5,6,7,8,9,10,11,12"
+    return OptionLines
 end
 
 function SongModifiers()
+	local CustomModLines = CustomModLines()
+	
     -- this is very basic right now, but it can be modified to take in to account OITG specific stuff
-    return SpeedLines() .. "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24"
+	if CustomModLines then 
+		return SpeedLines() .. "4,5" .. CustomModLines .. ",6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24"
+	else
+		return SpeedLines() .. "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24"
+	end
 end
 
 function SpeedLines()
@@ -441,11 +448,11 @@ function DisplayBPM(pn)
     local lowBPM = GetGlobal("LowBPM")
     local highBPM = GetGlobal("HighBPM")
 	
-	if lowBPM == highBPM then highBPM = nil end
+    if lowBPM == highBPM then highBPM = nil end
 
     local rateMod = string.gsub(GetRateMod(),'x','')
 
-    if lowBPM == "Various" or lowBPM == "..." or lowBPM == nil then
+    if lowBPM == "Various" or lowBPM == "..." or lowBPM == nil or tonumber(lowBPM) == nil then
         return "???"
     end
 
@@ -457,23 +464,19 @@ function DisplayBPM(pn)
 end
 
 function DisplayScrollSpeed(pn)
-    local lowBPM = GetGlobal("LowBPM")
-    local highBPM = GetGlobal("HighBPM")
-	
-    if lowBPM == highBPM then highBPM = nil end 
-
     local rateMod = string.gsub(GetRateMod(),'x','')
-
     local speedMod = GetSpeedMod(pn)
-    speedMod = string.gsub(speedMod,'x','')
-    speedMod = string.gsub(speedMod,'c','')
-    speedMod = string.gsub(speedMod,'m','')
+    local lowBPM = GetGlobal("LowBPM")
+    local highBPM = GetGlobal("HighBPM")	
+    if lowBPM == highBPM then highBPM = nil end 
+	
+    if speedMod.Type == "c-mod" or speedMod.Type == "m-mod" then return tostring((speedMod.Base + speedMod.Extra)*100) end
 
-    if GetSpeedModType(pn) == "c-mod" or GetSpeedModType(pn) == "m-mod" then return speedMod end
-
-    if lowBPM == "Various" or lowBPM == "..." or lowBPM == nil then
+    if lowBPM == "Various" or lowBPM == "..." or lowBPM == nil or tonumber(lowBPM) == nil then
         return "???"
     end
+
+    speedMod = speedMod.Base + speedMod.Extra;
 
     lowScrollBPM = math.floor(lowBPM * speedMod * rateMod)
 
@@ -485,8 +488,14 @@ end
 function DisplaySongLength()
 	local RateMod = string.gsub(GetRateMod(), "x" ,"")
 	local ratio = 1/RateMod
+        local seconds = GetGlobal('TotalTimeSeconds')
+        local minutes = GetGlobal('TotalTimeMinutes')
 
-	local seconds = (GetGlobal('TotalTimeSeconds') + (GetGlobal('TotalTimeMinutes')*60))*ratio
+        if not seconds and not minutes then return "" end
+
+        if minutes == "01" and seconds == "45.00" then return "Patched" end
+
+	seconds = (seconds + (minutes*60))*ratio
 
 	return string.format("%.2d:%.2d", math.mod(seconds/60,60), math.mod(seconds,60))
 end

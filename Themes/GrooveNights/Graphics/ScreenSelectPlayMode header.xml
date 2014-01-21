@@ -1,12 +1,13 @@
-<ActorFrame InitCommand="%function(self)
-InitScreen('ScreenSelectPlayMode');
-end">
+<ActorFrame>
 	<children>
+<Layer Type="Quad"
+OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenSelectPlayMode'); end"
+/>
 		<BitmapText
 			Text="@getTextPlayModeTitle()"
 			File="_eurostile blue glow"
 			InitCommand="%function(self)  self:x(self:GetWidth()/2) gnDummy = ScreenTitleBranch(); end"
-			OnCommand="shadowlength,0;zoom,1;decelerate,0.3;zoom,1;"
+			OnCommand="shadowlength,0;diffusealpha,0;sleep,0.6;zoom,1;decelerate,0.3;diffusealpha,1;zoom,1;"
 			OffCommand="accelerate,0.3;diffusealpha,0;"
 			
 		/>
@@ -107,25 +108,36 @@ end">
 	/>
 	
 	<Layer Type="Quad"
-	OnCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+(SCREEN_HEIGHT/2)-50;draworder,10000;sleep,0.2;decelerate,0.3;diffuse,0,0,0,1;y,SCREEN_CENTER_Y+SCREEN_HEIGHT"
+	OnCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+(SCREEN_HEIGHT/2)-50;draworder,10000;sleep,0.6;decelerate,0.3;diffuse,0,0,0,1;y,SCREEN_CENTER_Y+SCREEN_HEIGHT"
 	MadeChoiceP1MessageCommand="playcommand,GoOff"
 	MadeChoiceP2MessageCommand="playcommand,GoOff"
 	GoOffCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+SCREEN_HEIGHT;draworder,10000;accelerate,0.2;diffuse,0,0,0,1;y,SCREEN_CENTER_Y+(SCREEN_HEIGHT/2)"
 	/>
 	
 	<Layer Type="Quad"
-	OnCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT/2);draworder,10000;sleep,0.2;accelerate,0.2;diffuse,0,0,0,1;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT)"
+	OnCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT/2);draworder,10000;sleep,0.6;accelerate,0.2;diffuse,0,0,0,1;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT)"
 	MadeChoiceP1MessageCommand="playcommand,GoOff"
 	MadeChoiceP2MessageCommand="playcommand,GoOff"
 	GoOffCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-SCREEN_HEIGHT;draworder,10000;decelerate,0.2;diffuse,0,0,0,1;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT/2)"
 	/>
 	
 	<Layer File="TransitionArrow"
-	OnCommand="vibrate;EffectMagnitude,0.5,0.5,0.1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;draworder,10000;zoom,2.4;decelerate,0.2;zoom,1;accelerate,0.2;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT/2)-50"
+	OnCommand="hidden,0;vibrate;EffectMagnitude,0.5,0.5,0.1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;draworder,10000;diffusealpha,0.5;zoom,2;decelerate,0.2;diffusealpha,0.8;zoom,2.6;accelerate,0.2;zoom,2;decelerate,0.2;diffusealpha,1;zoom,1;accelerate,0.2;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT/2)-50"
 	MadeChoiceP1MessageCommand="playcommand,GoOff"
 	MadeChoiceP2MessageCommand="playcommand,GoOff"
 	GoOffCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+SCREEN_HEIGHT+50;draworder,10000;accelerate,0.2;y,SCREEN_CENTER_Y"
+	MenuBackMessageCommand="hidden,1;"
 	/>
+	
+	<Layer File="GrooveNights"
+	OnCommand="hidden,0;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+6;draworder,10000;zoom,0.85;decelerate,0.3;zoom,1.3;addy,-5;accelerate,0.2;addy,5;zoom,1;decelerate,0.1;zoom,0.85;accelerate,0.2;y,SCREEN_CENTER_Y+(SCREEN_HEIGHT/2)+50"
+	/>
+	
+	<Layer
+		File="../BGAnimations/ScreenLogo background/BGVid.avi"
+		OnCommand="@'draworder,10000;diffusealpha,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoom,1.1*gnZoomRatio;diffuse,'..FrameColor()..';blend,add;linear,0.1;linear,0.3;diffusealpha,0;'"
+	/>
+	
 	</children></ActorFrame>
 	</children>
 </ActorFrame>

@@ -1,6 +1,10 @@
-<ActorFrame InitCommand="%function(self) InitScreen('ScreenStage'); end">
+<ActorFrame>
 	<children>
-		<Actor
+<Layer Type="Quad"
+OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenStage'); end"
+/>
+
+	<Actor
 			File="../ScreenWithMenuElements underlay"
 		/>
 		<Actor
@@ -44,7 +48,7 @@
 	/>
 	
 	<Layer File="../../Graphics/TransitionArrow"
-	OnCommand="vibrate;EffectMagnitude,0.5,0.5,0.1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;draworder,10000;accelerate,0.2;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT/2)-50"
+	OnCommand="hidden,0;vibrate;EffectMagnitude,0.5,0.5,0.1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;draworder,10000;accelerate,0.2;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT/2)-50"
 	OffCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+SCREEN_HEIGHT+50;draworder,10000;accelerate,0.2;y,SCREEN_CENTER_Y"
 	/>
 	
@@ -52,11 +56,12 @@
 	Condition="GAMESTATE:IsEventMode() and MenuButtonGiveUp() and not GAMESTATE:IsCourseMode()"
 	OnCommand="%function(self) 
 	self:diffusealpha(0);
-	if gnStaminaSongPercent > gnLowestRestartPercent and gnStaminaSongPercent < gnHighestRestartPercent then
+	if gnSongElapsedPercent > gnLowestRestartPercent and gnSongElapsedPercent < gnHighestRestartPercent then
 		self:queuecommand('Blink');
 		end
 	end" 
 	BlinkCommand="diffusealpha,1;draworder,10000;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+65;sleep,0.2;diffusealpha,0;"
+	MenuBackMessageCommand="hidden,1;"
 	/>
 	</children></ActorFrame>
 	</children>

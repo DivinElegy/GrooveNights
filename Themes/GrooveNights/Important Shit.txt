@@ -1,0 +1,4 @@
+Change the Lock graphic
+Change the Player-Select-Arrow graphic
+Get JustBarely arrow appearing above the combo graph
+Increase subtitle width on screenplayeroptions

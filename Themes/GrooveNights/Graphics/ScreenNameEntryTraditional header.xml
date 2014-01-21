@@ -1,50 +1,54 @@
-<ActorFrame InitCommand="%function(self)
-InitScreen('ScreenNameEntry');
-end">
+<ActorFrame>
 	<children>
+<Layer Type="Quad"
+OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenNameEntry'); end"
+/>
+
 		<BitmapText
 			Text="@getTextNameEntryTitle()"
 			File="_eurostile blue glow"
 			InitCommand="%function(self)  self:x(self:GetWidth()/2) self:shadowlength(0) end"
 			
-			OffCommand=""
+			OffCommand="linear,0.2;diffuse,0,0,0,1;"
 		/>
 		
 		<Layer File="ScreenNameEntryTraditional banner frame p1"
-		InitCommand="@'x,SCREEN_CENTER_X-18;y,SCREEN_CENTER_Y-134-41;diffuse,'..FrameColor()..';'"
+		InitCommand="@'draworder,-1000;x,SCREEN_CENTER_X-18;y,SCREEN_CENTER_Y-134-39;diffuse,'..FrameColor()..';'"
+		OffCommand="linear,0.2;diffuse,0,0,0,1;"
 		/>
 		
 <Layer
 File="_difficulty frame F"
 OnCommand="@'x,SCREEN_CENTER_X-156-68-18;y,SCREEN_CENTER_Y-106-51-41;diffuse,'..FrameColor()..';draworder,100000;'"
-OffCommand=""
+OffCommand="linear,0.2;diffuse,0,0,0,1;"
 Condition="GAMESTATE:IsHumanPlayer(PLAYER_1)"
 />
 
 <Layer
 File="_difficulty frame F"
 OnCommand="@'x,SCREEN_CENTER_X+156+68-18;y,SCREEN_CENTER_Y-106-51-41;diffuse,'..FrameColor()..';rotationy,180;draworder,100000;'"
-OffCommand=""
+OffCommand="linear,0.2;diffuse,0,0,0,1;"
 Condition="GAMESTATE:IsHumanPlayer(PLAYER_2)"
 />
 
-<!--Screen Transition doesn't work because the screen change is instantaneous-->
+<!--Screen Transition-->
 	<ActorFrame InitCommand="x,-18;y,-41;"><children>
-	<Layer Type="Quad" InitCommand="diffusealpha,0;" ScreenTransitionMessageCommand="%function(self) ScreenTransitionWhoosh('in'); end" />
+	<Layer Type="Quad" InitCommand="diffusealpha,0;" OffCommand="%function(self) ScreenTransitionWhoosh('in'); end" />
 
 	<Layer Type="Quad"
 	OnCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+(SCREEN_HEIGHT/2)-50;draworder,10000;decelerate,0.3;diffuse,0,0,0,1;y,SCREEN_CENTER_Y+SCREEN_HEIGHT"
-	ScreenTransitionMessageCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+SCREEN_HEIGHT;draworder,10000;accelerate,0.2;diffuse,0,0,0,1;y,SCREEN_CENTER_Y+(SCREEN_HEIGHT/2)"
+	OffCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+SCREEN_HEIGHT;draworder,10000;accelerate,0.2;diffuse,0,0,0,1;y,SCREEN_CENTER_Y+(SCREEN_HEIGHT/2)"
 	/>
 	
 	<Layer Type="Quad"
 	OnCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT/2);draworder,10000;accelerate,0.2;diffuse,0,0,0,1;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT)"
-	ScreenTransitionMessageCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-SCREEN_HEIGHT;draworder,10000;decelerate,0.2;diffuse,0,0,0,1;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT/2)"
+	OffCommand="zoomx,SCREEN_WIDTH;zoomy,SCREEN_HEIGHT;diffuse,0,0,0,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-SCREEN_HEIGHT;draworder,10000;decelerate,0.2;diffuse,0,0,0,1;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT/2)"
 	/>
 	
 	<Layer File="TransitionArrow"
-	OnCommand="vibrate;EffectMagnitude,0.5,0.5,0.1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;draworder,10000;accelerate,0.2;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT/2)-50"
-	ScreenTransitionMessageCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+SCREEN_HEIGHT+50;draworder,10000;accelerate,0.2;y,SCREEN_CENTER_Y"
+	OnCommand="hidden,0;vibrate;EffectMagnitude,0.5,0.5,0.1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;draworder,10000;accelerate,0.2;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT/2)-50"
+	OffCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+SCREEN_HEIGHT+50;draworder,10000;accelerate,0.2;y,SCREEN_CENTER_Y"
+	MenuBackMessageCommand="hidden,1;"
 	/>
 	</children></ActorFrame>
 

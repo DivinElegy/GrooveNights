@@ -1,7 +1,4 @@
-<ActorFrame InitCommand="%function(self)
-self:sleep(0.01);
-InitScreen('ScreenGameplay');
-self:sleep(0.01);
+<ActorFrame InitCommand="%function(self) 
 self:queuecommand('KillBPM');
 if GAMESTATE:GetEnv('Vibrate') == 'On' then
 	self:vibrate();
@@ -22,6 +19,46 @@ SCREENMAN:GetTopScreen():GetChild('BPMDisplay'):addy(-10000);
 					end
 				end
 end"> <children>
+    
+<Layer Type="Quad"
+OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenGameplay'); end"
+/>
+		
+	<!--Scrape the Player's Score-->
+		<BitmapText
+		Condition="GAMESTATE:GetPlayMode() ~= PLAY_MODE_ONI"
+		Text=""
+		File="_eurostile blue glow"
+		InitCommand="%function(self)
+		self:x(SCREEN_CENTER_X);
+		self:y(SCREEN_CENTER_Y);
+		end"
+		StepP1MessageCommand="%function(self)
+		gnScoreP1 = SCREENMAN:GetTopScreen():GetChild('ScoreP1'):GetChild('ScoreDisplayPercentage Percent'):GetChild('PercentP1'):GetText();
+		gnScoreP1 = string.gsub(gnScoreP1,'%%','');
+		gnScoreP1 = tonumber(gnScoreP1);
+		end"
+		StepP2MessageCommand="%function(self)
+		gnScoreP2 = SCREENMAN:GetTopScreen():GetChild('ScoreP2'):GetChild('ScoreDisplayPercentage Percent'):GetChild('PercentP2'):GetText();
+		gnScoreP2 = string.gsub(gnScoreP2,'%%','');
+		gnScoreP2 = tonumber(gnScoreP2);
+		end"
+		
+		ScreenTransitionMessageCommand="%function(self)
+			if GAMESTATE:IsPlayerEnabled(PLAYER_1) then
+			gnScoreP1 = SCREENMAN:GetTopScreen():GetChild('ScoreP1'):GetChild('ScoreDisplayPercentage Percent'):GetChild('PercentP1'):GetText();
+			gnScoreP1 = string.gsub(gnScoreP1,'%%','');
+			gnScoreP1 = tonumber(gnScoreP1);
+			end
+
+			if GAMESTATE:IsPlayerEnabled(PLAYER_2) then
+			gnScoreP2 = SCREENMAN:GetTopScreen():GetChild('ScoreP2'):GetChild('ScoreDisplayPercentage Percent'):GetChild('PercentP2'):GetText();
+			gnScoreP2 = string.gsub(gnScoreP2,'%%','');
+			gnScoreP2 = tonumber(gnScoreP2);
+			end
+		end"
+		/>
+
 
 		
 		<ActorFrame InitCommand="x,409+CourseHorizontal();y,222;">
@@ -105,55 +142,26 @@ end"> <children>
 			</children>
 		</ActorFrame>
 		
-<!--Determine Who is Winning-->
+<!-- Crowns -->
 <ActorFrame Condition="GAMESTATE:IsHumanPlayer(PLAYER_1) and GAMESTATE:IsHumanPlayer(PLAYER_2)"
-InitCommand="%function(self) 
-gnCrownOn = TournamentCrownEnabled();
-if gnCrownOn == true then
-	self:sleep(0.05); 
-	self:queuecommand('Loop');
-	end
-end"
-LoopCommand="%function(self)
-self:stoptweening();
-if gnP1Winning then
-	if gnLastWinP1 ~= 1 then
-		MESSAGEMAN:Broadcast('P1Winning');
-		gnLastWinP1 = 1;
-		end
-	else
-	if gnLastWinP1 == 1 then
-		MESSAGEMAN:Broadcast('P1Losing');
-		gnLastWinP1 = 0;
-		end
-	end
-	
-if gnP2Winning then
-	if gnLastWinP2 ~= 1 then
-		MESSAGEMAN:Broadcast('P2Winning');
-		gnLastWinP2 = 1;
-		end
-	else
-	if gnLastWinP2 == 1 then
-		MESSAGEMAN:Broadcast('P2Losing');
-		gnLastWinP2 = 0;
-		end
-	end
-self:sleep(0.1);
-self:queuecommand('Loop');
-end">
+>
 <children>
 <Layer File="winning"
 InitCommand="diffusealpha,0;"
-OnCommand="x,SCREEN_LEFT+23-9+(13*HorizontalRecovery());y,SCREEN_TOP+55+76;zoom,0.5;rotationz,-30;"
-P1WinningMessageCommand="queuecommand,On;stoptweening;sleep,0.2;linear,0.2;diffusealpha,1;"
-P1LosingMessageCommand="queuecommand,On;stoptweening;sleep,0.2;linear,0.2;diffusealpha,0;"
+OnCommand="x,SCREEN_LEFT+23-9+(13*HorizontalRecovery());y,SCREEN_TOP+55+74;zoom,0.5;rotationz,-30;queuecommand,Go"
+GoCommand="%function(self) DoEasterEgg('GoodLuckCameron', { Actor = self }) self:queuecommand('Update'); end"
+StepP1MessageCommand="%function(self) self:stoptweening(); self:queuecommand('Update'); end"
+StepP2MessageCommand="%function(self) self:stoptweening(); self:queuecommand('Update'); end"
+UpdateCommand="%function(self) if gnScoreP1 >= gnScoreP2 then self:linear(0.2); self:diffusealpha(1); else self:linear(0.2); self:diffusealpha(0); end end"
+
 />
 <Layer File="winning"
 InitCommand="diffusealpha,0;"
-OnCommand="x,SCREEN_RIGHT-23+9-(13*HorizontalRecovery());y,SCREEN_TOP+55+76;zoom,0.5;rotationz,30;"
-P2WinningMessageCommand="queuecommand,On;stoptweening;sleep,0.2;linear,0.2;diffusealpha,1;"
-P2LosingMessageCommand="queuecommand,On;stoptweening;sleep,0.2;linear,0.2;diffusealpha,0;"
+OnCommand="x,SCREEN_RIGHT-23+9-(13*HorizontalRecovery());y,SCREEN_TOP+55+74;zoom,0.5;rotationz,30;queuecommand,Go"
+GoCommand="%function(self) DoEasterEgg('GoodLuckCameron', { Actor = self }) self:queuecommand('Update'); end"
+StepP1MessageCommand="%function(self) self:stoptweening(); self:queuecommand('Update'); end"
+StepP2MessageCommand="%function(self) self:stoptweening(); self:queuecommand('Update'); end"
+UpdateCommand="%function(self) if gnScoreP2 >= gnScoreP1 then self:linear(0.2); self:diffusealpha(1); else self:linear(0.2); self:diffusealpha(0); end end"
 />
 </children>
 </ActorFrame>
@@ -237,7 +245,9 @@ P2LosingMessageCommand="queuecommand,On;stoptweening;sleep,0.2;linear,0.2;diffus
 			<Tip
 				File="tip"
 				OnCommand="@'diffuse,'..SongMeterColor()..';'"
-				TipXMessageCommand="%function(self) gnStaminaTimer = self:GetX(); gnStaminaSongPercent = math.floor((1-((195-gnStaminaTimer)/389))*100) end"
+				TipXMessageCommand="%function(self) gnSongElapsedPercent = self:GetX(); gnSongElapsedPercent = math.floor((1-((195-gnSongElapsedPercent)/389))*100)
+				gnSongTimeline[gnSongElapsedPercent+1] = 1;
+				end"
 			/>
 		</Layer>
 
@@ -2988,21 +2998,28 @@ StepP2MessageCommand="%function(self)
 	
 	<Layer File="../../Graphics/TransitionArrow"
 	OnCommand="diffusealpha,0;"
+	NoRestartMessageCommand="diffusealpha,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+SCREEN_HEIGHT+50;draworder,10000;accelerate,0.2;y,SCREEN_CENTER_Y;decelerate,0.1;zoomx,1.1;zoomy,0.9;addy,5;accelerate,0.1;zoomx,0.95;zoomy,1.05;addy,-6;linear,0.1;zoomx,1;zoomy,1;addy,1;sleep,0.7;decelerate,0.1;zoomx,1.1;zoomy,0.9;addy,5;accelerate,0.1;zoomx,0.95;zoomy,1.05;addy,-6;linear,0.1;zoomx,1;zoomy,1;addy,1;"
 	ScreenTransitionMessageCommand="diffusealpha,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+SCREEN_HEIGHT+50;draworder,10000;accelerate,0.2;y,SCREEN_CENTER_Y"
 	/>
 	
 	<Layer File="Restarting" 
 	Condition="GAMESTATE:IsEventMode() and MenuButtonGiveUp() and not GAMESTATE:IsCourseMode()"
 	OnCommand="diffusealpha,0;"
-	ScreenTransitionMessageCommand="%function(self) 
-	if gnStaminaSongPercent > gnLowestRestartPercent and gnStaminaSongPercent < gnHighestRestartPercent then
+	NoRestartMessageCommand="hibernate,100;"
+	ScreenTransitionMessageCommand="%function(self)
+	self:sleep(0.1);
+	self:queuecommand('PlaySound');
+	end"
+	PlaySoundCommand="%function(self)
+	if gnSongElapsedPercent > gnLowestRestartPercent and gnSongElapsedPercent < gnHighestRestartPercent then
 		local Path = THEME:GetPath( EC_SOUNDS, '', '_save');
 		SOUND:PlayOnce(Path);
 		MESSAGEMAN:Broadcast('QuadFlicker');
 		self:queuecommand('Blink');
 		end
 	end" 
-	BlinkCommand="draworder,10000;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+65;diffusealpha,1;sleep,0.195;diffusealpha,0;sleep,0.195;diffusealpha,1;sleep,0.195;diffusealpha,0;sleep,0.195;diffusealpha,1;sleep,0.195;diffusealpha,0;sleep,0.195;diffusealpha,1;sleep,0.195;diffusealpha,0;sleep,0.195;diffusealpha,1;"
+	BlinkCommand="diffusealpha,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+SCREEN_HEIGHT+65;draworder,10000;accelerate,0.1;y,SCREEN_CENTER_Y+65;diffusealpha,1;sleep,0.195;diffusealpha,0;sleep,0.195;diffusealpha,1;sleep,0.195;diffusealpha,0;sleep,0.195;diffusealpha,1;sleep,0.195;diffusealpha,0;sleep,0.195;diffusealpha,1;sleep,0.195;diffusealpha,0;sleep,0.195;diffusealpha,1;"
+	MenuBackMessageCommand="hidden,1;"
 	/>
 	
 </children> </ActorFrame>

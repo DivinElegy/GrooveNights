@@ -1,7 +1,8 @@
-<ActorFrame InitCommand="%function(self)
-InitScreen('ScreenSelectStyle2');
-end">
+<ActorFrame>
 	<children>
+<Layer Type="Quad"
+OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenSelectStyle2'); end"
+/>
 		<BitmapText
 			Text="@getTextPlayersTitle()"
 			File="_eurostile blue glow"
@@ -24,7 +25,7 @@ end">
 		
 	<Layer
 		Type="ActorFrame"
-		OnCommand="x,SCREEN_CENTER_X-206;y,SCREEN_CENTER_Y+15;zoom,1;queuecommand,Update;"
+		OnCommand="x,SCREEN_CENTER_X-206;y,SCREEN_CENTER_Y+15;zoom,0.4;sleep,0.3;queuecommand,Update;"
 		UpdateCommand="%function(self) 
 		self:stoptweening();
 		if GAMESTATE:GetEnv('Vibrate') == 'On' then
@@ -73,7 +74,7 @@ end">
 		
 	<Layer
 		Type="ActorFrame"
-		OnCommand="x,SCREEN_CENTER_X+174;y,SCREEN_CENTER_Y+15;zoom,1;queuecommand,Update;"
+		OnCommand="x,SCREEN_CENTER_X+174;y,SCREEN_CENTER_Y+15;zoom,0.4;sleep,0.3;queuecommand,Update;"
 		UpdateCommand="%function(self) 
 		self:stoptweening();
 		if GAMESTATE:GetEnv('Vibrate') == 'On' then
@@ -106,6 +107,7 @@ end">
 		if GAMESTATE:GetEnv('Vibrate') == 'On' then
 			self:vibrate();
 			end
+		self:zoom(gnZoom1);
 		if gnChoice == 2 then
 			gnZoom1 = gnZoom1 + gnChoiceTween;
 			if gnZoom1 >= gnMaxZoom then gnZoom1 = gnMaxZoom; end
@@ -115,19 +117,20 @@ end">
 			if gnZoom1 <= gnMinZoom then gnZoom1 = gnMinZoom; end
 			self:diffusealpha(gnZoom1+0.1);
 			end
-		self:zoom(gnZoom1);
 		self:sleep(0.032);
 		self:queuecommand('Update');
 		end"
 		/>
 		
 		<Layer File="ScreenSelectStyle2 scroll choice2/title"
-		InitCommand="x,SCREEN_CENTER_X+207;y,SCREEN_CENTER_Y+62;queuecommand,Update;"
+		InitCommand="x,SCREEN_CENTER_X+207;y,SCREEN_CENTER_Y+62;queuecommand,Go;"
+		GoCommand="%function(self) self:queuecommand('Update') end"
 		UpdateCommand="%function(self)
 		self:stoptweening();
 		if GAMESTATE:GetEnv('Vibrate') == 'On' then
 			self:vibrate();
 			end
+		self:zoom(gnZoom3);
 		if gnChoice == 1 then
 			gnZoom3 = gnZoom3 + gnChoiceTween;
 			if gnZoom3 >= gnMaxZoom then gnZoom3 = gnMaxZoom; end
@@ -137,18 +140,19 @@ end">
 			if gnZoom3 <= gnMinZoom then gnZoom3 = gnMinZoom; end
 			self:diffusealpha(gnZoom3+0.1);
 			end
-		self:zoom(gnZoom3);
 		self:sleep(0.032);
 		self:queuecommand('Update');
 		end"
 		/>
 		<Layer File="ScreenSelectStyle2 scroll choice3/title"
-		InitCommand="x,SCREEN_CENTER_X-206;y,SCREEN_CENTER_Y+62;zoom,0.5;queuecommand,Update;"
+		InitCommand="x,SCREEN_CENTER_X-206;y,SCREEN_CENTER_Y+62;queuecommand,Go;"
+		GoCommand="%function(self) self:queuecommand('Update') end"
 		UpdateCommand="%function(self)
 		self:stoptweening();
 		if GAMESTATE:GetEnv('Vibrate') == 'On' then
 			self:vibrate();
 			end
+		self:zoom(gnZoom4);
 		if gnChoice == 0 then
 			gnZoom4 = gnZoom4 + gnChoiceTween;
 			if gnZoom4 >= gnMaxZoom then gnZoom4 = gnMaxZoom; end
@@ -158,7 +162,6 @@ end">
 			if gnZoom4 <= gnMinZoom then gnZoom4 = gnMinZoom; end
 			self:diffusealpha(gnZoom4+0.1);
 			end
-		self:zoom(gnZoom4);
 		self:sleep(0.032);
 		self:queuecommand('Update');
 		end"
@@ -199,10 +202,18 @@ end">
 	/>
 	
 	<Layer File="TransitionArrow"
-	OnCommand="vibrate;EffectMagnitude,0.5,0.5,0.1;x,SCREEN_CENTER_X-18;y,SCREEN_CENTER_Y-41;draworder,10000;decelerate,0.2;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT/2)-50-41"
+	OnCommand="hidden,0;vibrate;EffectMagnitude,0.5,0.5,0.1;x,SCREEN_CENTER_X-18;y,SCREEN_CENTER_Y-41;draworder,10000;decelerate,0.2;y,SCREEN_CENTER_Y-(SCREEN_HEIGHT/2)-50-41"
 	MadeChoiceP1MessageCommand="playcommand,GoOff"
 	MadeChoiceP2MessageCommand="playcommand,GoOff"
 	GoOffCommand="x,SCREEN_CENTER_X-18;y,SCREEN_CENTER_Y+SCREEN_HEIGHT+50-41;draworder,10000;accelerate,0.2;y,SCREEN_CENTER_Y-41"
+	/>
+	
+	<Layer File="Loading" 
+	OnCommand="diffusealpha,0;draworder,10000;x,SCREEN_CENTER_X-19;y,SCREEN_CENTER_Y-41+65+SCREEN_HEIGHT;"
+	MadeChoiceP1MessageCommand="playcommand,GoOff"
+	MadeChoiceP2MessageCommand="playcommand,GoOff"
+	GoOffCommand="sleep,0.2;accelerate,0.2;diffusealpha,1;y,SCREEN_CENTER_Y-41+65;"
+	MenuBackMessageCommand="hidden,1;"
 	/>
 	</children>
 </ActorFrame>

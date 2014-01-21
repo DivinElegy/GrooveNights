@@ -17,5 +17,9 @@
 	<Layer File="../Graphics/TransitionArrow"
 	StartTransitioningCommand="rotationz,-90;x,SCREEN_CENTER_X+SCREEN_WIDTH+50;y,SCREEN_CENTER_Y;draworder,10000;linear,0.2;x,SCREEN_CENTER_X;linear,0.1;zoomx,0.9;linear,0.1;zoomx,1;linear,0.2;rotationz,0;"
 	/>
+	
+	<Layer File="../Graphics/Loading" 
+	StartTransitioningCommand="draworder,10000;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+65+SCREEN_HEIGHT/2;diffusealpha,0;sleep,0.4;linear,0.2;diffusealpha,1;y,SCREEN_CENTER_Y+65;"
+	/>
 </children> </ActorFrame>
 

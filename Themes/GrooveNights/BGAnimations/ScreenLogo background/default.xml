@@ -5,8 +5,9 @@ InitScreen('ScreenLogo');
 self:sleep(0.1);
 self:queuecommand('loop');
 end"><children>
+
 	<Layer
-		File="BGVid2.avi"
+		File="BGVid.avi"
 		OnCommand="@'diffusealpha,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoom,1.1*gnZoomRatio;diffuse,'..FrameColor()..';queuecommand,Authenticate;'"
 		AuthenticateCommand="%function(self)
 		GAMESTATE:SetEnv('Santa','Off');
@@ -34,17 +35,12 @@ end"><children>
 		end"
 	/>
 	
-		<Layer
-		File="TitleScreen0004.png"
-		OnCommand="x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoom,1*gnZoomRatio;"
-	/>
-	
 	<!-- Home Mode Interface -->
 	<Layer Class="ActorFrame" Condition="GAMESTATE:GetCoinMode()==COIN_MODE_HOME"><children>
 	<ActorFrame InitCommand="vibrate;EffectMagnitude,0.5,0.5,0.1;"><children>
 		<Layer
 		File="TitleScreen0002.png"
-		OnCommand="pulse;EffectMagnitude,1,1.02,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;addy,460;diffusealpha,1;zoom,1.7;diffusealpha,1;addy,-510;zoom,0.8;diffusealpha,1;addy,10;zoom,0;linear,0.1;zoom,0.8;"
+		OnCommand="pulse;EffectMagnitude,1,1.02,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;addy,460;diffusealpha,1;zoom,1.7;diffusealpha,1;addy,-510;zoom,0.8;diffusealpha,1;addy,10;zoom,0.5;linear,0.1;zoom,0.8;"
 	/></children></ActorFrame>
 		<Layer
 		File="TitleScreen0003.png"
@@ -61,7 +57,7 @@ end"><children>
 	<ActorFrame InitCommand="vibrate;EffectMagnitude,0.5,0.5,0.1;"><children>
 		<Layer
 		File="TitleScreen0002.png"
-		OnCommand="pulse;EffectMagnitude,1,1.02,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;addy,460;diffusealpha,1;zoom,1.7;diffusealpha,1;addy,-510;zoom,0.8;diffusealpha,1;addy,10;zoom,0;linear,0.1;zoom,0.8;"
+		OnCommand="pulse;EffectMagnitude,1,1.02,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;addy,460;diffusealpha,1;zoom,1.7;diffusealpha,1;addy,-510;zoom,0.8;diffusealpha,1;addy,10;zoom,0.5;linear,0.1;zoom,0.8;"
 	/></children></ActorFrame>
 		<Layer
 		File="TitleScreen0003.png"
@@ -73,13 +69,9 @@ end"><children>
 	/>
 	</children></Layer>
 
-	<Layer
-		Class="Quad"
-		OnCommand="@'stretchto,SCREEN_LEFT,SCREEN_TOP,SCREEN_RIGHT,SCREEN_BOTTOM;diffuse,#FFFFFF;diffusealpha,1;linear,0.1;diffuse,'..FrameColor()..';diffusealpha,0;'"
-	/>
 	
 	<Layer
-		File="BGVid2.avi"
+		File="BGVid.avi"
 		OnCommand="@'diffusealpha,1;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoom,1.1*gnZoomRatio;diffuse,'..FrameColor()..';blend,add;'"
 	/>
 </children></ActorFrame>

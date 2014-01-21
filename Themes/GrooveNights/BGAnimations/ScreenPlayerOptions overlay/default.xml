@@ -1,12 +1,14 @@
 <ActorFrame InitCommand="%function(self)
-			InitScreen('ScreenPlayerOptions');
-			self:sleep(0.1);
 			if GAMESTATE:GetEnv('Vibrate') == 'On' then
 				self:vibrate();
 				end
 			end"><children>
+			
+	<Layer Type="Quad"
+	OnCommand="%function(self) self:diffusealpha(0); InitScreen('ScreenPlayerOptions'); end"
+	/>
 	
-        <!-- Options pane -->
+    <!-- Options pane -->
 	<Layer File="../ScreenOptions overlay"/>
 
 	<!-- Current song pane -->
@@ -34,7 +36,9 @@
 		/>
 	</children></ActorFrame>
 	<!-- End current song pane -->
-	
+
 	<!-- Player pane -->
-	<Layer File="../_player pane"/>
+	<Layer File="../_player pane" InitCommand="%function(self) MESSAGEMAN:Broadcast('OnScreenPlayerOptions') end"/>
+	
 </children></ActorFrame>
+

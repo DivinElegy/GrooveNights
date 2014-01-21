@@ -6,3 +6,7 @@
 
 #ignore netbeans crap
 nbproject
+
+#ignore ldt crap
+.buildpath
+.project

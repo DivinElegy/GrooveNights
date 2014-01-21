@@ -3,6 +3,7 @@ if GAMESTATE:GetEnv('Vibrate') == 'On' then
 	self:vibrate();
 	end
 end"> <children>
+	
 
 <!--Background Easter Eggs-->
 	<Layer File="@'../../Graphics/NoBackground/'..getNoBackground()..'Background.png'"
