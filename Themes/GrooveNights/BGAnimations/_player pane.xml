@@ -15,11 +15,83 @@
 		File="../Graphics/PaneDisplay p1 F.png"
 		OnCommand="@'diffuse,'..FrameColor()..';horizalign,left;vertalign,bottom;'"
 	/>
-	
+
 	<!--Avatar-->
- 	<Layer
- 		File="@'../Graphics/NoAvatar/'..getNoAvatar(PLAYER_1)"
- 		InitCommand="@'horizalign,left;vertalign,bottom;diffuse,'..PlayerColor(PLAYER_1)..';x,-5;y,-5;diffusealpha,0'"
- 		OnScreenPlayerOptionsMessageCommand="diffusealpha,1"
- 	/>
+    <ActorFrame InitCommand="x,5;y,5;draworder,100"><children>       
+        <Layer File="../Graphics/AvatarFrame B.png"
+            Condition="GAMESTATE:IsHumanPlayer(PLAYER_1)"
+            InitCommand="@'horizalign,left;vertalign,bottom;draworder,3;diffuse,'..BackgroundColor()..';zoomx,1.01;zoomy,0.975;'"
+        />
+        
+        <Layer File="../Graphics/AvatarFrame.png"
+            Condition="GAMESTATE:IsHumanPlayer(PLAYER_1)"
+            InitCommand="@'horizalign,left;vertalign,bottom;draworder,3;diffuse,'..FrameColor()..';zoomx,0.95;zoomy,0.95;'"
+        />
+        
+     	<Layer
+     		File="@'../Graphics/NoAvatar/'..getNoAvatar(PLAYER_1)"
+     		InitCommand="@'horizalign,left;vertalign,bottom;diffuse,'..PlayerColor(PLAYER_1)..';'"
+     	/>
+    </children></ActorFrame>
+	
+    <!-- ScreenPlayerOptions stuff -->
+	<ActorFrame InitCommand="diffusealpha,0" OnScreenPlayerOptionsMessageCommand="diffusealpha,1"><children>
+        <!-- BPM  -->
+        <ActorFrame InitCommand="x,1;y,1;zoom,0.5"><children>
+            <!-- BPM label -->
+            <BitmapText
+    	        Text="BPM:"
+    			File="_eurostile blue glow"
+                InitCommand="@'horizalign,left;shadowlength,0;diffuse,'..LabelColor()..';'"
+            />
+            
+            <!-- BPM display -->
+            <BitmapText
+                Text=""
+                File="_eurostile blue glow"
+                InitCommand="shadowlength,0;maxwidth,140;horizalign,left"
+                RateModChangedMessageCommand="%function(self) self:settext(DisplayBPM(PLAYER_1)) end"
+            />
+        </children></ActorFrame>
+        
+        <!-- Speed -->
+        <ActorFrame InitCommand="x,10;y,10;zoom,0.5"><children>
+            <!-- Speed label -->
+            <BitmapText
+                    Text="Speed:"
+                    File="_eurostile blue glow"
+                    InitCommand="@'horizalign,left;shadowlength,0;diffuse,'..LabelColor()..';'"
+            />
+                
+            <!-- Speed display -->
+            <BitmapText
+                    Text=""
+                    File="_eurostile blue glow"
+                    InitCommand="x,80;horizalign,left;shadowlength,0;"
+                    SpeedModChangedP1MessageCommand="queuecommand,Update"
+                    RateModChangedMessageCommand="queuecommand,Update"
+                    UpdateCommand="%function(self) self:settext(DisplayScrollSpeed(PLAYER_1)) end"
+            />
+                
+            <!--Blaze It P1 -->
+            <BitmapText
+                    File="_eurostile blue glow"
+                    InitCommand="x,80"
+                    OnCommand="horizalign,left;rainbow;shadowlength,0;"
+                    SpeedModChangedP1MessageCommand="queuecommand,Update"
+                    RateModChangedMessageCommand="queuecommand,Update"
+                    UpdateCommand="%function(self) DoEasterEgg('BlazeIt', { pn = PLAYER_1, Actor = self }) end"
+            />
+                
+            <!--No Scope P1 -->                
+            <BitmapText
+                    File="_eurostile blue glow"
+                    InitCommand="x,80"
+                    OnCommand="horizalign,left;rainbow;shadowlength,0;"
+                    SpeedModChangedP1MessageCommand="queuecommand,Update"
+                    RateModChangedMessageCommand="queuecommand,Update"
+                    UpdateCommand="%function(self) DoEasterEgg('NoScope', { pn = PLAYER_1, Actor = self }) end"
+            />
+        </children></ActorFrame>
+ 	</children></ActorFrame>
 </children></ActorFrame>

@@ -475,26 +475,26 @@ local function QuadAwardEasterEgg(Params)
     local ScoreP2
     local AwardFile
 
-	--[[
-	I don't even understand this. When this function is called from a queued command you have to get the score like this:
-		SCREENMAN:GetTopScreen():GetChild('PercentP1'):GetChild('PercentP1'):GetText() end
-		
-	But if it's in an initcommand or oncommand you have to do it like this:
-		SCREENMAN:GetTopScreen():GetChild('ScoreP1'):GetChild('ScoreDisplayPercentage Percent'):GetChild('PercentP1'):GetText()
-		
-	I think some children must get renamed/added between the commands or something, I don't know.
-	]]--
-	if Params.Layer == 'Silence' then
-		if GAMESTATE:IsPlayerEnabled(PLAYER_1) then ScoreP1 = SCREENMAN:GetTopScreen():GetChild('PercentP1'):GetChild('PercentP1'):GetText() end
-		if GAMESTATE:IsPlayerEnabled(PLAYER_2) then ScoreP2 = SCREENMAN:GetTopScreen():GetChild('PercentP2'):GetChild('PercentP2'):GetText() end
-	else
-		if GAMESTATE:IsPlayerEnabled(PLAYER_1) then ScoreP1 = SCREENMAN:GetTopScreen():GetChild('ScoreP1'):GetChild('ScoreDisplayPercentage Percent'):GetChild('PercentP1'):GetText() end
-		if GAMESTATE:IsPlayerEnabled(PLAYER_2) then ScoreP2 = SCREENMAN:GetTopScreen():GetChild('ScoreP2'):GetChild('ScoreDisplayPercentage Percent'):GetChild('PercentP2'):GetText() end
-	end
+  	--[[
+  	I don't even understand this. When this function is called from a queued command you have to get the score like this:
+        SCREENMAN:GetTopScreen():GetChild('PercentP1'):GetChild('PercentP1'):GetText() end
+  		
+  	But if it's in an initcommand or oncommand you have to do it like this:
+  	   SCREENMAN:GetTopScreen():GetChild('ScoreP1'):GetChild('ScoreDisplayPercentage Percent'):GetChild('PercentP1'):GetText()
+  		
+  	I think some children must get renamed/added between the commands or something, I don't know.
+  	]]--
+    if Params.Layer == 'Silence' then
+        if GAMESTATE:IsPlayerEnabled(PLAYER_1) then ScoreP1 = SCREENMAN:GetTopScreen():GetChild('PercentP1'):GetChild('PercentP1'):GetText() end
+        if GAMESTATE:IsPlayerEnabled(PLAYER_2) then ScoreP2 = SCREENMAN:GetTopScreen():GetChild('PercentP2'):GetChild('PercentP2'):GetText() end
+    else
+    if GAMESTATE:IsPlayerEnabled(PLAYER_1) then ScoreP1 = SCREENMAN:GetTopScreen():GetChild('ScoreP1'):GetChild('ScoreDisplayPercentage Percent'):GetChild('PercentP1'):GetText() end
+        if GAMESTATE:IsPlayerEnabled(PLAYER_2) then ScoreP2 = SCREENMAN:GetTopScreen():GetChild('ScoreP2'):GetChild('ScoreDisplayPercentage Percent'):GetChild('PercentP2'):GetText() end
+    end
     
     if ScoreP1 == "100.00%" and ScoreP2 == "100.00%" then
         --choose p1 or p2 randomly
-		local seconds = gnPlaySec -- TODO: This is temporary until the time tracker is reimplemented
+        local seconds = gnPlaySec -- TODO: This is temporary until the time tracker is reimplemented
         local pn = math.mod(seconds, 2)
         AwardFile = GetQuadAwardFile(pn)
     elseif ScoreP1 == "100.00%" then
