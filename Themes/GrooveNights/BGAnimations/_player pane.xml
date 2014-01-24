@@ -1,4 +1,4 @@
-<ActorFrame Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"><children>
+<ActorFrame InitCommand="horizalign,left;x,1" Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"><children>
 
     <Layer
             File="../Graphics/PaneDisplay Background.png"
@@ -24,7 +24,7 @@
     </children></ActorFrame>
 	
     <!-- ScreenPlayerOptions stuff -->
-    <ActorFrame InitCommand="x,80;y,-60;diffusealpha,0;draworder,100;zoom,0.5" OnScreenPlayerOptionsMessageCommand="diffusealpha,1"><children>
+    <ActorFrame InitCommand="x,79;y,-60;diffusealpha,0;draworder,100;zoom,0.5" OnScreenPlayerOptionsMessageCommand="diffusealpha,1"><children>
         <!-- BPM  -->
         <ActorFrame><children>
             <!-- BPM label -->
@@ -44,7 +44,7 @@
         </children></ActorFrame>
 
         <!-- Speed -->
-        <ActorFrame InitCommand="y,30"><children>
+        <ActorFrame InitCommand="y,32"><children>
             <!-- Speed label -->
             <BitmapText
                     Text="Speed:"
@@ -84,7 +84,7 @@
         </children></ActorFrame>
         
         <!-- Step artist -->
-        <ActorFrame InitCommand="y,60"><children>
+        <ActorFrame InitCommand="y,64"><children>
             <!-- Step artist label -->
             <BitmapText
                 Text="Steps:"
@@ -101,7 +101,7 @@
         </children></ActorFrame>
         
         <!-- Song length -->
-        <ActorFrame InitCommand="y,90"><children>
+        <ActorFrame InitCommand="y,96"><children>
             <!-- Song length label -->
             <BitmapText
                 Text="Length:"
