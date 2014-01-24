@@ -38,7 +38,7 @@
 	<!-- End current song pane -->
 
 	<!-- Player pane -->
-	<Layer File="../_player pane" InitCommand="%function(self) MESSAGEMAN:Broadcast('OnScreenPlayerOptions') end"/>
+	<Layer File="../_player pane" InitCommand="%function(self) MESSAGEMAN:Broadcast('OnScreenPlayerOptions') self:vertalign('bottom') self:y(SCREEN_BOTTOM-50) self:horizalign('left') self:x(2) end"/>
 	
 </children></ActorFrame>
 

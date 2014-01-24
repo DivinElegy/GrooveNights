@@ -1,68 +1,57 @@
-<ActorFrame	Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"	InitCommand="x,SCREEN_LEFT-7;y,SCREEN_BOTTOM-26"><children>
+<ActorFrame Condition="GAMESTATE:IsPlayerEnabled(PLAYER_1)"><children>
 
-	<Layer
-		File="../Graphics/PaneDisplay under.png"
-		InitCommand="@'diffuse,'..BackgroundColor()..';horizalign,left;vertalign,bottom'"
-	/>
+    <Layer
+            File="../Graphics/PaneDisplay Background.png"
+            InitCommand="@'diffuse,'..BackgroundColor()..';horizalign,left;vertalign,bottom'"
+    />
 
-	<!-- Pane BG -->
-	<Layer
-		File="../Graphics/PaneDisplay p1 B.png"
-		InitCommand="@'diffuse,'..BackgroundColor()..';horizalign,left;vertalign,bottom;'"
-	/>
-	
-	<Layer
-		File="../Graphics/PaneDisplay p1 F.png"
-		OnCommand="@'diffuse,'..FrameColor()..';horizalign,left;vertalign,bottom;'"
-	/>
+    <Layer
+            File="../Graphics/PaneDisplay Frame.png"
+            OnCommand="@'diffuse,'..FrameColor()..';horizalign,left;vertalign,bottom;'"
+    />
 
-	<!--Avatar-->
-    <ActorFrame InitCommand="x,5;y,5;draworder,100"><children>       
-        <Layer File="../Graphics/AvatarFrame B.png"
-            Condition="GAMESTATE:IsHumanPlayer(PLAYER_1)"
-            InitCommand="@'horizalign,left;vertalign,bottom;draworder,3;diffuse,'..BackgroundColor()..';zoomx,1.01;zoomy,0.975;'"
-        />
-        
-        <Layer File="../Graphics/AvatarFrame.png"
-            Condition="GAMESTATE:IsHumanPlayer(PLAYER_1)"
-            InitCommand="@'horizalign,left;vertalign,bottom;draworder,3;diffuse,'..FrameColor()..';zoomx,0.95;zoomy,0.95;'"
-        />
-        
+    <!--Avatar-->
+    <!-- TODO figure out why this needs to have draworder 100 -->
+    <ActorFrame InitCommand="x,8;y,-5;draworder,100;" Condition="GAMESTATE:IsHumanPlayer(PLAYER_1)"><children>                    
      	<Layer
-     		File="@'../Graphics/NoAvatar/'..getNoAvatar(PLAYER_1)"
-     		InitCommand="@'horizalign,left;vertalign,bottom;diffuse,'..PlayerColor(PLAYER_1)..';'"
+            File="../Graphics/NoAvatar/TestAvatar.png"
+            InitCommand="@'horizalign,left;vertalign,bottom;x,2;y,-2;diffuse,'..PlayerColor(PLAYER_1)..''"
      	/>
+        
+        <Layer File="../Graphics/Avatar Frame.png"
+            InitCommand="@'horizalign,left;vertalign,bottom;draworder,3;diffuse,'..FrameColor()..''"
+        />
     </children></ActorFrame>
 	
     <!-- ScreenPlayerOptions stuff -->
-	<ActorFrame InitCommand="diffusealpha,0" OnScreenPlayerOptionsMessageCommand="diffusealpha,1"><children>
+    <ActorFrame InitCommand="x,80;y,-60;diffusealpha,0;draworder,100;zoom,0.5" OnScreenPlayerOptionsMessageCommand="diffusealpha,1"><children>
         <!-- BPM  -->
-        <ActorFrame InitCommand="x,1;y,1;zoom,0.5"><children>
+        <ActorFrame><children>
             <!-- BPM label -->
             <BitmapText
-    	        Text="BPM:"
-    			File="_eurostile blue glow"
+                Text="BPM:"
+                File="_eurostile blue glow"
                 InitCommand="@'horizalign,left;shadowlength,0;diffuse,'..LabelColor()..';'"
             />
-            
+
             <!-- BPM display -->
             <BitmapText
                 Text=""
                 File="_eurostile blue glow"
-                InitCommand="shadowlength,0;maxwidth,140;horizalign,left"
+                InitCommand="x,80;horizalign,left;shadowlength,0;"
                 RateModChangedMessageCommand="%function(self) self:settext(DisplayBPM(PLAYER_1)) end"
             />
         </children></ActorFrame>
-        
+
         <!-- Speed -->
-        <ActorFrame InitCommand="x,10;y,10;zoom,0.5"><children>
+        <ActorFrame InitCommand="y,30"><children>
             <!-- Speed label -->
             <BitmapText
                     Text="Speed:"
                     File="_eurostile blue glow"
                     InitCommand="@'horizalign,left;shadowlength,0;diffuse,'..LabelColor()..';'"
             />
-                
+
             <!-- Speed display -->
             <BitmapText
                     Text=""
@@ -70,9 +59,9 @@
                     InitCommand="x,80;horizalign,left;shadowlength,0;"
                     SpeedModChangedP1MessageCommand="queuecommand,Update"
                     RateModChangedMessageCommand="queuecommand,Update"
-                    UpdateCommand="%function(self) self:settext(DisplayScrollSpeed(PLAYER_1)) end"
+                    UpdateCommand="%function(self) SetFromDisplayScrollSpeed(self, PLAYER_1) end"
             />
-                
+
             <!--Blaze It P1 -->
             <BitmapText
                     File="_eurostile blue glow"
@@ -82,8 +71,8 @@
                     RateModChangedMessageCommand="queuecommand,Update"
                     UpdateCommand="%function(self) DoEasterEgg('BlazeIt', { pn = PLAYER_1, Actor = self }) end"
             />
-                
-            <!--No Scope P1 -->                
+
+            <!-- No Scope P1 -->                
             <BitmapText
                     File="_eurostile blue glow"
                     InitCommand="x,80"
@@ -93,5 +82,40 @@
                     UpdateCommand="%function(self) DoEasterEgg('NoScope', { pn = PLAYER_1, Actor = self }) end"
             />
         </children></ActorFrame>
- 	</children></ActorFrame>
+        
+        <!-- Step artist -->
+        <ActorFrame InitCommand="y,60"><children>
+            <!-- Step artist label -->
+            <BitmapText
+                Text="Steps:"
+                File="_eurostile blue glow"
+                InitCommand="@'horizalign,left;shadowlength,0;diffuse,'..LabelColor()..';'"
+            />
+            
+            <!-- Step artist display -->
+            <BitmapText
+                Text="@GAMESTATE:GetCurrentSteps(PLAYER_1):GetDescription()"
+                File="_eurostile blue glow"
+                InitCommand="x,80;horizalign,left;shadowlength,0;"
+            />
+        </children></ActorFrame>
+        
+        <!-- Song length -->
+        <ActorFrame InitCommand="y,90"><children>
+            <!-- Song length label -->
+            <BitmapText
+                Text="Length:"
+                File="_eurostile blue glow"
+                InitCommand="@'horizalign,left;shadowlength,0;diffuse,'..LabelColor()..';'"
+            />
+            
+            <!-- Song length display -->
+            <BitmapText
+                Text=""
+                File="_eurostile blue glow"
+                InitCommand="x,80;horizalign,left;shadowlength,0;"
+                RateModChangedMessageCommand="%SetFromDisplaySongLength"
+            />
+        </children></ActorFrame>
+    </children></ActorFrame>
 </children></ActorFrame>
